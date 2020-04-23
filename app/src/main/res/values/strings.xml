@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">SlushFlicks</string>
+    <string name="title_movie">Movie</string>
+    <string name="title_tv_show">TV Show</string>
+    <string name="title_search">Search</string>
+    <string name="title_setting">Setting</string>
 </resources>

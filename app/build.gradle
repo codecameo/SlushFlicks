@@ -21,7 +21,19 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', "BASE_URL", '"https://api.themoviedb.org"'
+            buildConfigField 'String', "API_VERSION", '"/3"'
+            buildConfigField 'String', "IMAGE_BASE_URL", '"http://image.tmdb.org/t/p"'
+            buildConfigField 'String', "API_KEY", '"5bd74c7a7bbfad5678fe1acd33fe732a"'
         }
+        debug {
+            buildConfigField 'String', "BASE_URL", '"https://api.themoviedb.org"'
+            buildConfigField 'String', "API_VERSION", '"/3"'
+            buildConfigField 'String', "IMAGE_BASE_URL", '"http://image.tmdb.org/t/p"'
+            buildConfigField 'String', "API_KEY", '"5bd74c7a7bbfad5678fe1acd33fe732a"'
+        }
+
+
     }
 
     dataBinding {
@@ -34,10 +46,12 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.appcompat:appcompat:$appcompat_version"
+    implementation "com.google.android.material:material:1.1.0"
     implementation "androidx.core:core-ktx:$core_ktx_version"
     implementation "androidx.constraintlayout:constraintlayout:$constraintlayout_version"
     implementation "androidx.cardview:cardview:$cardview_version"
     implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
+    implementation "com.makeramen:roundedimageview:$roundimage_version"
 
     // Glide
     implementation "com.github.bumptech.glide:glide:$glide_version"

@@ -21,6 +21,7 @@ buildscript {
         retrofit2_version = '2.6.0'
         lifecycle_version = '2.2.0'
         coroutines_version = '1.3.0'
+        roundimage_version = '2.3.0'
     }
     repositories {
         google()
