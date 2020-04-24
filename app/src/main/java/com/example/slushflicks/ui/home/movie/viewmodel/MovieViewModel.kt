@@ -1,4 +1,4 @@
-package com.example.slushflicks.ui.home.viewmodel
+package com.example.slushflicks.ui.home.movie.viewmodel
 
 import com.example.slushflicks.ui.base.BaseViewModel
 

@@ -1,4 +1,4 @@
-package com.example.slushflicks.api.services
+package com.example.slushflicks.api.home.movie
 
 import com.example.slushflicks.api.KEY_API_KEY
 import com.example.slushflicks.api.KEY_TIME_WINDOW

@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
-        tools:context=".ui.home.fragment.BaseHomeListFragment">
+        tools:context=".ui.home.movie.fragment.BaseHomeListFragment">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
-            app:elevation="@dimen/default_elevation"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:elevation="@dimen/default_elevation">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
@@ -26,16 +27,14 @@
                     android:background="@color/colorPrimary"
                     android:fontFamily="@font/audiowide"
                     android:gravity="center"
-                    android:text="@string/app_name"
+                    android:text="@string/text_movie"
                     android:textColor="@color/white"
                     android:textSize="@dimen/font_title"
                     android:textStyle="bold" />
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                app:elevation="@dimen/default_elevation"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                app:layout_collapseMode="pin"
+                android:id="@+id/rvTypeTag"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white"
@@ -45,22 +44,26 @@
                 android:paddingTop="@dimen/tag_list_vertical_margin"
                 android:paddingRight="@dimen/standard_half_margin"
                 android:paddingBottom="@dimen/tag_list_vertical_margin"
+                app:elevation="@dimen/default_elevation"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                app:layout_collapseMode="pin"
                 tools:itemCount="5"
                 tools:listitem="@layout/item_type_tag" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <View
-            android:background="@drawable/shadow"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
-            android:layout_height="4dp"/>
+            android:layout_height="4dp"
+            android:background="@drawable/shadow"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

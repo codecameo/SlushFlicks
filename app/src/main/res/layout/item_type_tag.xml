@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@drawable/selector_tag"
-    android:textColor="@drawable/selector_tag_text"
-    android:paddingLeft="12dp"
-    android:paddingTop="@dimen/small_margin"
-    android:paddingRight="12dp"
-    android:paddingBottom="@dimen/small_margin"
-    android:layout_marginLeft="@dimen/small_margin"
-    android:layout_marginRight="@dimen/small_margin"
-    android:textAllCaps="true"
-    android:textStyle="bold"
-    tools:text="Popular" />
+<layout>
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_tag"
+        android:textColor="@drawable/selector_tag_text"
+        android:paddingLeft="@dimen/quarter_less_standard_half"
+        android:paddingTop="@dimen/small_margin"
+        android:paddingRight="@dimen/quarter_less_standard_half"
+        android:fontFamily="sans-serif-medium"
+        android:paddingBottom="@dimen/small_margin"
+        android:layout_marginLeft="@dimen/small_margin"
+        android:layout_marginRight="@dimen/small_margin"
+        android:textAllCaps="true"
+        android:text="Popular" />
+</layout>

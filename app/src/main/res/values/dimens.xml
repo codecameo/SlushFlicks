@@ -7,8 +7,8 @@
     <dimen name="tag_stroke_width">1dp</dimen>
     <dimen name="standard_half_margin">8dp</dimen>
     <dimen name="small_margin">4dp</dimen>
-    <dimen name="tag_list_vertical_margin">10dp</dimen>
-    <dimen name="list_card_radius" />
+    <dimen name="tag_list_vertical_margin">12dp</dimen>
+    <dimen name="list_card_radius">6dp</dimen>
     <dimen name="quarter_less_standard_half">12dp</dimen>
     <dimen name="standard_margin">16dp</dimen>
     <dimen name="font_18">18sp</dimen>
