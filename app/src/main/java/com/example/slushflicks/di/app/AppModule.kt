@@ -9,6 +9,7 @@ import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
+import retrofit2.CallAdapter.Factory
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Named
 
@@ -23,10 +24,10 @@ class AppModule {
 
     @AppScope
     @Provides
-    fun getApiClient(gson: Gson) : Retrofit {
+    fun getApiClient(gson: Gson, factory : Factory) : Retrofit {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.BASE_URL.plus(BuildConfig.API_VERSION))
-            .addCallAdapterFactory(LiveDataCallAdapterFactory())
+            .addCallAdapterFactory(factory)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
     }

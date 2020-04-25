@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package com.example.slushflicks.api
+package com.example.slushflicks.api.parser
 
+import android.util.Log
 import retrofit2.Response
 import java.util.regex.Pattern
 
@@ -24,13 +25,25 @@ import java.util.regex.Pattern
  * @param <T> the type of the response object
 </T> */
 @Suppress("unused") // T is used in extending classes
+@Deprecated("User ApiErrorParser instead")
 sealed class ApiResponse<T> {
+
     companion object {
+        const val TAG = "ApiResponse"
+
         fun <T> create(error: Throwable): ApiErrorResponse<T> {
-            return ApiErrorResponse(error.message ?: "unknown error")
+            return ApiErrorResponse(
+                error.message ?: "unknown error"
+            )
         }
 
         fun <T> create(response: Response<T>): ApiResponse<T> {
+
+            Log.d(TAG, "ApiResponse: response: ${response}")
+            Log.d(TAG, "ApiResponse: raw: ${response.raw()}")
+            Log.d(TAG, "ApiResponse: headers: ${response.headers()}")
+            Log.d(TAG, "ApiResponse: message: ${response.message()}")
+
             return if (response.isSuccessful) {
                 val body = response.body()
                 if (body == null || response.code() == 204) {
@@ -48,7 +61,9 @@ sealed class ApiResponse<T> {
                 } else {
                     msg
                 }
-                ApiErrorResponse(errorMsg ?: "unknown error")
+                ApiErrorResponse(
+                    errorMsg ?: "unknown error"
+                )
             }
         }
     }

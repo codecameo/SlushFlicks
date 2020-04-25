@@ -1,6 +1,5 @@
 package com.example.slushflicks.ui.state
 
-import com.example.slushflicks.api.ApiError
 import com.example.slushflicks.utils.EMPTY_STRING
 
 sealed class ViewState {

@@ -29,8 +29,16 @@ class MethodName {
     }
 }
 
-class ApiTags {
+class ApiTag {
     companion object {
         const val TRENDING_API_TAG = TRENDING_MOVIE_URL + GET
+    }
+}
+
+class StatusCode {
+    companion object {
+        const val SUCCESS = 200
+        const val RESOURCE_NOT_FOUND = 404
+        const val UNAUTHORIZED = 401
     }
 }

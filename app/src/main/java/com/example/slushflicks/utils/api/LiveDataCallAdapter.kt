@@ -18,7 +18,9 @@ package com.example.slushflicks.utils.api
 
 
 import androidx.lifecycle.LiveData
-import com.example.slushflicks.api.ApiResponse
+import com.example.slushflicks.api.parser.ApiResponse
+import com.example.slushflicks.api.parser.ApiResponseParser
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.CallAdapter
 import retrofit2.Callback
@@ -30,8 +32,10 @@ import java.util.concurrent.atomic.AtomicBoolean
  * A Retrofit adapter that converts the Call into a LiveData of ApiResponse.
  * @param <R>
 </R> */
-class LiveDataCallAdapter<R>(private val responseType: Type) :
-    CallAdapter<R, LiveData<ApiResponse<R>>> {
+class LiveDataCallAdapter<R>(
+    private val responseType: Type,
+    private val gson: Gson
+) : CallAdapter<R, LiveData<ApiResponse<R>>> {
 
     override fun responseType() = responseType
 
@@ -43,10 +47,23 @@ class LiveDataCallAdapter<R>(private val responseType: Type) :
                 if (started.compareAndSet(false, true)) {
                     call.enqueue(object : Callback<R> {
                         override fun onResponse(call: Call<R>, response: Response<R>) {
+                            // TODO call ApiResponseParser instead of ApiResponse
+                            /*postValue(ApiResponseParser.create<R>(
+                                statusCode = response.code(),
+                                apiTag = call.request().tag(String::class.java),
+                                response = response,
+                                gson = gson
+                            ))*/
                             postValue(ApiResponse.create(response))
                         }
 
                         override fun onFailure(call: Call<R>, throwable: Throwable) {
+                            // TODO call ApiResponseParser instead of ApiResponse
+                            /*postValue(ApiResponseParser.create<R>(
+                                statusCode = response.code(),
+                                apiTag = call.request().tag(String::class.java),
+                                error = throwable
+                            ))*/
                             postValue(ApiResponse.create(throwable))
                         }
                     })

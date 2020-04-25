@@ -41,7 +41,7 @@ class TrendingViewModel
     fun setDataAction(action: FetchMovieListDataAction) {
         when (val dataState = action.dataState) {
             is DataState.Success<List<MovieModel>> -> {
-                dataState.data?.let { movie ->
+                dataState.apiSuccess.data?.let { movie ->
                     viewState.movieList = getViewMovieList(movie)
                     getAction().value = MovieListViewAction.FetchMovieListViewAction(
                         ViewState.Success(

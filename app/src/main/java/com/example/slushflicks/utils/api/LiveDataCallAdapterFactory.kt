@@ -17,14 +17,18 @@
 package com.example.slushflicks.utils.api
 
 import androidx.lifecycle.LiveData
-import com.example.slushflicks.api.ApiResponse
+import com.example.slushflicks.api.parser.ApiResponse
+import com.google.gson.Gson
 import retrofit2.CallAdapter
 import retrofit2.CallAdapter.Factory
 import retrofit2.Retrofit
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
+import javax.inject.Inject
 
-class LiveDataCallAdapterFactory : Factory() {
+class LiveDataCallAdapterFactory
+@Inject constructor(private val gson: Gson) : Factory() {
+
     override fun get(
         returnType: Type,
         annotations: Array<Annotation>,
@@ -42,6 +46,6 @@ class LiveDataCallAdapterFactory : Factory() {
             throw IllegalArgumentException("resource must be parameterized")
         }
         val bodyType = getParameterUpperBound(0, observableType)
-        return LiveDataCallAdapter<Any>(bodyType)
+        return LiveDataCallAdapter<Any>(bodyType, gson)
     }
 }

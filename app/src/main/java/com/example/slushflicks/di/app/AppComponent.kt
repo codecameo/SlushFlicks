@@ -7,7 +7,7 @@ import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector
 
 @AppScope
-@Component(modules = [AndroidInjectionModule::class, AppModule::class, ActivityBuilderModule::class])
+@Component(modules = [AndroidInjectionModule::class, AppModule::class, ActivityBuilderModule::class, AppBindModule::class])
 interface AppComponent : AndroidInjector<SlushFlicksApplication> {
 
     @Component.Builder
