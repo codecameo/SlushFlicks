@@ -1,14 +1,10 @@
-package com.example.slushflicks.di.component
+package com.example.slushflicks.di.app
 
 import com.example.slushflicks.SlushFlicksApplication
-import com.example.slushflicks.di.module.AppModule
-import com.example.slushflicks.di.module.builder.ActivityBuilderModule
-import com.example.slushflicks.di.scope.AppScope
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector
-import javax.inject.Singleton
 
 @AppScope
 @Component(modules = [AndroidInjectionModule::class, AppModule::class, ActivityBuilderModule::class])

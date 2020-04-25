@@ -1,4 +1,4 @@
-package com.example.slushflicks.di.scope
+package com.example.slushflicks.di.home.movie
 
 import javax.inject.Scope
 

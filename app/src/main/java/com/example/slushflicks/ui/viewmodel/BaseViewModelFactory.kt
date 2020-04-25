@@ -3,7 +3,6 @@ package com.example.slushflicks.ui.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.slushflicks.di.scope.HomeScope
 import javax.inject.Inject
 import javax.inject.Provider
 

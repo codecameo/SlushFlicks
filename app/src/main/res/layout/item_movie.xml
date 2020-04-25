@@ -1,90 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
-    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    <data>
+
+        <import type="com.example.slushflicks.ui.base.ListViewState" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="model"
+            type="com.example.slushflicks.ui.home.adapter.model.MovieListModel" />
+    </data>
+
+    <com.facebook.shimmer.ShimmerFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/standard_half_margin"
-        android:layout_marginRight="@dimen/standard_half_margin"
-        android:layout_marginBottom="@dimen/quarter_less_standard_half"
-        app:cardCornerRadius="@dimen/list_card_radius"
-        app:cardElevation="@dimen/default_elevation">
+        app:shimmer="@{model.state}">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/standard_margin"
-            android:background="@color/white">
+            android:layout_marginLeft="@dimen/standard_half_margin"
+            android:layout_marginRight="@dimen/standard_half_margin"
+            android:layout_marginBottom="@dimen/quarter_less_standard_half"
+            app:cardCornerRadius="@dimen/list_card_radius"
+            app:cardElevation="@dimen/default_elevation">
 
-            <com.makeramen.roundedimageview.RoundedImageView
-                android:id="@+id/rivPoster"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/default_0dp"
-                android:foreground="@drawable/image_foreground"
-                android:scaleType="centerCrop"
-                android:src="@drawable/placeholder"
-                app:layout_constraintDimensionRatio="6:3"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:riv_corner_radius_top_left="@dimen/list_card_radius"
-                app:riv_corner_radius_top_right="@dimen/list_card_radius"
-                tools:ignore="UnusedAttribute" />
-
-            <TextView
-                android:id="@+id/tvRating"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/rivPoster"
-                android:layout_marginBottom="@dimen/quarter_less_standard_half"
-                android:background="@drawable/rating_background"
-                android:drawableStart="@drawable/ic_star_orange"
-                android:drawablePadding="@dimen/standard_half_margin"
-                android:fontFamily="sans-serif-medium"
-                android:paddingStart="@dimen/standard_half_margin"
-                android:paddingTop="@dimen/small_margin"
-                android:paddingEnd="@dimen/quarter_less_standard_half"
-                android:paddingBottom="@dimen/small_margin"
-                android:text="4.8"
-                android:textColor="@color/blackTextColor"
-                app:layout_constraintBottom_toBottomOf="@id/rivPoster"
-                app:layout_constraintRight_toRightOf="@id/rivPoster" />
+                android:layout_marginBottom="@dimen/standard_margin"
+                android:background="@color/white">
 
-            <TextView
-                android:id="@+id/tvTitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/standard_margin"
-                android:ellipsize="end"
-                android:fontFamily="sans-serif-medium"
-                android:padding="@dimen/standard_half_margin"
-                android:singleLine="true"
-                android:text="UnderWater"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="@id/tvRating"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@id/tvRating"
-                app:layout_constraintTop_toTopOf="@id/tvRating" />
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/rivPoster"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/default_0dp"
+                    android:foreground="@drawable/image_foreground"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/placeholder"
+                    app:layout_constraintDimensionRatio="6:3"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:riv_corner_radius_top_left="@dimen/list_card_radius"
+                    app:riv_corner_radius_top_right="@dimen/list_card_radius"
+                    tools:ignore="UnusedAttribute" />
 
-            <TextView
-                android:id="@+id/tvDescription"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/standard_half_margin"
-                android:ellipsize="end"
-                android:maxLines="@integer/small_description"
-                android:paddingLeft="@dimen/standard_half_margin"
-                android:paddingRight="@dimen/standard_half_margin"
-                android:text="@string/long_dummy_description"
-                android:textColor="@color/blackTextColor"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/rivPoster" />
+                <TextView
+                    android:id="@+id/tvRating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/rivPoster"
+                    android:layout_marginBottom="@dimen/quarter_less_standard_half"
+                    android:background="@drawable/rating_background"
+                    android:drawableStart="@drawable/ic_star_orange"
+                    android:drawablePadding="@dimen/standard_half_margin"
+                    android:fontFamily="sans-serif-medium"
+                    android:paddingStart="@dimen/standard_half_margin"
+                    android:paddingTop="@dimen/small_margin"
+                    android:paddingEnd="@dimen/quarter_less_standard_half"
+                    android:paddingBottom="@dimen/small_margin"
+                    android:text="4.8"
+                    android:textColor="@color/blackTextColor"
+                    app:layout_constraintBottom_toBottomOf="@id/rivPoster"
+                    app:layout_constraintRight_toRightOf="@id/rivPoster" />
 
+                <TextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/standard_margin"
+                    android:ellipsize="end"
+                    android:fontFamily="sans-serif-medium"
+                    android:padding="@dimen/standard_half_margin"
+                    android:singleLine="true"
+                    android:text="UnderWater"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="@id/tvRating"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/tvRating"
+                    app:layout_constraintTop_toTopOf="@id/tvRating" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+                <TextView
+                    android:id="@+id/tvDescription"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/standard_half_margin"
+                    android:ellipsize="end"
+                    android:maxLines="@integer/small_description"
+                    android:paddingLeft="@dimen/standard_half_margin"
+                    android:paddingRight="@dimen/standard_half_margin"
+                    android:text="@string/long_dummy_description"
+                    android:textColor="@color/blackTextColor"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rivPoster" />
+
+                <View
+                    android:id="@+id/vLoading1"
+                    android:layout_width="@dimen/default_0dp"
+                    android:layout_height="@dimen/default_0dp"
+                    android:background="@color/loading_color"
+                    app:layout_constraintDimensionRatio="6:3"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/vLoading2"
+                    android:layout_width="@dimen/medium_loading_width"
+                    android:layout_height="@dimen/loading_height"
+                    android:layout_marginStart="@dimen/standard_margin"
+                    android:layout_marginTop="@dimen/quarter_less_standard_half"
+                    android:background="@color/loading_color"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/vLoading1" />
+
+                <View
+                    android:id="@+id/vLoading3"
+                    android:layout_width="@dimen/large_loading_width"
+                    android:layout_height="@dimen/loading_height"
+                    android:layout_marginStart="@dimen/standard_margin"
+                    android:layout_marginTop="@dimen/quarter_less_standard_half"
+                    android:background="@color/loading_color"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/vLoading2" />
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/grpView"
+                    android:layout_width="@dimen/default_0dp"
+                    android:layout_height="@dimen/default_0dp"
+                    android:visibility="@{model.state == ListViewState.LOADING? View.GONE : View.VISIBLE}"
+                    app:constraint_referenced_ids="rivPoster,tvDescription,tvRating,tvTitle"
+                    tools:visibility="invisible" />
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/grpLoading"
+                    android:layout_width="@dimen/default_0dp"
+                    android:layout_height="@dimen/default_0dp"
+                    android:visibility="@{model.state == ListViewState.LOADING? View.VISIBLE : View.GONE}"
+                    app:constraint_referenced_ids="vLoading1,vLoading2,vLoading3"
+                    tools:visibility="invisible" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+    </com.facebook.shimmer.ShimmerFrameLayout>
 </layout>

@@ -1,6 +1,6 @@
 package com.example.slushflicks
 
-import com.example.slushflicks.di.component.DaggerAppComponent
+import com.example.slushflicks.di.app.DaggerAppComponent
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 

@@ -6,25 +6,28 @@ import android.widget.LinearLayout
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.slushflicks.R
-import com.example.slushflicks.databinding.FragmentHomeListBinding
 import com.example.slushflicks.databinding.FragmentMovieListBinding
 import com.example.slushflicks.ui.base.BaseFragment
 import com.example.slushflicks.ui.home.adapter.MovieListAdapter
 import com.example.slushflicks.ui.home.movie.viewmodel.MovieViewModel
+import com.example.slushflicks.ui.home.movie.viewmodel.TrendingViewModel
 
-class BaseMovieListFragment : BaseFragment<FragmentMovieListBinding, MovieViewModel>(R.layout.fragment_movie_list) {
+abstract class BaseMovieListFragment<VM : ViewModel> : BaseFragment<FragmentMovieListBinding, VM>(R.layout.fragment_movie_list) {
+
+    protected lateinit var adapter: MovieListAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initVariable()
         setupList()
     }
 
-    private fun setupList() {
-        binding.rvMovieList.adapter = MovieListAdapter()
-        binding.rvMovieList.layoutManager = LinearLayoutManager(context)
+    private fun initVariable() {
+        adapter = MovieListAdapter()
     }
 
-    override fun getViewModelClass() = MovieViewModel::class.java
-
-
+    private fun setupList() {
+        binding.rvMovieList.adapter = adapter
+        binding.rvMovieList.layoutManager = LinearLayoutManager(context)
+    }
 }

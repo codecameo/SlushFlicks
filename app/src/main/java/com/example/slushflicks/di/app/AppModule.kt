@@ -1,9 +1,8 @@
-package com.example.slushflicks.di.module
+package com.example.slushflicks.di.app
 
 import com.example.slushflicks.BuildConfig
 import com.example.slushflicks.BuildConfig.API_KEY
 import com.example.slushflicks.di.constant.NAME_API_KEY
-import com.example.slushflicks.di.scope.AppScope
 import com.example.slushflicks.utils.api.LiveDataCallAdapterFactory
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder

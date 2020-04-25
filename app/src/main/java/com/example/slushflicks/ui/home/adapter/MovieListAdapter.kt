@@ -7,9 +7,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.slushflicks.R
 import com.example.slushflicks.databinding.ItemMovieBinding
+import com.example.slushflicks.ui.home.adapter.diffutils.MovieDiffUtils
+import com.example.slushflicks.ui.home.adapter.model.MovieListModel
 import com.example.slushflicks.ui.home.adapter.viewholder.MovieViewHolder
 
-class MovieListAdapter : RecyclerView.Adapter<MovieViewHolder>() {
+class MovieListAdapter : ListAdapter<MovieListModel, MovieViewHolder>(MovieDiffUtils()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -17,12 +19,9 @@ class MovieListAdapter : RecyclerView.Adapter<MovieViewHolder>() {
         return MovieViewHolder((binding))
     }
 
-    override fun getItemCount(): Int {
-        return 10
-    }
-
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-
+        holder.bindTo(getItem(position))
     }
+
 
 }

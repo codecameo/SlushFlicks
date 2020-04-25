@@ -4,7 +4,7 @@ import android.os.Bundle
 import com.example.slushflicks.R
 import com.example.slushflicks.databinding.ActivityHomeBinding
 import com.example.slushflicks.ui.base.BaseActivity
-import com.example.slushflicks.ui.home.movie.fragment.HomeMovieListFragment
+import com.example.slushflicks.ui.home.movie.fragment.HomeMovieFragment
 import com.example.slushflicks.ui.home.viewmodel.HomeViewModel
 
 class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>() {
@@ -17,7 +17,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>() {
         initVariables()
 
         supportFragmentManager.beginTransaction()
-            .replace(R.id.container, HomeMovieListFragment())
+            .replace(R.id.container, HomeMovieFragment())
             .commit()
 
 

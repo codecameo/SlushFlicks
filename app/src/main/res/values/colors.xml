@@ -7,4 +7,5 @@
     <color name="InactiveBottomNavColor">#256253</color>
     <color name="blackTextColor">#FF152934</color>
     <color name="light_gray">#F2F2F2</color>
+    <color name="loading_color">#E2E2E2</color>
 </resources>
