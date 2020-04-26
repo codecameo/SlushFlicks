@@ -17,7 +17,7 @@
 package com.example.slushflicks.utils.api
 
 import androidx.lifecycle.LiveData
-import com.example.slushflicks.api.parser.ApiResponse
+import com.example.slushflicks.api.ApiResponse
 import com.google.gson.Gson
 import retrofit2.CallAdapter
 import retrofit2.CallAdapter.Factory

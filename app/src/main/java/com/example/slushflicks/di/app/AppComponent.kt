@@ -13,8 +13,8 @@ interface AppComponent : AndroidInjector<SlushFlicksApplication> {
     @Component.Builder
     interface Builder {
         @BindsInstance
-        fun application(slushFlicksApplication: SlushFlicksApplication) : Builder
+        fun application(slushFlicksApplication: SlushFlicksApplication): Builder
 
-        fun build() : AppComponent
+        fun build(): AppComponent
     }
 }

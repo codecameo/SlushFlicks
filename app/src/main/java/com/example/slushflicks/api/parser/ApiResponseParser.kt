@@ -1,10 +1,10 @@
 package com.example.slushflicks.api.parser
 
 import android.util.Log
-import com.example.slushflicks.api.ApiEmptyModel
-import com.example.slushflicks.api.ApiErrorModel
-import com.example.slushflicks.api.ApiResponseModel
-import com.example.slushflicks.api.ApiSuccessModel
+import com.example.slushflicks.api.ApiEmptyResponse
+import com.example.slushflicks.api.ApiErrorResponse
+import com.example.slushflicks.api.ApiResponse
+import com.example.slushflicks.api.ApiSuccessResponse
 import com.google.gson.Gson
 import retrofit2.Response
 
@@ -16,7 +16,7 @@ class ApiResponseParser {
     companion object {
         const val TAG = "ApiResponseParser"
 
-        fun <Data> create(statusCode : Int, apiTag : String?, response: Response<Data>, gson: Gson) : ApiResponseModel<Data> {
+        fun <Data> create(statusCode : Int, apiTag : String?, response: Response<Data>, gson: Gson) : ApiResponse<Data> {
             Log.d(TAG, "ApiResponseParser: response: ${response}")
             Log.d(TAG, "ApiResponseParser: raw: ${response.raw()}")
             Log.d(TAG, "ApiResponseParser: headers: ${response.headers()}")
@@ -25,9 +25,9 @@ class ApiResponseParser {
             return if (response.isSuccessful) {
                 val body = response.body()
                 if (body == null || response.code() == 204) {
-                    ApiEmptyModel<Data>()
+                    ApiEmptyResponse<Data>()
                 } else {
-                    ApiSuccessModel<Data>(
+                    ApiSuccessResponse<Data>(
                         data = body
                     )
                 }
@@ -39,8 +39,8 @@ class ApiResponseParser {
             }
         }
 
-        fun <Data> create(statusCode : Int, apiTag : String, error: Throwable): ApiResponseModel<Data> {
-            return ApiErrorModel<Data>(
+        fun <Data> create(statusCode : Int, apiTag : String?, error: Throwable): ApiResponse<Data> {
+            return ApiErrorResponse<Data>(
                 statusCode = statusCode,
                 apiTag = apiTag,
                 errorMessage = error.message

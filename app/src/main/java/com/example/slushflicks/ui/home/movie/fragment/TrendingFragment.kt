@@ -1,15 +1,16 @@
 package com.example.slushflicks.ui.home.movie.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import com.example.slushflicks.ui.home.adapter.model.MovieListModel
-import com.example.slushflicks.ui.home.movie.state.MovieListDataAction
 import com.example.slushflicks.ui.home.movie.state.MovieListDataAction.FetchMovieListDataAction
 import com.example.slushflicks.ui.home.movie.state.MovieListEventState
 import com.example.slushflicks.ui.home.movie.state.MovieListViewAction.FetchMovieListViewAction
 import com.example.slushflicks.ui.home.movie.viewmodel.TrendingViewModel
 import com.example.slushflicks.ui.state.ViewState
+import com.example.slushflicks.utils.api.NetworkStateManager
 
 class TrendingFragment : BaseMovieListFragment<TrendingViewModel>() {
 
@@ -19,6 +20,7 @@ class TrendingFragment : BaseMovieListFragment<TrendingViewModel>() {
         super.onViewCreated(view, savedInstanceState)
         viewModel.handleEvent(MovieListEventState.FetchMovieListEvent())
         subscribeAction()
+        Log.d("TrendingFragment","Network ${NetworkStateManager(requireContext()).isOnline()}")
     }
 
     private fun subscribeAction() {
@@ -41,8 +43,11 @@ class TrendingFragment : BaseMovieListFragment<TrendingViewModel>() {
 
     private fun setMovieList(action: FetchMovieListViewAction) {
         when(val viewDataState = action.viewState) {
-            is ViewState.Loading<*> -> {
-                adapter.submitList(viewDataState.data as List<MovieListModel>?)
+            is ViewState.Loading<List<MovieListModel>> -> {
+                adapter.submitList(viewDataState.data)
+            }
+            is ViewState.Success<List<MovieListModel>> -> {
+                adapter.submitList(viewDataState.data)
             }
         }
     }

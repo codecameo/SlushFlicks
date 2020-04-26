@@ -8,8 +8,12 @@
         <import type="android.view.View" />
 
         <variable
+            name="state"
+            type="ListViewState" />
+
+        <variable
             name="model"
-            type="com.example.slushflicks.ui.home.adapter.model.MovieListModel" />
+            type="com.example.slushflicks.model.MovieModel" />
     </data>
 
     <com.facebook.shimmer.ShimmerFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -17,7 +21,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:shimmer="@{model.state}">
+        app:shimmer="@{state}">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -47,6 +51,8 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:riv_corner_radius_top_left="@dimen/list_card_radius"
                     app:riv_corner_radius_top_right="@dimen/list_card_radius"
+                    app:imageUrl="@{model.backdropPath}"
+                    app:placeholder="@{@drawable/placeholder}"
                     tools:ignore="UnusedAttribute" />
 
                 <TextView
@@ -60,10 +66,10 @@
                     android:drawablePadding="@dimen/standard_half_margin"
                     android:fontFamily="sans-serif-medium"
                     android:paddingStart="@dimen/standard_half_margin"
-                    android:paddingTop="@dimen/small_margin"
+                    android:paddingTop="@dimen/rating_vertical_margin"
                     android:paddingEnd="@dimen/quarter_less_standard_half"
-                    android:paddingBottom="@dimen/small_margin"
-                    android:text="4.8"
+                    android:paddingBottom="@dimen/rating_vertical_margin"
+                    android:text="@{``+model.voteAvg}"
                     android:textColor="@color/blackTextColor"
                     app:layout_constraintBottom_toBottomOf="@id/rivPoster"
                     app:layout_constraintRight_toRightOf="@id/rivPoster" />
@@ -77,7 +83,7 @@
                     android:fontFamily="sans-serif-medium"
                     android:padding="@dimen/standard_half_margin"
                     android:singleLine="true"
-                    android:text="UnderWater"
+                    android:text="@{model.title}"
                     android:textColor="@color/white"
                     android:textSize="20sp"
                     app:layout_constraintBottom_toBottomOf="@id/tvRating"
@@ -94,7 +100,7 @@
                     android:maxLines="@integer/small_description"
                     android:paddingLeft="@dimen/standard_half_margin"
                     android:paddingRight="@dimen/standard_half_margin"
-                    android:text="@string/long_dummy_description"
+                    android:text="@{model.overview}"
                     android:textColor="@color/blackTextColor"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
@@ -134,7 +140,7 @@
                     android:id="@+id/grpView"
                     android:layout_width="@dimen/default_0dp"
                     android:layout_height="@dimen/default_0dp"
-                    android:visibility="@{model.state == ListViewState.LOADING? View.GONE : View.VISIBLE}"
+                    android:visibility="@{state == ListViewState.LOADING? View.GONE : View.VISIBLE}"
                     app:constraint_referenced_ids="rivPoster,tvDescription,tvRating,tvTitle"
                     tools:visibility="invisible" />
 
@@ -142,7 +148,7 @@
                     android:id="@+id/grpLoading"
                     android:layout_width="@dimen/default_0dp"
                     android:layout_height="@dimen/default_0dp"
-                    android:visibility="@{model.state == ListViewState.LOADING? View.VISIBLE : View.GONE}"
+                    android:visibility="@{state == ListViewState.LOADING? View.VISIBLE : View.GONE}"
                     app:constraint_referenced_ids="vLoading1,vLoading2,vLoading3"
                     tools:visibility="invisible" />
 

@@ -1,39 +1,60 @@
 package com.example.slushflicks.ui.home.movie.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
+import com.example.slushflicks.api.ApiSuccessResponse
 import com.example.slushflicks.di.home.HomeScope
+import com.example.slushflicks.repository.TrendingRepository
 import com.example.slushflicks.ui.base.BaseActionViewModel
-import com.example.slushflicks.ui.base.BaseViewModel
-import com.example.slushflicks.ui.base.BaseViewState
 import com.example.slushflicks.ui.helper.getMovieListLoadingModels
-import com.example.slushflicks.ui.helper.getViewMovieList
-import com.example.slushflicks.ui.home.adapter.model.MovieListModel
+import com.example.slushflicks.ui.helper.getMovieListModel
 import com.example.slushflicks.ui.home.movie.state.MovieListDataAction
 import com.example.slushflicks.ui.home.movie.state.MovieListDataAction.FetchMovieListDataAction
 import com.example.slushflicks.ui.home.movie.state.MovieListEventState
 import com.example.slushflicks.ui.home.movie.state.MovieListEventState.FetchMovieListEvent
 import com.example.slushflicks.ui.home.movie.state.MovieListViewAction
 import com.example.slushflicks.ui.home.movie.state.viewstate.MovieListViewState
-import com.example.slushflicks.ui.model.MovieModel
+import com.example.slushflicks.model.MovieModel
+import com.example.slushflicks.ui.helper.getMetaData
+import com.example.slushflicks.ui.helper.getMovieList
 import com.example.slushflicks.ui.state.DataState
+import com.example.slushflicks.ui.state.DataSuccessResponse
 import com.example.slushflicks.ui.state.ViewState
 import javax.inject.Inject
 
 @HomeScope
 class TrendingViewModel
-@Inject constructor() :
+@Inject constructor(private val trendingRepository: TrendingRepository) :
     BaseActionViewModel<MovieListDataAction, MovieListViewAction, MovieListViewState>() {
     override var viewState = MovieListViewState()
 
     fun handleEvent(event: MovieListEventState) {
         when (event) {
             is FetchMovieListEvent -> {
-                getAction().value = MovieListViewAction.FetchMovieListViewAction(
-                    ViewState.Loading(
-                        getMovieListLoadingModels()
+                fetchMovie(event)
+            }
+        }
+    }
+
+    private fun fetchMovie(event: FetchMovieListEvent) {
+        if (!event.forceUpdate) {
+            if (!viewState.movieList.isNullOrEmpty()) {
+                sendMovieListSuccessAction()
+                return
+            }
+        }
+        sendMovieListLoadingAction()
+
+        dataState.addSource(trendingRepository.getMovieList(viewState.nextPage())) { apiResponse ->
+            //TODO This conversion should be done in repository
+            when (apiResponse) {
+                is ApiSuccessResponse -> {
+                    val dataSuccessResponse = DataSuccessResponse(
+                        data = getMovieList(apiResponse.data?.results),
+                        metaData = getMetaData(apiResponse.data),
+                        message = apiResponse.message
                     )
-                )
+                    val successState = DataState.Success(dataSuccessResponse)
+                    dataState.value = FetchMovieListDataAction(dataState = successState)
+                }
             }
         }
     }
@@ -41,15 +62,31 @@ class TrendingViewModel
     fun setDataAction(action: FetchMovieListDataAction) {
         when (val dataState = action.dataState) {
             is DataState.Success<List<MovieModel>> -> {
-                dataState.apiSuccess.data?.let { movie ->
-                    viewState.movieList = getViewMovieList(movie)
-                    getAction().value = MovieListViewAction.FetchMovieListViewAction(
-                        ViewState.Success(
-                            viewState.movieList
-                        )
-                    )
+                dataState.dataResponse.metaData?.run {
+                    viewState.currentPage = page
+                }
+
+                dataState.dataResponse.data?.let { movie ->
+                    viewState.movieList = getMovieListModel(movie)
+                    sendMovieListSuccessAction()
                 }
             }
         }
+    }
+
+    private fun sendMovieListSuccessAction() {
+        getAction().value = MovieListViewAction.FetchMovieListViewAction(
+            ViewState.Success(
+                viewState.movieList
+            )
+        )
+    }
+
+    private fun sendMovieListLoadingAction() {
+        getAction().value = MovieListViewAction.FetchMovieListViewAction(
+            ViewState.Loading(
+                getMovieListLoadingModels()
+            )
+        )
     }
 }

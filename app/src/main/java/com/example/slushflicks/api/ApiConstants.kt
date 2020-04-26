@@ -8,18 +8,17 @@ enum class ImageDimension(val dimension : String) {
     W92("/w92"),
     W154("/w154"),
     W185("/w185"),
-    W342("/w342"),
+    W342("w342"),
     W500("/w500"),
     W780("/w780"),
     Original("/original")
 }
 
 const val KEY_API_KEY = "api_key"
-const val KEY_TIME_WINDOW = "time_window"
 
 class ApiEndPoint {
     companion object {
-        const val TRENDING_MOVIE_URL = "/trending/movie/{time_window}"
+        const val TRENDING_MOVIE_URL = "trending/movie/day"
     }
 }
 
@@ -40,5 +39,6 @@ class StatusCode {
         const val SUCCESS = 200
         const val RESOURCE_NOT_FOUND = 404
         const val UNAUTHORIZED = 401
+        const val INTERNAL_ERROR = -1
     }
 }

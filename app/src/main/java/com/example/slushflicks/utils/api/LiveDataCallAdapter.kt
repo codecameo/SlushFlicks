@@ -18,7 +18,8 @@ package com.example.slushflicks.utils.api
 
 
 import androidx.lifecycle.LiveData
-import com.example.slushflicks.api.parser.ApiResponse
+import com.example.slushflicks.api.ApiResponse
+import com.example.slushflicks.api.StatusCode.Companion.INTERNAL_ERROR
 import com.example.slushflicks.api.parser.ApiResponseParser
 import com.google.gson.Gson
 import retrofit2.Call
@@ -48,23 +49,27 @@ class LiveDataCallAdapter<R>(
                     call.enqueue(object : Callback<R> {
                         override fun onResponse(call: Call<R>, response: Response<R>) {
                             // TODO call ApiResponseParser instead of ApiResponse
-                            /*postValue(ApiResponseParser.create<R>(
-                                statusCode = response.code(),
-                                apiTag = call.request().tag(String::class.java),
-                                response = response,
-                                gson = gson
-                            ))*/
-                            postValue(ApiResponse.create(response))
+                            postValue(
+                                ApiResponseParser.create<R>(
+                                    statusCode = response.code(),
+                                    apiTag = call.request().tag(String::class.java),
+                                    response = response,
+                                    gson = gson
+                                )
+                            )
+                            //postValue(ApiResponse.create(response))
                         }
 
                         override fun onFailure(call: Call<R>, throwable: Throwable) {
                             // TODO call ApiResponseParser instead of ApiResponse
-                            /*postValue(ApiResponseParser.create<R>(
-                                statusCode = response.code(),
-                                apiTag = call.request().tag(String::class.java),
-                                error = throwable
-                            ))*/
-                            postValue(ApiResponse.create(throwable))
+                            postValue(
+                                ApiResponseParser.create<R>(
+                                    statusCode = INTERNAL_ERROR,
+                                    apiTag = call.request().tag(String::class.java),
+                                    error = throwable
+                                )
+                            )
+                            //postValue(ApiResponse.create(throwable))
                         }
                     })
                 }

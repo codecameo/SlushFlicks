@@ -9,7 +9,7 @@ import com.example.slushflicks.ui.home.movie.state.viewstate.MovieListViewState
 
 abstract class BaseActionViewModel<DataAction, ViewAction, ViewState : BaseViewState<ViewAction>> :
     ViewModel() {
-    private val dataState = MediatorLiveData<DataAction>()
+    protected val dataState = MediatorLiveData<DataAction>()
     protected abstract var viewState: ViewState
     protected fun getAction() = viewState.getAction()
 

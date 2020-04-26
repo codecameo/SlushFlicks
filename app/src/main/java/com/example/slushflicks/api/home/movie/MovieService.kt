@@ -1,11 +1,13 @@
 package com.example.slushflicks.api.home.movie
 
+import androidx.lifecycle.LiveData
 import com.example.slushflicks.api.ApiEndPoint.Companion.TRENDING_MOVIE_URL
+import com.example.slushflicks.api.ApiResponse
+import com.example.slushflicks.api.ApiTag
 import com.example.slushflicks.api.KEY_API_KEY
-import com.example.slushflicks.api.KEY_TIME_WINDOW
 import retrofit2.http.GET
-import retrofit2.http.Path
 import retrofit2.http.Query
+import retrofit2.http.Tag
 
 interface MovieService {
 
@@ -13,5 +15,8 @@ interface MovieService {
     fun getPopularMovies()
 
     @GET(TRENDING_MOVIE_URL)
-    fun getTrendingMovies(@Path(KEY_TIME_WINDOW) timeRange : String, @Query(KEY_API_KEY) apiKey : String)
+    fun getTrendingMovies(
+        @Query(KEY_API_KEY) apiKey: String,
+        @Tag tag: String = ApiTag.TRENDING_API_TAG
+    ): LiveData<ApiResponse<MovieListApiModel>>
 }

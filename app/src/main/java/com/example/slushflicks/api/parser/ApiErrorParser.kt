@@ -1,7 +1,7 @@
 package com.example.slushflicks.api.parser
 
 import android.util.Log
-import com.example.slushflicks.api.ApiErrorModel
+import com.example.slushflicks.api.ApiErrorResponse
 import com.example.slushflicks.api.ApiTag
 import com.example.slushflicks.api.StatusCode
 import com.google.gson.Gson
@@ -15,7 +15,7 @@ class ApiErrorParser<Data>(private val gson: Gson) {
 
     val TAG = "ApiErrorParser"
 
-    fun getApiErrorResponse(statusCode: Int, apiTag: String?, errorResponse : String?): ApiErrorModel<Data> {
+    fun getApiErrorResponse(statusCode: Int, apiTag: String?, errorResponse : String?): ApiErrorResponse<Data> {
         Log.d(TAG, "$errorResponse")
         val errorMessage : String? = errorResponse?.let {
             when(apiTag) {
@@ -34,7 +34,7 @@ class ApiErrorParser<Data>(private val gson: Gson) {
             }
         }
 
-        return ApiErrorModel(
+        return ApiErrorResponse(
             statusCode = statusCode,
             apiTag = apiTag,
             errorMessage = errorMessage)

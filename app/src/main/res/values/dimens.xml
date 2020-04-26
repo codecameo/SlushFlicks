@@ -15,4 +15,5 @@
     <dimen name="medium_loading_width">180dp</dimen>
     <dimen name="loading_height">20dp</dimen>
     <dimen name="large_loading_width">300dp</dimen>
+    <dimen name="rating_vertical_margin">3dp</dimen>
 </resources>
