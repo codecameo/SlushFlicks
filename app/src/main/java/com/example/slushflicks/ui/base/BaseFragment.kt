@@ -15,7 +15,8 @@ import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
 
-abstract class BaseFragment<DB : ViewDataBinding, VM : ViewModel>(@LayoutRes resId : Int) : Fragment(resId), HasSupportFragmentInjector {
+abstract class BaseFragment<DB : ViewDataBinding, VM : ViewModel>(@LayoutRes resId: Int) :
+    Fragment(resId), HasSupportFragmentInjector {
 
     protected lateinit var binding: DB
     protected lateinit var viewModel: VM
@@ -38,7 +39,7 @@ abstract class BaseFragment<DB : ViewDataBinding, VM : ViewModel>(@LayoutRes res
         viewModel = ViewModelProvider(this, viewModelFactory).get(getViewModelClass())
     }
 
-    abstract fun getViewModelClass() : Class<VM>
+    abstract fun getViewModelClass(): Class<VM>
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment?>? {
         return childFragmentInjector

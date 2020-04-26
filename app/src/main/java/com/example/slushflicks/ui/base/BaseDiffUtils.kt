@@ -2,7 +2,10 @@ package com.example.slushflicks.ui.base
 
 import androidx.recyclerview.widget.DiffUtil
 
-abstract class BaseDiffUtils<Model>(protected var mOldList: List<Model>, protected var mNewList: List<Model>) : DiffUtil.Callback() {
+abstract class BaseDiffUtils<Model>(
+    protected var mOldList: List<Model>,
+    protected var mNewList: List<Model>
+) : DiffUtil.Callback() {
 
     fun setNewList(newList: List<Model>) {
         this.mNewList = newList

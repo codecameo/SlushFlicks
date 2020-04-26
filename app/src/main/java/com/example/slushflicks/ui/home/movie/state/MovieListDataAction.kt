@@ -4,5 +4,6 @@ import com.example.slushflicks.model.MovieModel
 import com.example.slushflicks.ui.state.DataState
 
 sealed class MovieListDataAction {
-    class FetchMovieListDataAction(val dataState: DataState<List<MovieModel>>) : MovieListDataAction()
+    class FetchMovieListDataAction(val dataState: DataState<List<MovieModel>>) :
+        MovieListDataAction()
 }

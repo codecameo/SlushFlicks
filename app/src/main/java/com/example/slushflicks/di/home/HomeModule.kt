@@ -13,10 +13,12 @@ class HomeModule {
 
     @HomeScope
     @Provides
-    fun getMovieService(retrofit: Retrofit) : MovieService = retrofit.create(MovieService::class.java)
+    fun getMovieService(retrofit: Retrofit): MovieService =
+        retrofit.create(MovieService::class.java)
 
     @HomeScope
     @Provides
-    fun getTrendingRepository(movieService: MovieService, @Named(NAME_API_KEY) apiKey : String) = TrendingRepository(movieService, apiKey)
+    fun getTrendingRepository(movieService: MovieService, @Named(NAME_API_KEY) apiKey: String) =
+        TrendingRepository(movieService, apiKey)
 
 }

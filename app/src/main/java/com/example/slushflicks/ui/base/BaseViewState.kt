@@ -5,5 +5,5 @@ import com.example.slushflicks.ui.home.movie.state.MovieListViewAction
 
 abstract class BaseViewState<ViewAction> {
     private val _action: MutableLiveData<ViewAction> = MutableLiveData<ViewAction>()
-    fun getAction() : MutableLiveData<ViewAction> = _action
+    fun getAction(): MutableLiveData<ViewAction> = _action
 }

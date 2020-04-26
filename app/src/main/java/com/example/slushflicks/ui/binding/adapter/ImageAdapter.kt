@@ -1,7 +1,6 @@
 package com.example.slushflicks.ui.binding.adapter
 
 import android.graphics.drawable.Drawable
-import android.text.TextUtils
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter

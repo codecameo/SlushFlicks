@@ -12,7 +12,8 @@ import com.example.slushflicks.ui.home.adapter.MovieListAdapter
 import com.example.slushflicks.ui.home.movie.viewmodel.MovieViewModel
 import com.example.slushflicks.ui.home.movie.viewmodel.TrendingViewModel
 
-abstract class BaseMovieListFragment<VM : ViewModel> : BaseFragment<FragmentMovieListBinding, VM>(R.layout.fragment_movie_list) {
+abstract class BaseMovieListFragment<VM : ViewModel> :
+    BaseFragment<FragmentMovieListBinding, VM>(R.layout.fragment_movie_list) {
 
     protected lateinit var adapter: MovieListAdapter
 

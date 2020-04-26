@@ -14,7 +14,12 @@ enum class ImageDimension(val dimension : String) {
     Original("/original")
 }
 
-const val KEY_API_KEY = "api_key"
+class ApiRequest {
+    companion object {
+        const val QUERY_KEY_API_KEY = "api_key"
+        const val QUERY_KEY_PAGE = "page"
+    }
+}
 
 class ApiEndPoint {
     companion object {

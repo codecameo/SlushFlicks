@@ -5,7 +5,7 @@ import com.example.slushflicks.ui.base.ListViewState
 import com.facebook.shimmer.ShimmerFrameLayout
 
 @BindingAdapter("shimmer")
-fun ShimmerFrameLayout.setShimmer(listViewState: ListViewState){
+fun ShimmerFrameLayout.setShimmer(listViewState: ListViewState) {
     if (listViewState == ListViewState.LOADING) {
         startShimmer()
     } else {

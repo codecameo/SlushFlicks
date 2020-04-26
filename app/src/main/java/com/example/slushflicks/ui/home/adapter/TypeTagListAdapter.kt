@@ -13,7 +13,12 @@ import com.example.slushflicks.ui.home.adapter.viewholder.TypeTagViewModel
 class TypeTagListAdapter : RecyclerView.Adapter<TypeTagViewModel>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TypeTagViewModel {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = DataBindingUtil.inflate<ItemTypeTagBinding>(inflater, R.layout.item_type_tag, parent, false)
+        val binding = DataBindingUtil.inflate<ItemTypeTagBinding>(
+            inflater,
+            R.layout.item_type_tag,
+            parent,
+            false
+        )
         return TypeTagViewModel((binding))
     }
 

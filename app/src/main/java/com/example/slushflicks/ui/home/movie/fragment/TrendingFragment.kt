@@ -20,20 +20,19 @@ class TrendingFragment : BaseMovieListFragment<TrendingViewModel>() {
         super.onViewCreated(view, savedInstanceState)
         viewModel.handleEvent(MovieListEventState.FetchMovieListEvent())
         subscribeAction()
-        Log.d("TrendingFragment","Network ${NetworkStateManager(requireContext()).isOnline()}")
     }
 
     private fun subscribeAction() {
         viewModel.observeViewAction().observe(viewLifecycleOwner, Observer { action ->
-            when(action) {
+            when (action) {
                 is FetchMovieListViewAction -> {
                     setMovieList(action)
                 }
             }
         })
 
-        viewModel.observeDataAction().observe(viewLifecycleOwner, Observer { action->
-            when(action) {
+        viewModel.observeDataAction().observe(viewLifecycleOwner, Observer { action ->
+            when (action) {
                 is FetchMovieListDataAction -> {
                     viewModel.setDataAction(action)
                 }
@@ -42,7 +41,7 @@ class TrendingFragment : BaseMovieListFragment<TrendingViewModel>() {
     }
 
     private fun setMovieList(action: FetchMovieListViewAction) {
-        when(val viewDataState = action.viewState) {
+        when (val viewDataState = action.viewState) {
             is ViewState.Loading<List<MovieListModel>> -> {
                 adapter.submitList(viewDataState.data)
             }

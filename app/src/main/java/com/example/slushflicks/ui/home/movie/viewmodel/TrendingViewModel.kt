@@ -43,19 +43,8 @@ class TrendingViewModel
         }
         sendMovieListLoadingAction()
 
-        dataState.addSource(trendingRepository.getMovieList(viewState.nextPage())) { apiResponse ->
-            //TODO This conversion should be done in repository
-            when (apiResponse) {
-                is ApiSuccessResponse -> {
-                    val dataSuccessResponse = DataSuccessResponse(
-                        data = getMovieList(apiResponse.data?.results),
-                        metaData = getMetaData(apiResponse.data),
-                        message = apiResponse.message
-                    )
-                    val successState = DataState.Success(dataSuccessResponse)
-                    dataState.value = FetchMovieListDataAction(dataState = successState)
-                }
-            }
+        dataState.addSource(trendingRepository.getMovieList(viewState.nextPage())) { dataResponse ->
+            dataState.value = dataResponse
         }
     }
 

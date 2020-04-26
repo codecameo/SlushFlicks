@@ -15,7 +15,8 @@ class MovieListAdapter : ListAdapter<MovieListModel, MovieViewHolder>(MovieDiffU
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = DataBindingUtil.inflate<ItemMovieBinding>(inflater, R.layout.item_movie, parent, false)
+        val binding =
+            DataBindingUtil.inflate<ItemMovieBinding>(inflater, R.layout.item_movie, parent, false)
         return MovieViewHolder((binding))
     }
 

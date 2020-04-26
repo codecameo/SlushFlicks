@@ -18,13 +18,13 @@ abstract class HomeViewModelModule {
 
     @HomeScope
     @Binds
-    abstract fun getFactory(homeViewModelFactory: HomeViewModelFactory) : ViewModelProvider.Factory
+    abstract fun getFactory(homeViewModelFactory: HomeViewModelFactory): ViewModelProvider.Factory
 
     @HomeScope
     @Binds
     @IntoMap
     @ViewModelKey(HomeViewModel::class)
-    abstract fun getHomeViewModel(homeViewModel: HomeViewModel) : ViewModel
+    abstract fun getHomeViewModel(homeViewModel: HomeViewModel): ViewModel
 
     @HomeScope
     @Binds
@@ -36,6 +36,6 @@ abstract class HomeViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(MovieViewModel::class)
-    abstract fun getMovieViewModel(movieViewModel: MovieViewModel) : ViewModel
+    abstract fun getMovieViewModel(movieViewModel: MovieViewModel): ViewModel
 
 }

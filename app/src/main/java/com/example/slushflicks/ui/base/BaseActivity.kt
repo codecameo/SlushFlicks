@@ -12,16 +12,17 @@ import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 import kotlin.reflect.KClass
 
-abstract class BaseActivity<DB : ViewDataBinding, VM : ViewModel>  : DaggerAppCompatActivity() {
+abstract class BaseActivity<DB : ViewDataBinding, VM : ViewModel> : DaggerAppCompatActivity() {
 
     protected lateinit var binding: DB
     protected lateinit var viewModel: VM
     @Inject
     protected lateinit var viewModelFactory: ViewModelProvider.Factory
+
     @LayoutRes
     protected abstract fun getLayoutRes(): Int
 
-    protected abstract fun getViewModelClass() : Class<VM>
+    protected abstract fun getViewModelClass(): Class<VM>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +31,7 @@ abstract class BaseActivity<DB : ViewDataBinding, VM : ViewModel>  : DaggerAppCo
     }
 
     init {
-        val TAG : String = this.javaClass.name
+        val TAG: String = this.javaClass.name
     }
 
 }

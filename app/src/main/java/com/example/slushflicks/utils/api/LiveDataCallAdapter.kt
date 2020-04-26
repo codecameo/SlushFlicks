@@ -48,7 +48,6 @@ class LiveDataCallAdapter<R>(
                 if (started.compareAndSet(false, true)) {
                     call.enqueue(object : Callback<R> {
                         override fun onResponse(call: Call<R>, response: Response<R>) {
-                            // TODO call ApiResponseParser instead of ApiResponse
                             postValue(
                                 ApiResponseParser.create<R>(
                                     statusCode = response.code(),
@@ -57,11 +56,9 @@ class LiveDataCallAdapter<R>(
                                     gson = gson
                                 )
                             )
-                            //postValue(ApiResponse.create(response))
                         }
 
                         override fun onFailure(call: Call<R>, throwable: Throwable) {
-                            // TODO call ApiResponseParser instead of ApiResponse
                             postValue(
                                 ApiResponseParser.create<R>(
                                     statusCode = INTERNAL_ERROR,
@@ -69,7 +66,6 @@ class LiveDataCallAdapter<R>(
                                     error = throwable
                                 )
                             )
-                            //postValue(ApiResponse.create(throwable))
                         }
                     })
                 }
