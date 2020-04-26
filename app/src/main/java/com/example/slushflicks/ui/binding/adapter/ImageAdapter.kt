@@ -8,7 +8,6 @@ import com.bumptech.glide.Glide
 import com.example.slushflicks.R
 import com.example.slushflicks.utils.EMPTY_STRING
 
-
 @BindingAdapter(value = ["imageUrl", "placeholder"], requireAll = false)
 fun ImageView.setImageUrl(
     url: String?,

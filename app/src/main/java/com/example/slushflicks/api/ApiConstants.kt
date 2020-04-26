@@ -42,8 +42,10 @@ class ApiTag {
 class StatusCode {
     companion object {
         const val SUCCESS = 200
+        const val EMPTY_RESPONSE = 204
         const val RESOURCE_NOT_FOUND = 404
         const val UNAUTHORIZED = 401
-        const val INTERNAL_ERROR = -1
+        const val INTERNAL_ERROR = 105
+        const val REQUEST_CANCELLED = 100
     }
 }

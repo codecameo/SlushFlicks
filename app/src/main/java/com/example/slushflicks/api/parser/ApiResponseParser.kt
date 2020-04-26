@@ -25,7 +25,10 @@ class ApiResponseParser {
             return if (response.isSuccessful) {
                 val body = response.body()
                 if (body == null || response.code() == 204) {
-                    ApiEmptyResponse<Data>()
+                    ApiEmptyResponse<Data>(
+                        apiTag = apiTag,
+                        statusCode = statusCode
+                    )
                 } else {
                     ApiSuccessResponse<Data>(
                         data = body

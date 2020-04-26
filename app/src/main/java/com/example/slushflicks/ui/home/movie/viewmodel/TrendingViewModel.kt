@@ -44,7 +44,7 @@ class TrendingViewModel
         sendMovieListLoadingAction()
 
         dataState.addSource(trendingRepository.getMovieList(viewState.nextPage())) { dataResponse ->
-            dataState.value = dataResponse
+            dataState.value = FetchMovieListDataAction(dataResponse)
         }
     }
 
@@ -60,7 +60,16 @@ class TrendingViewModel
                     sendMovieListSuccessAction()
                 }
             }
+            is DataState.Error<List<MovieModel>> -> {
+                sendMovieListErrorAction()
+            }
         }
+    }
+
+    private fun sendMovieListErrorAction() {
+        getAction().value = MovieListViewAction.FetchMovieListViewAction(
+            ViewState.Error()
+        )
     }
 
     private fun sendMovieListSuccessAction() {

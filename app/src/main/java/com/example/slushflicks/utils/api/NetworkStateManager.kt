@@ -10,7 +10,7 @@ import androidx.annotation.RequiresApi
 
 class NetworkStateManager(private val context: Context) {
 
-    var connectivityManager: ConnectivityManager =
+    private var connectivityManager: ConnectivityManager =
         context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
     fun isOnline(): Boolean {

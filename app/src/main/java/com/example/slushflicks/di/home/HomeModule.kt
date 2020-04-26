@@ -3,6 +3,7 @@ package com.example.slushflicks.di.home
 import com.example.slushflicks.api.home.movie.MovieService
 import com.example.slushflicks.di.constant.NAME_API_KEY
 import com.example.slushflicks.repository.TrendingRepository
+import com.example.slushflicks.utils.api.NetworkStateManager
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -18,7 +19,11 @@ class HomeModule {
 
     @HomeScope
     @Provides
-    fun getTrendingRepository(movieService: MovieService, @Named(NAME_API_KEY) apiKey: String) =
-        TrendingRepository(movieService, apiKey)
+    fun getTrendingRepository(
+        movieService: MovieService, @Named(NAME_API_KEY) apiKey: String,
+        networkStateManager: NetworkStateManager
+    ): TrendingRepository {
+        return TrendingRepository(movieService, apiKey, networkStateManager)
+    }
 
 }

@@ -26,18 +26,18 @@ import java.util.regex.Pattern
 </T> */
 @Suppress("unused") // T is used in extending classes
 @Deprecated("User ApiErrorParser instead")
-sealed class ApiResponse<T> {
+sealed class ApiResponseGoogle<T> {
 
     companion object {
-        const val TAG = "ApiResponse"
+        const val TAG = "ApiResponseGoogle"
 
-        fun <T> create(error: Throwable): ApiErrorResponse<T> {
-            return ApiErrorResponse(
+        fun <T> create(error: Throwable): ApiErrorResponseGoogle<T> {
+            return ApiErrorResponseGoogle(
                 error.message ?: "unknown error"
             )
         }
 
-        fun <T> create(response: Response<T>): ApiResponse<T> {
+        fun <T> create(response: Response<T>): ApiResponseGoogle<T> {
 
             Log.d(TAG, "ApiResponse: response: ${response}")
             Log.d(TAG, "ApiResponse: raw: ${response.raw()}")
@@ -47,7 +47,7 @@ sealed class ApiResponse<T> {
             return if (response.isSuccessful) {
                 val body = response.body()
                 if (body == null || response.code() == 204) {
-                    ApiEmptyResponse()
+                    ApiEmptyResponseGoogle()
                 } else {
                     ApiSuccessResponse(
                         body = body,
@@ -61,7 +61,7 @@ sealed class ApiResponse<T> {
                 } else {
                     msg
                 }
-                ApiErrorResponse(
+                ApiErrorResponseGoogle(
                     errorMsg ?: "unknown error"
                 )
             }
@@ -72,12 +72,12 @@ sealed class ApiResponse<T> {
 /**
  * separate class for HTTP 204 responses so that we can make ApiSuccessResponse's body non-null.
  */
-class ApiEmptyResponse<T> : ApiResponse<T>()
+class ApiEmptyResponseGoogle<T> : ApiResponseGoogle<T>()
 
 data class ApiSuccessResponse<T>(
     val body: T,
     val links: Map<String, String>
-) : ApiResponse<T>() {
+) : ApiResponseGoogle<T>() {
     constructor(body: T, linkHeader: String?) : this(
         body = body,
         links = linkHeader?.extractLinks() ?: emptyMap()
@@ -118,4 +118,4 @@ data class ApiSuccessResponse<T>(
     }
 }
 
-data class ApiErrorResponse<T>(val errorMessage: String) : ApiResponse<T>()
+data class ApiErrorResponseGoogle<T>(val errorMessage: String) : ApiResponseGoogle<T>()

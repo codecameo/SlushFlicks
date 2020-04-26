@@ -1,5 +1,8 @@
 package com.example.slushflicks.ui.state
 
+import com.example.slushflicks.api.StatusCode
+import com.example.slushflicks.api.StatusCode.Companion.INTERNAL_ERROR
+
 sealed class DataResponse<Data>
 
 data class DataSuccessResponse<Data>(
@@ -9,9 +12,9 @@ data class DataSuccessResponse<Data>(
 ) : DataResponse<Data>()
 
 data class DataErrorResponse<Data>(
-    val statusCode: Int,
-    val apiTag: String?,
-    val errorMessage: String?
+    val statusCode: Int = INTERNAL_ERROR,
+    val apiTag: String? = null,
+    val errorMessage: String? = null
 ) : DataResponse<Data>()
 
 data class MetaData(
