@@ -1,13 +1,14 @@
 package com.example.slushflicks.ui.helper
 
-import com.example.slushflicks.api.home.movie.MovieApiModel
-import com.example.slushflicks.api.home.movie.MovieListApiModel
+import com.example.slushflicks.api.home.movie.model.MovieApiModel
+import com.example.slushflicks.api.home.movie.model.MovieListApiModel
 import com.example.slushflicks.model.GenreModel
 import com.example.slushflicks.ui.base.ListViewState
 import com.example.slushflicks.ui.base.ListViewState.LOADING
 import com.example.slushflicks.ui.home.adapter.model.MovieListModel
 import com.example.slushflicks.model.MovieModel
 import com.example.slushflicks.ui.state.MetaData
+import com.example.slushflicks.utils.EMPTY_STRING
 import com.example.slushflicks.utils.getListImageUrl
 
 fun getMovieListLoadingModels(): List<MovieListModel> {
@@ -33,11 +34,14 @@ fun getMovieListModel(movies: List<MovieModel>): List<MovieListModel> {
 /**
  * This conversion discard unnecessary data returned from api
  * */
-fun getMovieList(movieApiModels: List<MovieApiModel>?): List<MovieModel> {
+fun getMovieList(
+    movieApiModels: List<MovieApiModel>?,
+    genres: Map<Long, String>
+): List<MovieModel> {
     val movieModels = mutableListOf<MovieModel>()
     movieApiModels?.let {
         for (movie in movieApiModels) {
-            val genresModels = getGenresModels(movie.genreIds)
+            val genresModels = getGenresModels(movie.genreIds, genres)
             val movieModel = MovieModel(
                 id = movie.id,
                 backdropPath = getListImageUrl(movie.backdropPath),
@@ -56,10 +60,16 @@ fun getMovieList(movieApiModels: List<MovieApiModel>?): List<MovieModel> {
     return movieModels
 }
 
-fun getGenresModels(genreIds: List<Long>): List<GenreModel> {
+fun getGenresModels(
+    genreIds: List<Long>,
+    genreMap: Map<Long, String>
+): List<GenreModel> {
     val genres = mutableListOf<GenreModel>()
     for (id in genreIds) {
-        val genre = GenreModel(id = id)
+        val genre = GenreModel(
+            id = id,
+            name = genreMap[id] ?: EMPTY_STRING
+        )
         genres.add(genre)
     }
     return genres

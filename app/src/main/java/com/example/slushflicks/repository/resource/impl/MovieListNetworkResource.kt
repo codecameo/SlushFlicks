@@ -3,10 +3,10 @@ package com.example.slushflicks.repository.resource.impl
 import androidx.lifecycle.LiveData
 import com.example.slushflicks.api.ApiResponse
 import com.example.slushflicks.api.ApiSuccessResponse
-import com.example.slushflicks.api.home.movie.MovieListApiModel
+import com.example.slushflicks.api.home.movie.model.MovieListApiModel
 import com.example.slushflicks.api.home.movie.MovieService
+import com.example.slushflicks.data.DataManager
 import com.example.slushflicks.model.MovieModel
-import com.example.slushflicks.repository.resource.type.NetworkFirstSilentUpdateResource
 import com.example.slushflicks.repository.resource.type.NetworkOnlyResource
 import com.example.slushflicks.ui.helper.getMetaData
 import com.example.slushflicks.ui.helper.getMovieList
@@ -19,9 +19,9 @@ import kotlinx.coroutines.Job
 class MovieListNetworkResource(
     private val movieService: MovieService,
     private val requestModel: RequestModel,
+    private val dataManager: DataManager,
     networkStateManager: NetworkStateManager
-) :
-    NetworkOnlyResource<MovieListApiModel, List<MovieModel>, List<MovieModel>>(
+) : NetworkOnlyResource<MovieListApiModel, List<MovieModel>, List<MovieModel>>(
         networkStateManager
     ) {
 
@@ -31,7 +31,7 @@ class MovieListNetworkResource(
          * show relevant information in view
          * */
         val dataSuccessResponse = DataSuccessResponse(
-            data = getMovieList(response.data?.results),
+            data = getMovieList(response.data?.results, dataManager.getGenres()),
             metaData = getMetaData(response.data),
             message = response.message
         )
@@ -51,9 +51,7 @@ class MovieListNetworkResource(
         return AbsentLiveData.create()
     }
 
-    override suspend fun updateLocalDb(cacheData: List<MovieModel>?) {
-
-    }
+    override suspend fun updateLocalDb(cacheData: List<MovieModel>?) {}
 
     override fun setJob(job: Job) {
 

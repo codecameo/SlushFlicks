@@ -1,4 +1,4 @@
-package com.example.slushflicks.api.home.movie
+package com.example.slushflicks.api.home.movie.model
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName

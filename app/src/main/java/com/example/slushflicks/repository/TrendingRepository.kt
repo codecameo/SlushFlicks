@@ -2,6 +2,7 @@ package com.example.slushflicks.repository
 
 import androidx.lifecycle.LiveData
 import com.example.slushflicks.api.home.movie.MovieService
+import com.example.slushflicks.data.DataManager
 import com.example.slushflicks.model.MovieModel
 import com.example.slushflicks.repository.resource.impl.MovieListNetworkResource
 import com.example.slushflicks.ui.state.DataState
@@ -13,6 +14,7 @@ import com.example.slushflicks.utils.api.NetworkStateManager
 class TrendingRepository(
     private val movieService: MovieService,
     private val apiKey: String,
+    private val dataManager: DataManager,
     private val networkStateManager: NetworkStateManager
 ) {
 
@@ -25,7 +27,8 @@ class TrendingRepository(
         val movieListNetworkResource = MovieListNetworkResource(
             requestModel = requestModel,
             movieService = movieService,
-            networkStateManager = networkStateManager
+            networkStateManager = networkStateManager,
+            dataManager = dataManager
         )
         return movieListNetworkResource.asLiveData()
     }

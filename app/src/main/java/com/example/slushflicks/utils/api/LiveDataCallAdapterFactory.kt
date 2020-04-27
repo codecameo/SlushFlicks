@@ -30,9 +30,7 @@ class LiveDataCallAdapterFactory
 @Inject constructor(private val gson: Gson) : Factory() {
 
     override fun get(
-        returnType: Type,
-        annotations: Array<Annotation>,
-        retrofit: Retrofit
+        returnType: Type, annotations: Array<Annotation>, retrofit: Retrofit
     ): CallAdapter<*, *>? {
         if (getRawType(returnType) != LiveData::class.java) {
             return null

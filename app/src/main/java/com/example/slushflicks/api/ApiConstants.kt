@@ -1,5 +1,7 @@
 package com.example.slushflicks.api
 
+import com.example.slushflicks.api.ApiEndPoint.Companion.GENRES_MOVIE_URL
+import com.example.slushflicks.api.ApiEndPoint.Companion.GENRES_TV_URL
 import com.example.slushflicks.api.ApiEndPoint.Companion.TRENDING_MOVIE_URL
 import com.example.slushflicks.api.MethodName.Companion.GET
 
@@ -24,6 +26,8 @@ class ApiRequest {
 class ApiEndPoint {
     companion object {
         const val TRENDING_MOVIE_URL = "trending/movie/day"
+        const val GENRES_MOVIE_URL = "genre/movie/list"
+        const val GENRES_TV_URL = "genre/tv/list"
     }
 }
 
@@ -36,6 +40,8 @@ class MethodName {
 class ApiTag {
     companion object {
         const val TRENDING_API_TAG = TRENDING_MOVIE_URL + GET
+        const val TV_GENRE_API_TAG = GENRES_TV_URL + GET
+        const val MOVIE_GENRE_API_TAG = GENRES_MOVIE_URL + GET
     }
 }
 

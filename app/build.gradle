@@ -24,12 +24,14 @@ android {
             buildConfigField 'String', "BASE_URL", '"https://api.themoviedb.org/"'
             buildConfigField 'String', "API_VERSION", '"3/"'
             buildConfigField 'String', "IMAGE_BASE_URL", '"http://image.tmdb.org/t/p/"'
+            buildConfigField 'String', "DATABASE_NAME", '"slushflickdb"'
             buildConfigField 'String', "API_KEY", '"5bd74c7a7bbfad5678fe1acd33fe732a"'
         }
         debug {
             buildConfigField 'String', "BASE_URL", '"https://api.themoviedb.org/"'
             buildConfigField 'String', "API_VERSION", '"3/"'
             buildConfigField 'String', "IMAGE_BASE_URL", '"http://image.tmdb.org/t/p/"'
+            buildConfigField 'String', "DATABASE_NAME", '"slushflickdb_debug"'
             buildConfigField 'String', "API_KEY", '"5bd74c7a7bbfad5678fe1acd33fe732a"'
         }
 
@@ -58,6 +60,7 @@ dependencies {
     // Glide
     implementation "com.github.bumptech.glide:glide:$glide_version"
     annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
+    kapt "com.github.bumptech.glide:compiler:$glide_version"
 
     // Dagger2 core
     implementation "com.google.dagger:dagger:$dagger_version"

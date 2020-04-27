@@ -6,6 +6,7 @@ import com.example.slushflicks.api.ApiRequest.Companion.QUERY_KEY_API_KEY
 import com.example.slushflicks.api.ApiRequest.Companion.QUERY_KEY_PAGE
 import com.example.slushflicks.api.ApiResponse
 import com.example.slushflicks.api.ApiTag
+import com.example.slushflicks.api.home.movie.model.MovieListApiModel
 import retrofit2.http.GET
 import retrofit2.http.Query
 import retrofit2.http.Tag

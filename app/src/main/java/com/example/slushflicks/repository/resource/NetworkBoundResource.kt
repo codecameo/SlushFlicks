@@ -144,13 +144,18 @@ abstract class NetworkBoundResource<ApiData, CacheData, AppData> {
         return result
     }
 
-    abstract suspend fun createCacheRequestAndReturn()
+    protected open suspend fun createCacheRequestAndReturn() {}
 
     abstract suspend fun handleApiSuccessResponse(response: ApiSuccessResponse<ApiData>)
 
     abstract fun createCall(): LiveData<ApiResponse<ApiData>>
 
+    @Deprecated("Use getFromCache instead")
     abstract fun loadFromCache(): LiveData<CacheData>
+
+    protected open suspend fun getFromCache(): CacheData? {
+        return null
+    }
 
     abstract suspend fun updateLocalDb(cacheData: CacheData?)
 
