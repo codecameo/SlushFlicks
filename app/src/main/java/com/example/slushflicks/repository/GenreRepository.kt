@@ -2,10 +2,7 @@ package com.example.slushflicks.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import com.example.slushflicks.api.ApiResponse
-import com.example.slushflicks.api.ApiSuccessResponse
 import com.example.slushflicks.api.home.genre.GenreService
-import com.example.slushflicks.api.home.genre.model.GenreListApiModel
 import com.example.slushflicks.data.DataManager
 import com.example.slushflicks.model.GenreModel
 import com.example.slushflicks.repository.resource.impl.GenreNetworkResource
@@ -14,7 +11,6 @@ import com.example.slushflicks.utils.api.NetworkStateManager
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import retrofit2.Response
 
 class GenreRepository(
     private val genreService: GenreService,
@@ -55,7 +51,7 @@ class GenreRepository(
          * even if user leaves the app or navigates to another screen
          * */
         GlobalScope.launch(IO) {
-            launch {
+            /*launch {
                 val response : Response<GenreListApiModel> =  genreService.getTvGenre(apiKey)
                 if (response.isSuccessful) {
                     response.body()?.run {
@@ -70,7 +66,7 @@ class GenreRepository(
                         dataManager.saveGenre(genres)
                     }
                 }
-            }
+            }*/
         }
     }
 }

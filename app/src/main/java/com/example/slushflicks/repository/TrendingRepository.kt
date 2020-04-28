@@ -3,6 +3,7 @@ package com.example.slushflicks.repository
 import androidx.lifecycle.LiveData
 import com.example.slushflicks.api.home.movie.MovieService
 import com.example.slushflicks.data.DataManager
+import com.example.slushflicks.db.DbConstant.Label.Companion.TRENDING_LABEL
 import com.example.slushflicks.model.MovieModel
 import com.example.slushflicks.repository.resource.impl.MovieListNetworkResource
 import com.example.slushflicks.ui.state.DataState
@@ -28,7 +29,8 @@ class TrendingRepository(
             requestModel = requestModel,
             movieService = movieService,
             networkStateManager = networkStateManager,
-            dataManager = dataManager
+            dataManager = dataManager,
+            collection = TRENDING_LABEL
         )
         return movieListNetworkResource.asLiveData()
     }

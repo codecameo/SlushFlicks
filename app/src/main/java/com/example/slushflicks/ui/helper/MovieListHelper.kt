@@ -3,10 +3,11 @@ package com.example.slushflicks.ui.helper
 import com.example.slushflicks.api.home.movie.model.MovieApiModel
 import com.example.slushflicks.api.home.movie.model.MovieListApiModel
 import com.example.slushflicks.model.GenreModel
+import com.example.slushflicks.model.MovieCollectionModel
+import com.example.slushflicks.model.MovieModel
 import com.example.slushflicks.ui.base.ListViewState
 import com.example.slushflicks.ui.base.ListViewState.LOADING
 import com.example.slushflicks.ui.home.adapter.model.MovieListModel
-import com.example.slushflicks.model.MovieModel
 import com.example.slushflicks.ui.state.MetaData
 import com.example.slushflicks.utils.EMPTY_STRING
 import com.example.slushflicks.utils.getListImageUrl
@@ -83,4 +84,17 @@ fun getMetaData(movieListApiModel: MovieListApiModel?): MetaData? {
             totalPage = model.totalPages
         )
     }
+}
+
+fun getCollectionModels(movies: List<MovieModel>, collection: String): List<MovieCollectionModel> {
+    val collectionList = mutableListOf<MovieCollectionModel>()
+    for (index in movies.indices) {
+        val collectionModel = MovieCollectionModel(
+            collection = collection,
+            id = movies[index].id,
+            index = index
+        )
+        collectionList.add(collectionModel)
+    }
+    return collectionList
 }

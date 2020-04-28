@@ -18,37 +18,6 @@ abstract class NetworkBoundResource<ApiData, CacheData, AppData> {
     protected lateinit var job: CompletableJob
     protected lateinit var coroutineScope: CoroutineScope
 
-    init {
-        setJob(initNewJob())
-
-        /*if (shouldLoadFromCache) {
-            // view cache to start
-            val dbSource = loadFromCache()
-            result.addSource(dbSource) {
-                result.removeSource(dbSource)
-                setValue(DataState.loading(isLoading = true, cachedData = it))
-            }
-        }
-
-        if (isNetworkRequest) {
-            if (isNetworkAvailable) {
-                doNetworkRequest()
-            } else {
-                if (shouldCancelIfNoInternet) {
-                    onErrorReturn(
-                        ErrorHandling.UNABLE_TODO_OPERATION_WO_INTERNET,
-                        shouldUseDialog = true,
-                        shouldUseToast = false
-                    )
-                } else {
-                    doCacheRequest()
-                }
-            }
-        } else {
-            doCacheRequest()
-        }*/
-    }
-
     fun doCacheRequest() {
         coroutineScope.launch {
             // View data from cache only and return
@@ -161,10 +130,15 @@ abstract class NetworkBoundResource<ApiData, CacheData, AppData> {
 
     abstract fun setJob(job: Job)
 
+    protected open fun execute() {
+        setJob(initNewJob())
+    }
+
     /**
      * In case of local cache wrap it with [DataResponse]
      * */
-    abstract fun getAppDataFromCache(response: CacheData): DataSuccessResponse<AppData>
+    abstract fun getAppDataSuccessResponse(response: CacheData?): DataSuccessResponse<AppData>
 
-    protected abstract fun execute()
+    // ApiResponse is needed in case there is message from the api
+    abstract fun getDataSuccessResponse(response: ApiSuccessResponse<ApiData>): DataSuccessResponse<CacheData>
 }

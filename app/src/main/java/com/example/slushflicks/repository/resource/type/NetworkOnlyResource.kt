@@ -3,11 +3,7 @@ package com.example.slushflicks.repository.resource.type
 import com.example.slushflicks.api.ApiErrorResponse
 import com.example.slushflicks.api.StatusCode
 import com.example.slushflicks.repository.resource.NetworkBoundResource
-import com.example.slushflicks.ui.state.DataErrorResponse
-import com.example.slushflicks.ui.state.DataState
 import com.example.slushflicks.utils.api.NetworkStateManager
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 /**
  * This network resource will only check internet to get the data
@@ -17,6 +13,7 @@ abstract class NetworkOnlyResource<ApiData, CacheData, AppData> (private val net
     NetworkBoundResource<ApiData, CacheData, AppData>() {
 
     override fun execute() {
+        super.execute()
         if (networkStateManager.isOnline()) {
             doNetworkRequest()
         } else {
