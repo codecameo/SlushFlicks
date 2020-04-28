@@ -1,8 +1,14 @@
 package com.example.slushflicks.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.example.slushflicks.db.DbConstant
+import com.example.slushflicks.db.DbConstant.TableName.Companion.TABLE_NAME_MOVIE
 import com.example.slushflicks.utils.INVALID_ID
 
+@Entity(tableName = TABLE_NAME_MOVIE)
 data class MovieModel(
+    @PrimaryKey(autoGenerate = false)
     val id: Long = INVALID_ID.toLong(),
     val voteCount: Int,
     val voteAvg: Double,

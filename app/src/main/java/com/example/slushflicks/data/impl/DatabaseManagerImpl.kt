@@ -14,7 +14,7 @@ class DatabaseManagerImpl
 ) : DatabaseManager {
 
     override suspend fun saveGenre(genres: List<GenreModel>) {
-        database.getGenreDao().saveGenres(genres)
+        database.getGenreDao().insert(genres)
     }
 
     override suspend fun loadGenres(): List<GenreModel> {

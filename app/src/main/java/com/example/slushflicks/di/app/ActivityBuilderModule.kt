@@ -6,6 +6,7 @@ import com.example.slushflicks.di.home.HomeViewModelModule
 import com.example.slushflicks.di.home.HomeScope
 import com.example.slushflicks.di.splash.SplashModule
 import com.example.slushflicks.di.splash.SplashScope
+import com.example.slushflicks.di.splash.SplashViewModelModule
 import com.example.slushflicks.ui.home.HomeActivity
 import com.example.slushflicks.ui.splash.SplashActivity
 import dagger.Module
@@ -19,7 +20,7 @@ abstract class ActivityBuilderModule {
     internal abstract fun bindHomeActivity(): HomeActivity
 
     @SplashScope
-    @ContributesAndroidInjector(modules = [SplashModule::class])
+    @ContributesAndroidInjector(modules = [SplashModule::class, SplashViewModelModule::class])
     internal abstract fun bindSplashActivity() : SplashActivity
 
 }

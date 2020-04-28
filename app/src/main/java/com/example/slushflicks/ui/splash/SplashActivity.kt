@@ -1,47 +1,67 @@
 package com.example.slushflicks.ui.splash
 
+import android.animation.ValueAnimator
+import android.animation.ValueAnimator.INFINITE
+import android.animation.ValueAnimator.REVERSE
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import androidx.lifecycle.Observer
-import com.example.slushflicks.repository.GenreRepository
+import com.example.slushflicks.R
+import com.example.slushflicks.databinding.ActivitySplashBinding
+import com.example.slushflicks.ui.base.BaseActivity
 import com.example.slushflicks.ui.home.HomeActivity
-import com.example.slushflicks.ui.state.DataState
-import com.example.slushflicks.ui.state.DataSuccessResponse
-import dagger.android.DaggerActivity
-import dagger.android.support.DaggerAppCompatActivity
-import java.util.*
-import javax.inject.Inject
+import com.example.slushflicks.ui.splash.viewmodel.SplashViewModel
+
 
 /**
  * Will follow MVVM for splash as there is nothing much in this activity
  * */
-class SplashActivity : DaggerAppCompatActivity() {
+class SplashActivity : BaseActivity<ActivitySplashBinding, SplashViewModel>() {
 
-    @Inject
-    lateinit var genreRepository: GenreRepository
+    private lateinit var scaleAnimator: ValueAnimator
     private val handler = Handler()
+    private val splashTime = 3000L
+    private val animationDuration = 1000L
     private val nextScreenAction = Runnable {
-        genreRepository.setGenreList().observe(this, Observer {response ->
+        viewModel.setGenreList().observe(this, Observer {
             moveToNextScreen()
         })
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setAnimation()
+        viewModel.updateGenres()
+        handler.postDelayed(nextScreenAction, splashTime)
+    }
+
+    private fun setAnimation() {
+        scaleAnimator = ValueAnimator.ofFloat(0.75f, 1.5f)
+        scaleAnimator.duration = animationDuration
+        scaleAnimator.repeatMode = REVERSE
+        scaleAnimator.repeatCount = INFINITE
+        scaleAnimator.addUpdateListener { value ->
+            binding.tvAppName.scaleX = value.animatedValue as Float
+            binding.tvAppName.scaleY = value.animatedValue as Float
+        }
+        scaleAnimator.start()
+    }
+
     private fun moveToNextScreen() {
+        scaleAnimator.cancel()
         val intent = Intent(this, HomeActivity::class.java)
         startActivity(intent)
         finish()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        genreRepository.updateGenres()
-        handler.postDelayed(nextScreenAction, 2000)
-    }
-
     override fun onDestroy() {
         handler.removeCallbacks(nextScreenAction)
+        scaleAnimator.cancel()
         super.onDestroy()
     }
+
+    override fun getLayoutRes() = R.layout.activity_splash
+
+    override fun getViewModelClass(): Class<SplashViewModel> = SplashViewModel::class.java
 }
