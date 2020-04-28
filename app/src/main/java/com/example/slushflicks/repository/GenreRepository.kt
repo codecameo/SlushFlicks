@@ -51,22 +51,31 @@ class GenreRepository(
          * even if user leaves the app or navigates to another screen
          * */
         GlobalScope.launch(IO) {
-            /*launch {
-                val response : Response<GenreListApiModel> =  genreService.getTvGenre(apiKey)
-                if (response.isSuccessful) {
-                    response.body()?.run {
-                        dataManager.saveGenre(genres)
+            launch {
+                //TODO
+                try {
+                    val response = genreService.getTvGenre(apiKey)
+                    if (response.isSuccessful) {
+                        response.body()?.run {
+                            dataManager.saveGenre(genres)
+                        }
                     }
+                } catch (ex: Exception) {
+                    ex.printStackTrace()
                 }
             }
             launch {
-                val response : Response<GenreListApiModel> =  genreService.getMovieGenre(apiKey)
-                if (response.isSuccessful) {
-                    response.body()?.run {
-                        dataManager.saveGenre(genres)
+                try {
+                    val response = genreService.getMovieGenre(apiKey)
+                    if (response.isSuccessful) {
+                        response.body()?.run {
+                            dataManager.saveGenre(genres)
+                        }
                     }
+                } catch (ex: Exception) {
+                    ex.printStackTrace()
                 }
-            }*/
+            }
         }
     }
 }
