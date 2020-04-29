@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "707492463889",
+    "firebase_url": "https://slushflicks.firebaseio.com",
+    "project_id": "slushflicks",
+    "storage_bucket": "slushflicks.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:707492463889:android:5c1506a6311a3737e6b8b0",
+        "android_client_info": {
+          "package_name": "com.sifat.slushflicks"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "707492463889-1e7eui9dpkg6ilp3hqgigrp83hju3bv1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sifat.slushflicks",
+            "certificate_hash": "67c13122a516bed9541c0706a6c09158606f40b2"
+          }
+        },
+        {
+          "client_id": "707492463889-h1ruq0p777m7lq9q9i3hudm6v12vkjd1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJqQxvYsA-QE0kt8um1Ec2fB9Dl88JA5M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "707492463889-h1ruq0p777m7lq9q9i3hudm6v12vkjd1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

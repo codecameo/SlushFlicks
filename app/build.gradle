@@ -2,18 +2,19 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: "kotlin-kapt"
+apply plugin: "com.google.gms.google-services"
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
     buildToolsVersion rootProject.buildToolsVersion
 
     defaultConfig {
-        applicationId "com.example.slushflicks"
+        applicationId "com.sifat.slushflicks"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
         versionCode 1
         versionName "1.0"
-
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -100,6 +101,10 @@ dependencies {
 
     //Shimmer
     implementation "com.facebook.shimmer:shimmer:$shimmer_version"
+
+    implementation 'com.google.firebase:firebase-analytics:17.4.0'
+
+    implementation 'com.android.support:multidex:1.0.3'
 
     //Leak Canary
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leak_canary_version"

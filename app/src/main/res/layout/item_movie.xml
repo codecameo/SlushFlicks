@@ -3,7 +3,7 @@
 
     <data>
 
-        <import type="com.example.slushflicks.ui.base.ListViewState" />
+        <import type="com.sifat.slushflicks.ui.base.ListViewState" />
 
         <import type="android.view.View" />
 
@@ -13,7 +13,7 @@
 
         <variable
             name="model"
-            type="com.example.slushflicks.model.MovieModelMinimal" />
+            type="com.sifat.slushflicks.model.MovieModelMinimal" />
     </data>
 
     <com.facebook.shimmer.ShimmerFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -108,7 +108,7 @@
                     android:id="@+id/tvGenres"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/standard_margin"
+                    android:layout_marginEnd="@dimen/standard_margin"
                     android:ellipsize="end"
                     android:fontFamily="sans-serif-light"
                     android:padding="@dimen/standard_half_margin"
