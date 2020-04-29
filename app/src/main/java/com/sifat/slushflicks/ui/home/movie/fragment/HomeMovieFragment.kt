@@ -113,6 +113,7 @@ class HomeMovieFragment :
 
     private fun setupList() {
         binding.rvTypeTag.adapter = adapter
+        binding.rvTypeTag.itemAnimator = null
         binding.rvTypeTag.layoutManager = LinearLayoutManager(context, HORIZONTAL, false)
     }
 

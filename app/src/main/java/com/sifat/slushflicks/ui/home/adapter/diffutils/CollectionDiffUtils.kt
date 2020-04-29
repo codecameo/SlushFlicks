@@ -16,6 +16,6 @@ class CollectionDiffUtils : DiffUtil.ItemCallback<CollectionListModel>() {
         oldItem: CollectionListModel,
         newItem: CollectionListModel
     ): Boolean {
-        return oldItem.data == newItem.data
+        return oldItem.data?.isEnable == newItem.data?.isEnable
     }
 }

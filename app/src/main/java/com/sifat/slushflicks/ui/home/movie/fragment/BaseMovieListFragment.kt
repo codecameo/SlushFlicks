@@ -20,6 +20,7 @@ abstract class BaseMovieListFragment<VM : BaseMovieListViewModel> :
     BaseFragment<FragmentMovieListBinding, VM>(R.layout.fragment_movie_list) {
 
     protected lateinit var adapter: MovieListAdapter
+    private var shouldForceUpdate = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -30,7 +31,7 @@ abstract class BaseMovieListFragment<VM : BaseMovieListViewModel> :
     }
 
     private fun fetchData() {
-        viewModel.handleEvent(MovieListEventState.FetchMovieListEvent())
+        viewModel.handleEvent(MovieListEventState.FetchMovieListEvent(shouldForceUpdate))
     }
 
     private fun subscribeAction() {
@@ -58,6 +59,7 @@ abstract class BaseMovieListFragment<VM : BaseMovieListViewModel> :
             }
             is ViewState.Success<List<MovieListModel>> -> {
                 adapter.submitList(viewDataState.data)
+                shouldForceUpdate = false
             }
             is ViewState.Error<List<MovieListModel>> -> {
                 val message = if (viewDataState.errorMessage.isNullOrEmpty()) {
@@ -70,6 +72,7 @@ abstract class BaseMovieListFragment<VM : BaseMovieListViewModel> :
             }
         }
     }
+
 
     private fun initVariable() {
         adapter = MovieListAdapter()

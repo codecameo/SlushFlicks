@@ -6,6 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.sifat.slushflicks.R
 import com.sifat.slushflicks.databinding.ItemTypeTagBinding
+import com.sifat.slushflicks.ui.helper.getCopiedCollectionListModel
 import com.sifat.slushflicks.ui.home.adapter.diffutils.CollectionDiffUtils
 import com.sifat.slushflicks.ui.home.adapter.model.CollectionListModel
 import com.sifat.slushflicks.ui.home.adapter.viewholder.TypeTagViewModel
@@ -31,12 +32,6 @@ class TypeTagListAdapter :
     }
 
     override fun submitList(list: List<CollectionListModel>?) {
-        list?.let {
-            val submitList = ArrayList<CollectionListModel>()
-            submitList.addAll(list)
-            super.submitList(submitList)
-            return
-        }
-        super.submitList(null)
+        super.submitList(getCopiedCollectionListModel(list ?: emptyList()))
     }
 }

@@ -41,7 +41,7 @@
                 android:text="@{model.name}"
                 android:textAllCaps="true"
                 android:textColor="@drawable/selector_tag_text"
-                android:visibility="@{state == ListViewState.LOADING? View.GONE : View.VISIBLE}"
+                android:visibility="@{state == ListViewState.LOADING? View.INVISIBLE : View.VISIBLE}"
                 app:selected="@{model.enable}"
                 tools:text="Popular"
                 tools:visibility="invisible" />
@@ -55,7 +55,7 @@
                 android:layout_marginEnd="@dimen/small_margin"
                 android:layout_marginBottom="@dimen/tiny_margin"
                 android:background="@color/loading_color"
-                android:visibility="@{state == ListViewState.LOADING? View.VISIBLE : View.GONE}" />
+                android:visibility="@{state == ListViewState.LOADING? View.VISIBLE : View.INVISIBLE}" />
 
         </FrameLayout>
     </com.facebook.shimmer.ShimmerFrameLayout>

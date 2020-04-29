@@ -23,3 +23,21 @@ fun getCollectionListModel(collections: List<CollectionModel>): List<CollectionL
     }
     return collectionListModels
 }
+
+/**
+ * Need to copy the list so that diffutils can calculate the difference
+ * */
+fun getCopiedCollectionListModel(collections: List<CollectionListModel>): List<CollectionListModel> {
+    val collectionListModels = mutableListOf<CollectionListModel>()
+    for (collection in collections) {
+        val collectionListModel = CollectionListModel(
+            collection.data?.copy(
+                name = collection.data.name,
+                label = collection.data.label,
+                isEnable = collection.data.isEnable
+            ), collection.state
+        )
+        collectionListModels.add(collectionListModel)
+    }
+    return collectionListModels
+}
