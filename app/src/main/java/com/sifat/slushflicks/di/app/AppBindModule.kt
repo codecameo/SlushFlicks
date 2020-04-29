@@ -3,9 +3,11 @@ package com.sifat.slushflicks.di.app
 
 import com.sifat.slushflicks.data.DataManager
 import com.sifat.slushflicks.data.DatabaseManager
+import com.sifat.slushflicks.data.FireStoreManager
 import com.sifat.slushflicks.data.LocalDataManager
 import com.sifat.slushflicks.data.impl.DataManagerImpl
 import com.sifat.slushflicks.data.impl.DatabaseManagerImpl
+import com.sifat.slushflicks.data.impl.FireStoreManagerImpl
 import com.sifat.slushflicks.data.impl.LocalDataManagerImpl
 import com.sifat.slushflicks.utils.api.LiveDataCallAdapterFactory
 import dagger.Binds
@@ -29,4 +31,7 @@ abstract class AppBindModule {
 
     @Binds
     abstract fun bindDatabaseManager(databaseManagerImpl: DatabaseManagerImpl) : DatabaseManager
+
+    @Binds
+    abstract fun bindFireStoreDataManager(fireStoreManagerImpl: FireStoreManagerImpl): FireStoreManager
 }

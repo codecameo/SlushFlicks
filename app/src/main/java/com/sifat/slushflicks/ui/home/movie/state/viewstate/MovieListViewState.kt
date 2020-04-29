@@ -2,7 +2,7 @@ package com.sifat.slushflicks.ui.home.movie.state.viewstate
 
 import com.sifat.slushflicks.ui.base.BaseViewState
 import com.sifat.slushflicks.ui.home.adapter.model.MovieListModel
-import com.sifat.slushflicks.ui.home.movie.state.MovieListViewAction
+import com.sifat.slushflicks.ui.home.movie.state.viewaction.MovieListViewAction
 
 class MovieListViewState : BaseViewState<MovieListViewAction>() {
     var currentPage = 0

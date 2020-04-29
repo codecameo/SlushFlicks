@@ -1,5 +1,6 @@
 package com.sifat.slushflicks.ui.binding.adapter
 
+import android.view.View
 import androidx.databinding.BindingAdapter
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.sifat.slushflicks.ui.base.ListViewState
@@ -11,4 +12,9 @@ fun ShimmerFrameLayout.setShimmer(listViewState: ListViewState) {
     } else {
         hideShimmer()
     }
+}
+
+@BindingAdapter("selected")
+fun View.setSelected(selected: Boolean) {
+    isSelected = selected
 }

@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: "kotlin-kapt"
 apply plugin: "com.google.gms.google-services"
+apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
@@ -13,7 +14,7 @@ android {
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0-SNAPSHOT-1"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -102,7 +103,10 @@ dependencies {
     //Shimmer
     implementation "com.facebook.shimmer:shimmer:$shimmer_version"
 
+    // Firebase
     implementation 'com.google.firebase:firebase-analytics:17.4.0'
+    implementation 'com.google.firebase:firebase-crashlytics:17.0.0'
+    implementation 'com.google.firebase:firebase-firestore-ktx:21.4.3'
 
     implementation 'com.android.support:multidex:1.0.3'
 

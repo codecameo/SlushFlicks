@@ -72,4 +72,12 @@ class HomeModule {
     ): NowPlayingRepository {
         return NowPlayingRepository(movieService, apiKey, dataManager, networkStateManager)
     }
+
+    @HomeScope
+    @Provides
+    fun provideMovieHomeRepository(
+        dataManager: DataManager
+    ): MovieHomeRepository {
+        return MovieHomeRepository(dataManager)
+    }
 }

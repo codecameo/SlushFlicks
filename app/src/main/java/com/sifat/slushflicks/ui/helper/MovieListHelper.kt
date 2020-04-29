@@ -13,6 +13,9 @@ import com.sifat.slushflicks.ui.state.MetaData
 import com.sifat.slushflicks.utils.EMPTY_STRING
 import com.sifat.slushflicks.utils.getListImageUrl
 
+/**
+ * Provide view for loading state
+ * */
 fun getMovieListLoadingModels(): List<MovieListModel> {
     val list = mutableListOf<MovieListModel>()
     for (count in 0..5) {

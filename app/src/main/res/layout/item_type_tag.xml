@@ -1,18 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
-    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="com.sifat.slushflicks.ui.base.ListViewState" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="state"
+            type="ListViewState" />
+
+        <variable
+            name="model"
+            type="com.sifat.slushflicks.model.CollectionModel" />
+    </data>
+
+    <com.facebook.shimmer.ShimmerFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/selector_tag"
-        android:textColor="@drawable/selector_tag_text"
-        android:paddingLeft="@dimen/quarter_less_standard_half"
-        android:paddingTop="@dimen/small_margin"
-        android:paddingRight="@dimen/quarter_less_standard_half"
-        android:fontFamily="sans-serif-medium"
-        android:paddingBottom="@dimen/small_margin"
-        android:layout_marginLeft="@dimen/small_margin"
-        android:layout_marginRight="@dimen/small_margin"
-        android:textAllCaps="true"
-        android:text="Popular" />
+        app:shimmer="@{state}">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/small_margin"
+                android:layout_marginRight="@dimen/small_margin"
+                android:background="@drawable/selector_tag"
+                android:fontFamily="sans-serif-medium"
+                android:paddingLeft="@dimen/quarter_less_standard_half"
+                android:paddingTop="@dimen/small_margin"
+                android:paddingRight="@dimen/quarter_less_standard_half"
+                android:paddingBottom="@dimen/small_margin"
+                android:text="@{model.name}"
+                android:textAllCaps="true"
+                android:textColor="@drawable/selector_tag_text"
+                android:visibility="@{state == ListViewState.LOADING? View.GONE : View.VISIBLE}"
+                app:selected="@{model.enable}"
+                tools:text="Popular"
+                tools:visibility="invisible" />
+
+            <View
+                android:layout_width="@dimen/small_loading_width"
+                android:layout_height="@dimen/loading_height"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/small_margin"
+                android:layout_marginTop="@dimen/tiny_margin"
+                android:layout_marginEnd="@dimen/small_margin"
+                android:layout_marginBottom="@dimen/tiny_margin"
+                android:background="@color/loading_color"
+                android:visibility="@{state == ListViewState.LOADING? View.VISIBLE : View.GONE}" />
+
+        </FrameLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
 </layout>

@@ -10,9 +10,9 @@ import com.sifat.slushflicks.databinding.FragmentMovieListBinding
 import com.sifat.slushflicks.ui.base.BaseFragment
 import com.sifat.slushflicks.ui.home.adapter.MovieListAdapter
 import com.sifat.slushflicks.ui.home.adapter.model.MovieListModel
-import com.sifat.slushflicks.ui.home.movie.state.MovieListDataAction
-import com.sifat.slushflicks.ui.home.movie.state.MovieListEventState
-import com.sifat.slushflicks.ui.home.movie.state.MovieListViewAction
+import com.sifat.slushflicks.ui.home.movie.state.dataaction.MovieListDataAction
+import com.sifat.slushflicks.ui.home.movie.state.event.MovieListEventState
+import com.sifat.slushflicks.ui.home.movie.state.viewaction.MovieListViewAction
 import com.sifat.slushflicks.ui.home.movie.viewmodel.BaseMovieListViewModel
 import com.sifat.slushflicks.ui.state.ViewState
 

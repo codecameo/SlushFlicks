@@ -2,6 +2,10 @@ package com.sifat.slushflicks.di.app
 
 import android.content.Context
 import androidx.room.Room
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreSettings
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.sifat.slushflicks.BuildConfig
@@ -77,12 +81,23 @@ class AppModule {
         return NetworkStateManager(context)
     }
 
-    @Provides
     @AppScope
+    @Provides
     fun provideAppDb(context: Context, @Named(NAME_DATABASE) name : String): AppDatabase {
         return Room
             .databaseBuilder(context, AppDatabase::class.java, name)
             .fallbackToDestructiveMigration()
             .build()
+    }
+
+    @AppScope
+    @Provides
+    fun provideFireStore(): FirebaseFirestore {
+        val fireStore = Firebase.firestore
+        val settings = FirebaseFirestoreSettings.Builder()
+            .setPersistenceEnabled(true)
+            .build()
+        fireStore.firestoreSettings = settings
+        return fireStore
     }
 }
