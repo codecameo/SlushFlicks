@@ -8,10 +8,4 @@ class DbConstant {
             const val TABLE_NAME_MOVIE_TYPE = "movie_type_table"
         }
     }
-
-    class Label {
-        companion object {
-            const val TRENDING_LABEL = "trending"
-        }
-    }
 }

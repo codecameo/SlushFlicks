@@ -5,6 +5,7 @@ import com.example.slushflicks.api.home.movie.model.MovieListApiModel
 import com.example.slushflicks.model.GenreModel
 import com.example.slushflicks.model.MovieCollectionModel
 import com.example.slushflicks.model.MovieModel
+import com.example.slushflicks.model.MovieModelMinimal
 import com.example.slushflicks.ui.base.ListViewState
 import com.example.slushflicks.ui.base.ListViewState.LOADING
 import com.example.slushflicks.ui.home.adapter.model.MovieListModel
@@ -23,7 +24,7 @@ fun getMovieListLoadingModels(): List<MovieListModel> {
 /**
  * This conversion converts model to List models for view state
  * */
-fun getMovieListModel(movies: List<MovieModel>): List<MovieListModel> {
+fun getMovieListModel(movies: List<MovieModelMinimal>): List<MovieListModel> {
     val movieListModels = mutableListOf<MovieListModel>()
     for (movie in movies) {
         val movieListModel = MovieListModel(movie, ListViewState.VIEW)
@@ -59,6 +60,23 @@ fun getMovieList(
         }
     }
     return movieModels
+}
+
+fun getMovieMinimalModel(movies: List<MovieModel>?): List<MovieModelMinimal>? {
+    if (movies.isNullOrEmpty()) return null
+    val moviesMinimalList = mutableListOf<MovieModelMinimal>()
+    for (movie in movies) {
+        val movieModelMinimal = MovieModelMinimal(
+            id = movie.id,
+            overview = movie.overview,
+            title = movie.title,
+            genres = movie.genres,
+            voteAvg = movie.voteAvg,
+            backdropPath = movie.backdropPath
+        )
+        moviesMinimalList.add(movieModelMinimal)
+    }
+    return moviesMinimalList
 }
 
 fun getGenresModels(

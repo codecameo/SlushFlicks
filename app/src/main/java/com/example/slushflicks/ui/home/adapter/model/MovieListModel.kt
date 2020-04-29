@@ -1,11 +1,11 @@
 package com.example.slushflicks.ui.home.adapter.model
 
+import com.example.slushflicks.model.MovieModelMinimal
 import com.example.slushflicks.ui.base.ListModel
 import com.example.slushflicks.ui.base.ListViewState
-import com.example.slushflicks.model.MovieModel
 
-class MovieListModel(data: MovieModel? = null, state: ListViewState) :
-    ListModel<MovieModel>(data, state) {
+class MovieListModel(data: MovieModelMinimal? = null, state: ListViewState) :
+    ListModel<MovieModelMinimal>(data, state) {
     override fun getViewType() = MOVIE_LIST_VIEW_TYPE
 
     companion object {

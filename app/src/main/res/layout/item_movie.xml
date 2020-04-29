@@ -13,7 +13,7 @@
 
         <variable
             name="model"
-            type="com.example.slushflicks.model.MovieModel" />
+            type="com.example.slushflicks.model.MovieModelMinimal" />
     </data>
 
     <com.facebook.shimmer.ShimmerFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"

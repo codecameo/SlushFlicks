@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
 import com.example.slushflicks.R
 import com.example.slushflicks.databinding.ItemMovieBinding
 import com.example.slushflicks.ui.home.adapter.diffutils.MovieDiffUtils
@@ -24,5 +23,7 @@ class MovieListAdapter : ListAdapter<MovieListModel, MovieViewHolder>(MovieDiffU
         holder.bindTo(getItem(position))
     }
 
-
+    override fun submitList(list: List<MovieListModel>?) {
+        super.submitList(list?.toMutableList())
+    }
 }

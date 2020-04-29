@@ -1,6 +1,6 @@
 package com.example.slushflicks.di.home.movie
 
-import com.example.slushflicks.ui.home.movie.fragment.TrendingFragment
+import com.example.slushflicks.ui.home.movie.fragment.*
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -8,7 +8,23 @@ import dagger.android.ContributesAndroidInjector
 abstract class MovieFragmentBuilderModule {
 
     @MovieListScope
-    @ContributesAndroidInjector(modules = [TrendingViewModelModule::class])
+    @ContributesAndroidInjector
     internal abstract fun bindTrendingMovieFragment(): TrendingFragment
+
+    @MovieListScope
+    @ContributesAndroidInjector
+    internal abstract fun bindPopularMovieFragment(): PopularFragment
+
+    @MovieListScope
+    @ContributesAndroidInjector
+    internal abstract fun bindTopRatedMovieFragment(): TopRatedFragment
+
+    @MovieListScope
+    @ContributesAndroidInjector
+    internal abstract fun bindUpcomingMovieFragment(): UpcomingFragment
+
+    @MovieListScope
+    @ContributesAndroidInjector
+    internal abstract fun bindNowPlayingMovieFragment(): NowPlayingFragment
 
 }

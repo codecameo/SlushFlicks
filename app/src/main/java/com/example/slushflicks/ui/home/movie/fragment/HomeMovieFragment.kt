@@ -17,7 +17,7 @@ class HomeMovieFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         childFragmentManager.beginTransaction()
-            .replace(binding.container.id, TrendingFragment())
+            .replace(binding.container.id, TopRatedFragment())
             .commit()
 
         binding.rvTypeTag.adapter = TypeTagListAdapter()

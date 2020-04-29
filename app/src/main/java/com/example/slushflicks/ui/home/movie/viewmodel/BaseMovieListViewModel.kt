@@ -1,40 +1,32 @@
 package com.example.slushflicks.ui.home.movie.viewmodel
 
-import com.example.slushflicks.api.ApiSuccessResponse
-import com.example.slushflicks.di.home.HomeScope
-import com.example.slushflicks.repository.TrendingRepository
+import com.example.slushflicks.model.MovieModelMinimal
+import com.example.slushflicks.repository.BaseMovieListRepository
 import com.example.slushflicks.ui.base.BaseActionViewModel
 import com.example.slushflicks.ui.helper.getMovieListLoadingModels
 import com.example.slushflicks.ui.helper.getMovieListModel
 import com.example.slushflicks.ui.home.movie.state.MovieListDataAction
-import com.example.slushflicks.ui.home.movie.state.MovieListDataAction.FetchMovieListDataAction
 import com.example.slushflicks.ui.home.movie.state.MovieListEventState
-import com.example.slushflicks.ui.home.movie.state.MovieListEventState.FetchMovieListEvent
 import com.example.slushflicks.ui.home.movie.state.MovieListViewAction
 import com.example.slushflicks.ui.home.movie.state.viewstate.MovieListViewState
-import com.example.slushflicks.model.MovieModel
-import com.example.slushflicks.ui.helper.getMetaData
-import com.example.slushflicks.ui.helper.getMovieList
 import com.example.slushflicks.ui.state.DataState
-import com.example.slushflicks.ui.state.DataSuccessResponse
 import com.example.slushflicks.ui.state.ViewState
 import javax.inject.Inject
 
-@HomeScope
-class TrendingViewModel
-@Inject constructor(private val trendingRepository: TrendingRepository) :
+open class BaseMovieListViewModel
+@Inject constructor(private val repository: BaseMovieListRepository) :
     BaseActionViewModel<MovieListDataAction, MovieListViewAction, MovieListViewState>() {
     override var viewState = MovieListViewState()
 
     fun handleEvent(event: MovieListEventState) {
         when (event) {
-            is FetchMovieListEvent -> {
+            is MovieListEventState.FetchMovieListEvent -> {
                 fetchMovie(event)
             }
         }
     }
 
-    private fun fetchMovie(event: FetchMovieListEvent) {
+    private fun fetchMovie(event: MovieListEventState.FetchMovieListEvent) {
         if (!event.forceUpdate) {
             if (!viewState.movieList.isNullOrEmpty()) {
                 sendMovieListSuccessAction()
@@ -43,14 +35,14 @@ class TrendingViewModel
         }
         sendMovieListLoadingAction()
 
-        dataState.addSource(trendingRepository.getMovieList(viewState.nextPage())) { dataResponse ->
-            dataState.value = FetchMovieListDataAction(dataResponse)
+        dataState.addSource(repository.getMovieList(viewState.nextPage())) { dataResponse ->
+            dataState.value = MovieListDataAction.FetchMovieListDataAction(dataResponse)
         }
     }
 
-    fun setDataAction(action: FetchMovieListDataAction) {
+    fun setDataAction(action: MovieListDataAction.FetchMovieListDataAction) {
         when (val dataState = action.dataState) {
-            is DataState.Success<List<MovieModel>> -> {
+            is DataState.Success<List<MovieModelMinimal>> -> {
                 dataState.dataResponse.metaData?.run {
                     viewState.currentPage = page
                 }
@@ -60,7 +52,7 @@ class TrendingViewModel
                     sendMovieListSuccessAction()
                 }
             }
-            is DataState.Error<List<MovieModel>> -> {
+            is DataState.Error<List<MovieModelMinimal>> -> {
                 sendMovieListErrorAction()
             }
         }

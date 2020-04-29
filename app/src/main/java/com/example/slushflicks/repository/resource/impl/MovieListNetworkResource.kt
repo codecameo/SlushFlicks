@@ -7,27 +7,34 @@ import com.example.slushflicks.api.home.movie.MovieService
 import com.example.slushflicks.api.home.movie.model.MovieListApiModel
 import com.example.slushflicks.data.DataManager
 import com.example.slushflicks.model.MovieModel
+import com.example.slushflicks.model.MovieModelMinimal
 import com.example.slushflicks.repository.resource.type.NetworkFirstSilentUpdateResource
 import com.example.slushflicks.ui.helper.getCollectionModels
 import com.example.slushflicks.ui.helper.getMetaData
 import com.example.slushflicks.ui.helper.getMovieList
+import com.example.slushflicks.ui.helper.getMovieMinimalModel
 import com.example.slushflicks.ui.state.DataSuccessResponse
 import com.example.slushflicks.utils.api.NetworkStateManager
 import com.example.slushflicks.utils.livedata.AbsentLiveData
 import kotlinx.coroutines.Job
 
-class MovieListNetworkResource(
-    private val movieService: MovieService,
-    private val requestModel: RequestModel,
-    private val dataManager: DataManager,
+open class MovieListNetworkResource(
+    protected val movieService: MovieService,
+    protected val requestModel: RequestModel,
+    protected val dataManager: DataManager,
     private val collection: String,
     networkStateManager: NetworkStateManager
-) : NetworkFirstSilentUpdateResource<MovieListApiModel, List<MovieModel>, List<MovieModel>>(
+) : NetworkFirstSilentUpdateResource<MovieListApiModel, List<MovieModel>, List<MovieModelMinimal>>(
     networkStateManager
 ) {
 
     override fun createCall(): LiveData<ApiResponse<MovieListApiModel>> {
-        return movieService.getTrendingMovies(requestModel.apiKey, requestModel.page)
+        return movieService.getMoviesList(
+            apiKey = requestModel.apiKey,
+            page = requestModel.page,
+            tag = requestModel.apiTag,
+            collection = collection
+        )
     }
 
     override fun loadFromCache(): LiveData<List<MovieModel>> {
@@ -56,10 +63,10 @@ class MovieListNetworkResource(
 
     }
 
-    data class RequestModel(val page: Int, val apiKey: String)
+    data class RequestModel(val page: Int, val apiKey: String, val apiTag: String)
 
-    override fun getAppDataSuccessResponse(response: List<MovieModel>?): DataSuccessResponse<List<MovieModel>> {
-        return DataSuccessResponse(response)
+    override fun getAppDataSuccessResponse(response: List<MovieModel>?): DataSuccessResponse<List<MovieModelMinimal>> {
+        return DataSuccessResponse(getMovieMinimalModel(response))
     }
 
     override fun getDataSuccessResponse(response: ApiSuccessResponse<MovieListApiModel>): DataSuccessResponse<List<MovieModel>> {
