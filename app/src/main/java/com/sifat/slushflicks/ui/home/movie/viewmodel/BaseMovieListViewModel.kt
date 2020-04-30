@@ -1,15 +1,17 @@
 package com.sifat.slushflicks.ui.home.movie.viewmodel
 
+import android.util.Log
+import androidx.paging.PagedList
 import com.sifat.slushflicks.model.MovieModelMinimal
 import com.sifat.slushflicks.repository.BaseMovieListRepository
 import com.sifat.slushflicks.ui.base.BaseActionViewModel
-import com.sifat.slushflicks.ui.helper.getMovieListLoadingModels
-import com.sifat.slushflicks.ui.helper.getMovieListModel
 import com.sifat.slushflicks.ui.home.movie.state.dataaction.MovieListDataAction
-import com.sifat.slushflicks.ui.home.movie.state.dataaction.MovieListDataAction.FetchMovieListDataAction
+import com.sifat.slushflicks.ui.home.movie.state.dataaction.MovieListDataAction.FetchCacheMovieListDataAction
+import com.sifat.slushflicks.ui.home.movie.state.dataaction.MovieListDataAction.FetchNetworkMovieListDataAction
 import com.sifat.slushflicks.ui.home.movie.state.event.MovieListEventState
 import com.sifat.slushflicks.ui.home.movie.state.event.MovieListEventState.FetchMovieListEvent
 import com.sifat.slushflicks.ui.home.movie.state.viewaction.MovieListViewAction
+import com.sifat.slushflicks.ui.home.movie.state.viewaction.MovieListViewAction.FetchCacheMovieListViewAction
 import com.sifat.slushflicks.ui.home.movie.state.viewstate.MovieListViewState
 import com.sifat.slushflicks.ui.state.DataState
 import com.sifat.slushflicks.ui.state.DataState.Error
@@ -20,6 +22,8 @@ open class BaseMovieListViewModel
 @Inject constructor(private val repository: BaseMovieListRepository) :
     BaseActionViewModel<MovieListDataAction, MovieListViewAction, MovieListViewState>() {
     override var viewState = MovieListViewState()
+
+    private val TAG = "BaseMovieListViewModel"
 
     fun handleEvent(event: MovieListEventState) {
         when (event) {
@@ -37,32 +41,69 @@ open class BaseMovieListViewModel
             }
         }
         sendMovieListLoadingAction()
+        val initialUpdate = repository.getMovieList(viewState.nextPage())
+        dataState.addSource(initialUpdate) { dataResponse ->
+            dataState.removeSource(initialUpdate)
+            dataState.value = FetchNetworkMovieListDataAction(dataResponse)
+        }
+        fetchFromCache()
+    }
 
-        dataState.addSource(repository.getMovieList(viewState.nextPage())) { dataResponse ->
-            dataState.value = FetchMovieListDataAction(dataResponse)
+    private fun fetchFromCache() {
+        dataState.addSource(repository.getPagingMovieList(boundaryCallback)) { dataResponse ->
+            dataState.value = FetchCacheMovieListDataAction(dataResponse)
         }
     }
 
-    fun setDataAction(action: FetchMovieListDataAction) {
-        when (val dataState = action.dataState) {
-            is DataState.Success<List<MovieModelMinimal>> -> {
-                dataState.dataResponse.metaData?.run {
-                    viewState.currentPage = page
-                }
+    private fun updateCache() {
+        if (viewState.currentPage < viewState.totalPage) {
+            val networkUpdate = repository.getMovieList(viewState.nextPage())
+            dataState.addSource(networkUpdate) { dataResponse ->
+                dataState.removeSource(networkUpdate)
+                dataState.value = FetchNetworkMovieListDataAction(dataResponse)
+            }
+        }
+    }
 
+    fun setDataAction(actionCache: FetchCacheMovieListDataAction) {
+        when (val dataState = actionCache.dataState) {
+            is DataState.Success<PagedList<MovieModelMinimal>> -> {
                 dataState.dataResponse.data?.let { movie ->
-                    viewState.movieList = getMovieListModel(movie)
+                    viewState.movieList = movie
                     sendMovieListSuccessAction()
                 }
             }
-            is Error<List<MovieModelMinimal>> -> {
+            is Error<PagedList<MovieModelMinimal>> -> {
                 sendMovieListErrorAction(dataState)
             }
         }
     }
 
-    private fun sendMovieListErrorAction(dataState: Error<List<MovieModelMinimal>>) {
-        getAction().value = MovieListViewAction.FetchMovieListViewAction(
+    fun setDataAction(actionNetwork: FetchNetworkMovieListDataAction) {
+        when (val dataState = actionNetwork.dataState) {
+            is DataState.Success<Int> -> {
+                dataState.dataResponse.metaData?.run {
+                    viewState.totalPage = totalPage
+                    viewState.currentPage = page
+                    Log.d(TAG, "Page -> $page")
+                }
+            }
+            is Error<Int> -> {
+                sendMovieListUpdateErrorAction(dataState)
+            }
+        }
+    }
+
+    private fun sendMovieListErrorAction(dataState: Error<PagedList<MovieModelMinimal>>) {
+        getAction().value = FetchCacheMovieListViewAction(
+            ViewState.Error(
+                errorMessage = dataState.dataResponse.errorMessage
+            )
+        )
+    }
+
+    private fun sendMovieListUpdateErrorAction(dataState: Error<Int>) {
+        getAction().value = MovieListViewAction.FetchNetworkMovieListViewAction(
             ViewState.Error(
                 errorMessage = dataState.dataResponse.errorMessage
             )
@@ -73,7 +114,7 @@ open class BaseMovieListViewModel
      * Send movie list to the view
      * */
     private fun sendMovieListSuccessAction() {
-        getAction().value = MovieListViewAction.FetchMovieListViewAction(
+        getAction().value = FetchCacheMovieListViewAction(
             ViewState.Success(
                 viewState.movieList
             )
@@ -84,10 +125,20 @@ open class BaseMovieListViewModel
      * Send loading action to the view
      * */
     private fun sendMovieListLoadingAction() {
-        getAction().value = MovieListViewAction.FetchMovieListViewAction(
+        getAction().value = FetchCacheMovieListViewAction(
             ViewState.Loading(
-                getMovieListLoadingModels()
+                //getMovieListLoadingModels()
             )
         )
+    }
+
+    private val boundaryCallback = object : PagedList.BoundaryCallback<MovieModelMinimal>() {
+        override fun onItemAtEndLoaded(itemAtEnd: MovieModelMinimal) {
+            updateCache()
+        }
+
+        override fun onZeroItemsLoaded() {
+            super.onZeroItemsLoaded()
+        }
     }
 }

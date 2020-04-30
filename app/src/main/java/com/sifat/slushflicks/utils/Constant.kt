@@ -15,3 +15,4 @@ const val EMPTY_STRING = ""
 const val INVALID_ID = -1
 const val SPACE = " "
 const val BULLET_SIGN = "\u2022"
+const val PAGE_SIZE = 20

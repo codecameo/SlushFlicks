@@ -3,14 +3,17 @@ package com.sifat.slushflicks.ui.home.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.ListAdapter
+import androidx.paging.PagedListAdapter
 import com.sifat.slushflicks.R
 import com.sifat.slushflicks.databinding.ItemMovieBinding
+import com.sifat.slushflicks.model.MovieModelMinimal
+import com.sifat.slushflicks.ui.base.ListViewState
 import com.sifat.slushflicks.ui.home.adapter.diffutils.MovieDiffUtils
-import com.sifat.slushflicks.ui.home.adapter.model.MovieListModel
 import com.sifat.slushflicks.ui.home.adapter.viewholder.MovieViewHolder
 
-class MovieListAdapter : ListAdapter<MovieListModel, MovieViewHolder>(MovieDiffUtils()) {
+class MovieListAdapter : PagedListAdapter<MovieModelMinimal, MovieViewHolder>(MovieDiffUtils()) {
+
+    var loadingState = ListViewState.LOADING
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -20,10 +23,11 @@ class MovieListAdapter : ListAdapter<MovieListModel, MovieViewHolder>(MovieDiffU
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        holder.bindTo(getItem(position))
-    }
-
-    override fun submitList(list: List<MovieListModel>?) {
-        super.submitList(list?.toMutableList())
+        getItem(position)?.let { movie ->
+            holder.bindTo(
+                model = movie,
+                state = loadingState
+            )
+        }
     }
 }

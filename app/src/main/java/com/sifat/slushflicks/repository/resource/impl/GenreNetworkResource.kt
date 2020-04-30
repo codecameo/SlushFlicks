@@ -31,8 +31,8 @@ class GenreNetworkResource(
 
     }
 
-    override fun getAppDataSuccessResponse(response: List<GenreModel>?): DataSuccessResponse<List<GenreModel>> {
-        return DataSuccessResponse(response)
+    override fun getAppDataSuccessResponse(response: DataSuccessResponse<List<GenreModel>>): DataSuccessResponse<List<GenreModel>> {
+        return response
     }
 
     override fun getDataSuccessResponse(response: ApiSuccessResponse<GenreListApiModel>): DataSuccessResponse<List<GenreModel>> {

@@ -22,7 +22,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, SplashViewModel>() {
     private lateinit var scaleAnimator: ValueAnimator
     private val handler = Handler()
     private val splashTime = 3000L
-    private val animationDuration = 1000L
+    private val animationDuration = 1500L
     private val nextScreenAction = Runnable {
         viewModel.setGenreList().observe(this, Observer {
             moveToNextScreen()
@@ -37,7 +37,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, SplashViewModel>() {
     }
 
     private fun setAnimation() {
-        scaleAnimator = ValueAnimator.ofFloat(0.75f, 1.5f)
+        scaleAnimator = ValueAnimator.ofFloat(0.85f, 1.15f)
         scaleAnimator.duration = animationDuration
         scaleAnimator.repeatMode = REVERSE
         scaleAnimator.repeatCount = INFINITE

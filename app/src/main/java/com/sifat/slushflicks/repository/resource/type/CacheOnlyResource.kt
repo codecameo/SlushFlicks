@@ -6,10 +6,12 @@ import com.sifat.slushflicks.api.ApiSuccessResponse
 import com.sifat.slushflicks.repository.resource.NetworkBoundResource
 import com.sifat.slushflicks.ui.state.DataErrorResponse
 import com.sifat.slushflicks.ui.state.DataState
+import com.sifat.slushflicks.ui.state.DataSuccessResponse
 import com.sifat.slushflicks.utils.livedata.AbsentLiveData
 import kotlinx.coroutines.Job
 
-abstract class CacheOnlyResource<ApiData, CacheData, AppData> : NetworkBoundResource<ApiData, CacheData, AppData>() {
+abstract class CacheOnlyResource<ApiData, CacheData, AppData> :
+    NetworkBoundResource<ApiData, CacheData, AppData>() {
 
     override fun execute() {
         super.execute()
@@ -19,7 +21,15 @@ abstract class CacheOnlyResource<ApiData, CacheData, AppData> : NetworkBoundReso
     override suspend fun createCacheRequestAndReturn() {
         val cacheResponse = getFromCache()
         cacheResponse?.let { data ->
-            onCompleteJob(DataState.Success<AppData>(getAppDataSuccessResponse(data)))
+            onCompleteJob(
+                DataState.Success<AppData>(
+                    getAppDataSuccessResponse(
+                        DataSuccessResponse(
+                            data = data
+                        )
+                    )
+                )
+            )
         } ?: onCompleteJob(DataState.Error<AppData>(DataErrorResponse()))
     }
 

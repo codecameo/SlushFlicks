@@ -6,11 +6,11 @@ import com.sifat.slushflicks.model.GenreModel
 import com.sifat.slushflicks.model.MovieCollectionModel
 import com.sifat.slushflicks.model.MovieModel
 import com.sifat.slushflicks.model.MovieModelMinimal
-import com.sifat.slushflicks.ui.base.ListViewState
 import com.sifat.slushflicks.ui.base.ListViewState.LOADING
 import com.sifat.slushflicks.ui.home.adapter.model.MovieListModel
 import com.sifat.slushflicks.ui.state.MetaData
 import com.sifat.slushflicks.utils.EMPTY_STRING
+import com.sifat.slushflicks.utils.PAGE_SIZE
 import com.sifat.slushflicks.utils.getListImageUrl
 
 /**
@@ -27,14 +27,14 @@ fun getMovieListLoadingModels(): List<MovieListModel> {
 /**
  * This conversion converts model to List models for view state
  * */
-fun getMovieListModel(movies: List<MovieModelMinimal>): List<MovieListModel> {
+/*fun getMovieListModel(movies: PagedList<MovieModelMinimal>): PagedList<MovieListModel> {
     val movieListModels = mutableListOf<MovieListModel>()
     for (movie in movies) {
         val movieListModel = MovieListModel(movie, ListViewState.VIEW)
         movieListModels.add(movieListModel)
     }
     return movieListModels
-}
+}*/
 
 /**
  * This conversion discard unnecessary data returned from api
@@ -107,13 +107,17 @@ fun getMetaData(movieListApiModel: MovieListApiModel?): MetaData? {
     }
 }
 
-fun getCollectionModels(movies: List<MovieModel>, collection: String): List<MovieCollectionModel> {
+fun getCollectionModels(
+    movies: List<MovieModel>,
+    collection: String,
+    page: Int
+): List<MovieCollectionModel> {
     val collectionList = mutableListOf<MovieCollectionModel>()
     for (index in movies.indices) {
         val collectionModel = MovieCollectionModel(
             collection = collection,
             id = movies[index].id,
-            index = index
+            index = ((page - 1) * PAGE_SIZE) + index
         )
         collectionList.add(collectionModel)
     }

@@ -137,7 +137,7 @@ abstract class NetworkBoundResource<ApiData, CacheData, AppData> {
     /**
      * In case of local cache wrap it with [DataResponse]
      * */
-    abstract fun getAppDataSuccessResponse(response: CacheData?): DataSuccessResponse<AppData>
+    abstract fun getAppDataSuccessResponse(response: DataSuccessResponse<CacheData>): DataSuccessResponse<AppData>
 
     // ApiResponse is needed in case there is message from the api
     abstract fun getDataSuccessResponse(response: ApiSuccessResponse<ApiData>): DataSuccessResponse<CacheData>

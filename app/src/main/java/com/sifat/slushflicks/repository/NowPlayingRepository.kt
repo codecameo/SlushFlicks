@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import com.sifat.slushflicks.api.ApiTag.Companion.NOW_PLAYING_API_TAG
 import com.sifat.slushflicks.api.home.movie.MovieService
 import com.sifat.slushflicks.data.DataManager
-import com.sifat.slushflicks.model.MovieModelMinimal
 import com.sifat.slushflicks.repository.resource.impl.MovieListNetworkResource
 import com.sifat.slushflicks.ui.state.DataState
 import com.sifat.slushflicks.utils.Label.Companion.NOW_PLAYING_LABEL
@@ -16,8 +15,10 @@ class NowPlayingRepository(
     dataManager: DataManager,
     networkStateManager: NetworkStateManager
 ) : BaseMovieListRepository(movieService, apiKey, dataManager, networkStateManager) {
+    override val collection: String
+        get() = NOW_PLAYING_LABEL
 
-    override fun getMovieList(nextPage: Int): LiveData<DataState<List<MovieModelMinimal>>> {
+    override fun getMovieList(nextPage: Int): LiveData<DataState<Int>> {
         val requestModel = MovieListNetworkResource.RequestModel(
             page = nextPage,
             apiKey = apiKey,
@@ -28,7 +29,7 @@ class NowPlayingRepository(
             movieService = movieService,
             networkStateManager = networkStateManager,
             dataManager = dataManager,
-            collection = NOW_PLAYING_LABEL
+            collection = collection
         )
         return movieListNetworkResource.asLiveData()
     }

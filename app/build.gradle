@@ -78,6 +78,10 @@ dependencies {
     implementation "androidx.navigation:navigation-ui:$nav_version"
     implementation "androidx.navigation:navigation-runtime:$nav_version"
 
+    // Paging Library
+    implementation 'android.arch.paging:runtime:1.0.1'
+    implementation "androidx.paging:paging-runtime-ktx:2.1.2"
+
     //Room
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"

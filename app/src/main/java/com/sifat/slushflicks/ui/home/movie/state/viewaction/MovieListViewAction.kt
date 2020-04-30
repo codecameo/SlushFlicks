@@ -1,6 +1,7 @@
 package com.sifat.slushflicks.ui.home.movie.state.viewaction
 
-import com.sifat.slushflicks.ui.home.adapter.model.MovieListModel
+import androidx.paging.PagedList
+import com.sifat.slushflicks.model.MovieModelMinimal
 import com.sifat.slushflicks.ui.state.ViewState
 
 /**
@@ -9,6 +10,9 @@ import com.sifat.slushflicks.ui.state.ViewState
  * (ex: showing shimmer or asyc loading for that particular view part instead of global loading)
  * */
 sealed class MovieListViewAction {
-    class FetchMovieListViewAction(val viewState: ViewState<List<MovieListModel>>) :
+    class FetchCacheMovieListViewAction(val viewState: ViewState<PagedList<MovieModelMinimal>>) :
+        MovieListViewAction()
+
+    class FetchNetworkMovieListViewAction(val viewState: ViewState<Int>) :
         MovieListViewAction()
 }

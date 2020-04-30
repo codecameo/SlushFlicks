@@ -1,15 +1,18 @@
 package com.sifat.slushflicks.ui.home.adapter.diffutils
 
 import androidx.recyclerview.widget.DiffUtil
-import com.sifat.slushflicks.ui.home.adapter.model.MovieListModel
+import com.sifat.slushflicks.model.MovieModelMinimal
 
-class MovieDiffUtils : DiffUtil.ItemCallback<MovieListModel>() {
+class MovieDiffUtils : DiffUtil.ItemCallback<MovieModelMinimal>() {
 
-    override fun areItemsTheSame(oldItem: MovieListModel, newItem: MovieListModel): Boolean {
-        return oldItem.data?.id == newItem.data?.id
+    override fun areItemsTheSame(oldItem: MovieModelMinimal, newItem: MovieModelMinimal): Boolean {
+        return oldItem.id == newItem.id
     }
 
-    override fun areContentsTheSame(oldItem: MovieListModel, newItem: MovieListModel): Boolean {
-        return oldItem.data == newItem.data
+    override fun areContentsTheSame(
+        oldItem: MovieModelMinimal,
+        newItem: MovieModelMinimal
+    ): Boolean {
+        return oldItem == newItem
     }
 }

@@ -7,12 +7,11 @@ import com.sifat.slushflicks.api.home.movie.MovieService
 import com.sifat.slushflicks.api.home.movie.model.MovieListApiModel
 import com.sifat.slushflicks.data.DataManager
 import com.sifat.slushflicks.model.MovieModel
-import com.sifat.slushflicks.model.MovieModelMinimal
-import com.sifat.slushflicks.repository.resource.type.NetworkFirstSilentUpdateResource
+import com.sifat.slushflicks.repository.resource.type.NetworkOnlyResource
 import com.sifat.slushflicks.ui.helper.getCollectionModels
 import com.sifat.slushflicks.ui.helper.getMetaData
 import com.sifat.slushflicks.ui.helper.getMovieList
-import com.sifat.slushflicks.ui.helper.getMovieMinimalModel
+import com.sifat.slushflicks.ui.state.DataState
 import com.sifat.slushflicks.ui.state.DataSuccessResponse
 import com.sifat.slushflicks.utils.api.NetworkStateManager
 import com.sifat.slushflicks.utils.livedata.AbsentLiveData
@@ -24,7 +23,7 @@ open class MovieListNetworkResource(
     protected val dataManager: DataManager,
     private val collection: String,
     networkStateManager: NetworkStateManager
-) : NetworkFirstSilentUpdateResource<MovieListApiModel, List<MovieModel>, List<MovieModelMinimal>>(
+) : NetworkOnlyResource<MovieListApiModel, List<MovieModel>, Int>(
     networkStateManager
 ) {
 
@@ -46,13 +45,27 @@ open class MovieListNetworkResource(
         if (!cacheData.isNullOrEmpty()) {
             // Insert with Ignore strategy
             dataManager.softInsertMovie(cacheData)
-            val collectionModels = getCollectionModels(cacheData, collection)
+            val collectionModels = getCollectionModels(cacheData, collection, requestModel.page)
             if (requestModel.page == 1) {
                 dataManager.insertNewMovieCollection(collection, collectionModels)
             } else {
                 dataManager.addMovieCollection(collectionModels)
             }
         }
+    }
+
+    override suspend fun handleApiSuccessResponse(response: ApiSuccessResponse<MovieListApiModel>) {
+        /**
+         * Change Api response to data response which viewModel will use to
+         * show relevant information in view
+         * */
+        val dataSuccessResponse = getDataSuccessResponse(response)
+        updateLocalDb(dataSuccessResponse.data)
+        onCompleteJob(
+            DataState.Success<Int>(
+                getAppDataSuccessResponse(dataSuccessResponse)
+            )
+        )
     }
 
     override suspend fun getFromCache(): List<MovieModel>? {
@@ -65,8 +78,12 @@ open class MovieListNetworkResource(
 
     data class RequestModel(val page: Int, val apiKey: String, val apiTag: String)
 
-    override fun getAppDataSuccessResponse(response: List<MovieModel>?): DataSuccessResponse<List<MovieModelMinimal>> {
-        return DataSuccessResponse(getMovieMinimalModel(response))
+    override fun getAppDataSuccessResponse(response: DataSuccessResponse<List<MovieModel>>): DataSuccessResponse<Int> {
+        return DataSuccessResponse(
+            data = response.data?.size,
+            metaData = response.metaData,
+            message = response.message
+        )
     }
 
     override fun getDataSuccessResponse(response: ApiSuccessResponse<MovieListApiModel>): DataSuccessResponse<List<MovieModel>> {

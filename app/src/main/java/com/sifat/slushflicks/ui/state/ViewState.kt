@@ -5,7 +5,7 @@ import com.sifat.slushflicks.utils.EMPTY_STRING
 sealed class ViewState<Data> {
 
     class Loading<Data>(
-        val data: Data?
+        val data: Data? = null
     ) : ViewState<Data>()
 
     class Success<Data>(

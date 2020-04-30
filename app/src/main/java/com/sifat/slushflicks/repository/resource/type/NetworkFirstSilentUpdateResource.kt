@@ -5,6 +5,7 @@ import com.sifat.slushflicks.api.ApiSuccessResponse
 import com.sifat.slushflicks.repository.resource.NetworkBoundResource
 import com.sifat.slushflicks.ui.state.DataErrorResponse
 import com.sifat.slushflicks.ui.state.DataState
+import com.sifat.slushflicks.ui.state.DataSuccessResponse
 import com.sifat.slushflicks.utils.api.NetworkStateManager
 
 abstract class NetworkFirstSilentUpdateResource<ApiData, CacheData, AppData>(private val networkStateManager: NetworkStateManager) :
@@ -31,14 +32,22 @@ abstract class NetworkFirstSilentUpdateResource<ApiData, CacheData, AppData>(pri
         val dataSuccessResponse = getDataSuccessResponse(response)
         updateLocalDb(dataSuccessResponse.data)
         onCompleteJob(
-            DataState.Success<AppData>(getAppDataSuccessResponse(dataSuccessResponse.data))
+            DataState.Success<AppData>(getAppDataSuccessResponse(dataSuccessResponse))
         )
     }
 
     override suspend fun createCacheRequestAndReturn() {
         val cacheResponse = getFromCache()
         cacheResponse?.let { data ->
-            onCompleteJob(DataState.Success<AppData>(getAppDataSuccessResponse(data)))
+            onCompleteJob(
+                DataState.Success<AppData>(
+                    getAppDataSuccessResponse(
+                        DataSuccessResponse(
+                            data
+                        )
+                    )
+                )
+            )
         } ?: onCompleteJob(DataState.Error<AppData>(DataErrorResponse()))
     }
 }
