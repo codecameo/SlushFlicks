@@ -93,5 +93,4 @@ open class MovieListNetworkResource(
             message = response.message
         )
     }
-
 }

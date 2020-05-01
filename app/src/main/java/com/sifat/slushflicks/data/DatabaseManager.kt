@@ -1,5 +1,6 @@
 package com.sifat.slushflicks.data
 
+import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import com.sifat.slushflicks.model.GenreModel
 import com.sifat.slushflicks.model.MovieCollectionModel
@@ -24,4 +25,10 @@ interface DatabaseManager {
     fun getPagingMovies(collection: String): DataSource.Factory<Int, MovieModelMinimal>
 
     suspend fun addMovieCollection(collectionModels: List<MovieCollectionModel>)
+
+    fun getMovieDetails(movieId: Long): LiveData<MovieModel>
+
+    suspend fun insertMovieDetails(movie: MovieModel)
+
+    suspend fun updateMovieDetails(model: MovieModel)
 }

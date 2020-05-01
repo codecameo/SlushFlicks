@@ -2,11 +2,14 @@ package com.sifat.slushflicks.api
 
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.GENRES_MOVIE_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.GENRES_TV_URL
+import com.sifat.slushflicks.api.ApiEndPoint.Companion.MOVIE_DETAILS_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.NOW_PLAYING_MOVIE_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.POPULAR_MOVIE_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.TOP_RATED_MOVIE_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.TRENDING_MOVIE_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.UPCOMING_MOVIE_URL
+import com.sifat.slushflicks.api.ApiRequest.Companion.PATH_COLLECTION
+import com.sifat.slushflicks.api.ApiRequest.Companion.PATH_MOVIE_ID
 import com.sifat.slushflicks.api.MethodName.Companion.GET
 
 enum class ImageDimension(val dimension : String) {
@@ -24,12 +27,16 @@ class ApiRequest {
     companion object {
         const val QUERY_KEY_API_KEY = "api_key"
         const val QUERY_KEY_PAGE = "page"
+        const val PATH_COLLECTION = "collection"
+        const val PATH_MOVIE_ID = "movie_id"
     }
 }
 
 class ApiEndPoint {
     companion object {
         const val TRENDING_MOVIE_URL = "trending/movie/day"
+        const val MOVIE_DETAILS_URL = "movie/{$PATH_MOVIE_ID}"
+        const val MOVIE_COLLECTION_URL = "movie/{$PATH_COLLECTION}"
         const val GENRES_MOVIE_URL = "genre/movie/list"
         const val GENRES_TV_URL = "genre/tv/list"
         const val POPULAR_MOVIE_URL = "movie/popular"
@@ -54,6 +61,7 @@ class ApiTag {
         const val NOW_PLAYING_API_TAG = NOW_PLAYING_MOVIE_URL + GET
         const val UPCOMING_API_TAG = UPCOMING_MOVIE_URL + GET
         const val TOP_RATED_API_TAG = TOP_RATED_MOVIE_URL + GET
+        const val MOVIE_DETAIL_API_TAG = MOVIE_DETAILS_URL + GET
     }
 }
 

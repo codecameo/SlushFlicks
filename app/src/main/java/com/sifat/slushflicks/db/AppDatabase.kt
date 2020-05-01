@@ -12,7 +12,7 @@ import com.sifat.slushflicks.model.MovieModel
 
 @Database(
     entities = [GenreModel::class, MovieModel::class, MovieCollectionModel::class],
-    version = 2
+    version = 4
 )
 @TypeConverters(RoomConverter::class)
 abstract class AppDatabase: RoomDatabase() {

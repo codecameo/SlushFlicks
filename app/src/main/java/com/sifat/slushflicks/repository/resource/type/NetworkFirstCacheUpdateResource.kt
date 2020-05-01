@@ -8,7 +8,7 @@ import com.sifat.slushflicks.ui.state.DataState
 import com.sifat.slushflicks.ui.state.DataSuccessResponse
 import com.sifat.slushflicks.utils.api.NetworkStateManager
 
-abstract class NetworkFirstSilentUpdateResource<ApiData, CacheData, AppData>(private val networkStateManager: NetworkStateManager) :
+abstract class NetworkFirstCacheUpdateResource<ApiData, CacheData, AppData>(private val networkStateManager: NetworkStateManager) :
     NetworkBoundResource<ApiData, CacheData, AppData>() {
 
     override fun execute() {

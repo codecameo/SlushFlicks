@@ -1,5 +1,6 @@
 package com.sifat.slushflicks.data.impl
 
+import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import com.sifat.slushflicks.data.DatabaseManager
 import com.sifat.slushflicks.db.AppDatabase
@@ -45,5 +46,17 @@ class DatabaseManagerImpl
 
     override suspend fun addMovieCollection(collectionModels: List<MovieCollectionModel>) {
         database.getCollectionDao().insertReplace(collectionModels)
+    }
+
+    override fun getMovieDetails(movieId: Long): LiveData<MovieModel> {
+        return database.getMovieDao().getMovie(movieId)
+    }
+
+    override suspend fun insertMovieDetails(movie: MovieModel) {
+        database.getMovieDao().insertReplace(movie)
+    }
+
+    override suspend fun updateMovieDetails(model: MovieModel) {
+        database.getMovieDao().update(model)
     }
 }

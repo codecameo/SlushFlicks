@@ -3,6 +3,7 @@ package com.sifat.slushflicks.db
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.sifat.slushflicks.model.CastModel
 import com.sifat.slushflicks.model.GenreModel
 
 object RoomConverter {
@@ -18,5 +19,18 @@ object RoomConverter {
     fun stringToGenres(genres: String?): List<GenreModel> {
         val token = object : TypeToken<List<GenreModel>>() {}.type
         return Gson().fromJson<List<GenreModel>>(genres, token)
+    }
+
+    @TypeConverter
+    @JvmStatic
+    fun castsToString(casts: List<CastModel>): String {
+        return Gson().toJson(casts)
+    }
+
+    @TypeConverter
+    @JvmStatic
+    fun stringToCasts(casts: String?): List<CastModel> {
+        val token = object : TypeToken<List<CastModel>>() {}.type
+        return Gson().fromJson<List<CastModel>>(casts, token)
     }
 }

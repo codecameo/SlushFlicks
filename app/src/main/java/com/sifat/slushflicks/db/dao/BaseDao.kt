@@ -3,6 +3,7 @@ package com.sifat.slushflicks.db.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
+import androidx.room.Update
 
 @Dao
 interface BaseDao<T> {
@@ -18,4 +19,6 @@ interface BaseDao<T> {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertIgnore(model: T)
 
+    @Update
+    suspend fun update(model: T)
 }

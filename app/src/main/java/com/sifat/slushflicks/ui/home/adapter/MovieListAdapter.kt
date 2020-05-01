@@ -14,12 +14,13 @@ import com.sifat.slushflicks.ui.home.adapter.viewholder.MovieViewHolder
 class MovieListAdapter : PagedListAdapter<MovieModelMinimal, MovieViewHolder>(MovieDiffUtils()) {
 
     var loadingState = ListViewState.LOADING
+    lateinit var onMovieClickListener: MovieViewHolder.OnMovieClickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding =
             DataBindingUtil.inflate<ItemMovieBinding>(inflater, R.layout.item_movie, parent, false)
-        return MovieViewHolder((binding))
+        return MovieViewHolder(binding, onMovieClickListener)
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {

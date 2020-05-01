@@ -1,5 +1,6 @@
 package com.sifat.slushflicks.ui.home.movie.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -12,16 +13,20 @@ import com.sifat.slushflicks.model.MovieModelMinimal
 import com.sifat.slushflicks.ui.base.BaseFragment
 import com.sifat.slushflicks.ui.base.ListViewState.LOADING
 import com.sifat.slushflicks.ui.base.ListViewState.VIEW
+import com.sifat.slushflicks.ui.details.DetailsActivity
 import com.sifat.slushflicks.ui.home.adapter.MovieListAdapter
-import com.sifat.slushflicks.ui.home.movie.state.dataaction.MovieListDataAction
-import com.sifat.slushflicks.ui.home.movie.state.event.MovieListEventState
+import com.sifat.slushflicks.ui.home.adapter.viewholder.MovieViewHolder
+import com.sifat.slushflicks.ui.home.movie.state.dataaction.MovieListDataAction.FetchCacheMovieListDataAction
+import com.sifat.slushflicks.ui.home.movie.state.dataaction.MovieListDataAction.FetchNetworkMovieListDataAction
+import com.sifat.slushflicks.ui.home.movie.state.event.MovieListEventState.FetchMovieListEvent
 import com.sifat.slushflicks.ui.home.movie.state.viewaction.MovieListViewAction.FetchCacheMovieListViewAction
 import com.sifat.slushflicks.ui.home.movie.state.viewaction.MovieListViewAction.FetchNetworkMovieListViewAction
 import com.sifat.slushflicks.ui.home.movie.viewmodel.BaseMovieListViewModel
 import com.sifat.slushflicks.ui.state.ViewState
 
 abstract class BaseMovieListFragment<VM : BaseMovieListViewModel> :
-    BaseFragment<FragmentMovieListBinding, VM>(R.layout.fragment_movie_list) {
+    BaseFragment<FragmentMovieListBinding, VM>(R.layout.fragment_movie_list),
+    MovieViewHolder.OnMovieClickListener {
 
     protected lateinit var adapter: MovieListAdapter
     private var shouldForceUpdate = false
@@ -29,13 +34,14 @@ abstract class BaseMovieListFragment<VM : BaseMovieListViewModel> :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initVariable()
+        initListener()
         setupList()
         subscribeAction()
         fetchData()
     }
 
     private fun fetchData() {
-        viewModel.handleEvent(MovieListEventState.FetchMovieListEvent(shouldForceUpdate))
+        viewModel.handleEvent(FetchMovieListEvent(shouldForceUpdate))
     }
 
     private fun subscribeAction() {
@@ -52,14 +58,20 @@ abstract class BaseMovieListFragment<VM : BaseMovieListViewModel> :
 
         viewModel.observeDataAction().observe(viewLifecycleOwner, Observer { action ->
             when (action) {
-                is MovieListDataAction.FetchCacheMovieListDataAction -> {
+                is FetchCacheMovieListDataAction -> {
                     viewModel.setDataAction(action)
                 }
-                is MovieListDataAction.FetchNetworkMovieListDataAction -> {
+                is FetchNetworkMovieListDataAction -> {
                     viewModel.setDataAction(action)
                 }
             }
         })
+    }
+
+    override fun onMovieClicked(model: MovieModelMinimal) {
+        val intent = Intent(context, DetailsActivity::class.java)
+        intent.putExtra(DetailsActivity.KEY_MOVIE_ID, model.id)
+        startActivity(intent)
     }
 
     private fun setMovieList(actionNetwork: FetchNetworkMovieListViewAction) {
@@ -105,9 +117,12 @@ abstract class BaseMovieListFragment<VM : BaseMovieListViewModel> :
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
-
     private fun initVariable() {
         adapter = MovieListAdapter()
+    }
+
+    private fun initListener() {
+        adapter.onMovieClickListener = this
     }
 
     private fun setupList() {

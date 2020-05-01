@@ -21,4 +21,6 @@
     <dimen name="small_font">12sp</dimen>
     <dimen name="title_font">20sp</dimen>
     <dimen name="extra_large_font">24sp</dimen>
+    <dimen name="large_title_font">30sp</dimen>
+    <dimen name="default_1dp">1dp</dimen>
 </resources>

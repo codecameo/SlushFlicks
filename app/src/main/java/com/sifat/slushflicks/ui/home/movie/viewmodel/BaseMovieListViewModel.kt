@@ -21,7 +21,9 @@ import javax.inject.Inject
 open class BaseMovieListViewModel
 @Inject constructor(private val repository: BaseMovieListRepository) :
     BaseActionViewModel<MovieListDataAction, MovieListViewAction, MovieListViewState>() {
-    override var viewState = MovieListViewState()
+    override val viewState by lazy {
+        MovieListViewState()
+    }
 
     private val TAG = "BaseMovieListViewModel"
 

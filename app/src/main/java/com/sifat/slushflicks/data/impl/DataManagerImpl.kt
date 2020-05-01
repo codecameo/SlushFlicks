@@ -65,6 +65,18 @@ class DataManagerImpl
         databaseManager.addMovieCollection(collectionModels)
     }
 
+    override fun getMovieDetails(movieId: Long): LiveData<MovieModel> {
+        return databaseManager.getMovieDetails(movieId)
+    }
+
+    override suspend fun insertMovieDetails(movie: MovieModel) {
+        return databaseManager.insertMovieDetails(movie)
+    }
+
+    override suspend fun updateMovieDetails(model: MovieModel) {
+        databaseManager.updateMovieDetails(model)
+    }
+
     override fun getMovieCollections(): LiveData<DataState<List<CollectionModel>>> {
         return fireStoreManager.getMovieCollections()
     }

@@ -11,16 +11,22 @@ data class MovieModel(
     @PrimaryKey(autoGenerate = false)
     val id: Long = INVALID_ID.toLong(),
     val voteCount: Int = 0,
-    val voteAvg: Double,
-    val title: String,
+    val voteAvg: Double = 0.0,
+    val title: String = EMPTY_STRING,
     val releaseData: String = EMPTY_STRING,
-    val backdropPath: String,
-    val overview: String,
+    val backdropPath: String = EMPTY_STRING,
+    val overview: String = EMPTY_STRING,
     val posterPath: String = EMPTY_STRING,
     val popularity: Double = 0.0,
-    val genres: List<GenreModel>
+    val genres: List<GenreModel> = emptyList(),
+    val budget: Long = 0L,
+    val revenue: Long = 0L,
+    val runtime: Int = 0,
+    val status: String = EMPTY_STRING,
+    val tagline: String = EMPTY_STRING,
+    val video: String = EMPTY_STRING,
+    val casts: List<CastModel> = emptyList()
 )
-
 
 /**
 "id": 545609,

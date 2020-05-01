@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 abstract class BaseActionViewModel<DataAction, ViewAction, ViewState : BaseViewState<ViewAction>> :
     ViewModel() {
     protected val dataState = MediatorLiveData<DataAction>()
-    protected abstract var viewState: ViewState
+    protected abstract val viewState: ViewState
     protected fun getAction() = viewState.getAction()
 
     fun observeViewAction(): LiveData<ViewAction> = viewState.getAction()

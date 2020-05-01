@@ -9,4 +9,7 @@
     <string name="error_message">Something went wrong. Please try again later</string>
     <string name="update_failed_error_message">Failed to update</string>
     <string name="text_developed_by">Developed by Sifat.Oshan</string>
+    <string name="des_poster_image">poster_image</string>
+    <string name="play_image">play_image</string>
+    <string name="text_overview">Overview</string>
 </resources>

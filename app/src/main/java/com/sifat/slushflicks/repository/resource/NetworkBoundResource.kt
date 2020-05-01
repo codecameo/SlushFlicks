@@ -8,6 +8,7 @@ import com.sifat.slushflicks.ui.state.DataErrorResponse
 import com.sifat.slushflicks.ui.state.DataResponse
 import com.sifat.slushflicks.ui.state.DataState
 import com.sifat.slushflicks.ui.state.DataSuccessResponse
+import com.sifat.slushflicks.utils.livedata.AbsentLiveData
 import kotlinx.coroutines.*
 
 abstract class NetworkBoundResource<ApiData, CacheData, AppData> {
@@ -18,7 +19,7 @@ abstract class NetworkBoundResource<ApiData, CacheData, AppData> {
     protected lateinit var job: CompletableJob
     protected lateinit var coroutineScope: CoroutineScope
 
-    fun doCacheRequest() {
+    open fun doCacheRequest() {
         coroutineScope.launch {
             // View data from cache only and return
             createCacheRequestAndReturn()
@@ -59,7 +60,7 @@ abstract class NetworkBoundResource<ApiData, CacheData, AppData> {
         }
     }
 
-    fun onCompleteJob(dataState: DataState<AppData>) {
+    open fun onCompleteJob(dataState: DataState<AppData>) {
         GlobalScope.launch(Dispatchers.Main) {
             job.complete()
             setValue(dataState)
@@ -124,6 +125,10 @@ abstract class NetworkBoundResource<ApiData, CacheData, AppData> {
 
     protected open suspend fun getFromCache(): CacheData? {
         return null
+    }
+
+    protected open fun listenToCache(): LiveData<CacheData> {
+        return AbsentLiveData.create()
     }
 
     abstract suspend fun updateLocalDb(cacheData: CacheData?)

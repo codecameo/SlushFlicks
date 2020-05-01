@@ -1,40 +1,16 @@
 package com.sifat.slushflicks.ui.helper
 
 import com.sifat.slushflicks.api.home.movie.model.MovieApiModel
+import com.sifat.slushflicks.api.home.movie.model.MovieDetailsApiModel
 import com.sifat.slushflicks.api.home.movie.model.MovieListApiModel
 import com.sifat.slushflicks.model.GenreModel
 import com.sifat.slushflicks.model.MovieCollectionModel
 import com.sifat.slushflicks.model.MovieModel
 import com.sifat.slushflicks.model.MovieModelMinimal
-import com.sifat.slushflicks.ui.base.ListViewState.LOADING
-import com.sifat.slushflicks.ui.home.adapter.model.MovieListModel
 import com.sifat.slushflicks.ui.state.MetaData
 import com.sifat.slushflicks.utils.EMPTY_STRING
 import com.sifat.slushflicks.utils.PAGE_SIZE
 import com.sifat.slushflicks.utils.getListImageUrl
-
-/**
- * Provide view for loading state
- * */
-fun getMovieListLoadingModels(): List<MovieListModel> {
-    val list = mutableListOf<MovieListModel>()
-    for (count in 0..5) {
-        list.add(MovieListModel(null, LOADING))
-    }
-    return list
-}
-
-/**
- * This conversion converts model to List models for view state
- * */
-/*fun getMovieListModel(movies: PagedList<MovieModelMinimal>): PagedList<MovieListModel> {
-    val movieListModels = mutableListOf<MovieListModel>()
-    for (movie in movies) {
-        val movieListModel = MovieListModel(movie, ListViewState.VIEW)
-        movieListModels.add(movieListModel)
-    }
-    return movieListModels
-}*/
 
 /**
  * This conversion discard unnecessary data returned from api
@@ -122,4 +98,26 @@ fun getCollectionModels(
         collectionList.add(collectionModel)
     }
     return collectionList
+}
+
+fun getMovieDetails(apiModel: MovieDetailsApiModel?): MovieModel? {
+    return apiModel?.run {
+        MovieModel(
+            id = id,
+            voteAvg = voteAverage,
+            overview = overview,
+            voteCount = voteCount,
+            backdropPath = getListImageUrl(backdropPath),
+            title = title,
+            genres = genres,
+            releaseData = releaseDate,
+            posterPath = getListImageUrl(posterPath),
+            popularity = popularity,
+            budget = budget,
+            revenue = revenue,
+            tagline = tagline,
+            status = status,
+            runtime = runtime
+        )
+    }
 }

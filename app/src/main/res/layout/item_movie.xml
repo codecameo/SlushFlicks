@@ -5,6 +5,8 @@
 
         <import type="com.sifat.slushflicks.ui.base.ListViewState" />
 
+        <import type="com.sifat.slushflicks.utils.ConstantKt" />
+
         <import type="android.view.View" />
 
         <variable
@@ -75,14 +77,14 @@
                     android:foreground="@drawable/image_foreground"
                     android:scaleType="centerCrop"
                     android:src="@drawable/placeholder"
+                    app:imageUrl="@{model.backdropPath}"
                     app:layout_constraintDimensionRatio="6:3"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:placeholder="@{@drawable/placeholder}"
                     app:riv_corner_radius_top_left="@dimen/list_card_radius"
                     app:riv_corner_radius_top_right="@dimen/list_card_radius"
-                    app:imageUrl="@{model.backdropPath}"
-                    app:placeholder="@{@drawable/placeholder}"
                     tools:ignore="UnusedAttribute" />
 
                 <TextView
@@ -101,6 +103,7 @@
                     android:paddingBottom="@dimen/rating_vertical_margin"
                     android:text="@{``+model.voteAvg}"
                     android:textColor="@color/blackTextColor"
+                    android:visibility="@{model.voteAvg == ConstantKt.DEFAULT_DOUBLE? View.GONE : View.VISIBLE}"
                     app:layout_constraintBottom_toBottomOf="@id/rivPoster"
                     app:layout_constraintRight_toRightOf="@id/rivPoster" />
 
@@ -113,23 +116,22 @@
                     android:fontFamily="sans-serif-light"
                     android:padding="@dimen/standard_half_margin"
                     android:singleLine="true"
-                    app:genres="@{model.genres}"
                     android:textColor="@color/light_gray"
                     android:textSize="@dimen/small_font"
-                    tools:text="UnderWater"
+                    app:genres="@{model.genres}"
                     app:layout_constraintBottom_toBottomOf="@id/rivPoster"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toLeftOf="@id/tvRating" />
+                    app:layout_constraintRight_toLeftOf="@id/tvRating"
+                    tools:text="UnderWater" />
 
                 <TextView
-                    tools:text="UnderWater"
                     android:id="@+id/tvTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:fontFamily="sans-serif-medium"
-                    android:paddingTop="@dimen/standard_half_margin"
                     android:paddingLeft="@dimen/standard_half_margin"
+                    android:paddingTop="@dimen/standard_half_margin"
                     android:paddingRight="@dimen/standard_half_margin"
                     android:paddingBottom="@dimen/small_margin"
                     android:singleLine="true"
@@ -138,7 +140,8 @@
                     android:textSize="@dimen/title_font"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/rivPoster"  />
+                    app:layout_constraintTop_toBottomOf="@id/rivPoster"
+                    tools:text="UnderWater" />
 
                 <TextView
                     android:id="@+id/tvDescription"
