@@ -6,6 +6,7 @@ import android.animation.ValueAnimator.REVERSE
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.lifecycle.Observer
 import com.sifat.slushflicks.R
 import com.sifat.slushflicks.databinding.ActivitySplashBinding
@@ -22,7 +23,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, SplashViewModel>() {
     private lateinit var scaleAnimator: ValueAnimator
     private val handler = Handler()
     private val splashTime = 3000L
-    private val animationDuration = 1500L
+    private val animationDuration = 1200L
     private val nextScreenAction = Runnable {
         viewModel.setGenreList().observe(this, Observer {
             moveToNextScreen()
@@ -41,6 +42,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, SplashViewModel>() {
         scaleAnimator.duration = animationDuration
         scaleAnimator.repeatMode = REVERSE
         scaleAnimator.repeatCount = INFINITE
+        scaleAnimator.interpolator = AccelerateDecelerateInterpolator()
         scaleAnimator.addUpdateListener { value ->
             binding.tvAppName.scaleX = value.animatedValue as Float
             binding.tvAppName.scaleY = value.animatedValue as Float
