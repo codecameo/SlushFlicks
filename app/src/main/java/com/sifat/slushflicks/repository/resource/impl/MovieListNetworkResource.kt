@@ -14,7 +14,6 @@ import com.sifat.slushflicks.ui.helper.getMovieList
 import com.sifat.slushflicks.ui.state.DataState
 import com.sifat.slushflicks.ui.state.DataSuccessResponse
 import com.sifat.slushflicks.utils.api.NetworkStateManager
-import com.sifat.slushflicks.utils.livedata.AbsentLiveData
 import kotlinx.coroutines.Job
 
 open class MovieListNetworkResource(
@@ -34,11 +33,6 @@ open class MovieListNetworkResource(
             tag = requestModel.apiTag,
             collection = collection
         )
-    }
-
-    override fun loadFromCache(): LiveData<List<MovieModel>> {
-        //TODO access db when on error loading from network
-        return AbsentLiveData.create()
     }
 
     override suspend fun updateLocalDb(cacheData: List<MovieModel>?) {

@@ -18,3 +18,5 @@ const val DEFAULT_DOUBLE = 0.0
 const val SPACE = " "
 const val BULLET_SIGN = "\u2022"
 const val PAGE_SIZE = 20
+const val YOUTUBE_SITE = "YouTube"
+const val VIDEO_TYPE_TRAILER = "Trailer"

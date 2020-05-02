@@ -23,4 +23,6 @@
     <dimen name="extra_large_font">24sp</dimen>
     <dimen name="large_title_font">30sp</dimen>
     <dimen name="default_1dp">1dp</dimen>
+    <dimen name="cast_img_width">116dp</dimen>
+    <dimen name="cast_img_height">148dp</dimen>
 </resources>

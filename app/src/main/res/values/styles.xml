@@ -8,4 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme.DetailsTheme">
+        <item name="android:windowBackground">@color/colorAccent</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="colorPrimaryDark">@android:color/transparent</item>
+    </style>
+
 </resources>

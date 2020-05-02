@@ -6,9 +6,9 @@ import com.sifat.slushflicks.model.MovieModel
 import com.sifat.slushflicks.repository.MovieDetailsRepository
 import com.sifat.slushflicks.ui.base.BaseActionViewModel
 import com.sifat.slushflicks.ui.details.state.dataaction.DetailDataAction
-import com.sifat.slushflicks.ui.details.state.dataaction.DetailDataAction.FetchMovieDetailsAction
+import com.sifat.slushflicks.ui.details.state.dataaction.DetailDataAction.*
 import com.sifat.slushflicks.ui.details.state.event.DetailsViewEvent
-import com.sifat.slushflicks.ui.details.state.event.DetailsViewEvent.FetchDetailsViewEvent
+import com.sifat.slushflicks.ui.details.state.event.DetailsViewEvent.*
 import com.sifat.slushflicks.ui.details.state.viewaction.DetailsViewAction
 import com.sifat.slushflicks.ui.details.state.viewaction.DetailsViewAction.FetchDetailsViewAction
 import com.sifat.slushflicks.ui.details.state.viewstate.DetailsViewState
@@ -29,6 +29,32 @@ class DetailsViewModel
             is FetchDetailsViewEvent -> {
                 fetchMovieDetails(viewState.movieId)
             }
+            is FetchVideoViewEvent -> {
+                fetchMovieVideo(viewState.movieId)
+            }
+            is FetchCastViewEvent -> {
+                fetchMovieCast(viewState.movieId)
+            }
+        }
+    }
+
+    private fun fetchMovieVideo(movieId: Long) {
+        val videoSource = detailsRepository.getMovieVideo(movieId)
+        dataState.addSource(videoSource) { videoKey ->
+            dataState.removeSource(videoSource)
+            dataState.value = FetchVideoDataAction(
+                dataState = videoKey
+            )
+        }
+    }
+
+    private fun fetchMovieCast(movieId: Long) {
+        val castSource = detailsRepository.getMovieCast(movieId)
+        dataState.addSource(castSource) { castCount ->
+            dataState.removeSource(castSource)
+            dataState.value = FetchCastDataAction(
+                dataState = castCount
+            )
         }
     }
 

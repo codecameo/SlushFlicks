@@ -12,4 +12,6 @@
     <string name="des_poster_image">poster_image</string>
     <string name="play_image">play_image</string>
     <string name="text_overview">Overview</string>
+    <string name="install_youtube">Please install youtube to view this trailer</string>
+    <string name="text_cast">Cast</string>
 </resources>

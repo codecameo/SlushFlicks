@@ -1,0 +1,50 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="116dp"
+    android:height="116dp"
+    android:viewportWidth="512"
+    android:viewportHeight="512">
+    <path
+        android:fillColor="#efe2dd"
+        android:pathData="m331,361h-15l-60,45 -60,-45h-15c-74.443,0 -135,60.557 -135,135v16h210,210v-16c0,-74.443 -60.557,-135 -135,-135z" />
+    <path
+        android:fillColor="#e1d3ce"
+        android:pathData="m466,496c0,-74.443 -60.557,-135 -135,-135h-15l-60,45v106h210z" />
+    <path
+        android:fillColor="#fff5f5"
+        android:pathData="m211,481 l-60,-75 45,-45 34.527,13.159 25.473,61.841z" />
+    <path
+        android:fillColor="#efe2dd"
+        android:pathData="m301,481 l60,-75 -45,-45 -60,37.5v37.5z" />
+    <path
+        android:fillColor="#fc9"
+        android:pathData="m256,335.893h-60v25.107l60,75 60,-75v-25.107z" />
+    <path
+        android:fillColor="#ffb366"
+        android:pathData="m316,335.893h-60v100.107l60,-75z" />
+    <path
+        android:fillColor="#575f64"
+        android:pathData="m256,181h-120v60c0,66.299 53.699,120 120,120s120,-53.701 120,-120v-60z" />
+    <path
+        android:fillColor="#5a5a5a"
+        android:pathData="m376,241v-60h-120v180c66.301,0 120,-53.701 120,-120z" />
+    <path
+        android:fillColor="#575f64"
+        android:pathData="m307.301,30.3c-14.541,-13.502 -32.214,-22.498 -51.301,-26.96 -8.48,-1.983 -17.148,-3.34 -26.1,-3.34 -23.401,0 -39,6.599 -62.401,16.199 -34.634,14.694 -35.222,13.954 -46.5,18.3v10.501c0,38.736 14.31,87.891 15,91l15,30h105,105l15,-30v-15.901c0.001,-49.136 -20.379,-86.034 -68.698,-89.799z" />
+    <path
+        android:fillColor="#5a5a5a"
+        android:pathData="m376,136v-15.901c0,-49.136 -20.38,-86.034 -68.699,-89.799 -14.541,-13.502 -32.214,-22.498 -51.301,-26.96v162.66h105z" />
+    <path
+        android:fillColor="#ffe6cc"
+        android:pathData="m361,136c-26.1,0 -50.7,-17.1 -62.701,-27.301 -8.71,3.609 -23.32,8.897 -42.299,13.879 -26.776,7.028 -62.516,13.422 -105,13.422h-15c0,21.35 0,46.811 0,45 0,36.599 22.2,70.499 55.201,84 22.798,9.6 46.199,7.5 64.799,-4.799 10.8,7.2 23.101,10.8 36,10.8 43.271,0 84,-39.776 84,-90 0,-3.021 0,-48.021 0,-45h-15z" />
+    <path
+        android:fillColor="#fc9"
+        android:pathData="m376,181c0,-3.021 0,-48.021 0,-45h-15c-26.1,0 -50.7,-17.1 -62.701,-27.301 -8.71,3.609 -23.32,8.897 -42.299,13.879v137.622c10.8,7.2 23.101,10.8 36,10.8 43.272,0 84,-39.776 84,-90z" />
+    <path
+        android:fillColor="#5a5a5a"
+        android:pathData="m196,181h30v30h-30z" />
+    <path
+        android:fillColor="#444"
+        android:pathData="m286,181h30v30h-30z" />
+</vector>
+
+    <!--Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>-->

@@ -1,5 +1,7 @@
 package com.sifat.slushflicks.utils
 
+import android.content.Context
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Observer
@@ -27,4 +29,8 @@ fun <T> LiveData<T>.getDistinct(): LiveData<T> {
         }
     })
     return distinctLiveData
+}
+
+fun Context.showToast(message: String) {
+    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }

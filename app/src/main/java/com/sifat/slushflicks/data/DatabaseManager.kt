@@ -2,10 +2,8 @@ package com.sifat.slushflicks.data
 
 import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
-import com.sifat.slushflicks.model.GenreModel
-import com.sifat.slushflicks.model.MovieCollectionModel
-import com.sifat.slushflicks.model.MovieModel
-import com.sifat.slushflicks.model.MovieModelMinimal
+import com.sifat.slushflicks.api.details.model.VideoApiModel
+import com.sifat.slushflicks.model.*
 
 interface DatabaseManager {
 
@@ -31,4 +29,8 @@ interface DatabaseManager {
     suspend fun insertMovieDetails(movie: MovieModel)
 
     suspend fun updateMovieDetails(model: MovieModel)
+
+    suspend fun updateMovieDetails(model: VideoApiModel, movieId: Long)
+
+    suspend fun updateMovieDetails(casts: List<CastModel>, movieId: Long)
 }

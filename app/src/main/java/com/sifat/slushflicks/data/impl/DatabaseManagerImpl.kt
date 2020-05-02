@@ -2,13 +2,11 @@ package com.sifat.slushflicks.data.impl
 
 import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
+import com.sifat.slushflicks.api.details.model.VideoApiModel
 import com.sifat.slushflicks.data.DatabaseManager
 import com.sifat.slushflicks.db.AppDatabase
 import com.sifat.slushflicks.di.app.AppScope
-import com.sifat.slushflicks.model.GenreModel
-import com.sifat.slushflicks.model.MovieCollectionModel
-import com.sifat.slushflicks.model.MovieModel
-import com.sifat.slushflicks.model.MovieModelMinimal
+import com.sifat.slushflicks.model.*
 import javax.inject.Inject
 
 @AppScope
@@ -57,6 +55,26 @@ class DatabaseManagerImpl
     }
 
     override suspend fun updateMovieDetails(model: MovieModel) {
-        database.getMovieDao().update(model)
+        database.getMovieDao().update(
+            id = model.id,
+            voteCount = model.voteCount,
+            voteAvg = model.voteAvg,
+            revenue = model.revenue,
+            releaseData = model.releaseData,
+            budget = model.budget,
+            popularity = model.popularity,
+            genres = model.genres,
+            runtime = model.runtime,
+            status = model.status,
+            tagline = model.tagline
+        )
+    }
+
+    override suspend fun updateMovieDetails(model: VideoApiModel, movieId: Long) {
+        database.getMovieDao().update(movieId, model.key)
+    }
+
+    override suspend fun updateMovieDetails(casts: List<CastModel>, movieId: Long) {
+        database.getMovieDao().update(movieId, casts)
     }
 }

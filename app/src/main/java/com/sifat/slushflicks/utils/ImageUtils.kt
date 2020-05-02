@@ -10,3 +10,11 @@ fun getListImageUrl(suffix: String?): String {
             .append(suffix).toString()
     } ?: EMPTY_STRING
 }
+
+fun getCastListImageUrl(suffix: String?): String {
+    return suffix?.let {
+        StringBuilder(BuildConfig.IMAGE_BASE_URL)
+            .append(ImageDimension.W185.dimension)
+            .append(suffix).toString()
+    } ?: EMPTY_STRING
+}

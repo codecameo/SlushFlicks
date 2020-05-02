@@ -17,23 +17,22 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimaryDark"
-        android:fitsSystemWindows="true">
+        android:background="@color/colorPrimaryDark">
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fitsSystemWindows="true">
+            android:layout_height="wrap_content">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed|enterAlwaysCollapsed"
-                app:titleEnabled="true">
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|enterAlwaysCollapsed">
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="324dp">
+                    android:layout_height="424dp"
+                    app:layout_collapseMode="parallax"
+                    app:layout_collapseParallaxMultiplier="0.1">
 
                     <ImageView
                         android:id="@+id/ivPoster"
@@ -57,7 +56,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
                         android:layout_marginStart="@dimen/standard_margin"
-                        android:layout_marginBottom="@dimen/small_margin"
                         android:fontFamily="sans-serif-medium"
                         android:text="@{model.title}"
                         android:textColor="@color/white"
@@ -65,6 +63,7 @@
                         tools:text="The Matrix" />
 
                     <ImageView
+                        android:id="@+id/ivPlayTrailer"
                         android:layout_width="64dp"
                         android:layout_height="64dp"
                         android:layout_gravity="center"
@@ -90,7 +89,8 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:paddingTop="@dimen/small_margin">
 
                 <TextView
                     android:id="@+id/tvTagline"
@@ -126,7 +126,7 @@
                     android:layout_marginTop="@dimen/standard_half_margin"
                     android:drawableStart="@drawable/ic_star_orange_small"
                     android:drawablePadding="@dimen/standard_half_margin"
-                    android:textColor="@color/light_gray"
+                    android:textColor="@color/subTextColor"
                     app:layout_constraintHorizontal_bias="0"
                     app:layout_constraintHorizontal_chainStyle="packed"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -156,7 +156,7 @@
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_time_small"
                     android:drawablePadding="@dimen/standard_half_margin"
-                    android:textColor="@color/light_gray"
+                    android:textColor="@color/subTextColor"
                     app:layout_constraintBottom_toBottomOf="@id/tvRating"
                     app:layout_constraintLeft_toRightOf="@id/firstDivider"
                     app:layout_constraintRight_toLeftOf="@id/secondDivider"
@@ -185,7 +185,7 @@
                     android:layout_marginEnd="@dimen/standard_margin"
                     android:drawableStart="@drawable/ic_movie_small"
                     android:drawablePadding="@dimen/standard_half_margin"
-                    android:textColor="@color/light_gray"
+                    android:textColor="@color/subTextColor"
                     app:layout_constraintBottom_toBottomOf="@id/tvRating"
                     app:layout_constraintLeft_toRightOf="@id/secondDivider"
                     app:layout_constraintRight_toRightOf="parent"
@@ -207,20 +207,51 @@
                     app:layout_constraintTop_toBottomOf="@id/tvRating" />
 
                 <TextView
+                    android:id="@+id/tvOverview"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/standard_margin"
                     android:layout_marginTop="@dimen/small_margin"
                     android:layout_marginEnd="@dimen/standard_margin"
                     android:text="@{model.overview}"
-                    android:textColor="@color/light_gray"
+                    android:textColor="@color/subTextColor"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvTitleOverview"
                     tools:text="@string/long_dummy_description" />
 
+                <TextView
+                    android:id="@+id/tvTitleCast"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/standard_margin"
+                    android:layout_marginTop="@dimen/quarter_less_standard_half"
+                    android:fontFamily="sans-serif-medium"
+                    android:paddingTop="@dimen/small_margin"
+                    android:text="@string/text_cast"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/title_font"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvOverview" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvCast"
+                    android:layout_width="@dimen/default_0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/standard_half_margin"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/standard_margin"
+                    android:paddingEnd="@dimen/standard_half_margin"
+                    android:paddingBottom="@dimen/standard_half_margin"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvTitleCast"
+                    tools:itemCount="5"
+                    tools:listitem="@layout/item_cast" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
-
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

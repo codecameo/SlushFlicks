@@ -120,15 +120,12 @@ abstract class NetworkBoundResource<ApiData, CacheData, AppData> {
 
     abstract fun createCall(): LiveData<ApiResponse<ApiData>>
 
-    @Deprecated("Use getFromCache instead")
-    abstract fun loadFromCache(): LiveData<CacheData>
+    protected open fun loadFromCache(): LiveData<CacheData> {
+        return AbsentLiveData.create()
+    }
 
     protected open suspend fun getFromCache(): CacheData? {
         return null
-    }
-
-    protected open fun listenToCache(): LiveData<CacheData> {
-        return AbsentLiveData.create()
     }
 
     abstract suspend fun updateLocalDb(cacheData: CacheData?)

@@ -2,6 +2,7 @@ package com.sifat.slushflicks.data.impl
 
 import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
+import com.sifat.slushflicks.api.details.model.VideoApiModel
 import com.sifat.slushflicks.data.DataManager
 import com.sifat.slushflicks.data.DatabaseManager
 import com.sifat.slushflicks.data.FireStoreManager
@@ -75,6 +76,14 @@ class DataManagerImpl
 
     override suspend fun updateMovieDetails(model: MovieModel) {
         databaseManager.updateMovieDetails(model)
+    }
+
+    override suspend fun updateMovieDetails(model: VideoApiModel, movieId: Long) {
+        databaseManager.updateMovieDetails(model, movieId)
+    }
+
+    override suspend fun updateMovieDetails(casts: List<CastModel>, movieId: Long) {
+        databaseManager.updateMovieDetails(casts, movieId)
     }
 
     override fun getMovieCollections(): LiveData<DataState<List<CollectionModel>>> {

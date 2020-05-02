@@ -12,7 +12,6 @@ import com.sifat.slushflicks.ui.helper.getMovieDetails
 import com.sifat.slushflicks.ui.state.DataSuccessResponse
 import com.sifat.slushflicks.utils.api.NetworkStateManager
 import com.sifat.slushflicks.utils.getDistinct
-import com.sifat.slushflicks.utils.livedata.AbsentLiveData
 import kotlinx.coroutines.Job
 
 class DetailsNetworkResource(
@@ -46,10 +45,6 @@ class DetailsNetworkResource(
         )
     }
 
-    override fun listenToCache(): LiveData<MovieModel> {
-        return dataManager.getMovieDetails(request.movieId).getDistinct()
-    }
-
     override suspend fun updateLocalDb(cacheData: MovieModel?) {
         cacheData?.let { model ->
             dataManager.updateMovieDetails(model)
@@ -63,6 +58,6 @@ class DetailsNetworkResource(
     data class RequestModel(val apiKey: String, val movieId: Long)
 
     override fun loadFromCache(): LiveData<MovieModel> {
-        return AbsentLiveData.create()
+        return dataManager.getMovieDetails(request.movieId).getDistinct()
     }
 }
