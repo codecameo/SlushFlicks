@@ -1,4 +1,4 @@
-package com.sifat.slushflicks.ui.details.adapter
+package com.sifat.slushflicks.ui.details.adapter.viewholder
 
 import androidx.recyclerview.widget.RecyclerView
 import com.sifat.slushflicks.databinding.ItemCastBinding

@@ -21,7 +21,7 @@ data class MovieApiModel(
     val title: String,
     @SerializedName("release_date")
     @Expose
-    val releaseDate: String,
+    val releaseDate: String?,
     @SerializedName("original_language")
     @Expose
     val originalLanguage: String,

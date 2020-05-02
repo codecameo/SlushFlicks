@@ -3,19 +3,23 @@ package com.sifat.slushflicks.ui.details
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import com.sifat.slushflicks.R
+import com.sifat.slushflicks.api.ApiEndPoint
 import com.sifat.slushflicks.databinding.ActivityDetailsBinding
 import com.sifat.slushflicks.model.MovieModel
 import com.sifat.slushflicks.ui.base.FullScreenActivity
 import com.sifat.slushflicks.ui.details.adapter.CastAdapter
-import com.sifat.slushflicks.ui.details.state.dataaction.DetailDataAction.FetchMovieDetailsAction
+import com.sifat.slushflicks.ui.details.adapter.RelatedMovieAdapter
+import com.sifat.slushflicks.ui.details.state.dataaction.DetailDataAction.*
 import com.sifat.slushflicks.ui.details.state.event.DetailsViewEvent
 import com.sifat.slushflicks.ui.details.state.event.DetailsViewEvent.FetchCastViewEvent
 import com.sifat.slushflicks.ui.details.state.event.DetailsViewEvent.FetchVideoViewEvent
-import com.sifat.slushflicks.ui.details.state.viewaction.DetailsViewAction.FetchDetailsViewAction
+import com.sifat.slushflicks.ui.details.state.viewaction.DetailsViewAction.*
 import com.sifat.slushflicks.ui.details.viewmodel.DetailsViewModel
+import com.sifat.slushflicks.ui.home.adapter.model.MovieListModel
 import com.sifat.slushflicks.ui.state.ViewState
 import com.sifat.slushflicks.utils.INVALID_ID
 import com.sifat.slushflicks.utils.showToast
@@ -27,7 +31,9 @@ class DetailsActivity : FullScreenActivity<ActivityDetailsBinding, DetailsViewMo
 
     override fun getViewModelClass() = DetailsViewModel::class.java
     private var isAlreadyAttempted = false
-    private lateinit var adapter: CastAdapter
+    private lateinit var castAdapter: CastAdapter
+    private lateinit var recommendedAdapter: RelatedMovieAdapter
+    private lateinit var similarAdapter: RelatedMovieAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,11 +46,15 @@ class DetailsActivity : FullScreenActivity<ActivityDetailsBinding, DetailsViewMo
     }
 
     private fun setupList() {
-        binding.rvCast.adapter = adapter
+        binding.rvCast.adapter = castAdapter
+        binding.rvRecommended.adapter = recommendedAdapter
+        binding.rvSimilar.adapter = similarAdapter
     }
 
     private fun initVariable() {
-        adapter = CastAdapter()
+        castAdapter = CastAdapter()
+        recommendedAdapter = RelatedMovieAdapter()
+        similarAdapter = RelatedMovieAdapter()
     }
 
     private fun initListener() {
@@ -57,12 +67,24 @@ class DetailsActivity : FullScreenActivity<ActivityDetailsBinding, DetailsViewMo
                 is FetchDetailsViewAction -> {
                     showMovieDetails(action)
                 }
+                is FetchRecommendationViewAction -> {
+                    showRecommendedMovies(action)
+                }
+                is FetchSimilarViewAction -> {
+                    showSimilarMovies(action)
+                }
             }
         })
 
         viewModel.observeDataAction().observe(this, Observer { action ->
             when (action) {
                 is FetchMovieDetailsAction -> {
+                    viewModel.setDataAction(action)
+                }
+                is FetchSimilarDataAction -> {
+                    viewModel.setDataAction(action)
+                }
+                is FetchRecommendationDataAction -> {
                     viewModel.setDataAction(action)
                 }
             }
@@ -103,8 +125,36 @@ class DetailsActivity : FullScreenActivity<ActivityDetailsBinding, DetailsViewMo
         when (val viewState = action.viewState) {
             is ViewState.Success<MovieModel> -> {
                 binding.model = viewState.data
-                adapter.submitList(viewState.data?.casts?.toMutableList())
+                castAdapter.submitList(viewState.data?.casts?.toMutableList())
                 checkMissingData(viewState.data)
+            }
+        }
+    }
+
+    private fun showRecommendedMovies(action: FetchRecommendationViewAction) {
+        when (val viewState = action.viewState) {
+            is ViewState.Loading<List<MovieListModel>> -> {
+
+            }
+            is ViewState.Success<List<MovieListModel>> -> {
+                recommendedAdapter.submitList(viewState.data)
+            }
+            is ViewState.Error<List<MovieListModel>> -> {
+                showToast(viewState.errorMessage ?: getString(R.string.recommended_error_message))
+            }
+        }
+    }
+
+    private fun showSimilarMovies(action: FetchSimilarViewAction) {
+        when (val viewState = action.viewState) {
+            is ViewState.Loading<List<MovieListModel>> -> {
+
+            }
+            is ViewState.Success<List<MovieListModel>> -> {
+                similarAdapter.submitList(viewState.data)
+            }
+            is ViewState.Error<List<MovieListModel>> -> {
+                showToast(viewState.errorMessage ?: getString(R.string.recommended_error_message))
             }
         }
     }
@@ -119,17 +169,21 @@ class DetailsActivity : FullScreenActivity<ActivityDetailsBinding, DetailsViewMo
     }
 
     private fun fetchMovieDetails() {
+        Log.d(TAG, ApiEndPoint.MOVIE_RELATED_MOVIE_URL)
         viewModel.handleEvent(DetailsViewEvent.FetchDetailsViewEvent())
+        viewModel.handleEvent(DetailsViewEvent.FetchRecommendedMovieViewEvent())
+        viewModel.handleEvent(DetailsViewEvent.FetchSimilarMovieViewEvent())
     }
 
     private fun extractData() {
-        viewModel.setMovieId(intent.getLongExtra(KEY_MOVIE_ID, INVALID_ID.toLong()))
+        val movieId = intent.getLongExtra(KEY_MOVIE_ID, INVALID_ID.toLong())
+        Log.d(TAG, "Movie id $movieId")
+        viewModel.setMovieId(movieId)
     }
 
     companion object {
         const val KEY_MOVIE_ID = "key_movie_id"
         const val YOUTUBE_PACKAGE_NAME = "com.google.android.youtube"
-        const val YOUTUBE_PLAYER_ACTIVITY_PACKAGE = "com.google.android.youtube.PlayerActivity"
         const val YOUTUBE_VIDEO_LINK = "https://www.youtube.com/watch?v=%s"
     }
 }

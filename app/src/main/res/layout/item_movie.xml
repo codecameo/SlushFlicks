@@ -91,7 +91,6 @@
                     android:id="@+id/tvRating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/rivPoster"
                     android:layout_marginBottom="@dimen/standard_half_margin"
                     android:background="@drawable/rating_background"
                     android:drawableStart="@drawable/ic_star_orange"

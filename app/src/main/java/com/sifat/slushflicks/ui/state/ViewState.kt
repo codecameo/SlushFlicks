@@ -10,7 +10,7 @@ sealed class ViewState<Data> {
 
     class Success<Data>(
         val data: Data?,
-        val message: String = EMPTY_STRING
+        val message: String? = EMPTY_STRING
     ) : ViewState<Data>()
 
     class Error<Data>(

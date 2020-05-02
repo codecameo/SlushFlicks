@@ -4,10 +4,12 @@ import androidx.lifecycle.LiveData
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.MOVIE_COLLECTION_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.MOVIE_CREDITS_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.MOVIE_DETAILS_URL
+import com.sifat.slushflicks.api.ApiEndPoint.Companion.MOVIE_RELATED_MOVIE_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.MOVIE_VIDEOS_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.TRENDING_MOVIE_URL
 import com.sifat.slushflicks.api.ApiRequest.Companion.PATH_COLLECTION
 import com.sifat.slushflicks.api.ApiRequest.Companion.PATH_MOVIE_ID
+import com.sifat.slushflicks.api.ApiRequest.Companion.PATH_MOVIE_RELATION_TYPE
 import com.sifat.slushflicks.api.ApiRequest.Companion.QUERY_KEY_API_KEY
 import com.sifat.slushflicks.api.ApiRequest.Companion.QUERY_KEY_PAGE
 import com.sifat.slushflicks.api.ApiResponse
@@ -60,4 +62,20 @@ interface MovieService {
         @Query(QUERY_KEY_API_KEY) apiKey: String,
         @Tag tag: String = MOVIE_CREDITS_API_TAG
     ): LiveData<ApiResponse<CreditsApiModel>>
+
+    @GET(MOVIE_RELATED_MOVIE_URL)
+    fun getRelatedMovies(
+        @Path(PATH_MOVIE_ID) movieId: Long,
+        @Path(PATH_MOVIE_RELATION_TYPE) relation: String,
+        @Query(QUERY_KEY_API_KEY) apiKey: String,
+        @Query(QUERY_KEY_PAGE) page: Int,
+        @Tag tag: String
+    ): LiveData<ApiResponse<MovieListApiModel>>
+
+    /*@GET(MOVIE_SIMILAR_URL)
+    fun getSimilarMovies(
+        @Query(QUERY_KEY_API_KEY) apiKey: String,
+        @Query(QUERY_KEY_PAGE) page: Int,
+        @Tag tag: String = MOVIE_SIMILAR_API_TAG
+    ): LiveData<ApiResponse<MovieListApiModel>>*/
 }

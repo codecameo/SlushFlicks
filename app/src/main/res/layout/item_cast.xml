@@ -50,7 +50,7 @@
                 android:padding="@dimen/small_margin"
                 android:singleLine="true"
                 android:text="@{model.name}"
-                android:textColor="@color/white"
+                android:textColor="@color/subTextColor"
                 app:layout_constraintBottom_toBottomOf="@id/rivCast"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"

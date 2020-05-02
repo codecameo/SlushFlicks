@@ -7,31 +7,31 @@ import com.sifat.slushflicks.api.home.movie.MovieService
 import com.sifat.slushflicks.api.home.movie.model.MovieListApiModel
 import com.sifat.slushflicks.data.DataManager
 import com.sifat.slushflicks.model.MovieModel
+import com.sifat.slushflicks.model.MovieModelMinimal
 import com.sifat.slushflicks.repository.resource.type.NetworkOnlyResource
-import com.sifat.slushflicks.ui.helper.getCollectionModels
 import com.sifat.slushflicks.ui.helper.getMetaData
 import com.sifat.slushflicks.ui.helper.getMovieList
+import com.sifat.slushflicks.ui.helper.getMovieMinimalModel
 import com.sifat.slushflicks.ui.state.DataState
 import com.sifat.slushflicks.ui.state.DataSuccessResponse
 import com.sifat.slushflicks.utils.api.NetworkStateManager
 import kotlinx.coroutines.Job
 
-open class MovieListNetworkResource(
-    protected val movieService: MovieService,
-    protected val requestModel: RequestModel,
-    protected val dataManager: DataManager,
-    private val collection: String,
+class SimilarMoviesNetworkResource(
+    private val movieService: MovieService,
+    private val dataManager: DataManager,
+    private val requestModel: RequestModel,
     networkStateManager: NetworkStateManager
-) : NetworkOnlyResource<MovieListApiModel, List<MovieModel>, Int>(
+) : NetworkOnlyResource<MovieListApiModel, List<MovieModel>, List<MovieModelMinimal>>(
     networkStateManager
 ) {
-
     override fun createCall(): LiveData<ApiResponse<MovieListApiModel>> {
-        return movieService.getMoviesList(
+        return movieService.getRelatedMovies(
             apiKey = requestModel.apiKey,
-            page = requestModel.page,
-            tag = requestModel.apiTag,
-            collection = collection
+            relation = requestModel.relationType,
+            movieId = requestModel.movieId,
+            page = 1,
+            tag = requestModel.apiTag
         )
     }
 
@@ -39,12 +39,6 @@ open class MovieListNetworkResource(
         if (!cacheData.isNullOrEmpty()) {
             // Insert with Ignore strategy
             dataManager.softInsertMovie(cacheData)
-            val collectionModels = getCollectionModels(cacheData, collection, requestModel.page)
-            if (requestModel.page == 1) {
-                dataManager.insertNewMovieCollection(collection, collectionModels)
-            } else {
-                dataManager.addMovieCollection(collectionModels)
-            }
         }
     }
 
@@ -56,23 +50,19 @@ open class MovieListNetworkResource(
         val dataSuccessResponse = getDataSuccessResponse(response)
         updateLocalDb(dataSuccessResponse.data)
         onCompleteJob(
-            DataState.Success<Int>(
+            DataState.Success<List<MovieModelMinimal>>(
                 getAppDataSuccessResponse(dataSuccessResponse)
             )
         )
     }
 
-    /*override suspend fun getFromCache(): List<MovieModel>? {
-        return dataManager.getMovies(collection)
-    }*/
-
     override fun setJob(job: Job) {
 
     }
 
-    override fun getAppDataSuccessResponse(response: DataSuccessResponse<List<MovieModel>>): DataSuccessResponse<Int> {
+    override fun getAppDataSuccessResponse(response: DataSuccessResponse<List<MovieModel>>): DataSuccessResponse<List<MovieModelMinimal>> {
         return DataSuccessResponse(
-            data = response.data?.size,
+            data = getMovieMinimalModel(response.data),
             metaData = response.metaData,
             message = response.message
         )
@@ -86,5 +76,11 @@ open class MovieListNetworkResource(
         )
     }
 
-    data class RequestModel(val page: Int, val apiKey: String, val apiTag: String)
+    data class RequestModel(
+        val apiKey: String,
+        val apiTag: String,
+        val movieId: Long,
+        val relationType: String
+    )
+
 }

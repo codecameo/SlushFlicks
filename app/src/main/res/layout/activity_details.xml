@@ -17,7 +17,8 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimaryDark">
+        android:background="@color/colorPrimaryDark"
+        android:paddingBottom="@dimen/standard_half_margin">
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
@@ -102,6 +103,8 @@
                     android:textColor="@color/light_gray"
                     android:textSize="@dimen/small_font"
                     app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginEnd="@dimen/standard_margin"
+                    app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="Welcome to the Real World." />
 
@@ -115,6 +118,8 @@
                     android:textColor="@color/orange"
                     app:genres="@{model.genres}"
                     app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginEnd="@dimen/standard_margin"
+                    app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvTagline"
                     tools:text="Genres" />
 
@@ -250,6 +255,68 @@
                     app:layout_constraintTop_toBottomOf="@id/tvTitleCast"
                     tools:itemCount="5"
                     tools:listitem="@layout/item_cast" />
+
+                <TextView
+                    android:id="@+id/tvTitleRecommended"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/standard_margin"
+                    android:layout_marginTop="@dimen/quarter_less_standard_half"
+                    android:fontFamily="sans-serif-medium"
+                    android:paddingTop="@dimen/small_margin"
+                    android:text="@string/text_recommended"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/title_font"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rvCast" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvRecommended"
+                    android:layout_width="@dimen/default_0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/standard_half_margin"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/standard_margin"
+                    android:paddingEnd="@dimen/standard_half_margin"
+                    android:paddingBottom="@dimen/standard_half_margin"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvTitleRecommended"
+                    tools:itemCount="5"
+                    tools:listitem="@layout/item_related_movie" />
+
+                <TextView
+                    android:id="@+id/tvTitleSimilar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/standard_margin"
+                    android:layout_marginTop="@dimen/quarter_less_standard_half"
+                    android:fontFamily="sans-serif-medium"
+                    android:paddingTop="@dimen/small_margin"
+                    android:text="@string/text_similar"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/title_font"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rvRecommended" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvSimilar"
+                    android:layout_width="@dimen/default_0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/standard_half_margin"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/standard_margin"
+                    android:paddingEnd="@dimen/standard_half_margin"
+                    android:paddingBottom="@dimen/standard_half_margin"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvTitleSimilar"
+                    tools:itemCount="5"
+                    tools:listitem="@layout/item_related_movie" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>

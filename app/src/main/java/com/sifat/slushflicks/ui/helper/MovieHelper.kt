@@ -7,6 +7,8 @@ import com.sifat.slushflicks.model.GenreModel
 import com.sifat.slushflicks.model.MovieCollectionModel
 import com.sifat.slushflicks.model.MovieModel
 import com.sifat.slushflicks.model.MovieModelMinimal
+import com.sifat.slushflicks.ui.base.ListViewState.VIEW
+import com.sifat.slushflicks.ui.home.adapter.model.MovieListModel
 import com.sifat.slushflicks.ui.state.MetaData
 import com.sifat.slushflicks.utils.EMPTY_STRING
 import com.sifat.slushflicks.utils.PAGE_SIZE
@@ -30,7 +32,7 @@ fun getMovieList(
                 genres = genresModels,
                 popularity = movie.popularity,
                 posterPath = getListImageUrl(movie.posterPath),
-                releaseData = movie.releaseDate,
+                releaseData = movie.releaseDate ?: EMPTY_STRING,
                 title = movie.title,
                 voteAvg = movie.voteAverage,
                 voteCount = movie.voteCount
@@ -39,6 +41,18 @@ fun getMovieList(
         }
     }
     return movieModels
+}
+
+/**
+ * This conversion converts model to List models for view state
+ * */
+fun getMovieListModel(movies: List<MovieModelMinimal>): List<MovieListModel> {
+    val movieListModels = mutableListOf<MovieListModel>()
+    for (movie in movies) {
+        val movieListModel = MovieListModel(movie, VIEW)
+        movieListModels.add(movieListModel)
+    }
+    return movieListModels
 }
 
 fun getMovieMinimalModel(movies: List<MovieModel>?): List<MovieModelMinimal>? {

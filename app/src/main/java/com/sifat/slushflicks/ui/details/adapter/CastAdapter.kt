@@ -8,6 +8,7 @@ import com.sifat.slushflicks.R
 import com.sifat.slushflicks.databinding.ItemCastBinding
 import com.sifat.slushflicks.model.CastModel
 import com.sifat.slushflicks.ui.details.adapter.diffutils.CastDiffUtils
+import com.sifat.slushflicks.ui.details.adapter.viewholder.CastViewHolder
 import java.util.*
 
 class CastAdapter : ListAdapter<CastModel, CastViewHolder>(CastDiffUtils()) {

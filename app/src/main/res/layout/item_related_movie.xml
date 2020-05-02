@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <import type="com.sifat.slushflicks.ui.base.ListViewState" />
+
+        <import type="com.sifat.slushflicks.utils.ConstantKt" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="state"
+            type="ListViewState" />
+
+        <variable
+            name="model"
+            type="com.sifat.slushflicks.model.MovieModelMinimal" />
+    </data>
+
+    <com.facebook.shimmer.ShimmerFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        shimmer="@{state}"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/standard_half_margin">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                imageUrl="@{model.backdropPath}"
+                placeholder="@{@drawable/placeholder}"
+                android:layout_width="256dp"
+                android:layout_height="@dimen/default_0dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/placeholder"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="3:2"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:riv_corner_radius="@dimen/cardview_default_radius" />
+
+            <View
+                android:layout_width="@dimen/default_0dp"
+                android:layout_height="@dimen/default_0dp"
+                android:background="@drawable/detail_image_foreground"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="@dimen/default_0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/standard_half_margin"
+                android:layout_marginEnd="@dimen/standard_half_margin"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@{model.title}"
+                android:textColor="@color/subTextColor"
+                android:textSize="@dimen/large_font"
+                android:visibility="@{state == ListViewState.LOADING? View.INVISIBLE : View.VISIBLE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                tools:text="Venom" />
+
+            <TextView
+                android:id="@+id/tvRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/standard_margin"
+                android:layout_marginBottom="@dimen/standard_half_margin"
+                android:background="@drawable/rating_background"
+                android:drawableStart="@drawable/ic_star_orange"
+                android:drawablePadding="6dp"
+                android:fontFamily="sans-serif-medium"
+                android:paddingStart="@dimen/standard_half_margin"
+                android:paddingTop="@dimen/rating_vertical_margin"
+                android:paddingEnd="@dimen/standard_half_margin"
+                android:paddingBottom="@dimen/rating_vertical_margin"
+                android:text="@{``+model.voteAvg}"
+                android:textColor="@color/blackTextColor"
+                android:visibility="@{state == ListViewState.LOADING? View.INVISIBLE : View.VISIBLE}"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="7.8" />
+
+            <View
+                android:layout_width="@dimen/medium_loading_width"
+                android:layout_height="@dimen/loading_height"
+                android:layout_marginStart="@dimen/standard_half_margin"
+                android:layout_marginBottom="@dimen/standard_half_margin"
+                android:background="@color/loading_color"
+                android:visibility="@{state == ListViewState.LOADING? View.VISIBLE : View.INVISIBLE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                tools:visibility="invisible" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+</layout>
