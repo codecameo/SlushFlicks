@@ -7,12 +7,21 @@ import com.sifat.slushflicks.model.GenreModel
 import com.sifat.slushflicks.model.MovieCollectionModel
 import com.sifat.slushflicks.model.MovieModel
 import com.sifat.slushflicks.model.MovieModelMinimal
+import com.sifat.slushflicks.ui.base.ListViewState.LOADING
 import com.sifat.slushflicks.ui.base.ListViewState.VIEW
 import com.sifat.slushflicks.ui.home.adapter.model.MovieListModel
 import com.sifat.slushflicks.ui.state.MetaData
 import com.sifat.slushflicks.utils.EMPTY_STRING
 import com.sifat.slushflicks.utils.PAGE_SIZE
 import com.sifat.slushflicks.utils.getListImageUrl
+
+fun getMovieListLoadingModels(): List<MovieListModel> {
+    val list = mutableListOf<MovieListModel>()
+    for (count in 0..5) {
+        list.add(MovieListModel(null, LOADING))
+    }
+    return list
+}
 
 /**
  * This conversion discard unnecessary data returned from api
@@ -46,11 +55,13 @@ fun getMovieList(
 /**
  * This conversion converts model to List models for view state
  * */
-fun getMovieListModel(movies: List<MovieModelMinimal>): List<MovieListModel> {
+fun getMovieListModel(movies: List<MovieModelMinimal>?): List<MovieListModel> {
     val movieListModels = mutableListOf<MovieListModel>()
-    for (movie in movies) {
-        val movieListModel = MovieListModel(movie, VIEW)
-        movieListModels.add(movieListModel)
+    movies?.let {
+        for (movie in movies) {
+            val movieListModel = MovieListModel(movie, VIEW)
+            movieListModels.add(movieListModel)
+        }
     }
     return movieListModels
 }

@@ -1,20 +1,28 @@
 package com.sifat.slushflicks.repository
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
+import androidx.paging.PagedList
+import androidx.paging.toLiveData
 import com.sifat.slushflicks.api.ApiTag.Companion.MOVIE_RECOMMENDATION_API_TAG
 import com.sifat.slushflicks.api.ApiTag.Companion.MOVIE_SIMILAR_API_TAG
 import com.sifat.slushflicks.api.home.movie.MovieService
 import com.sifat.slushflicks.data.DataManager
+import com.sifat.slushflicks.data.pager.ReviewDataFactory
+import com.sifat.slushflicks.data.pager.ReviewDataSource
 import com.sifat.slushflicks.model.MovieModel
 import com.sifat.slushflicks.model.MovieModelMinimal
+import com.sifat.slushflicks.model.ReviewModel
 import com.sifat.slushflicks.repository.resource.impl.CastNetworkResource
 import com.sifat.slushflicks.repository.resource.impl.DetailsNetworkResource
 import com.sifat.slushflicks.repository.resource.impl.DetailsNetworkResource.RequestModel
 import com.sifat.slushflicks.repository.resource.impl.SimilarMoviesNetworkResource
 import com.sifat.slushflicks.repository.resource.impl.VideoNetworkResource
 import com.sifat.slushflicks.ui.state.DataState
+import com.sifat.slushflicks.ui.state.DataSuccessResponse
 import com.sifat.slushflicks.utils.Label.Companion.RECOMMENDATION_LABEL
 import com.sifat.slushflicks.utils.Label.Companion.SIMILAR_LABEL
+import com.sifat.slushflicks.utils.PAGE_SIZE
 import com.sifat.slushflicks.utils.api.NetworkStateManager
 
 class MovieDetailsRepository(
@@ -76,5 +84,26 @@ class MovieDetailsRepository(
             ),
             networkStateManager = networkStateManager
         ).asLiveData()
+    }
+
+    fun getReviews(movieId: Long): LiveData<DataState<PagedList<ReviewModel>>> {
+        val pageConfig = PagedList.Config.Builder()
+            .setPageSize(PAGE_SIZE)
+            .setInitialLoadSizeHint(PAGE_SIZE)
+            .setPrefetchDistance(PAGE_SIZE / 2)
+            .build()
+        val dataSource = ReviewDataFactory(
+            movieService = movieService,
+            requestModel = ReviewDataSource.RequestModel(apiKey, movieId)
+        ).toLiveData(pageConfig)
+        return Transformations.map(
+            dataSource
+        ) { pagedList ->
+            DataState.Success<PagedList<ReviewModel>>(
+                DataSuccessResponse(
+                    data = pagedList
+                )
+            )
+        }
     }
 }

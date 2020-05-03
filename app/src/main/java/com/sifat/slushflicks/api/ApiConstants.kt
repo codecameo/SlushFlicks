@@ -5,6 +5,7 @@ import com.sifat.slushflicks.api.ApiEndPoint.Companion.GENRES_TV_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.MOVIE_CREDITS_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.MOVIE_DETAILS_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.MOVIE_RECOMMENDATION_URL
+import com.sifat.slushflicks.api.ApiEndPoint.Companion.MOVIE_REVIEWS_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.MOVIE_SIMILAR_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.MOVIE_VIDEOS_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.NOW_PLAYING_MOVIE_URL
@@ -50,6 +51,7 @@ class ApiEndPoint {
         const val MOVIE_RECOMMENDATION_URL = "movie/{$PATH_MOVIE_ID}/$RECOMMENDATION_LABEL"
         const val MOVIE_SIMILAR_URL = "movie/{$PATH_MOVIE_ID}/$SIMILAR_LABEL"
         const val MOVIE_RELATED_MOVIE_URL = "movie/{$PATH_MOVIE_ID}/{$PATH_MOVIE_RELATION_TYPE}"
+        const val MOVIE_REVIEWS_URL = "movie/{$PATH_MOVIE_ID}/reviews"
         const val GENRES_MOVIE_URL = "genre/movie/list"
         const val GENRES_TV_URL = "genre/tv/list"
         const val POPULAR_MOVIE_URL = "movie/popular"
@@ -79,6 +81,7 @@ class ApiTag {
         const val MOVIE_CREDITS_API_TAG = MOVIE_CREDITS_URL + GET
         const val MOVIE_RECOMMENDATION_API_TAG = MOVIE_RECOMMENDATION_URL + GET
         const val MOVIE_SIMILAR_API_TAG = MOVIE_SIMILAR_URL + GET
+        const val MOVIE_REVIEWS_API_TAG = MOVIE_REVIEWS_URL + GET
     }
 }
 

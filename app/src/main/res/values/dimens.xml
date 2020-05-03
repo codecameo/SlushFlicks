@@ -26,4 +26,5 @@
     <dimen name="cast_img_width">116dp</dimen>
     <dimen name="cast_img_height">148dp</dimen>
     <dimen name="large_font">16sp</dimen>
+    <dimen name="default_radius">6dp</dimen>
 </resources>

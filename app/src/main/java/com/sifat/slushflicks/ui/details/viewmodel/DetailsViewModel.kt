@@ -1,9 +1,11 @@
 package com.sifat.slushflicks.ui.details.viewmodel
 
 import androidx.lifecycle.Observer
+import androidx.paging.PagedList
 import com.sifat.slushflicks.di.details.DetailsScope
 import com.sifat.slushflicks.model.MovieModel
 import com.sifat.slushflicks.model.MovieModelMinimal
+import com.sifat.slushflicks.model.ReviewModel
 import com.sifat.slushflicks.repository.MovieDetailsRepository
 import com.sifat.slushflicks.ui.base.BaseActionViewModel
 import com.sifat.slushflicks.ui.details.state.dataaction.DetailDataAction
@@ -13,7 +15,9 @@ import com.sifat.slushflicks.ui.details.state.event.DetailsViewEvent.*
 import com.sifat.slushflicks.ui.details.state.viewaction.DetailsViewAction
 import com.sifat.slushflicks.ui.details.state.viewaction.DetailsViewAction.*
 import com.sifat.slushflicks.ui.details.state.viewstate.DetailsViewState
+import com.sifat.slushflicks.ui.helper.getMovieListLoadingModels
 import com.sifat.slushflicks.ui.helper.getMovieListModel
+import com.sifat.slushflicks.ui.home.adapter.model.MovieListModel
 import com.sifat.slushflicks.ui.state.DataErrorResponse
 import com.sifat.slushflicks.ui.state.DataState
 import com.sifat.slushflicks.ui.state.ViewState
@@ -48,12 +52,18 @@ class DetailsViewModel
             is FetchSimilarMovieViewEvent -> {
                 fetchSimilarMovies(viewState.movieId)
             }
+            is FetchReviewsViewEvent -> {
+                fetchMovieReviews(viewState.movieId)
+            }
         }
     }
 
     /*********** Fetch data from repo ************/
 
     private fun fetchSimilarMovies(movieId: Long) {
+        getAction().value = FetchSimilarViewAction(
+            ViewState.Loading<List<MovieListModel>>(getMovieListLoadingModels())
+        )
         val similarSource = detailsRepository.getSimilarMovies(movieId)
         dataState.addSource(similarSource) { similarMovies ->
             dataState.removeSource(similarSource)
@@ -64,6 +74,9 @@ class DetailsViewModel
     }
 
     private fun fetchRecommendedMovies(movieId: Long) {
+        getAction().value = FetchRecommendationViewAction(
+            ViewState.Loading<List<MovieListModel>>(getMovieListLoadingModels())
+        )
         val recommendedSource = detailsRepository.getRecommendationMovies(movieId)
         dataState.addSource(recommendedSource) { recommendedMovies ->
             dataState.removeSource(recommendedSource)
@@ -101,6 +114,13 @@ class DetailsViewModel
             })
     }
 
+    private fun fetchMovieReviews(movieId: Long) {
+        dataState.addSource(detailsRepository.getReviews(movieId),
+            Observer { reviewList ->
+                dataState.value = FetchReviewDataAction(reviewList)
+            })
+    }
+
     /*********** Send action to view ************/
 
     fun setDataAction(action: FetchMovieDetailsAction) {
@@ -117,10 +137,8 @@ class DetailsViewModel
     fun setDataAction(action: FetchSimilarDataAction) {
         when (val dataState = action.dataState) {
             is DataState.Success<List<MovieModelMinimal>> -> {
-                dataState.dataResponse.data?.let { movie ->
-                    viewState.similarMovies = getMovieListModel(movie)
-                    sendSimilarSuccessAction(dataState)
-                }
+                viewState.similarMovies = getMovieListModel(dataState.dataResponse.data)
+                sendSimilarSuccessAction(dataState)
             }
             is DataState.Error<List<MovieModelMinimal>> -> {
                 sendSimilarErrorAction(dataState.dataResponse)
@@ -131,13 +149,20 @@ class DetailsViewModel
     fun setDataAction(action: FetchRecommendationDataAction) {
         when (val dataState = action.dataState) {
             is DataState.Success<List<MovieModelMinimal>> -> {
-                dataState.dataResponse.data?.let { movie ->
-                    viewState.recommendedMovies = getMovieListModel(movie)
-                    sendRecommendationSuccessAction(dataState)
-                }
+                viewState.recommendedMovies = getMovieListModel(dataState.dataResponse.data)
+                sendRecommendationSuccessAction(dataState)
             }
             is DataState.Error<List<MovieModelMinimal>> -> {
                 sendRecommendationErrorAction(dataState.dataResponse)
+            }
+        }
+    }
+
+    fun setDataAction(action: FetchReviewDataAction) {
+        when (val dataState = action.dataState) {
+            is DataState.Success<PagedList<ReviewModel>> -> {
+                viewState.reviews = dataState.dataResponse.data
+                sendReviewSuccessAction(dataState)
             }
         }
     }
@@ -165,6 +190,12 @@ class DetailsViewModel
     private fun sendMovieSuccessAction() {
         getAction().value = FetchDetailsViewAction(
             ViewState.Success(viewState.movie)
+        )
+    }
+
+    private fun sendReviewSuccessAction(dataState: DataState.Success<PagedList<ReviewModel>>) {
+        getAction().value = FetchReviewViewAction(
+            ViewState.Success(viewState.reviews)
         )
     }
 

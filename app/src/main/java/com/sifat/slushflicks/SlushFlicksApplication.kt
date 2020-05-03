@@ -45,7 +45,7 @@ class SlushFlicksApplication : MultiDexApplication(), HasActivityInjector,
             synchronized(this) {
                 if (needToInject) {
                     val applicationInjector =
-                        applicationInjector() as AndroidInjector<SlushFlicksApplication>
+                        applicationInjector()
                     applicationInjector.inject(this)
                     check(!needToInject) {
                         ("The AndroidInjector returned from applicationInjector() did not inject the "

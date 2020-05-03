@@ -54,6 +54,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:fontFamily="sans-serif-medium"
                 android:layout_width="@dimen/default_0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/standard_half_margin"
@@ -89,17 +90,6 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="7.8" />
-
-            <View
-                android:layout_width="@dimen/medium_loading_width"
-                android:layout_height="@dimen/loading_height"
-                android:layout_marginStart="@dimen/standard_half_margin"
-                android:layout_marginBottom="@dimen/standard_half_margin"
-                android:background="@color/loading_color"
-                android:visibility="@{state == ListViewState.LOADING? View.VISIBLE : View.INVISIBLE}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                tools:visibility="invisible" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.facebook.shimmer.ShimmerFrameLayout>

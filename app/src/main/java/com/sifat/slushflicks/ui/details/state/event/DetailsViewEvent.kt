@@ -6,4 +6,5 @@ sealed class DetailsViewEvent {
     class FetchCastViewEvent : DetailsViewEvent()
     class FetchRecommendedMovieViewEvent : DetailsViewEvent()
     class FetchSimilarMovieViewEvent : DetailsViewEvent()
+    class FetchReviewsViewEvent : DetailsViewEvent()
 }

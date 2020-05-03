@@ -11,5 +11,5 @@
     <color name="subTextColor">#b1b1b1</color>
     <color name="loading_color">#E2E2E2</color>
     <color name="divider_color">#828282</color>
-    <color name="bg_play_button">#77F2F2F2</color>
+    <color name="bg_play_button">#55F2F2F2</color>
 </resources>
