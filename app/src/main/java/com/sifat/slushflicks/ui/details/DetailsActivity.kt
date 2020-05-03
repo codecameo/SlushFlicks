@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import android.view.View.GONE
 import androidx.lifecycle.Observer
@@ -26,6 +27,7 @@ import com.sifat.slushflicks.ui.home.adapter.model.MovieListModel
 import com.sifat.slushflicks.ui.state.ViewState
 import com.sifat.slushflicks.utils.INVALID_ID
 import com.sifat.slushflicks.utils.showToast
+
 
 class DetailsActivity : FullScreenActivity<ActivityDetailsBinding, DetailsViewModel>(),
     View.OnClickListener {
@@ -50,8 +52,17 @@ class DetailsActivity : FullScreenActivity<ActivityDetailsBinding, DetailsViewMo
         fetchMovieDetails()
     }
 
+    /**
+     * Set toolbar into actionbar.
+     */
     private fun setupToolbar() {
-
+        setSupportActionBar(binding.toolbarDetails)
+        supportActionBar?.run {
+            setDisplayShowHomeEnabled(true)
+            setDisplayShowTitleEnabled(true)
+            setDisplayHomeAsUpEnabled(true)
+            setHomeAsUpIndicator(R.drawable.ic_back_arrow)
+        }
     }
 
     private fun extractData() {
@@ -112,6 +123,14 @@ class DetailsActivity : FullScreenActivity<ActivityDetailsBinding, DetailsViewMo
                 }
             }
         })
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            onBackPressed()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun fetchMovieDetails() {

@@ -14,4 +14,16 @@
         <item name="colorPrimaryDark">@android:color/transparent</item>
     </style>
 
+    <style name="ExpandedTitleText" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/white</item>
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">@dimen/large_title_font</item>
+    </style>
+
+    <style name="CollapsedTitleText" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/white</item>
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">@dimen/title_font</item>
+    </style>
+
 </resources>

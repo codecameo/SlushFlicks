@@ -22,16 +22,22 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:elevation="@dimen/standard_half_margin">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:collapsedTitleTextAppearance="@style/CollapsedTitleText"
+                app:contentInsetStart="0dp"
+                app:expandedTitleMarginBottom="@dimen/standard_half_margin"
+                app:expandedTitleMarginStart="@dimen/standard_margin"
+                app:expandedTitleTextAppearance="@style/ExpandedTitleText"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|enterAlwaysCollapsed">
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="424dp"
+                    android:layout_height="@dimen/poster_height"
                     app:layout_collapseMode="parallax"
                     app:layout_collapseParallaxMultiplier="0.1">
 
@@ -51,35 +57,24 @@
                         android:layout_height="match_parent"
                         android:background="@drawable/detail_image_foreground" />
 
-                    <TextView
-                        android:id="@+id/tvTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:layout_marginStart="@dimen/standard_margin"
-                        android:fontFamily="sans-serif-medium"
-                        android:text="@{model.title}"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/large_title_font"
-                        tools:text="The Matrix" />
-
                     <ImageView
                         android:id="@+id/ivPlayTrailer"
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
                         android:layout_gravity="center"
                         android:background="@drawable/gray_circle"
                         android:contentDescription="@string/play_image"
                         android:scaleType="centerInside"
                         android:src="@drawable/ic_play" />
-
                 </FrameLayout>
 
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbarDetails"
                     android:layout_width="match_parent"
                     android:layout_height="?actionBarSize"
-                    app:layout_collapseMode="pin" />
+                    android:layout_marginTop="@dimen/status_bar_height"
+                    app:layout_collapseMode="pin"
+                    app:title="@{model.title}" />
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -340,7 +335,6 @@
                     android:text="@string/text_review_not_found"
                     android:textColor="@color/subTextColor"
                     android:textSize="@dimen/large_font"
-                    android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvTitleReview" />
