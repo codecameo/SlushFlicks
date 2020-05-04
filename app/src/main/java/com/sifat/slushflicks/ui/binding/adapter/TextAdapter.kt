@@ -35,17 +35,21 @@ fun TextView.setRating(voteAvg: Double?, voteCount: Int?) {
 @BindingAdapter("runtime")
 fun TextView.setRuntime(runtime: Int?) {
     runtime?.let { time ->
-        val hour: Int = time / 60
-        val min = time % 60
-        text = "${hour}h ${min}min"
+        text = if (time == 0) {
+            NA
+        } else {
+            val hour: Int = time / 60
+            val min = time % 60
+            "${hour}h ${min}min"
+        }
     }
 }
 
 //1999-03-30
 @BindingAdapter("releaseDate")
 fun TextView.setReleaseDate(releaseDate: String?) {
-    releaseDate?.let { dateStr ->
-        text = try {
+    text = releaseDate?.let { dateStr ->
+        try {
             val date = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).parse(dateStr)
             date?.let {
                 val finalDate = SimpleDateFormat("dd MMM, yyyy", Locale.ENGLISH).format(date)
@@ -54,5 +58,5 @@ fun TextView.setReleaseDate(releaseDate: String?) {
         } catch (ex: Exception) {
             NA
         }
-    }
+    } ?: NA
 }

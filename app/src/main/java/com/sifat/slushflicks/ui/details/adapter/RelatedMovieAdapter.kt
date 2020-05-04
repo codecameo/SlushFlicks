@@ -11,6 +11,9 @@ import com.sifat.slushflicks.ui.details.adapter.viewholder.MovieViewHolder
 import com.sifat.slushflicks.ui.home.adapter.model.MovieListModel
 
 class RelatedMovieAdapter : ListAdapter<MovieListModel, MovieViewHolder>(MovieDiffUtils()) {
+
+    lateinit var onMovieClickedListener: MovieViewHolder.OnMovieClickListener
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding =
@@ -20,7 +23,7 @@ class RelatedMovieAdapter : ListAdapter<MovieListModel, MovieViewHolder>(MovieDi
                 parent,
                 false
             )
-        return MovieViewHolder(binding)
+        return MovieViewHolder(binding, onMovieClickedListener)
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {

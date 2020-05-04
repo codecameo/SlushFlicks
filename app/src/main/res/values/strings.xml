@@ -15,9 +15,9 @@
     <string name="install_youtube">Please install youtube to view this trailer</string>
     <string name="text_cast">Cast</string>
     <string name="recommended_error_message">Could not fetched recommended list</string>
+    <string name="similar_error_message">Could not fetched similar list</string>
     <string name="text_recommended">Recommended</string>
     <string name="text_similar">Similar</string>
-    <string name="similar_error_message">Couldn\'t fetch similar list</string>
     <string name="text_review">Review</string>
     <string name="text_review_not_found">Review Not Found</string>
 </resources>

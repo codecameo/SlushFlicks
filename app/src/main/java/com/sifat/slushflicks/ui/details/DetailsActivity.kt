@@ -12,11 +12,13 @@ import androidx.paging.PagedList
 import com.sifat.slushflicks.R
 import com.sifat.slushflicks.databinding.ActivityDetailsBinding
 import com.sifat.slushflicks.model.MovieModel
+import com.sifat.slushflicks.model.MovieModelMinimal
 import com.sifat.slushflicks.model.ReviewModel
 import com.sifat.slushflicks.ui.base.FullScreenActivity
 import com.sifat.slushflicks.ui.details.adapter.CastAdapter
 import com.sifat.slushflicks.ui.details.adapter.RelatedMovieAdapter
 import com.sifat.slushflicks.ui.details.adapter.ReviewAdapter
+import com.sifat.slushflicks.ui.details.adapter.viewholder.MovieViewHolder
 import com.sifat.slushflicks.ui.details.state.dataaction.DetailDataAction.*
 import com.sifat.slushflicks.ui.details.state.event.DetailsViewEvent
 import com.sifat.slushflicks.ui.details.state.event.DetailsViewEvent.FetchCastViewEvent
@@ -30,7 +32,7 @@ import com.sifat.slushflicks.utils.showToast
 
 
 class DetailsActivity : FullScreenActivity<ActivityDetailsBinding, DetailsViewModel>(),
-    View.OnClickListener {
+    View.OnClickListener, MovieViewHolder.OnMovieClickListener {
     private val TAG = "DetailsActivity"
     override fun getLayoutRes() = R.layout.activity_details
 
@@ -87,6 +89,8 @@ class DetailsActivity : FullScreenActivity<ActivityDetailsBinding, DetailsViewMo
 
     private fun initListener() {
         binding.ivPoster.setOnClickListener(this)
+        recommendedAdapter.onMovieClickedListener = this
+        similarAdapter.onMovieClickedListener = this
     }
 
     private fun subscribeAction() {
@@ -148,6 +152,18 @@ class DetailsActivity : FullScreenActivity<ActivityDetailsBinding, DetailsViewMo
         }
     }
 
+    override fun onMovieClicked(movieModelMinimal: MovieModelMinimal) {
+        refreshWith(movieModelMinimal.id)
+    }
+
+    private fun refreshWith(movieId: Long) {
+        viewModel.setMovieId(movieId = movieId)
+        isAlreadyAttempted = false
+        fetchMovieDetails()
+        binding.nsvContent.smoothScrollTo(0, 0)
+        binding.appBarPoster.setExpanded(true, true)
+    }
+
     private fun showTrailer() {
         binding.model?.let { model ->
             if (model.video.isNotEmpty()) {
@@ -192,7 +208,7 @@ class DetailsActivity : FullScreenActivity<ActivityDetailsBinding, DetailsViewMo
                 if (viewState.data.isNullOrEmpty()) hideSimilarSection()
             }
             is ViewState.Error<List<MovieListModel>> -> {
-                showToast(viewState.errorMessage ?: getString(R.string.recommended_error_message))
+                showToast(viewState.errorMessage ?: getString(R.string.similar_error_message))
                 hideSimilarSection()
             }
         }
@@ -241,7 +257,7 @@ class DetailsActivity : FullScreenActivity<ActivityDetailsBinding, DetailsViewMo
     }
 
     private fun hideReviewList() {
-        //rvReview.visibility = GONE
+        //binding.rvReview.visibility = INVISIBLE
     }
 
     companion object {

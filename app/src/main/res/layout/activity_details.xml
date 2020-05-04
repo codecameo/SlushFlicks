@@ -21,6 +21,7 @@
         android:paddingBottom="@dimen/standard_half_margin">
 
         <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarPoster"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:elevation="@dimen/standard_half_margin">
@@ -30,6 +31,7 @@
                 android:layout_height="wrap_content"
                 app:collapsedTitleTextAppearance="@style/CollapsedTitleText"
                 app:contentInsetStart="0dp"
+                app:title="@{model.title}"
                 app:expandedTitleMarginBottom="@dimen/standard_half_margin"
                 app:expandedTitleMarginStart="@dimen/standard_margin"
                 app:expandedTitleTextAppearance="@style/ExpandedTitleText"
@@ -59,8 +61,8 @@
 
                     <ImageView
                         android:id="@+id/ivPlayTrailer"
-                        android:layout_width="56dp"
-                        android:layout_height="56dp"
+                        android:layout_width="@dimen/btn_trailer_play_size"
+                        android:layout_height="@dimen/btn_trailer_play_size"
                         android:layout_gravity="center"
                         android:background="@drawable/gray_circle"
                         android:contentDescription="@string/play_image"
@@ -79,6 +81,7 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/nsvContent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">

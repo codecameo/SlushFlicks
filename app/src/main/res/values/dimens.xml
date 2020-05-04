@@ -29,4 +29,5 @@
     <dimen name="default_radius">6dp</dimen>
     <dimen name="status_bar_height">24dp</dimen>
     <dimen name="poster_height">424dp</dimen>
+    <dimen name="btn_trailer_play_size">56dp</dimen>
 </resources>
