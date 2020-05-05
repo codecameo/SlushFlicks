@@ -80,4 +80,12 @@ class HomeModule {
     ): MovieHomeRepository {
         return MovieHomeRepository(dataManager)
     }
+
+    @HomeScope
+    @Provides
+    fun provideTvHomeRepository(
+        dataManager: DataManager
+    ): TvHomeRepository {
+        return TvHomeRepository(dataManager)
+    }
 }

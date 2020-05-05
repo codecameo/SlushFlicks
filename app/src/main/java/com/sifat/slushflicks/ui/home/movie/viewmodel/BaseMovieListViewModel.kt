@@ -1,6 +1,5 @@
 package com.sifat.slushflicks.ui.home.movie.viewmodel
 
-import android.util.Log
 import androidx.paging.PagedList
 import com.sifat.slushflicks.model.MovieModelMinimal
 import com.sifat.slushflicks.repository.BaseMovieListRepository
@@ -87,7 +86,6 @@ open class BaseMovieListViewModel
                 dataState.dataResponse.metaData?.run {
                     viewState.totalPage = totalPage
                     viewState.currentPage = page
-                    Log.d(TAG, "Page -> $page")
                 }
             }
             is Error<Int> -> {

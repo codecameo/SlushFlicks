@@ -16,8 +16,8 @@
         android:title="@string/title_search" />
 
     <item
-        android:id="@+id/menuTvSettings"
+        android:id="@+id/menuAbout"
         android:icon="@drawable/ic_settings"
-        android:title="@string/title_setting" />
+        android:title="@string/title_about" />
 
 </menu>

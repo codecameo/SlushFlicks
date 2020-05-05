@@ -1,6 +1,5 @@
 package com.sifat.slushflicks.data.impl
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.FirebaseFirestore
@@ -27,7 +26,6 @@ class FireStoreManagerImpl
         docRef.get()
             .addOnSuccessListener { document ->
                 if (document != null && document.data != null) {
-                    Log.d(TAG, "DocumentSnapshot data: ${document.data}")
                     try {
                         val collection = document.toObject(CollectionFireStoreResponse::class.java)
                         result.postValue(
@@ -65,7 +63,52 @@ class FireStoreManagerImpl
                     )
                 )
             }
+        return result
+    }
 
+    override fun getTvCollections(): LiveData<DataState<List<CollectionModel>>> {
+        val result = MutableLiveData<DataState<List<CollectionModel>>>()
+        val docRef = fireStore.collection(COLLECTION_NAME).document(TV_COLLECTION_ID)
+        docRef.get()
+            .addOnSuccessListener { document ->
+                if (document != null && document.data != null) {
+                    try {
+                        val collection = document.toObject(CollectionFireStoreResponse::class.java)
+                        result.postValue(
+                            DataState.Success(
+                                DataSuccessResponse(
+                                    data = collection?.collections
+                                )
+                            )
+                        )
+                    } catch (ex: Exception) {
+                        result.postValue(
+                            DataState.Error(
+                                DataErrorResponse(
+                                    statusCode = StatusCode.INTERNAL_ERROR
+                                )
+                            )
+                        )
+                    }
+                } else {
+                    result.postValue(
+                        DataState.Error(
+                            DataErrorResponse(
+                                statusCode = StatusCode.EMPTY_RESPONSE
+                            )
+                        )
+                    )
+                }
+            }
+            .addOnFailureListener { exception ->
+                result.postValue(
+                    DataState.Error(
+                        DataErrorResponse(
+                            errorMessage = exception.message
+                        )
+                    )
+                )
+            }
         return result
     }
 

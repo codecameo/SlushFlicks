@@ -7,4 +7,6 @@ import com.sifat.slushflicks.ui.state.DataState
 interface FireStoreManager {
 
     fun getMovieCollections(): LiveData<DataState<List<CollectionModel>>>
+
+    fun getTvCollections(): LiveData<DataState<List<CollectionModel>>>
 }

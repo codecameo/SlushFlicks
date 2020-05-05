@@ -3,7 +3,7 @@
     <string name="title_movie">Movie</string>
     <string name="title_tv_show">TV Show</string>
     <string name="title_search">Search</string>
-    <string name="title_setting">Setting</string>
+    <string name="title_about">About</string>
     <string name="long_dummy_description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
     <string name="text_movie">Movie</string>
     <string name="error_message">Something went wrong. Please try again later</string>
@@ -20,4 +20,5 @@
     <string name="text_similar">Similar</string>
     <string name="text_review">Review</string>
     <string name="text_review_not_found">Review Not Found</string>
+    <string name="text_tvshow">Tv Show</string>
 </resources>

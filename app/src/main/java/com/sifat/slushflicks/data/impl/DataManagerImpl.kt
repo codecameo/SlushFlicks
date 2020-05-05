@@ -89,4 +89,8 @@ class DataManagerImpl
     override fun getMovieCollections(): LiveData<DataState<List<CollectionModel>>> {
         return fireStoreManager.getMovieCollections()
     }
+
+    override fun getTvCollections(): LiveData<DataState<List<CollectionModel>>> {
+        return fireStoreManager.getTvCollections()
+    }
 }
