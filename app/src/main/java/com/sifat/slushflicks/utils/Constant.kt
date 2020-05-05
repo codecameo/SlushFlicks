@@ -7,6 +7,7 @@ class Label {
         const val TOP_RATED_LABEL = "top_rated"
         const val UPCOMING_LABEL = "upcoming"
         const val NOW_PLAYING_LABEL = "now_playing"
+        const val AIRING_TODAY = "airing_today"
         const val SIMILAR_LABEL = "similar"
         const val RECOMMENDATION_LABEL = "recommendations"
         const val DEFAULT_LABEL = TRENDING_LABEL

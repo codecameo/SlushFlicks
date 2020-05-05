@@ -1,5 +1,6 @@
 package com.sifat.slushflicks.api
 
+import com.sifat.slushflicks.api.ApiEndPoint.Companion.AIRING_TODAY_TV_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.GENRES_MOVIE_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.GENRES_TV_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.MOVIE_CREDITS_URL
@@ -10,7 +11,9 @@ import com.sifat.slushflicks.api.ApiEndPoint.Companion.MOVIE_SIMILAR_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.MOVIE_VIDEOS_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.NOW_PLAYING_MOVIE_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.POPULAR_MOVIE_URL
+import com.sifat.slushflicks.api.ApiEndPoint.Companion.POPULAR_TV_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.TOP_RATED_MOVIE_URL
+import com.sifat.slushflicks.api.ApiEndPoint.Companion.TOP_RATED_TV_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.TRENDING_MOVIE_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.TRENDING_TV_SHOW_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.UPCOMING_MOVIE_URL
@@ -61,6 +64,9 @@ class ApiEndPoint {
         const val NOW_PLAYING_MOVIE_URL = "movie/now_playing"
         const val TOP_RATED_MOVIE_URL = "movie/top_rated"
         const val UPCOMING_MOVIE_URL = "movie/upcoming"
+        const val POPULAR_TV_URL = "tv/popular"
+        const val AIRING_TODAY_TV_URL = "tv/airing_today"
+        const val TOP_RATED_TV_URL = "tv/top_rated"
     }
 }
 
@@ -75,10 +81,10 @@ class ApiTag {
         const val TRENDING_MOVIE_API_TAG = TRENDING_MOVIE_URL + GET
         const val TV_GENRE_API_TAG = GENRES_TV_URL + GET
         const val MOVIE_GENRE_API_TAG = GENRES_MOVIE_URL + GET
-        const val POPULAR_API_TAG = POPULAR_MOVIE_URL + GET
-        const val NOW_PLAYING_API_TAG = NOW_PLAYING_MOVIE_URL + GET
-        const val UPCOMING_API_TAG = UPCOMING_MOVIE_URL + GET
-        const val TOP_RATED_API_TAG = TOP_RATED_MOVIE_URL + GET
+        const val POPULAR_MOVIE_API_TAG = POPULAR_MOVIE_URL + GET
+        const val NOW_PLAYING_MOVIE_API_TAG = NOW_PLAYING_MOVIE_URL + GET
+        const val UPCOMING_MOVIE_API_TAG = UPCOMING_MOVIE_URL + GET
+        const val TOP_RATED_MOVIE_API_TAG = TOP_RATED_MOVIE_URL + GET
         const val MOVIE_DETAIL_API_TAG = MOVIE_DETAILS_URL + GET
         const val MOVIE_VIDEO_API_TAG = MOVIE_VIDEOS_URL + GET
         const val MOVIE_CREDITS_API_TAG = MOVIE_CREDITS_URL + GET
@@ -87,6 +93,9 @@ class ApiTag {
         const val MOVIE_REVIEWS_API_TAG = MOVIE_REVIEWS_URL + GET
 
         const val TRENDING_TV_API_TAG = TRENDING_TV_SHOW_URL + GET
+        const val POPULAR_TV_API_TAG = POPULAR_TV_URL + GET
+        const val AIRING_TODAY_TV_API_TAG = AIRING_TODAY_TV_URL + GET
+        const val TOP_RATED_TV_API_TAG = TOP_RATED_TV_URL + GET
 
     }
 }

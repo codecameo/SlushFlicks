@@ -1,7 +1,7 @@
 package com.sifat.slushflicks.repository.movie
 
 import androidx.lifecycle.LiveData
-import com.sifat.slushflicks.api.ApiTag.Companion.NOW_PLAYING_API_TAG
+import com.sifat.slushflicks.api.ApiTag.Companion.NOW_PLAYING_MOVIE_API_TAG
 import com.sifat.slushflicks.api.home.movie.MovieService
 import com.sifat.slushflicks.data.DataManager
 import com.sifat.slushflicks.repository.resource.impl.MovieListNetworkResource
@@ -22,7 +22,7 @@ class NowPlayingRepository(
         val requestModel = MovieListNetworkResource.RequestModel(
             page = nextPage,
             apiKey = apiKey,
-            apiTag = NOW_PLAYING_API_TAG
+            apiTag = NOW_PLAYING_MOVIE_API_TAG
         )
         val movieListNetworkResource = MovieListNetworkResource(
             requestModel = requestModel,

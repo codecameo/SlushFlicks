@@ -120,6 +120,18 @@ class HomeTvFragment :
                 childFragmentManager.findFragmentByTag(getFragmentLabel(label))
                     ?: TrendingTvFragment()
             }
+            Label.POPULAR_LABEL -> {
+                childFragmentManager.findFragmentByTag(getFragmentLabel(label))
+                    ?: PopularTvFragment()
+            }
+            Label.TOP_RATED_LABEL -> {
+                childFragmentManager.findFragmentByTag(getFragmentLabel(label))
+                    ?: TopRatedTvFragment()
+            }
+            Label.AIRING_TODAY -> {
+                childFragmentManager.findFragmentByTag(getFragmentLabel(label))
+                    ?: AirTodayTvFragment()
+            }
             else -> {
                 childFragmentManager.findFragmentByTag(getFragmentLabel(Label.DEFAULT_LABEL))
                     ?: TrendingTvFragment()

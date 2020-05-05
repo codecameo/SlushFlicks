@@ -1,7 +1,7 @@
 package com.sifat.slushflicks.repository.movie
 
 import androidx.lifecycle.LiveData
-import com.sifat.slushflicks.api.ApiTag.Companion.TOP_RATED_API_TAG
+import com.sifat.slushflicks.api.ApiTag.Companion.TOP_RATED_MOVIE_API_TAG
 import com.sifat.slushflicks.api.home.movie.MovieService
 import com.sifat.slushflicks.data.DataManager
 import com.sifat.slushflicks.repository.resource.impl.MovieListNetworkResource
@@ -22,7 +22,7 @@ class TopRatedMovieRepository(
         val requestModel = MovieListNetworkResource.RequestModel(
             page = nextPage,
             apiKey = apiKey,
-            apiTag = TOP_RATED_API_TAG
+            apiTag = TOP_RATED_MOVIE_API_TAG
         )
         val movieListNetworkResource = MovieListNetworkResource(
             requestModel = requestModel,
