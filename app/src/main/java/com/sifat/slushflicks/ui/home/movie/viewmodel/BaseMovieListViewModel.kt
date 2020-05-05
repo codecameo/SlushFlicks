@@ -1,8 +1,8 @@
 package com.sifat.slushflicks.ui.home.movie.viewmodel
 
 import androidx.paging.PagedList
-import com.sifat.slushflicks.model.MovieModelMinimal
-import com.sifat.slushflicks.repository.BaseMovieListRepository
+import com.sifat.slushflicks.model.ShowModelMinimal
+import com.sifat.slushflicks.repository.movie.BaseMovieListRepository
 import com.sifat.slushflicks.ui.base.BaseActionViewModel
 import com.sifat.slushflicks.ui.home.movie.state.dataaction.MovieListDataAction
 import com.sifat.slushflicks.ui.home.movie.state.dataaction.MovieListDataAction.FetchCacheMovieListDataAction
@@ -36,7 +36,7 @@ open class BaseMovieListViewModel
 
     private fun fetchMovie(event: FetchMovieListEvent) {
         if (!event.forceUpdate) {
-            if (!viewState.movieList.isNullOrEmpty()) {
+            if (!viewState.showList.isNullOrEmpty()) {
                 sendMovieListSuccessAction()
                 return
             }
@@ -68,13 +68,13 @@ open class BaseMovieListViewModel
 
     fun setDataAction(actionCache: FetchCacheMovieListDataAction) {
         when (val dataState = actionCache.dataState) {
-            is DataState.Success<PagedList<MovieModelMinimal>> -> {
+            is DataState.Success<PagedList<ShowModelMinimal>> -> {
                 dataState.dataResponse.data?.let { movie ->
-                    viewState.movieList = movie
+                    viewState.showList = movie
                     sendMovieListSuccessAction()
                 }
             }
-            is Error<PagedList<MovieModelMinimal>> -> {
+            is Error<PagedList<ShowModelMinimal>> -> {
                 sendMovieListErrorAction(dataState)
             }
         }
@@ -94,7 +94,7 @@ open class BaseMovieListViewModel
         }
     }
 
-    private fun sendMovieListErrorAction(dataState: Error<PagedList<MovieModelMinimal>>) {
+    private fun sendMovieListErrorAction(dataState: Error<PagedList<ShowModelMinimal>>) {
         getAction().value = FetchCacheMovieListViewAction(
             ViewState.Error(
                 errorMessage = dataState.dataResponse.errorMessage
@@ -116,7 +116,7 @@ open class BaseMovieListViewModel
     private fun sendMovieListSuccessAction() {
         getAction().value = FetchCacheMovieListViewAction(
             ViewState.Success(
-                viewState.movieList
+                viewState.showList
             )
         )
     }
@@ -132,8 +132,8 @@ open class BaseMovieListViewModel
         )
     }
 
-    private val boundaryCallback = object : PagedList.BoundaryCallback<MovieModelMinimal>() {
-        override fun onItemAtEndLoaded(itemAtEnd: MovieModelMinimal) {
+    private val boundaryCallback = object : PagedList.BoundaryCallback<ShowModelMinimal>() {
+        override fun onItemAtEndLoaded(itemAtEnd: ShowModelMinimal) {
             updateCache()
         }
 

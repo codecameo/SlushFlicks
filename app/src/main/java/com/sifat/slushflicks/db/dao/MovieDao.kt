@@ -9,7 +9,7 @@ import com.sifat.slushflicks.db.DbConstant.TableName.Companion.TABLE_NAME_MOVIE_
 import com.sifat.slushflicks.model.CastModel
 import com.sifat.slushflicks.model.GenreModel
 import com.sifat.slushflicks.model.MovieModel
-import com.sifat.slushflicks.model.MovieModelMinimal
+import com.sifat.slushflicks.model.ShowModelMinimal
 
 @Dao
 interface MovieDao : BaseDao<MovieModel> {
@@ -18,7 +18,7 @@ interface MovieDao : BaseDao<MovieModel> {
     suspend fun getMovies(collection: String): List<MovieModel>?
 
     @Query("SELECT ${TABLE_NAME_MOVIE}.id, title, overview, voteAvg, backdropPath, genres FROM $TABLE_NAME_MOVIE INNER JOIN $TABLE_NAME_MOVIE_TYPE ON ${TABLE_NAME_MOVIE}.id = ${TABLE_NAME_MOVIE_TYPE}.id WHERE ${TABLE_NAME_MOVIE_TYPE}.collection= :collection ORDER BY ${TABLE_NAME_MOVIE_TYPE}.`index`")
-    fun getPagedMovieSource(collection: String): DataSource.Factory<Int, MovieModelMinimal>
+    fun getPagedMovieSource(collection: String): DataSource.Factory<Int, ShowModelMinimal>
 
     @Query("SELECT * FROM $TABLE_NAME_MOVIE WHERE id = :movieId")
     fun getMovie(movieId: Long): LiveData<MovieModel>

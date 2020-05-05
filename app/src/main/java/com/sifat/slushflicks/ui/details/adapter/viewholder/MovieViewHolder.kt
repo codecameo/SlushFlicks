@@ -3,7 +3,7 @@ package com.sifat.slushflicks.ui.details.adapter.viewholder
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.sifat.slushflicks.databinding.ItemRelatedMovieBinding
-import com.sifat.slushflicks.model.MovieModelMinimal
+import com.sifat.slushflicks.model.ShowModelMinimal
 import com.sifat.slushflicks.ui.home.adapter.model.MovieListModel
 
 class MovieViewHolder(
@@ -21,7 +21,7 @@ class MovieViewHolder(
     }
 
     interface OnMovieClickListener {
-        fun onMovieClicked(movieModelMinimal: MovieModelMinimal)
+        fun onMovieClicked(showModelMinimal: ShowModelMinimal)
     }
 
     override fun onClick(view: View?) {

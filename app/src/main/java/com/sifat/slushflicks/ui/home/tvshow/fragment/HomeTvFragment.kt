@@ -13,7 +13,6 @@ import com.sifat.slushflicks.ui.base.BaseFragment
 import com.sifat.slushflicks.ui.home.adapter.TypeTagListAdapter
 import com.sifat.slushflicks.ui.home.adapter.model.CollectionListModel
 import com.sifat.slushflicks.ui.home.adapter.viewholder.TypeTagViewModel
-import com.sifat.slushflicks.ui.home.movie.fragment.*
 import com.sifat.slushflicks.ui.home.tvshow.state.dataaction.TvHomeDataAction
 import com.sifat.slushflicks.ui.home.tvshow.state.event.TvHomeEventState
 import com.sifat.slushflicks.ui.home.tvshow.state.viewaction.TvHomeViewAction
@@ -42,7 +41,7 @@ class HomeTvFragment :
             .replace(
                 binding.container.id,
                 getCollectionFragment(label),
-                label ?: Label.DEFAULT_LABEL
+                label?.let { getFragmentLabel(it) } ?: getFragmentLabel(Label.DEFAULT_LABEL)
             )
             .commit()
     }
@@ -75,7 +74,7 @@ class HomeTvFragment :
     private fun setContainerFragment(action: TvHomeViewAction.CollectionContainerUpdateViewAction) {
         when (val viewState = action.viewState) {
             is ViewState.Success -> {
-                //loadContent(viewState.data)
+                loadContent(viewState.data)
             }
         }
     }
@@ -118,22 +117,12 @@ class HomeTvFragment :
     private fun getCollectionFragment(label: String?): Fragment {
         return when (label) {
             Label.TRENDING_LABEL -> {
-                childFragmentManager.findFragmentByTag(label) ?: TrendingFragment()
-            }
-            Label.UPCOMING_LABEL -> {
-                childFragmentManager.findFragmentByTag(label) ?: UpcomingFragment()
-            }
-            Label.TOP_RATED_LABEL -> {
-                childFragmentManager.findFragmentByTag(label) ?: TopRatedFragment()
-            }
-            Label.NOW_PLAYING_LABEL -> {
-                childFragmentManager.findFragmentByTag(label) ?: NowPlayingFragment()
-            }
-            Label.POPULAR_LABEL -> {
-                childFragmentManager.findFragmentByTag(label) ?: PopularFragment()
+                childFragmentManager.findFragmentByTag(getFragmentLabel(label))
+                    ?: TrendingTvFragment()
             }
             else -> {
-                childFragmentManager.findFragmentByTag(label) ?: TrendingFragment()
+                childFragmentManager.findFragmentByTag(getFragmentLabel(Label.DEFAULT_LABEL))
+                    ?: TrendingTvFragment()
             }
         }
     }
@@ -141,4 +130,6 @@ class HomeTvFragment :
     override fun onCollectionClicked(index: Int, collectionModel: CollectionModel) {
         viewModel.handleEvent(TvHomeEventState.TvCollectionClickEvent(index, collectionModel))
     }
+
+    private fun getFragmentLabel(label: String) = label + Label.TV_LABEL
 }

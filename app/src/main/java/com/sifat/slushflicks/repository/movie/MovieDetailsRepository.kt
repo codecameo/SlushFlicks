@@ -1,4 +1,4 @@
-package com.sifat.slushflicks.repository
+package com.sifat.slushflicks.repository.movie
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
@@ -11,8 +11,8 @@ import com.sifat.slushflicks.data.DataManager
 import com.sifat.slushflicks.data.pager.ReviewDataFactory
 import com.sifat.slushflicks.data.pager.ReviewDataSource
 import com.sifat.slushflicks.model.MovieModel
-import com.sifat.slushflicks.model.MovieModelMinimal
 import com.sifat.slushflicks.model.ReviewModel
+import com.sifat.slushflicks.model.ShowModelMinimal
 import com.sifat.slushflicks.repository.resource.impl.CastNetworkResource
 import com.sifat.slushflicks.repository.resource.impl.DetailsNetworkResource
 import com.sifat.slushflicks.repository.resource.impl.DetailsNetworkResource.RequestModel
@@ -58,7 +58,7 @@ class MovieDetailsRepository(
         ).asLiveData()
     }
 
-    fun getSimilarMovies(movieId: Long): LiveData<DataState<List<MovieModelMinimal>>> {
+    fun getSimilarMovies(movieId: Long): LiveData<DataState<List<ShowModelMinimal>>> {
         return SimilarMoviesNetworkResource(
             movieService = movieService,
             dataManager = dataManager,
@@ -72,7 +72,7 @@ class MovieDetailsRepository(
         ).asLiveData()
     }
 
-    fun getRecommendationMovies(movieId: Long): LiveData<DataState<List<MovieModelMinimal>>> {
+    fun getRecommendationMovies(movieId: Long): LiveData<DataState<List<ShowModelMinimal>>> {
         return SimilarMoviesNetworkResource(
             movieService = movieService,
             dataManager = dataManager,

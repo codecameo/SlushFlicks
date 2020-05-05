@@ -1,4 +1,4 @@
-package com.sifat.slushflicks.repository
+package com.sifat.slushflicks.repository.movie
 
 import androidx.lifecycle.LiveData
 import com.sifat.slushflicks.data.DataManager

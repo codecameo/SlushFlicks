@@ -4,9 +4,9 @@ import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import com.sifat.slushflicks.di.details.DetailsScope
 import com.sifat.slushflicks.model.MovieModel
-import com.sifat.slushflicks.model.MovieModelMinimal
 import com.sifat.slushflicks.model.ReviewModel
-import com.sifat.slushflicks.repository.MovieDetailsRepository
+import com.sifat.slushflicks.model.ShowModelMinimal
+import com.sifat.slushflicks.repository.movie.MovieDetailsRepository
 import com.sifat.slushflicks.ui.base.BaseActionViewModel
 import com.sifat.slushflicks.ui.details.state.dataaction.DetailDataAction
 import com.sifat.slushflicks.ui.details.state.dataaction.DetailDataAction.*
@@ -136,11 +136,11 @@ class DetailsViewModel
 
     fun setDataAction(action: FetchSimilarDataAction) {
         when (val dataState = action.dataState) {
-            is DataState.Success<List<MovieModelMinimal>> -> {
+            is DataState.Success<List<ShowModelMinimal>> -> {
                 viewState.similarMovies = getMovieListModel(dataState.dataResponse.data)
                 sendSimilarSuccessAction(dataState)
             }
-            is DataState.Error<List<MovieModelMinimal>> -> {
+            is DataState.Error<List<ShowModelMinimal>> -> {
                 sendSimilarErrorAction(dataState.dataResponse)
             }
         }
@@ -148,11 +148,11 @@ class DetailsViewModel
 
     fun setDataAction(action: FetchRecommendationDataAction) {
         when (val dataState = action.dataState) {
-            is DataState.Success<List<MovieModelMinimal>> -> {
+            is DataState.Success<List<ShowModelMinimal>> -> {
                 viewState.recommendedMovies = getMovieListModel(dataState.dataResponse.data)
                 sendRecommendationSuccessAction(dataState)
             }
-            is DataState.Error<List<MovieModelMinimal>> -> {
+            is DataState.Error<List<ShowModelMinimal>> -> {
                 sendRecommendationErrorAction(dataState.dataResponse)
             }
         }
@@ -169,7 +169,7 @@ class DetailsViewModel
 
     /*********** Send success action to view ************/
 
-    private fun sendRecommendationSuccessAction(dataState: DataState.Success<List<MovieModelMinimal>>) {
+    private fun sendRecommendationSuccessAction(dataState: DataState.Success<List<ShowModelMinimal>>) {
         getAction().value = FetchRecommendationViewAction(
             ViewState.Success(
                 data = viewState.recommendedMovies,
@@ -178,7 +178,7 @@ class DetailsViewModel
         )
     }
 
-    private fun sendSimilarSuccessAction(dataState: DataState.Success<List<MovieModelMinimal>>) {
+    private fun sendSimilarSuccessAction(dataState: DataState.Success<List<ShowModelMinimal>>) {
         getAction().value = FetchSimilarViewAction(
             ViewState.Success(
                 data = viewState.similarMovies,
@@ -201,7 +201,7 @@ class DetailsViewModel
 
     /*********** Send error action to view ************/
 
-    private fun sendRecommendationErrorAction(dataResponse: DataErrorResponse<List<MovieModelMinimal>>) {
+    private fun sendRecommendationErrorAction(dataResponse: DataErrorResponse<List<ShowModelMinimal>>) {
         getAction().value = FetchRecommendationViewAction(
             ViewState.Error(
                 errorMessage = dataResponse.errorMessage
@@ -209,7 +209,7 @@ class DetailsViewModel
         )
     }
 
-    private fun sendSimilarErrorAction(dataResponse: DataErrorResponse<List<MovieModelMinimal>>) {
+    private fun sendSimilarErrorAction(dataResponse: DataErrorResponse<List<ShowModelMinimal>>) {
         getAction().value = FetchSimilarViewAction(
             ViewState.Error(
                 errorMessage = dataResponse.errorMessage

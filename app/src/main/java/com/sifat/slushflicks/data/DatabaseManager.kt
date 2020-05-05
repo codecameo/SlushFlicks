@@ -16,13 +16,24 @@ interface DatabaseManager {
         collectionModels: List<MovieCollectionModel>
     )
 
+    suspend fun insertNewTvCollection(
+        collection: String,
+        collectionModels: List<TvCollectionModel>
+    )
+
     suspend fun softInsertMovie(movies: List<MovieModel>)
+
+    suspend fun softInsertTv(movies: List<TvModel>)
 
     suspend fun getMovies(collection: String): List<MovieModel>?
 
-    fun getPagingMovies(collection: String): DataSource.Factory<Int, MovieModelMinimal>
+    fun getPagingMovies(collection: String): DataSource.Factory<Int, ShowModelMinimal>
+
+    fun getPagingTvShows(collection: String): DataSource.Factory<Int, ShowModelMinimal>
 
     suspend fun addMovieCollection(collectionModels: List<MovieCollectionModel>)
+
+    suspend fun addTvCollection(collectionModels: List<TvCollectionModel>)
 
     fun getMovieDetails(movieId: Long): LiveData<MovieModel>
 

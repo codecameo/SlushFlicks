@@ -1,11 +1,11 @@
-package com.sifat.slushflicks.ui.home.movie.state.viewstate
+package com.sifat.slushflicks.ui.home.tvshow.state.viewstate
 
 import androidx.paging.PagedList
 import com.sifat.slushflicks.model.ShowModelMinimal
 import com.sifat.slushflicks.ui.base.BaseViewState
-import com.sifat.slushflicks.ui.home.movie.state.viewaction.MovieListViewAction
+import com.sifat.slushflicks.ui.home.tvshow.state.viewaction.TvListViewAction
 
-class MovieListViewState : BaseViewState<MovieListViewAction>() {
+class TvListViewState : BaseViewState<TvListViewAction>() {
     var currentPage = 0
     var totalPage = 0
     var showList: PagedList<ShowModelMinimal>? = null

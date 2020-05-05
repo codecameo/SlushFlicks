@@ -49,7 +49,7 @@ class HomeMovieFragment :
             .replace(
                 binding.container.id,
                 getCollectionFragment(label),
-                label ?: Label.DEFAULT_LABEL
+                label?.let { getFragmentLabel(it) } ?: getFragmentLabel(Label.DEFAULT_LABEL)
             )
             .commit()
     }
@@ -143,4 +143,6 @@ class HomeMovieFragment :
     override fun onCollectionClicked(index: Int, collectionModel: CollectionModel) {
         viewModel.handleEvent(MovieCollectionClickEvent(index, collectionModel))
     }
+
+    private fun getFragmentLabel(label: String) = label + Label.MOVIE_LABEL
 }

@@ -7,7 +7,7 @@ import com.sifat.slushflicks.db.DbConstant.TableName.Companion.TABLE_NAME_MOVIE_
 import com.sifat.slushflicks.model.MovieCollectionModel
 
 @Dao
-interface CollectionDao : BaseDao<MovieCollectionModel> {
+interface MovieCollectionDao : BaseDao<MovieCollectionModel> {
 
     //Performing atomic transaction
     @Transaction

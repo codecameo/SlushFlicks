@@ -2,27 +2,27 @@ package com.sifat.slushflicks.repository.resource.impl
 
 import androidx.lifecycle.LiveData
 import com.sifat.slushflicks.api.ApiResponse
-import com.sifat.slushflicks.api.home.movie.MovieService
-import com.sifat.slushflicks.api.home.movie.model.MovieListApiModel
+import com.sifat.slushflicks.api.home.tv.TvService
+import com.sifat.slushflicks.api.home.tv.model.TvListApiModel
 import com.sifat.slushflicks.data.DataManager
 import com.sifat.slushflicks.utils.api.NetworkStateManager
 
-class TrendingMovieListResource(
-    movieService: MovieService,
+class TrendingTvListResource(
+    tvService: TvService,
     requestModel: RequestModel,
     dataManager: DataManager,
     collection: String,
     networkStateManager: NetworkStateManager
-) : MovieListNetworkResource(
-    movieService = movieService,
+) : TvListNetworkResource(
+    tvService = tvService,
     requestModel = requestModel,
     collection = collection,
     dataManager = dataManager,
     networkStateManager = networkStateManager
 ) {
 
-    override fun createCall(): LiveData<ApiResponse<MovieListApiModel>> {
-        return movieService.getTrendingMovies(
+    override fun createCall(): LiveData<ApiResponse<TvListApiModel>> {
+        return tvService.getTrendingTvShow(
             apiKey = requestModel.apiKey,
             tag = requestModel.apiTag,
             page = requestModel.page

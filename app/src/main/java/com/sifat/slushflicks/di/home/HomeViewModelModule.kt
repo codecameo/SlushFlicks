@@ -6,6 +6,7 @@ import com.sifat.slushflicks.di.ViewModelKey
 import com.sifat.slushflicks.ui.home.about.AboutViewModel
 import com.sifat.slushflicks.ui.home.movie.viewmodel.*
 import com.sifat.slushflicks.ui.home.search.SearchViewModel
+import com.sifat.slushflicks.ui.home.tvshow.viewmodel.TrendingTvViewModel
 import com.sifat.slushflicks.ui.home.tvshow.viewmodel.TvShowViewModel
 import com.sifat.slushflicks.ui.home.viewmodel.HomeViewModel
 import com.sifat.slushflicks.ui.viewmodel.HomeViewModelFactory
@@ -67,6 +68,12 @@ abstract class HomeViewModelModule {
     @IntoMap
     @ViewModelKey(TvShowViewModel::class)
     abstract fun bindTvShowViewModel(tvShowViewModel: TvShowViewModel): ViewModel
+
+    @HomeScope
+    @Binds
+    @IntoMap
+    @ViewModelKey(TrendingTvViewModel::class)
+    abstract fun bindTrendingTvViewModel(trendingTvViewModel: TrendingTvViewModel): ViewModel
 
     @HomeScope
     @Binds

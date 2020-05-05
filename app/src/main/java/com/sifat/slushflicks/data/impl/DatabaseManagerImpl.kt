@@ -27,23 +27,42 @@ class DatabaseManagerImpl
         collection: String,
         collectionModels: List<MovieCollectionModel>
     ) {
-        database.getCollectionDao().saveMovieCollectionList(collection, collectionModels)
+        database.getMovieCollectionDao().saveMovieCollectionList(collection, collectionModels)
+    }
+
+    override suspend fun insertNewTvCollection(
+        collection: String,
+        collectionModels: List<TvCollectionModel>
+    ) {
+        database.getTvCollectionDao().saveTvCollectionList(collection, collectionModels)
     }
 
     override suspend fun softInsertMovie(movies: List<MovieModel>) {
         database.getMovieDao().insertIgnore(movies)
     }
 
+    override suspend fun softInsertTv(tvShows: List<TvModel>) {
+        database.getTvDao().insertIgnore(tvShows)
+    }
+
     override suspend fun getMovies(collection: String): List<MovieModel>? {
         return database.getMovieDao().getMovies(collection)
     }
 
-    override fun getPagingMovies(collection: String): DataSource.Factory<Int, MovieModelMinimal> {
+    override fun getPagingMovies(collection: String): DataSource.Factory<Int, ShowModelMinimal> {
         return database.getMovieDao().getPagedMovieSource(collection)
     }
 
+    override fun getPagingTvShows(collection: String): DataSource.Factory<Int, ShowModelMinimal> {
+        return database.getTvDao().getPagedTvShowSource(collection)
+    }
+
     override suspend fun addMovieCollection(collectionModels: List<MovieCollectionModel>) {
-        database.getCollectionDao().insertReplace(collectionModels)
+        database.getMovieCollectionDao().insertReplace(collectionModels)
+    }
+
+    override suspend fun addTvCollection(collectionModels: List<TvCollectionModel>) {
+        database.getTvCollectionDao().insertReplace(collectionModels)
     }
 
     override fun getMovieDetails(movieId: Long): LiveData<MovieModel> {

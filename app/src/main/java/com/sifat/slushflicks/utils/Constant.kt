@@ -10,6 +10,8 @@ class Label {
         const val SIMILAR_LABEL = "similar"
         const val RECOMMENDATION_LABEL = "recommendations"
         const val DEFAULT_LABEL = TRENDING_LABEL
+        const val MOVIE_LABEL = "movie"
+        const val TV_LABEL = "tv"
     }
 }
 

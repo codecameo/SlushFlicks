@@ -6,7 +6,7 @@ import com.sifat.slushflicks.api.home.movie.model.MovieListApiModel
 import com.sifat.slushflicks.model.GenreModel
 import com.sifat.slushflicks.model.MovieCollectionModel
 import com.sifat.slushflicks.model.MovieModel
-import com.sifat.slushflicks.model.MovieModelMinimal
+import com.sifat.slushflicks.model.ShowModelMinimal
 import com.sifat.slushflicks.ui.base.ListViewState.LOADING
 import com.sifat.slushflicks.ui.base.ListViewState.VIEW
 import com.sifat.slushflicks.ui.home.adapter.model.MovieListModel
@@ -55,10 +55,10 @@ fun getMovieList(
 /**
  * This conversion converts model to List models for view state
  * */
-fun getMovieListModel(movies: List<MovieModelMinimal>?): List<MovieListModel> {
+fun getMovieListModel(shows: List<ShowModelMinimal>?): List<MovieListModel> {
     val movieListModels = mutableListOf<MovieListModel>()
-    movies?.let {
-        for (movie in movies) {
+    shows?.let {
+        for (movie in shows) {
             val movieListModel = MovieListModel(movie, VIEW)
             movieListModels.add(movieListModel)
         }
@@ -66,11 +66,11 @@ fun getMovieListModel(movies: List<MovieModelMinimal>?): List<MovieListModel> {
     return movieListModels
 }
 
-fun getMovieMinimalModel(movies: List<MovieModel>?): List<MovieModelMinimal>? {
+fun getMovieMinimalModel(movies: List<MovieModel>?): List<ShowModelMinimal>? {
     if (movies.isNullOrEmpty()) return null
-    val moviesMinimalList = mutableListOf<MovieModelMinimal>()
+    val moviesMinimalList = mutableListOf<ShowModelMinimal>()
     for (movie in movies) {
-        val movieModelMinimal = MovieModelMinimal(
+        val movieModelMinimal = ShowModelMinimal(
             id = movie.id,
             overview = movie.overview,
             title = movie.title,

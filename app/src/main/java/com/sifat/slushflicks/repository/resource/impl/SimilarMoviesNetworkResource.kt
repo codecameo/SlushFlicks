@@ -7,7 +7,7 @@ import com.sifat.slushflicks.api.home.movie.MovieService
 import com.sifat.slushflicks.api.home.movie.model.MovieListApiModel
 import com.sifat.slushflicks.data.DataManager
 import com.sifat.slushflicks.model.MovieModel
-import com.sifat.slushflicks.model.MovieModelMinimal
+import com.sifat.slushflicks.model.ShowModelMinimal
 import com.sifat.slushflicks.repository.resource.type.NetworkOnlyResource
 import com.sifat.slushflicks.ui.helper.getMetaData
 import com.sifat.slushflicks.ui.helper.getMovieList
@@ -22,7 +22,7 @@ class SimilarMoviesNetworkResource(
     private val dataManager: DataManager,
     private val requestModel: RequestModel,
     networkStateManager: NetworkStateManager
-) : NetworkOnlyResource<MovieListApiModel, List<MovieModel>, List<MovieModelMinimal>>(
+) : NetworkOnlyResource<MovieListApiModel, List<MovieModel>, List<ShowModelMinimal>>(
     networkStateManager
 ) {
     override fun createCall(): LiveData<ApiResponse<MovieListApiModel>> {
@@ -50,7 +50,7 @@ class SimilarMoviesNetworkResource(
         val dataSuccessResponse = getDataSuccessResponse(response)
         updateLocalDb(dataSuccessResponse.data)
         onCompleteJob(
-            DataState.Success<List<MovieModelMinimal>>(
+            DataState.Success<List<ShowModelMinimal>>(
                 getAppDataSuccessResponse(dataSuccessResponse)
             )
         )
@@ -60,7 +60,7 @@ class SimilarMoviesNetworkResource(
 
     }
 
-    override fun getAppDataSuccessResponse(response: DataSuccessResponse<List<MovieModel>>): DataSuccessResponse<List<MovieModelMinimal>> {
+    override fun getAppDataSuccessResponse(response: DataSuccessResponse<List<MovieModel>>): DataSuccessResponse<List<ShowModelMinimal>> {
         return DataSuccessResponse(
             data = getMovieMinimalModel(response.data),
             metaData = response.metaData,

@@ -1,9 +1,12 @@
 package com.sifat.slushflicks.di.home
 
 import com.sifat.slushflicks.api.home.movie.MovieService
+import com.sifat.slushflicks.api.home.tv.TvService
 import com.sifat.slushflicks.data.DataManager
 import com.sifat.slushflicks.di.constant.NAME_API_KEY
-import com.sifat.slushflicks.repository.*
+import com.sifat.slushflicks.repository.movie.*
+import com.sifat.slushflicks.repository.tv.TrendingTvRepository
+import com.sifat.slushflicks.repository.tv.TvHomeRepository
 import com.sifat.slushflicks.utils.api.NetworkStateManager
 import dagger.Module
 import dagger.Provides
@@ -20,13 +23,39 @@ class HomeModule {
 
     @HomeScope
     @Provides
-    fun provideTrendingRepository(
+    fun provideTvService(retrofit: Retrofit): TvService =
+        retrofit.create(TvService::class.java)
+
+    @HomeScope
+    @Provides
+    fun provideTrendingMovieRepository(
         movieService: MovieService,
         @Named(NAME_API_KEY) apiKey: String,
         networkStateManager: NetworkStateManager,
         dataManager: DataManager
-    ): TrendingRepository {
-        return TrendingRepository(movieService, apiKey, dataManager, networkStateManager)
+    ): TrendingMovieRepository {
+        return TrendingMovieRepository(
+            movieService,
+            apiKey,
+            dataManager,
+            networkStateManager
+        )
+    }
+
+    @HomeScope
+    @Provides
+    fun provideTrendingTvRepository(
+        tvService: TvService,
+        @Named(NAME_API_KEY) apiKey: String,
+        networkStateManager: NetworkStateManager,
+        dataManager: DataManager
+    ): TrendingTvRepository {
+        return TrendingTvRepository(
+            tvService,
+            apiKey,
+            dataManager,
+            networkStateManager
+        )
     }
 
     @HomeScope
@@ -37,7 +66,12 @@ class HomeModule {
         networkStateManager: NetworkStateManager,
         dataManager: DataManager
     ): PopularMovieRepository {
-        return PopularMovieRepository(movieService, apiKey, dataManager, networkStateManager)
+        return PopularMovieRepository(
+            movieService,
+            apiKey,
+            dataManager,
+            networkStateManager
+        )
     }
 
     @HomeScope
@@ -47,8 +81,13 @@ class HomeModule {
         @Named(NAME_API_KEY) apiKey: String,
         networkStateManager: NetworkStateManager,
         dataManager: DataManager
-    ): TopRatedRepository {
-        return TopRatedRepository(movieService, apiKey, dataManager, networkStateManager)
+    ): TopRatedMovieRepository {
+        return TopRatedMovieRepository(
+            movieService,
+            apiKey,
+            dataManager,
+            networkStateManager
+        )
     }
 
     @HomeScope
@@ -58,8 +97,13 @@ class HomeModule {
         @Named(NAME_API_KEY) apiKey: String,
         networkStateManager: NetworkStateManager,
         dataManager: DataManager
-    ): UpcomingRepository {
-        return UpcomingRepository(movieService, apiKey, dataManager, networkStateManager)
+    ): UpcomingMovieRepository {
+        return UpcomingMovieRepository(
+            movieService,
+            apiKey,
+            dataManager,
+            networkStateManager
+        )
     }
 
     @HomeScope
@@ -70,7 +114,12 @@ class HomeModule {
         networkStateManager: NetworkStateManager,
         dataManager: DataManager
     ): NowPlayingRepository {
-        return NowPlayingRepository(movieService, apiKey, dataManager, networkStateManager)
+        return NowPlayingRepository(
+            movieService,
+            apiKey,
+            dataManager,
+            networkStateManager
+        )
     }
 
     @HomeScope
@@ -78,7 +127,9 @@ class HomeModule {
     fun provideMovieHomeRepository(
         dataManager: DataManager
     ): MovieHomeRepository {
-        return MovieHomeRepository(dataManager)
+        return MovieHomeRepository(
+            dataManager
+        )
     }
 
     @HomeScope

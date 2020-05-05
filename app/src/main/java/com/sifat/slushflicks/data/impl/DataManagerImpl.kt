@@ -50,20 +50,39 @@ class DataManagerImpl
         databaseManager.insertNewMovieCollection(collection, collectionModels)
     }
 
+    override suspend fun insertNewTvCollection(
+        collection: String,
+        collectionModels: List<TvCollectionModel>
+    ) {
+        databaseManager.insertNewTvCollection(collection, collectionModels)
+    }
+
     override suspend fun softInsertMovie(movies: List<MovieModel>) {
         databaseManager.softInsertMovie(movies)
+    }
+
+    override suspend fun softInsertTv(tvShows: List<TvModel>) {
+        databaseManager.softInsertTv(tvShows)
     }
 
     override suspend fun getMovies(collection: String): List<MovieModel>? {
         return databaseManager.getMovies(collection)
     }
 
-    override fun getPagingMovies(collection: String): DataSource.Factory<Int, MovieModelMinimal> {
+    override fun getPagingMovies(collection: String): DataSource.Factory<Int, ShowModelMinimal> {
         return databaseManager.getPagingMovies(collection)
+    }
+
+    override fun getPagingTvShows(collection: String): DataSource.Factory<Int, ShowModelMinimal> {
+        return databaseManager.getPagingTvShows(collection)
     }
 
     override suspend fun addMovieCollection(collectionModels: List<MovieCollectionModel>) {
         databaseManager.addMovieCollection(collectionModels)
+    }
+
+    override suspend fun addTvCollection(collectionModels: List<TvCollectionModel>) {
+        databaseManager.addTvCollection(collectionModels)
     }
 
     override fun getMovieDetails(movieId: Long): LiveData<MovieModel> {

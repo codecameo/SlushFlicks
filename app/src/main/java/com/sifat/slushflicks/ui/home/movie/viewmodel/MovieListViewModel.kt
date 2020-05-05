@@ -1,13 +1,13 @@
 package com.sifat.slushflicks.ui.home.movie.viewmodel
 
 import com.sifat.slushflicks.di.home.HomeScope
-import com.sifat.slushflicks.repository.*
+import com.sifat.slushflicks.repository.movie.*
 import javax.inject.Inject
 
 @HomeScope
 class TrendingViewModel
-@Inject constructor(trendingRepository: TrendingRepository) :
-    BaseMovieListViewModel(trendingRepository)
+@Inject constructor(trendingMovieRepository: TrendingMovieRepository) :
+    BaseMovieListViewModel(trendingMovieRepository)
 
 @HomeScope
 class PopularViewModel
@@ -16,8 +16,8 @@ class PopularViewModel
 
 @HomeScope
 class TopRatedViewModel
-@Inject constructor(topRatedRepository: TopRatedRepository) :
-    BaseMovieListViewModel(topRatedRepository)
+@Inject constructor(topRatedMovieRepository: TopRatedMovieRepository) :
+    BaseMovieListViewModel(topRatedMovieRepository)
 
 @HomeScope
 class NowPlayingViewModel
@@ -26,5 +26,5 @@ class NowPlayingViewModel
 
 @HomeScope
 class UpcomingViewModel
-@Inject constructor(upcomingRepository: UpcomingRepository) :
-    BaseMovieListViewModel(upcomingRepository)
+@Inject constructor(upcomingMovieRepository: UpcomingMovieRepository) :
+    BaseMovieListViewModel(upcomingMovieRepository)

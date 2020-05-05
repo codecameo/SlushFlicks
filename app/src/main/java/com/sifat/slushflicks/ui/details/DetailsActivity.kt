@@ -12,8 +12,8 @@ import androidx.paging.PagedList
 import com.sifat.slushflicks.R
 import com.sifat.slushflicks.databinding.ActivityDetailsBinding
 import com.sifat.slushflicks.model.MovieModel
-import com.sifat.slushflicks.model.MovieModelMinimal
 import com.sifat.slushflicks.model.ReviewModel
+import com.sifat.slushflicks.model.ShowModelMinimal
 import com.sifat.slushflicks.ui.base.FullScreenActivity
 import com.sifat.slushflicks.ui.details.adapter.CastAdapter
 import com.sifat.slushflicks.ui.details.adapter.RelatedMovieAdapter
@@ -152,8 +152,8 @@ class DetailsActivity : FullScreenActivity<ActivityDetailsBinding, DetailsViewMo
         }
     }
 
-    override fun onMovieClicked(movieModelMinimal: MovieModelMinimal) {
-        refreshWith(movieModelMinimal.id)
+    override fun onMovieClicked(showModelMinimal: ShowModelMinimal) {
+        refreshWith(showModelMinimal.id)
     }
 
     private fun refreshWith(movieId: Long) {

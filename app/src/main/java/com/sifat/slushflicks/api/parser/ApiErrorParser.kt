@@ -19,7 +19,7 @@ class ApiErrorParser<Data>(private val gson: Gson) {
         Log.d(TAG, "$errorResponse")
         val errorMessage : String? = errorResponse?.let {
             when(apiTag) {
-                ApiTag.TRENDING_API_TAG -> {
+                ApiTag.TRENDING_MOVIE_API_TAG -> {
                    when(statusCode) {
                        StatusCode.RESOURCE_NOT_FOUND -> {
                            ""

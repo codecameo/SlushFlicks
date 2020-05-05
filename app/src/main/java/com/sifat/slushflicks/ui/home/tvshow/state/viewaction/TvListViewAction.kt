@@ -1,4 +1,4 @@
-package com.sifat.slushflicks.ui.home.movie.state.viewaction
+package com.sifat.slushflicks.ui.home.tvshow.state.viewaction
 
 import androidx.paging.PagedList
 import com.sifat.slushflicks.model.ShowModelMinimal
@@ -9,10 +9,10 @@ import com.sifat.slushflicks.ui.state.ViewState
  * and can take precise action base on the action type
  * (ex: showing shimmer or asyc loading for that particular view part instead of global loading)
  * */
-sealed class MovieListViewAction {
-    class FetchCacheMovieListViewAction(val viewState: ViewState<PagedList<ShowModelMinimal>>) :
-        MovieListViewAction()
+sealed class TvListViewAction {
+    class FetchCacheTvListViewAction(val viewState: ViewState<PagedList<ShowModelMinimal>>) :
+        TvListViewAction()
 
-    class FetchNetworkMovieListViewAction(val viewState: ViewState<Int>) :
-        MovieListViewAction()
+    class FetchNetworkTvListViewAction(val viewState: ViewState<Int>) :
+        TvListViewAction()
 }

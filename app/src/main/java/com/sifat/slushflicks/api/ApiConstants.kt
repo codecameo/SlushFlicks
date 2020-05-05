@@ -12,6 +12,7 @@ import com.sifat.slushflicks.api.ApiEndPoint.Companion.NOW_PLAYING_MOVIE_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.POPULAR_MOVIE_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.TOP_RATED_MOVIE_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.TRENDING_MOVIE_URL
+import com.sifat.slushflicks.api.ApiEndPoint.Companion.TRENDING_TV_SHOW_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.UPCOMING_MOVIE_URL
 import com.sifat.slushflicks.api.ApiRequest.Companion.PATH_COLLECTION
 import com.sifat.slushflicks.api.ApiRequest.Companion.PATH_MOVIE_ID
@@ -44,8 +45,10 @@ class ApiRequest {
 class ApiEndPoint {
     companion object {
         const val TRENDING_MOVIE_URL = "trending/movie/day"
+        const val TRENDING_TV_SHOW_URL = "trending/tv/day"
         const val MOVIE_DETAILS_URL = "movie/{$PATH_MOVIE_ID}"
         const val MOVIE_COLLECTION_URL = "movie/{$PATH_COLLECTION}"
+        const val TV_SHOW_COLLECTION_URL = "tv/{$PATH_COLLECTION}"
         const val MOVIE_VIDEOS_URL = "movie/{$PATH_MOVIE_ID}/videos"
         const val MOVIE_CREDITS_URL = "movie/{$PATH_MOVIE_ID}/credits"
         const val MOVIE_RECOMMENDATION_URL = "movie/{$PATH_MOVIE_ID}/$RECOMMENDATION_LABEL"
@@ -69,7 +72,7 @@ class MethodName {
 
 class ApiTag {
     companion object {
-        const val TRENDING_API_TAG = TRENDING_MOVIE_URL + GET
+        const val TRENDING_MOVIE_API_TAG = TRENDING_MOVIE_URL + GET
         const val TV_GENRE_API_TAG = GENRES_TV_URL + GET
         const val MOVIE_GENRE_API_TAG = GENRES_MOVIE_URL + GET
         const val POPULAR_API_TAG = POPULAR_MOVIE_URL + GET
@@ -82,6 +85,9 @@ class ApiTag {
         const val MOVIE_RECOMMENDATION_API_TAG = MOVIE_RECOMMENDATION_URL + GET
         const val MOVIE_SIMILAR_API_TAG = MOVIE_SIMILAR_URL + GET
         const val MOVIE_REVIEWS_API_TAG = MOVIE_REVIEWS_URL + GET
+
+        const val TRENDING_TV_API_TAG = TRENDING_TV_SHOW_URL + GET
+
     }
 }
 

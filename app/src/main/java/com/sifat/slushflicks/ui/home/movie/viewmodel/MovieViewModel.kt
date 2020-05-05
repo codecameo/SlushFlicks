@@ -2,7 +2,7 @@ package com.sifat.slushflicks.ui.home.movie.viewmodel
 
 import com.sifat.slushflicks.di.home.HomeScope
 import com.sifat.slushflicks.model.CollectionModel
-import com.sifat.slushflicks.repository.MovieHomeRepository
+import com.sifat.slushflicks.repository.movie.MovieHomeRepository
 import com.sifat.slushflicks.ui.base.BaseActionViewModel
 import com.sifat.slushflicks.ui.helper.getCollectionListLoadingModel
 import com.sifat.slushflicks.ui.helper.getCollectionListModel

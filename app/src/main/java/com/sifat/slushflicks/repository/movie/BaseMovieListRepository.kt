@@ -1,4 +1,4 @@
-package com.sifat.slushflicks.repository
+package com.sifat.slushflicks.repository.movie
 
 import androidx.arch.core.util.Function
 import androidx.lifecycle.LiveData
@@ -8,7 +8,7 @@ import androidx.paging.PagedList.BoundaryCallback
 import androidx.paging.toLiveData
 import com.sifat.slushflicks.api.home.movie.MovieService
 import com.sifat.slushflicks.data.DataManager
-import com.sifat.slushflicks.model.MovieModelMinimal
+import com.sifat.slushflicks.model.ShowModelMinimal
 import com.sifat.slushflicks.ui.state.DataState
 import com.sifat.slushflicks.ui.state.DataSuccessResponse
 import com.sifat.slushflicks.utils.PAGE_SIZE
@@ -25,7 +25,7 @@ abstract class BaseMovieListRepository(
 
     abstract fun getMovieList(nextPage: Int): LiveData<DataState<Int>>
 
-    fun getPagingMovieList(boundaryCallback: BoundaryCallback<MovieModelMinimal>): LiveData<DataState<PagedList<MovieModelMinimal>>> {
+    fun getPagingMovieList(boundaryCallback: BoundaryCallback<ShowModelMinimal>): LiveData<DataState<PagedList<ShowModelMinimal>>> {
         val pageConfig = PagedList.Config.Builder()
             .setPageSize(PAGE_SIZE)
             .setInitialLoadSizeHint(PAGE_SIZE)
@@ -37,8 +37,8 @@ abstract class BaseMovieListRepository(
         )
         return Transformations.map(
             dataSource,
-            Function<PagedList<MovieModelMinimal>, DataState<PagedList<MovieModelMinimal>>> { pagedList ->
-                DataState.Success<PagedList<MovieModelMinimal>>(
+            Function<PagedList<ShowModelMinimal>, DataState<PagedList<ShowModelMinimal>>> { pagedList ->
+                DataState.Success<PagedList<ShowModelMinimal>>(
                     DataSuccessResponse(
                         data = pagedList
                     )

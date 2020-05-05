@@ -15,7 +15,7 @@
 
         <variable
             name="model"
-            type="com.sifat.slushflicks.model.MovieModelMinimal" />
+            type="com.sifat.slushflicks.model.ShowModelMinimal" />
     </data>
 
     <com.facebook.shimmer.ShimmerFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"

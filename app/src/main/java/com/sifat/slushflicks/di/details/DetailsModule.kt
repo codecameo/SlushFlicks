@@ -3,7 +3,7 @@ package com.sifat.slushflicks.di.details
 import com.sifat.slushflicks.api.home.movie.MovieService
 import com.sifat.slushflicks.data.DataManager
 import com.sifat.slushflicks.di.constant.NAME_API_KEY
-import com.sifat.slushflicks.repository.MovieDetailsRepository
+import com.sifat.slushflicks.repository.movie.MovieDetailsRepository
 import com.sifat.slushflicks.utils.api.NetworkStateManager
 import dagger.Module
 import dagger.Provides
