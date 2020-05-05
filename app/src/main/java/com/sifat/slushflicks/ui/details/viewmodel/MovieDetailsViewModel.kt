@@ -24,7 +24,7 @@ import com.sifat.slushflicks.ui.state.ViewState
 import javax.inject.Inject
 
 @DetailsScope
-class DetailsViewModel
+class MovieDetailsViewModel
 @Inject constructor(private val detailsRepository: MovieDetailsRepository) :
     BaseActionViewModel<DetailDataAction, DetailsViewAction, DetailsViewState>() {
     override val viewState by lazy {
@@ -55,7 +55,24 @@ class DetailsViewModel
             is FetchReviewsViewEvent -> {
                 fetchMovieReviews(viewState.movieId)
             }
+            is UpdateMovieViewEvent -> {
+                updateMovieInfo(detailsViewEvent.showModelMinimal)
+            }
         }
+    }
+
+    private fun updateMovieInfo(showModelMinimal: ShowModelMinimal) {
+        setMovieId(showModelMinimal.id)
+        val movie = MovieModel(
+            id = showModelMinimal.id,
+            title = showModelMinimal.title,
+            overview = showModelMinimal.overview,
+            backdropPath = showModelMinimal.backdropPath,
+            voteAvg = showModelMinimal.voteAvg,
+            genres = showModelMinimal.genres
+        )
+        viewState.movie = movie
+        sendMovieSuccessAction()
     }
 
     /*********** Fetch data from repo ************/
@@ -87,6 +104,8 @@ class DetailsViewModel
     }
 
     private fun fetchMovieVideo(movieId: Long) {
+        if (viewState.isAlreadyVideoAttempted) return
+        viewState.isAlreadyVideoAttempted = true
         val videoSource = detailsRepository.getMovieVideo(movieId)
         dataState.addSource(videoSource) { videoKey ->
             dataState.removeSource(videoSource)
@@ -97,6 +116,8 @@ class DetailsViewModel
     }
 
     private fun fetchMovieCast(movieId: Long) {
+        if (viewState.isAlreadyCastAttempted) return
+        viewState.isAlreadyCastAttempted = true
         val castSource = detailsRepository.getMovieCast(movieId)
         dataState.addSource(castSource) { castCount ->
             dataState.removeSource(castSource)

@@ -10,7 +10,7 @@ import com.sifat.slushflicks.di.home.HomeViewModelModule
 import com.sifat.slushflicks.di.splash.SplashModule
 import com.sifat.slushflicks.di.splash.SplashScope
 import com.sifat.slushflicks.di.splash.SplashViewModelModule
-import com.sifat.slushflicks.ui.details.DetailsActivity
+import com.sifat.slushflicks.ui.details.MovieDetailsActivity
 import com.sifat.slushflicks.ui.home.HomeActivity
 import com.sifat.slushflicks.ui.splash.SplashActivity
 import dagger.Module
@@ -29,6 +29,6 @@ abstract class ActivityBuilderModule {
 
     @DetailsScope
     @ContributesAndroidInjector(modules = [DetailsModule::class, DetailsViewModelModule::class])
-    internal abstract fun bindDetailsActivity(): DetailsActivity
+    internal abstract fun bindDetailsActivity(): MovieDetailsActivity
 
 }

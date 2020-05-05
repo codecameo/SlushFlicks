@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import androidx.room.Dao
 import androidx.room.Query
+import androidx.room.Transaction
 import com.sifat.slushflicks.db.DbConstant.TableName.Companion.TABLE_NAME_MOVIE
 import com.sifat.slushflicks.db.DbConstant.TableName.Companion.TABLE_NAME_MOVIE_TYPE
 import com.sifat.slushflicks.model.CastModel
@@ -21,7 +22,10 @@ interface MovieDao : BaseDao<MovieModel> {
     fun getPagedMovieSource(collection: String): DataSource.Factory<Int, ShowModelMinimal>
 
     @Query("SELECT * FROM $TABLE_NAME_MOVIE WHERE id = :movieId")
-    fun getMovie(movieId: Long): LiveData<MovieModel>
+    fun listenToMovie(movieId: Long): LiveData<MovieModel>
+
+    @Query("SELECT id FROM $TABLE_NAME_MOVIE WHERE id = :movieId")
+    fun getMovieId(movieId: Long): Long?
 
     @Query("UPDATE $TABLE_NAME_MOVIE SET video = :key WHERE id = :movieId")
     fun update(movieId: Long, key: String)
@@ -43,4 +47,26 @@ interface MovieDao : BaseDao<MovieModel> {
         status: String,
         tagline: String
     )
+
+    @Transaction
+    suspend fun updateOrInsert(model: MovieModel) {
+        val id = getMovieId(movieId = model.id)
+        if (id == null) {
+            insertIgnore(model)
+        } else {
+            update(
+                id = model.id,
+                voteCount = model.voteCount,
+                voteAvg = model.voteAvg,
+                revenue = model.revenue,
+                releaseData = model.releaseData,
+                budget = model.budget,
+                popularity = model.popularity,
+                genres = model.genres,
+                runtime = model.runtime,
+                status = model.status,
+                tagline = model.tagline
+            )
+        }
+    }
 }

@@ -19,8 +19,12 @@ class DetailsViewState : BaseViewState<DetailsViewAction>() {
     var recommendedMovies = emptyList<MovieListModel>()
     var similarMovies = emptyList<MovieListModel>()
     var reviews: PagedList<ReviewModel>? = null
+    var isAlreadyCastAttempted = false
+    var isAlreadyVideoAttempted = false
 
     private fun reset() {
+        isAlreadyCastAttempted = false
+        isAlreadyVideoAttempted = false
         reviews = null
         recommendedMovies = emptyList()
         similarMovies = emptyList()

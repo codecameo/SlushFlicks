@@ -1,4 +1,4 @@
-package com.sifat.slushflicks.repository
+package com.sifat.slushflicks.repository.genre
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData

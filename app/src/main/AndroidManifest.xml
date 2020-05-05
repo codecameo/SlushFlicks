@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.home.HomeActivity" />
-        <activity android:name=".ui.details.DetailsActivity" />
+        <activity android:name=".ui.details.MovieDetailsActivity" />
 
         <meta-data
             android:name="preloaded_fonts"

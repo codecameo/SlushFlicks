@@ -36,10 +36,11 @@ class SimilarMoviesNetworkResource(
     }
 
     override suspend fun updateLocalDb(cacheData: List<MovieModel>?) {
-        if (!cacheData.isNullOrEmpty()) {
+        /** Skip caching, since it's taking too much memory in the device*/
+        /*if (!cacheData.isNullOrEmpty()) {
             // Insert with Ignore strategy
             dataManager.softInsertMovie(cacheData)
-        }
+        }*/
     }
 
     override suspend fun handleApiSuccessResponse(response: ApiSuccessResponse<MovieListApiModel>) {
@@ -82,5 +83,4 @@ class SimilarMoviesNetworkResource(
         val movieId: Long,
         val relationType: String
     )
-
 }

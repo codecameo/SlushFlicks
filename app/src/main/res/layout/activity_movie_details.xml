@@ -31,11 +31,11 @@
                 android:layout_height="wrap_content"
                 app:collapsedTitleTextAppearance="@style/CollapsedTitleText"
                 app:contentInsetStart="0dp"
-                app:title="@{model.title}"
                 app:expandedTitleMarginBottom="@dimen/standard_half_margin"
                 app:expandedTitleMarginStart="@dimen/standard_margin"
                 app:expandedTitleTextAppearance="@style/ExpandedTitleText"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed|enterAlwaysCollapsed">
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|enterAlwaysCollapsed"
+                app:title="@{model.title}">
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -67,7 +67,8 @@
                         android:background="@drawable/gray_circle"
                         android:contentDescription="@string/play_image"
                         android:scaleType="centerInside"
-                        android:src="@drawable/ic_play" />
+                        android:src="@drawable/ic_play"
+                        android:visibility="@{TextUtils.isEmpty(model.video) ? View.INVISIBLE : View.VISIBLE}" />
                 </FrameLayout>
 
                 <androidx.appcompat.widget.Toolbar

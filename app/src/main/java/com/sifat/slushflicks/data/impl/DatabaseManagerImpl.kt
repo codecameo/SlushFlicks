@@ -66,7 +66,7 @@ class DatabaseManagerImpl
     }
 
     override fun getMovieDetails(movieId: Long): LiveData<MovieModel> {
-        return database.getMovieDao().getMovie(movieId)
+        return database.getMovieDao().listenToMovie(movieId)
     }
 
     override suspend fun insertMovieDetails(movie: MovieModel) {
@@ -74,19 +74,7 @@ class DatabaseManagerImpl
     }
 
     override suspend fun updateMovieDetails(model: MovieModel) {
-        database.getMovieDao().update(
-            id = model.id,
-            voteCount = model.voteCount,
-            voteAvg = model.voteAvg,
-            revenue = model.revenue,
-            releaseData = model.releaseData,
-            budget = model.budget,
-            popularity = model.popularity,
-            genres = model.genres,
-            runtime = model.runtime,
-            status = model.status,
-            tagline = model.tagline
-        )
+        database.getMovieDao().updateOrInsert(model)
     }
 
     override suspend fun updateMovieDetails(model: VideoApiModel, movieId: Long) {

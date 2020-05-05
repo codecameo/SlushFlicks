@@ -28,7 +28,8 @@ fun TextView.setGenres(genres: List<GenreModel>?) {
 @BindingAdapter(value = ["voteAvg", "voteCount"], requireAll = true)
 fun TextView.setRating(voteAvg: Double?, voteCount: Int?) {
     if (voteCount != null && voteAvg != null) {
-        text = "$voteAvg ($voteCount)"
+        val voteCountStr = if (voteCount == 0) NA else voteCount.toString()
+        text = "$voteAvg ($voteCountStr)"
     }
 }
 

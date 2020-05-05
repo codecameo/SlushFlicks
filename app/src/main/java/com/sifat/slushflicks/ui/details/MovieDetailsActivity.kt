@@ -10,7 +10,7 @@ import android.view.View.GONE
 import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import com.sifat.slushflicks.R
-import com.sifat.slushflicks.databinding.ActivityDetailsBinding
+import com.sifat.slushflicks.databinding.ActivityMovieDetailsBinding
 import com.sifat.slushflicks.model.MovieModel
 import com.sifat.slushflicks.model.ReviewModel
 import com.sifat.slushflicks.model.ShowModelMinimal
@@ -20,24 +20,22 @@ import com.sifat.slushflicks.ui.details.adapter.RelatedMovieAdapter
 import com.sifat.slushflicks.ui.details.adapter.ReviewAdapter
 import com.sifat.slushflicks.ui.details.adapter.viewholder.MovieViewHolder
 import com.sifat.slushflicks.ui.details.state.dataaction.DetailDataAction.*
-import com.sifat.slushflicks.ui.details.state.event.DetailsViewEvent
-import com.sifat.slushflicks.ui.details.state.event.DetailsViewEvent.FetchCastViewEvent
-import com.sifat.slushflicks.ui.details.state.event.DetailsViewEvent.FetchVideoViewEvent
+import com.sifat.slushflicks.ui.details.state.event.DetailsViewEvent.*
 import com.sifat.slushflicks.ui.details.state.viewaction.DetailsViewAction.*
-import com.sifat.slushflicks.ui.details.viewmodel.DetailsViewModel
+import com.sifat.slushflicks.ui.details.viewmodel.MovieDetailsViewModel
 import com.sifat.slushflicks.ui.home.adapter.model.MovieListModel
 import com.sifat.slushflicks.ui.state.ViewState
 import com.sifat.slushflicks.utils.INVALID_ID
 import com.sifat.slushflicks.utils.showToast
 
 
-class DetailsActivity : FullScreenActivity<ActivityDetailsBinding, DetailsViewModel>(),
+class MovieDetailsActivity :
+    FullScreenActivity<ActivityMovieDetailsBinding, MovieDetailsViewModel>(),
     View.OnClickListener, MovieViewHolder.OnMovieClickListener {
     private val TAG = "DetailsActivity"
-    override fun getLayoutRes() = R.layout.activity_details
+    override fun getLayoutRes() = R.layout.activity_movie_details
 
-    override fun getViewModelClass() = DetailsViewModel::class.java
-    private var isAlreadyAttempted = false
+    override fun getViewModelClass() = MovieDetailsViewModel::class.java
     private lateinit var castAdapter: CastAdapter
     private lateinit var recommendedAdapter: RelatedMovieAdapter
     private lateinit var similarAdapter: RelatedMovieAdapter
@@ -138,10 +136,10 @@ class DetailsActivity : FullScreenActivity<ActivityDetailsBinding, DetailsViewMo
     }
 
     private fun fetchMovieDetails() {
-        viewModel.handleEvent(DetailsViewEvent.FetchDetailsViewEvent())
-        viewModel.handleEvent(DetailsViewEvent.FetchRecommendedMovieViewEvent())
-        viewModel.handleEvent(DetailsViewEvent.FetchSimilarMovieViewEvent())
-        viewModel.handleEvent(DetailsViewEvent.FetchReviewsViewEvent())
+        viewModel.handleEvent(FetchDetailsViewEvent())
+        viewModel.handleEvent(FetchRecommendedMovieViewEvent())
+        viewModel.handleEvent(FetchSimilarMovieViewEvent())
+        viewModel.handleEvent(FetchReviewsViewEvent())
     }
 
     override fun onClick(view: View?) {
@@ -153,15 +151,18 @@ class DetailsActivity : FullScreenActivity<ActivityDetailsBinding, DetailsViewMo
     }
 
     override fun onMovieClicked(showModelMinimal: ShowModelMinimal) {
-        refreshWith(showModelMinimal.id)
+        refreshWith(showModelMinimal)
     }
 
-    private fun refreshWith(movieId: Long) {
-        viewModel.setMovieId(movieId = movieId)
-        isAlreadyAttempted = false
+    private fun refreshWith(model: ShowModelMinimal) {
+        updateMovieDetails(model)
         fetchMovieDetails()
         binding.nsvContent.smoothScrollTo(0, 0)
         binding.appBarPoster.setExpanded(true, true)
+    }
+
+    private fun updateMovieDetails(model: ShowModelMinimal) {
+        viewModel.handleEvent(UpdateMovieViewEvent(model))
     }
 
     private fun showTrailer() {
@@ -224,8 +225,6 @@ class DetailsActivity : FullScreenActivity<ActivityDetailsBinding, DetailsViewMo
     }
 
     private fun checkMissingData(data: MovieModel?) {
-        if (isAlreadyAttempted) return
-        isAlreadyAttempted = true
         data?.run {
             if (video.isEmpty()) viewModel.handleEvent(FetchVideoViewEvent())
             if (casts.isEmpty()) viewModel.handleEvent(FetchCastViewEvent())
