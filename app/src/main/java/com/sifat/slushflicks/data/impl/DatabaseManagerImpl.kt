@@ -45,9 +45,9 @@ class DatabaseManagerImpl
         database.getTvDao().insertIgnore(tvShows)
     }
 
-    override suspend fun getMovies(collection: String): List<MovieModel>? {
+    /*override suspend fun getMovies(collection: String): List<MovieModel>? {
         return database.getMovieDao().getMovies(collection)
-    }
+    }*/
 
     override fun getPagingMovies(collection: String): DataSource.Factory<Int, ShowModelMinimal> {
         return database.getMovieDao().getPagedMovieSource(collection)
@@ -83,5 +83,13 @@ class DatabaseManagerImpl
 
     override suspend fun updateMovieDetails(casts: List<CastModel>, movieId: Long) {
         database.getMovieDao().update(movieId, casts)
+    }
+
+    override fun getTvShowDetails(tvShowId: Long): LiveData<TvModel> {
+        return database.getTvDao().listenToTvShow(tvShowId)
+    }
+
+    override suspend fun updateTvDetails(model: TvModel) {
+        database.getTvDao().updateOrInsert(model)
     }
 }

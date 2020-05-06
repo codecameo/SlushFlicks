@@ -42,6 +42,34 @@ data class EpisodeModel(
     val voteAvg: Double
 )
 
+
+data class SeasonModel(
+    val id: Long,
+    val airDate: String,
+    val episodeCount: Int,
+    val name: String,
+    val overview: String,
+    val posterPath: String,
+    val seasonNumber: Int
+)
+
+/*
+        id: Long,
+        voteCount: Int,
+        voteAvg: Double,
+        releaseData: String,
+        popularity: Double,
+        genres: List<GenreModel>,
+        runtime: Int,
+        status: String
+        nextEpisode: EpisodeModel,
+        lastEpisode: EpisodeModel,
+        seasons: List<SeasonModel>,
+        numOfEpisode: Int,
+        numOfSeason: Int,
+        directors: String
+* */
+
 /**
 "air_date": "2020-05-01",
 "episode_number": 4,
@@ -55,16 +83,6 @@ data class EpisodeModel(
 "vote_average": 0,
 "vote_count": 0
  * */
-
-data class SeasonModel(
-    val id: Long,
-    val airDate: String,
-    val episodeCount: Int,
-    val name: String,
-    val overview: String,
-    val posterPath: String,
-    val seasonNumber: Int
-)
 
 /**
 "air_date": "2020-04-24",

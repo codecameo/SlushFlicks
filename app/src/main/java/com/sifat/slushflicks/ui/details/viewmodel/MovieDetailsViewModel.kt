@@ -2,7 +2,7 @@ package com.sifat.slushflicks.ui.details.viewmodel
 
 import androidx.lifecycle.Observer
 import androidx.paging.PagedList
-import com.sifat.slushflicks.di.details.DetailsScope
+import com.sifat.slushflicks.di.details.MovieDetailsScope
 import com.sifat.slushflicks.model.MovieModel
 import com.sifat.slushflicks.model.ReviewModel
 import com.sifat.slushflicks.model.ShowModelMinimal
@@ -23,7 +23,7 @@ import com.sifat.slushflicks.ui.state.DataState
 import com.sifat.slushflicks.ui.state.ViewState
 import javax.inject.Inject
 
-@DetailsScope
+@MovieDetailsScope
 class MovieDetailsViewModel
 @Inject constructor(private val detailsRepository: MovieDetailsRepository) :
     BaseActionViewModel<MovieDetailDataAction, MovieDetailsViewAction, MovieDetailsViewState>() {

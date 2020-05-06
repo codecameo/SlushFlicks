@@ -25,7 +25,7 @@ interface DatabaseManager {
 
     suspend fun softInsertTv(movies: List<TvModel>)
 
-    suspend fun getMovies(collection: String): List<MovieModel>?
+    //suspend fun getMovies(collection: String): List<MovieModel>?
 
     fun getPagingMovies(collection: String): DataSource.Factory<Int, ShowModelMinimal>
 
@@ -44,4 +44,8 @@ interface DatabaseManager {
     suspend fun updateMovieDetails(model: VideoApiModel, movieId: Long)
 
     suspend fun updateMovieDetails(casts: List<CastModel>, movieId: Long)
+
+    fun getTvShowDetails(tvShowId: Long): LiveData<TvModel>
+
+    suspend fun updateTvDetails(model: TvModel)
 }

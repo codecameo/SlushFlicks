@@ -1,24 +1,18 @@
 package com.sifat.slushflicks.ui.details
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
-import android.view.MenuItem
 import android.view.View
 import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.lifecycle.Observer
 import androidx.paging.PagedList
+import com.google.android.material.appbar.AppBarLayout
 import com.sifat.slushflicks.R
 import com.sifat.slushflicks.databinding.ActivityMovieDetailsBinding
 import com.sifat.slushflicks.model.MovieModel
 import com.sifat.slushflicks.model.ReviewModel
 import com.sifat.slushflicks.model.ShowModelMinimal
-import com.sifat.slushflicks.ui.base.FullScreenActivity
-import com.sifat.slushflicks.ui.details.adapter.CastAdapter
-import com.sifat.slushflicks.ui.details.adapter.RelatedMovieAdapter
-import com.sifat.slushflicks.ui.details.adapter.ReviewAdapter
-import com.sifat.slushflicks.ui.details.adapter.viewholder.MovieViewHolder
+import com.sifat.slushflicks.ui.details.adapter.viewholder.ShowViewHolder
 import com.sifat.slushflicks.ui.details.state.dataaction.MovieDetailDataAction.*
 import com.sifat.slushflicks.ui.details.state.event.MovieDetailsViewEvent.*
 import com.sifat.slushflicks.ui.details.state.viewaction.MovieDetailsViewAction.*
@@ -30,21 +24,17 @@ import com.sifat.slushflicks.utils.showToast
 
 
 class MovieDetailsActivity :
-    FullScreenActivity<ActivityMovieDetailsBinding, MovieDetailsViewModel>(),
-    View.OnClickListener, MovieViewHolder.OnMovieClickListener {
+    BaseDetailsActivity<ActivityMovieDetailsBinding, MovieDetailsViewModel>(),
+    View.OnClickListener, ShowViewHolder.OnShowClickListener, AppBarLayout.OnOffsetChangedListener {
     private val TAG = "DetailsActivity"
     override fun getLayoutRes() = R.layout.activity_movie_details
 
     override fun getViewModelClass() = MovieDetailsViewModel::class.java
-    private lateinit var castAdapter: CastAdapter
-    private lateinit var recommendedAdapter: RelatedMovieAdapter
-    private lateinit var similarAdapter: RelatedMovieAdapter
-    private lateinit var reviewAdapter: ReviewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         extractData()
-        setupToolbar()
+        setupToolbar(binding.toolbarDetails)
         initVariable()
         initListener()
         setupList()
@@ -52,22 +42,8 @@ class MovieDetailsActivity :
         fetchMovieDetails()
     }
 
-    /**
-     * Set toolbar into actionbar.
-     */
-    private fun setupToolbar() {
-        setSupportActionBar(binding.toolbarDetails)
-        supportActionBar?.run {
-            setDisplayShowHomeEnabled(true)
-            setDisplayShowTitleEnabled(true)
-            setDisplayHomeAsUpEnabled(true)
-            setHomeAsUpIndicator(R.drawable.ic_back_arrow)
-        }
-    }
-
     private fun extractData() {
-        val movieId = intent.getLongExtra(KEY_MOVIE_ID, INVALID_ID.toLong())
-        Log.d(TAG, "Movie id $movieId")
+        val movieId = intent.getLongExtra(KEY_SHOW_ID, INVALID_ID.toLong())
         viewModel.setMovieId(movieId)
     }
 
@@ -78,17 +54,11 @@ class MovieDetailsActivity :
         binding.rvReview.adapter = reviewAdapter
     }
 
-    private fun initVariable() {
-        castAdapter = CastAdapter()
-        recommendedAdapter = RelatedMovieAdapter()
-        similarAdapter = RelatedMovieAdapter()
-        reviewAdapter = ReviewAdapter()
-    }
-
     private fun initListener() {
         binding.ivPoster.setOnClickListener(this)
-        recommendedAdapter.onMovieClickedListener = this
-        similarAdapter.onMovieClickedListener = this
+        binding.appBarPoster.addOnOffsetChangedListener(this)
+        recommendedAdapter.onShowClickedListener = this
+        similarAdapter.onShowClickedListener = this
     }
 
     private fun subscribeAction() {
@@ -127,14 +97,6 @@ class MovieDetailsActivity :
         })
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            onBackPressed()
-            return true
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
     private fun fetchMovieDetails() {
         viewModel.handleEvent(FetchMovieDetailsViewEvent())
         viewModel.handleEvent(FetchRecommendedMovieViewEvent())
@@ -145,12 +107,12 @@ class MovieDetailsActivity :
     override fun onClick(view: View?) {
         when (view?.id) {
             binding.ivPoster.id -> {
-                showTrailer()
+                showTrailer(binding.model?.video)
             }
         }
     }
 
-    override fun onMovieClicked(showModelMinimal: ShowModelMinimal) {
+    override fun onShowClicked(showModelMinimal: ShowModelMinimal) {
         refreshWith(showModelMinimal)
     }
 
@@ -163,14 +125,6 @@ class MovieDetailsActivity :
 
     private fun updateMovieDetails(model: ShowModelMinimal) {
         viewModel.handleEvent(UpdateMovieViewEvent(model))
-    }
-
-    private fun showTrailer() {
-        binding.model?.let { model ->
-            if (model.video.isNotEmpty()) {
-                openYoutube(model.video)
-            }
-        }
     }
 
     private fun showMovieDetails(action: FetchMovieDetailsViewAction) {
@@ -231,20 +185,6 @@ class MovieDetailsActivity :
         }
     }
 
-    private fun openYoutube(videoId: String) {
-        val intent = Intent(
-            Intent.ACTION_VIEW,
-            Uri.parse(String.format(YOUTUBE_VIDEO_LINK, videoId))
-        )
-        intent.`package` = YOUTUBE_PACKAGE_NAME
-        val activeApp = packageManager.queryIntentActivities(intent, 0)
-        if (activeApp.isNotEmpty()) {
-            startActivity(intent)
-        } else {
-            showToast(getString(R.string.install_youtube))
-        }
-    }
-
     private fun hideRecommendedSection() {
         binding.tvTitleRecommended.visibility = GONE
         binding.rvRecommended.visibility = GONE
@@ -259,9 +199,8 @@ class MovieDetailsActivity :
         //binding.rvReview.visibility = INVISIBLE
     }
 
-    companion object {
-        const val KEY_MOVIE_ID = "key_movie_id"
-        const val YOUTUBE_PACKAGE_NAME = "com.google.android.youtube"
-        const val YOUTUBE_VIDEO_LINK = "https://www.youtube.com/watch?v=%s"
+    override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
+        val scrollRange = appBarLayout?.totalScrollRange ?: 0
+        binding.shadow.visibility = if ((scrollRange + verticalOffset) == 0) VISIBLE else GONE
     }
 }

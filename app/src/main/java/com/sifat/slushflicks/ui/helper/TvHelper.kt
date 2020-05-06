@@ -1,14 +1,9 @@
 package com.sifat.slushflicks.ui.helper
 
-import com.sifat.slushflicks.api.home.tv.model.TvApiModel
-import com.sifat.slushflicks.api.home.tv.model.TvListApiModel
-import com.sifat.slushflicks.model.ShowModelMinimal
-import com.sifat.slushflicks.model.TvCollectionModel
-import com.sifat.slushflicks.model.TvModel
+import com.sifat.slushflicks.api.home.tv.model.*
+import com.sifat.slushflicks.model.*
 import com.sifat.slushflicks.ui.state.MetaData
-import com.sifat.slushflicks.utils.EMPTY_STRING
-import com.sifat.slushflicks.utils.PAGE_SIZE
-import com.sifat.slushflicks.utils.getListImageUrl
+import com.sifat.slushflicks.utils.*
 
 
 /**
@@ -79,4 +74,91 @@ fun getShowMinimalModel(tvShows: List<TvModel>?): List<ShowModelMinimal>? {
         moviesMinimalList.add(movieModelMinimal)
     }
     return moviesMinimalList
+}
+
+fun getTvDetails(apiModel: TvShowDetailsApiModel?): TvModel? {
+    return apiModel?.run {
+        TvModel(
+            id = apiModel.id,
+            backdropPath = getListImageUrl(apiModel.backdropPath),
+            posterPath = getListImageUrl(apiModel.posterPath),
+            popularity = apiModel.popularity,
+            voteAvg = apiModel.voteAvg,
+            voteCount = apiModel.voteCount,
+            genres = apiModel.genres,
+            status = apiModel.status,
+            nextEpisode = getEpisode(apiModel.nextEpisode),
+            lastEpisode = getEpisode(apiModel.lastEpisode),
+            seasons = getSeasons(apiModel.seasons),
+            numOfSeason = apiModel.seasonCount,
+            numOfEpisode = apiModel.episodeCount,
+            title = apiModel.name,
+            overview = apiModel.overview,
+            releaseData = apiModel.firstAirDate,
+            directors = getDirectors(apiModel.createdBy),
+            runtime = getRuntime(apiModel.episodeRunTime)
+        )
+    }
+}
+
+fun getDirectors(createdBy: List<CreatedBy>?): String {
+    return if (!createdBy.isNullOrEmpty()) {
+        val builder = StringBuilder(createdBy[0].name)
+        for (index in 1 until createdBy.size) {
+            builder.append(SPACE)
+                .append(BULLET_SIGN)
+                .append(SPACE)
+                .append(createdBy[index].name)
+        }
+        builder.toString()
+    } else {
+        EMPTY_STRING
+    }
+}
+
+fun getRuntime(runtimes: List<Int>?): Int {
+    return runtimes?.let {
+        var runtime = 0
+        for (time in runtimes) {
+            runtime += time
+        }
+        (runtime / runtimes.size)
+    } ?: 0
+}
+
+fun getEpisode(model: Episode?): EpisodeModel? {
+    return model?.let { episode ->
+        EpisodeModel(
+            id = episode.id,
+            airDate = episode.airDate ?: EMPTY_STRING,
+            name = episode.name,
+            stillPath = episode.stillPath ?: EMPTY_STRING,
+            overview = episode.overview,
+            voteAvg = episode.voteAvg,
+            seasonNumber = episode.seasonNumber,
+            episodeNumber = episode.episodeNumber
+        )
+    }
+}
+
+fun getSeasons(models: List<Season>?): List<SeasonModel> {
+    return models?.let { seasons ->
+        val seasonModels = mutableListOf<SeasonModel>()
+        for (season in seasons) {
+            seasonModels.add(getSeason(season))
+        }
+        seasonModels
+    } ?: emptyList()
+}
+
+fun getSeason(season: Season): SeasonModel {
+    return SeasonModel(
+        id = season.id,
+        airDate = season.airDate ?: EMPTY_STRING,
+        name = season.name,
+        posterPath = season.posterPath ?: EMPTY_STRING,
+        overview = season.overview,
+        seasonNumber = season.seasonNumber,
+        episodeCount = season.episodeCount
+    )
 }

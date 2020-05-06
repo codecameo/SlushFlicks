@@ -1,7 +1,13 @@
 package com.sifat.slushflicks.ui.binding.adapter
 
+import android.graphics.Color
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
+import android.text.style.RelativeSizeSpan
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import com.sifat.slushflicks.R
 import com.sifat.slushflicks.model.GenreModel
 import com.sifat.slushflicks.utils.BULLET_SIGN
 import com.sifat.slushflicks.utils.EMPTY_STRING
@@ -33,6 +39,20 @@ fun TextView.setRating(voteAvg: Double?, voteCount: Int?) {
     }
 }
 
+@BindingAdapter(value = ["seasonCount", "episodeCount"], requireAll = true)
+fun TextView.setSeasonEpisode(seasonCount: Int?, episodeCount: Int?) {
+    val builder = StringBuilder(context.getString(R.string.seasons))
+        .append(SPACE)
+        .append(seasonCount)
+        .append(SPACE)
+        .append(BULLET_SIGN)
+        .append(SPACE)
+        .append(context.getString(R.string.episodes))
+        .append(SPACE)
+        .append(episodeCount)
+    text = builder.toString()
+}
+
 @BindingAdapter("runtime")
 fun TextView.setRuntime(runtime: Int?) {
     runtime?.let { time ->
@@ -46,8 +66,30 @@ fun TextView.setRuntime(runtime: Int?) {
     }
 }
 
+@BindingAdapter("directedBy")
+fun TextView.setRuntime(directors: String?) {
+    val prefix = context.getString(R.string.text_directed_by)
+    val content = prefix + SPACE + directors
+    val spannable = SpannableString(content)
+    val start = prefix.length + 1
+    val end = content.length
+    spannable.setSpan(
+        ForegroundColorSpan(Color.WHITE),
+        start,
+        end,
+        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+    )
+    spannable.setSpan(
+        RelativeSizeSpan(1.167f),
+        start,
+        end,
+        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+    )
+    text = spannable
+}
+
 //1999-03-30
-@BindingAdapter("releaseDate")
+@BindingAdapter("date")
 fun TextView.setReleaseDate(releaseDate: String?) {
     text = releaseDate?.let { dateStr ->
         try {

@@ -51,13 +51,13 @@ object RoomConverter {
 
     @TypeConverter
     @JvmStatic
-    fun episodeToString(episodeModel: EpisodeModel): String {
-        return Gson().toJson(episodeModel)
+    fun episodeToString(episodeModel: EpisodeModel?): String? {
+        return episodeModel?.let { Gson().toJson(episodeModel) }
     }
 
     @TypeConverter
     @JvmStatic
-    fun stringToEpisode(episode: String?): EpisodeModel {
-        return Gson().fromJson(episode, EpisodeModel::class.java)
+    fun stringToEpisode(episode: String?): EpisodeModel? {
+        return episode?.let { Gson().fromJson(episode, EpisodeModel::class.java) }
     }
 }

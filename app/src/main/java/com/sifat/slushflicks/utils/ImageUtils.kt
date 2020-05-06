@@ -11,6 +11,14 @@ fun getListImageUrl(suffix: String?): String {
     } ?: EMPTY_STRING
 }
 
+fun getSmallImageUrl(suffix: String?): String {
+    return suffix?.let {
+        StringBuilder(BuildConfig.IMAGE_BASE_URL)
+            .append(ImageDimension.W92.dimension)
+            .append(suffix).toString()
+    } ?: EMPTY_STRING
+}
+
 fun getCastListImageUrl(suffix: String?): String {
     return suffix?.let {
         StringBuilder(BuildConfig.IMAGE_BASE_URL)

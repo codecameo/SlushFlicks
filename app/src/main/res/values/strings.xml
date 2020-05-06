@@ -24,4 +24,8 @@
     <string name="text_last_episode">Last Episode</string>
     <string name="text_next_episode">Next Episode</string>
     <string name="text_season">Seasons</string>
+    <string name="seasons">Seasons:</string>
+    <string name="text_episode">Episode:</string>
+    <string name="episodes">Episodes:</string>
+    <string name="text_directed_by">directed by</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.sifat.slushflicks.ui.home.tvshow.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -10,6 +11,8 @@ import com.sifat.slushflicks.databinding.FragmentTvListBinding
 import com.sifat.slushflicks.model.ShowModelMinimal
 import com.sifat.slushflicks.ui.base.BaseFragment
 import com.sifat.slushflicks.ui.base.ListViewState
+import com.sifat.slushflicks.ui.details.BaseDetailsActivity
+import com.sifat.slushflicks.ui.details.TvDetailsActivity
 import com.sifat.slushflicks.ui.home.adapter.ShowListAdapter
 import com.sifat.slushflicks.ui.home.adapter.viewholder.ShowViewHolder
 import com.sifat.slushflicks.ui.home.tvshow.state.dataaction.TvListDataAction
@@ -116,5 +119,8 @@ abstract class BaseTvListFragment<VM : BaseTvListViewModel> :
     }
 
     override fun onShowClicked(model: ShowModelMinimal) {
+        val intent = Intent(context, TvDetailsActivity::class.java)
+        intent.putExtra(BaseDetailsActivity.KEY_SHOW_ID, model.id)
+        startActivity(intent)
     }
 }

@@ -16,10 +16,12 @@ import com.sifat.slushflicks.api.ApiEndPoint.Companion.TOP_RATED_MOVIE_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.TOP_RATED_TV_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.TRENDING_MOVIE_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.TRENDING_TV_SHOW_URL
+import com.sifat.slushflicks.api.ApiEndPoint.Companion.TV_SHOW_DETAILS_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.UPCOMING_MOVIE_URL
 import com.sifat.slushflicks.api.ApiRequest.Companion.PATH_COLLECTION
 import com.sifat.slushflicks.api.ApiRequest.Companion.PATH_MOVIE_ID
 import com.sifat.slushflicks.api.ApiRequest.Companion.PATH_MOVIE_RELATION_TYPE
+import com.sifat.slushflicks.api.ApiRequest.Companion.PATH_TV_SHOW_ID
 import com.sifat.slushflicks.api.MethodName.Companion.GET
 import com.sifat.slushflicks.utils.Label.Companion.RECOMMENDATION_LABEL
 import com.sifat.slushflicks.utils.Label.Companion.SIMILAR_LABEL
@@ -41,6 +43,7 @@ class ApiRequest {
         const val QUERY_KEY_PAGE = "page"
         const val PATH_COLLECTION = "collection"
         const val PATH_MOVIE_ID = "movie_id"
+        const val PATH_TV_SHOW_ID = "tv_show_id"
         const val PATH_MOVIE_RELATION_TYPE = "relation_type"
     }
 }
@@ -50,6 +53,7 @@ class ApiEndPoint {
         const val TRENDING_MOVIE_URL = "trending/movie/day"
         const val TRENDING_TV_SHOW_URL = "trending/tv/day"
         const val MOVIE_DETAILS_URL = "movie/{$PATH_MOVIE_ID}"
+        const val TV_SHOW_DETAILS_URL = "tv/{$PATH_TV_SHOW_ID}"
         const val MOVIE_COLLECTION_URL = "movie/{$PATH_COLLECTION}"
         const val TV_SHOW_COLLECTION_URL = "tv/{$PATH_COLLECTION}"
         const val MOVIE_VIDEOS_URL = "movie/{$PATH_MOVIE_ID}/videos"
@@ -96,6 +100,7 @@ class ApiTag {
         const val POPULAR_TV_API_TAG = POPULAR_TV_URL + GET
         const val AIRING_TODAY_TV_API_TAG = AIRING_TODAY_TV_URL + GET
         const val TOP_RATED_TV_API_TAG = TOP_RATED_TV_URL + GET
+        const val TV_SHOW_API_TAG = TV_SHOW_DETAILS_URL + GET
 
     }
 }

@@ -65,9 +65,9 @@ class DataManagerImpl
         databaseManager.softInsertTv(tvShows)
     }
 
-    override suspend fun getMovies(collection: String): List<MovieModel>? {
+    /*override suspend fun getMovies(collection: String): List<MovieModel>? {
         return databaseManager.getMovies(collection)
-    }
+    }*/
 
     override fun getPagingMovies(collection: String): DataSource.Factory<Int, ShowModelMinimal> {
         return databaseManager.getPagingMovies(collection)
@@ -111,5 +111,13 @@ class DataManagerImpl
 
     override fun getTvCollections(): LiveData<DataState<List<CollectionModel>>> {
         return fireStoreManager.getTvCollections()
+    }
+
+    override fun getTvShowDetails(tvShowId: Long): LiveData<TvModel> {
+        return databaseManager.getTvShowDetails(tvShowId)
+    }
+
+    override suspend fun updateTvDetails(model: TvModel) {
+        databaseManager.updateTvDetails(model)
     }
 }

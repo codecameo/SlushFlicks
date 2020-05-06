@@ -34,4 +34,5 @@
     <dimen name="shadow_height">4dp</dimen>
     <dimen name="episode_img_width">96dp</dimen>
     <dimen name="img_season_size">56dp</dimen>
+    <dimen name="small_height">6dp</dimen>
 </resources>

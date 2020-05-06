@@ -6,9 +6,9 @@ import com.sifat.slushflicks.databinding.ItemRelatedMovieBinding
 import com.sifat.slushflicks.model.ShowModelMinimal
 import com.sifat.slushflicks.ui.home.adapter.model.ShowListModel
 
-class MovieViewHolder(
+class ShowViewHolder(
     private val binding: ItemRelatedMovieBinding,
-    private val onMovieClickListener: OnMovieClickListener
+    private val onShowClickListener: OnShowClickListener
 ) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
     init {
@@ -20,13 +20,13 @@ class MovieViewHolder(
         binding.state = model.state
     }
 
-    interface OnMovieClickListener {
-        fun onMovieClicked(showModelMinimal: ShowModelMinimal)
+    interface OnShowClickListener {
+        fun onShowClicked(showModelMinimal: ShowModelMinimal)
     }
 
     override fun onClick(view: View?) {
         binding.model?.run {
-            onMovieClickListener.onMovieClicked(this)
+            onShowClickListener.onShowClicked(this)
         }
     }
 }

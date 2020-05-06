@@ -12,6 +12,7 @@ import com.sifat.slushflicks.model.ShowModelMinimal
 import com.sifat.slushflicks.ui.base.BaseFragment
 import com.sifat.slushflicks.ui.base.ListViewState.LOADING
 import com.sifat.slushflicks.ui.base.ListViewState.VIEW
+import com.sifat.slushflicks.ui.details.BaseDetailsActivity
 import com.sifat.slushflicks.ui.details.MovieDetailsActivity
 import com.sifat.slushflicks.ui.home.adapter.ShowListAdapter
 import com.sifat.slushflicks.ui.home.adapter.viewholder.ShowViewHolder
@@ -70,7 +71,7 @@ abstract class BaseMovieListFragment<VM : BaseMovieListViewModel> :
 
     override fun onShowClicked(model: ShowModelMinimal) {
         val intent = Intent(context, MovieDetailsActivity::class.java)
-        intent.putExtra(MovieDetailsActivity.KEY_MOVIE_ID, model.id)
+        intent.putExtra(BaseDetailsActivity.KEY_SHOW_ID, model.id)
         startActivity(intent)
     }
 

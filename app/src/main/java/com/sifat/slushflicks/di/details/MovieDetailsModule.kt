@@ -11,14 +11,14 @@ import retrofit2.Retrofit
 import javax.inject.Named
 
 @Module
-class DetailsModule {
+class MovieDetailsModule {
 
-    @DetailsScope
+    @MovieDetailsScope
     @Provides
     fun provideMovieService(retrofit: Retrofit): MovieService =
         retrofit.create(MovieService::class.java)
 
-    @DetailsScope
+    @MovieDetailsScope
     @Provides
     fun provideDetailsRepository(
         movieService: MovieService,

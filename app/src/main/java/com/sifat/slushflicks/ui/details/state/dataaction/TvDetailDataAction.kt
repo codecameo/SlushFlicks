@@ -10,7 +10,7 @@ sealed class TvDetailDataAction {
     class FetchTvDetailsDataAction(val dataState: DataState<TvModel>) : TvDetailDataAction()
     class FetchTvVideoDataAction(val dataState: DataState<String>) : TvDetailDataAction()
     class FetchTvCastDataAction(val dataState: DataState<Int>) : TvDetailDataAction()
-    class FetchTvRecommendationDataAction(val dataState: DataState<List<ShowModelMinimal>>) :
+    class FetchRecommendedTvDataAction(val dataState: DataState<List<ShowModelMinimal>>) :
         TvDetailDataAction()
 
     class FetchTvSimilarDataAction(val dataState: DataState<List<ShowModelMinimal>>) :

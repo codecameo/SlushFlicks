@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
@@ -11,7 +11,7 @@
 
         <variable
             name="model"
-            type="com.sifat.slushflicks.model.MovieModel" />
+            type="com.sifat.slushflicks.model.TvModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -97,12 +97,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/standard_margin"
+                    android:layout_marginTop="@dimen/small_margin"
                     android:layout_marginEnd="@dimen/standard_margin"
-                    android:text="@{model.tagline}"
-                    android:textColor="@color/light_gray"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/small_font"
+                    app:episodeCount="@{model.numOfEpisode}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:seasonCount="@{model.numOfSeason}"
                     tools:text="Seasons 8 • Episodes 71" />
 
                 <TextView
@@ -113,6 +115,7 @@
                     android:fontFamily="sans-serif-medium"
                     android:paddingLeft="@dimen/small_margin"
                     android:paddingRight="@dimen/small_margin"
+                    android:text="@{model.status}"
                     android:textAllCaps="true"
                     android:textColor="@color/blackTextColor"
                     android:textSize="@dimen/tag_font"
@@ -204,11 +207,11 @@
                     android:drawableStart="@drawable/ic_calender"
                     android:drawablePadding="@dimen/standard_half_margin"
                     android:textColor="@color/subTextColor"
+                    app:date="@{model.releaseData}"
                     app:layout_constraintBottom_toBottomOf="@id/tvRating"
                     app:layout_constraintLeft_toRightOf="@id/secondDivider"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="@id/tvRating"
-                    app:releaseDate="@{model.releaseData}"
                     tools:text="30 Mar 2020" />
 
                 <TextView
@@ -254,7 +257,10 @@
                     android:layout_marginTop="@dimen/standard_half_margin"
                     android:textColor="@color/orange"
                     android:textSize="@dimen/tag_font"
+                    app:directedBy="@{model.directors}"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintLeft_toLeftOf="@id/tvOverview"
+                    app:layout_constraintRight_toRightOf="@id/tvOverview"
                     app:layout_constraintTop_toBottomOf="@id/tvOverview"
                     tools:text="directed by: Sifat Oshan, Zerin Haque" />
 
@@ -262,10 +268,12 @@
                     android:id="@+id/tvNextEpisode"
                     style="@style/DetailsTitleText"
                     android:text="@string/text_next_episode"
+                    android:visibility="@{model.nextEpisode == null? View.GONE : View.VISIBLE}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvDirectedBy" />
 
                 <include
+                    android:visibility="@{model.nextEpisode == null? View.GONE : View.VISIBLE}"
                     android:id="@+id/nextEpisode"
                     layout="@layout/item_episode"
                     android:layout_width="match_parent"
@@ -273,6 +281,7 @@
                     android:layout_marginStart="@dimen/standard_margin"
                     android:layout_marginTop="@dimen/quarter_less_standard_half"
                     android:layout_marginEnd="@dimen/standard_margin"
+                    app:episode="@{model.nextEpisode}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvNextEpisode" />
@@ -281,10 +290,12 @@
                     android:id="@+id/tvLastEpisode"
                     style="@style/DetailsTitleText"
                     android:text="@string/text_last_episode"
+                    android:visibility="@{model.lastEpisode == null? View.GONE : View.VISIBLE}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/nextEpisode" />
 
                 <include
+                    android:visibility="@{model.lastEpisode == null? View.GONE : View.VISIBLE}"
                     android:id="@+id/lastEpisode"
                     layout="@layout/item_episode"
                     android:layout_width="match_parent"
@@ -292,6 +303,7 @@
                     android:layout_marginStart="@dimen/standard_margin"
                     android:layout_marginTop="@dimen/quarter_less_standard_half"
                     android:layout_marginEnd="@dimen/standard_margin"
+                    app:episode="@{model.lastEpisode}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvLastEpisode" />
@@ -430,5 +442,12 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
+
+        <View
+            android:id="@+id/shadow"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/small_height"
+            android:background="@drawable/shadow_white"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

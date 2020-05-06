@@ -80,7 +80,6 @@
                     app:title="@{model.title}" />
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>
-
         <androidx.core.widget.NestedScrollView
             android:id="@+id/nsvContent"
             android:layout_width="match_parent"
@@ -190,11 +189,11 @@
                     android:drawableStart="@drawable/ic_movie_small"
                     android:drawablePadding="@dimen/standard_half_margin"
                     android:textColor="@color/subTextColor"
+                    app:date="@{model.releaseData}"
                     app:layout_constraintBottom_toBottomOf="@id/tvRating"
                     app:layout_constraintLeft_toRightOf="@id/secondDivider"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="@id/tvRating"
-                    app:releaseDate="@{model.releaseData}"
                     tools:text="30 Mar 2020" />
 
                 <TextView
@@ -378,5 +377,13 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
+
+        <View
+            android:id="@+id/shadow"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/small_height"
+            android:background="@drawable/shadow_white"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

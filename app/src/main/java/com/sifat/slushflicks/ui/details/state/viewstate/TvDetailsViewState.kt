@@ -9,7 +9,7 @@ import com.sifat.slushflicks.ui.home.adapter.model.ShowListModel
 import com.sifat.slushflicks.utils.INVALID_ID
 
 class TvDetailsViewState : BaseViewState<TvDetailsViewAction>() {
-    var tvId: Long = INVALID_ID.toLong()
+    var tvShowId: Long = INVALID_ID.toLong()
         set(value) {
             field = value
             reset()

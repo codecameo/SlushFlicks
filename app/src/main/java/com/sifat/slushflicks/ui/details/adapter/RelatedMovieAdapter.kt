@@ -7,14 +7,14 @@ import androidx.recyclerview.widget.ListAdapter
 import com.sifat.slushflicks.R
 import com.sifat.slushflicks.databinding.ItemRelatedMovieBinding
 import com.sifat.slushflicks.ui.details.adapter.diffutils.MovieDiffUtils
-import com.sifat.slushflicks.ui.details.adapter.viewholder.MovieViewHolder
+import com.sifat.slushflicks.ui.details.adapter.viewholder.ShowViewHolder
 import com.sifat.slushflicks.ui.home.adapter.model.ShowListModel
 
-class RelatedMovieAdapter : ListAdapter<ShowListModel, MovieViewHolder>(MovieDiffUtils()) {
+class RelatedMovieAdapter : ListAdapter<ShowListModel, ShowViewHolder>(MovieDiffUtils()) {
 
-    lateinit var onMovieClickedListener: MovieViewHolder.OnMovieClickListener
+    lateinit var onShowClickedListener: ShowViewHolder.OnShowClickListener
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShowViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding =
             DataBindingUtil.inflate<ItemRelatedMovieBinding>(
@@ -23,10 +23,10 @@ class RelatedMovieAdapter : ListAdapter<ShowListModel, MovieViewHolder>(MovieDif
                 parent,
                 false
             )
-        return MovieViewHolder(binding, onMovieClickedListener)
+        return ShowViewHolder(binding, onShowClickedListener)
     }
 
-    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ShowViewHolder, position: Int) {
         holder.bindTo(getItem(position))
     }
 }
