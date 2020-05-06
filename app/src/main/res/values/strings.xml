@@ -28,4 +28,5 @@
     <string name="text_episode">Episode:</string>
     <string name="episodes">Episodes:</string>
     <string name="text_directed_by">directed by</string>
+    <string name="text_episode_count">Episode Count:</string>
 </resources>

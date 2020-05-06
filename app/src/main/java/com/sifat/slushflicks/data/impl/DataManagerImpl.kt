@@ -120,4 +120,8 @@ class DataManagerImpl
     override suspend fun updateTvDetails(model: TvModel) {
         databaseManager.updateTvDetails(model)
     }
+
+    override suspend fun updateTvDetails(casts: List<CastModel>, tvShowId: Long) {
+        databaseManager.updateTvDetails(casts, tvShowId)
+    }
 }

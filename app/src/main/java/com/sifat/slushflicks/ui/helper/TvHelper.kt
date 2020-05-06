@@ -145,7 +145,7 @@ fun getSeasons(models: List<Season>?): List<SeasonModel> {
     return models?.let { seasons ->
         val seasonModels = mutableListOf<SeasonModel>()
         for (season in seasons) {
-            seasonModels.add(getSeason(season))
+            if (season.seasonNumber != 0) seasonModels.add(getSeason(season))
         }
         seasonModels
     } ?: emptyList()

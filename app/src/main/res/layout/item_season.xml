@@ -1,83 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/standard_half_margin"
-    android:background="@drawable/bg_round_colorprimary"
-    android:padding="@dimen/standard_half_margin">
+<layout>
 
-    <com.makeramen.roundedimageview.RoundedImageView
-        android:id="@+id/ivSeasonPoster"
-        android:layout_width="@dimen/img_season_size"
-        android:layout_height="@dimen/img_season_size"
-        android:scaleType="centerCrop"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:riv_oval="true"
-        tools:src="@drawable/placeholder" />
+    <data>
 
-    <com.makeramen.roundedimageview.RoundedImageView
-        android:id="@+id/ivSeasonPosterOverlay"
-        android:layout_width="@dimen/img_season_size"
-        android:layout_height="@dimen/img_season_size"
-        android:scaleType="centerCrop"
-        android:src="@drawable/image_foreground"
-        app:layout_constraintLeft_toLeftOf="@id/ivSeasonPoster"
-        app:layout_constraintTop_toTopOf="@id/ivSeasonPoster"
-        app:riv_oval="true" />
+        <import type="android.text.TextUtils" />
 
-    <TextView
-        android:id="@+id/tvSeasonName"
-        android:layout_width="@dimen/default_0dp"
+        <import type="android.view.View" />
+
+        <variable
+            name="season"
+            type="com.sifat.slushflicks.model.SeasonModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/standard_margin"
-        android:layout_marginEnd="@dimen/standard_margin"
-        android:fontFamily="sans-serif-medium"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@id/tvAirDate"
-        app:layout_constraintLeft_toRightOf="@id/ivSeasonPoster"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/ivSeasonPoster"
-        tools:text="Season 1" />
+        android:layout_marginTop="@dimen/standard_half_margin"
+        android:background="@drawable/bg_round_colorprimary"
+        android:padding="@dimen/standard_half_margin">
 
-    <TextView
-        android:id="@+id/tvAirDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawableStart="@drawable/ic_calender"
-        android:drawablePadding="@dimen/standard_half_margin"
-        android:textColor="@color/subTextColor"
-        android:textSize="@dimen/small_font"
-        app:layout_constraintBottom_toBottomOf="@id/ivSeasonPoster"
-        app:layout_constraintLeft_toLeftOf="@id/tvSeasonName"
-        app:layout_constraintTop_toBottomOf="@id/tvSeasonName"
-        tools:text="12 Mar, 2019" />
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/ivSeasonPoster"
+            imageSmallUrl="@{season.posterPath}"
+            placeholder="@{@drawable/placeholder}"
+            android:layout_width="@dimen/img_season_size"
+            android:layout_height="@dimen/img_season_size"
+            android:scaleType="centerCrop"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:riv_oval="true"
+            tools:src="@drawable/placeholder" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/standard_margin"
-        android:drawableStart="@drawable/ic_episode"
-        android:drawablePadding="@dimen/standard_half_margin"
-        android:textColor="@color/subTextColor"
-        android:textSize="@dimen/small_font"
-        app:layout_constraintBottom_toBottomOf="@id/tvAirDate"
-        app:layout_constraintLeft_toRightOf="@id/tvAirDate"
-        app:layout_constraintTop_toTopOf="@id/tvAirDate"
-        tools:text="Episode Count: 7" />
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/ivSeasonPosterOverlay"
+            android:layout_width="@dimen/img_season_size"
+            android:layout_height="@dimen/img_season_size"
+            android:scaleType="centerCrop"
+            android:src="@drawable/image_foreground"
+            app:layout_constraintLeft_toLeftOf="@id/ivSeasonPoster"
+            app:layout_constraintTop_toTopOf="@id/ivSeasonPoster"
+            app:riv_oval="true" />
 
-    <TextView
-        android:layout_width="@dimen/default_0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/small_margin"
-        android:paddingLeft="@dimen/small_margin"
-        android:paddingRight="@dimen/small_margin"
-        android:text="@string/long_dummy_description"
-        android:textColor="@color/subTextColor"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivSeasonPoster" />
+        <TextView
+            android:id="@+id/tvSeasonName"
+            android:layout_width="@dimen/default_0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/standard_margin"
+            android:layout_marginEnd="@dimen/standard_margin"
+            android:fontFamily="sans-serif-medium"
+            android:text="@{season.name}"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@id/tvAirDate"
+            app:layout_constraintLeft_toRightOf="@id/ivSeasonPoster"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/ivSeasonPoster"
+            tools:text="Season 1" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/tvAirDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_calender"
+            android:drawablePadding="@dimen/standard_half_margin"
+            android:textColor="@color/subTextColor"
+            android:textSize="@dimen/small_font"
+            app:date="@{season.airDate}"
+            app:layout_constraintBottom_toBottomOf="@id/ivSeasonPoster"
+            app:layout_constraintLeft_toLeftOf="@id/tvSeasonName"
+            app:layout_constraintTop_toBottomOf="@id/tvSeasonName"
+            tools:text="12 Mar, 2019" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/standard_margin"
+            android:drawableStart="@drawable/ic_episode"
+            android:drawablePadding="@dimen/standard_half_margin"
+            android:text="@{@string/text_episode_count+` `+season.episodeCount}"
+            android:textColor="@color/subTextColor"
+            android:textSize="@dimen/small_font"
+            app:layout_constraintBottom_toBottomOf="@id/tvAirDate"
+            app:layout_constraintLeft_toRightOf="@id/tvAirDate"
+            app:layout_constraintTop_toTopOf="@id/tvAirDate"
+            tools:text="Episode Count: 7" />
+
+        <TextView
+            android:layout_width="@dimen/default_0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small_margin"
+            android:paddingLeft="@dimen/small_margin"
+            android:paddingRight="@dimen/small_margin"
+            android:text="@{season.overview}"
+            android:textColor="@color/subTextColor"
+            android:visibility="@{TextUtils.isEmpty(season.overview)?View.GONE:View.VISIBLE}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivSeasonPoster"
+            tools:text="@string/long_dummy_description" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

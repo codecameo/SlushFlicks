@@ -5,24 +5,28 @@ import androidx.paging.DataSource
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
-import com.sifat.slushflicks.db.DbConstant
+import com.sifat.slushflicks.db.DbConstant.TableName.Companion.TABLE_NAME_TV
+import com.sifat.slushflicks.db.DbConstant.TableName.Companion.TABLE_NAME_TV_TYPE
 import com.sifat.slushflicks.model.*
 
 @Dao
 interface TvDao : BaseDao<TvModel> {
-    @Query("SELECT * FROM ${DbConstant.TableName.TABLE_NAME_TV} INNER JOIN ${DbConstant.TableName.TABLE_NAME_TV_TYPE} ON ${DbConstant.TableName.TABLE_NAME_TV}.id = ${DbConstant.TableName.TABLE_NAME_TV_TYPE}.id WHERE ${DbConstant.TableName.TABLE_NAME_TV_TYPE}.collection= :collection ORDER BY ${DbConstant.TableName.TABLE_NAME_TV_TYPE}.`index`")
+    @Query("SELECT * FROM $TABLE_NAME_TV INNER JOIN $TABLE_NAME_TV_TYPE ON $TABLE_NAME_TV.id = $TABLE_NAME_TV_TYPE.id WHERE $TABLE_NAME_TV_TYPE.collection= :collection ORDER BY $TABLE_NAME_TV_TYPE.`index`")
     suspend fun getTvShows(collection: String): List<TvModel>?
 
-    @Query("SELECT ${DbConstant.TableName.TABLE_NAME_TV}.id, title, overview, voteAvg, backdropPath, genres FROM ${DbConstant.TableName.TABLE_NAME_TV} INNER JOIN ${DbConstant.TableName.TABLE_NAME_TV_TYPE} ON ${DbConstant.TableName.TABLE_NAME_TV}.id = ${DbConstant.TableName.TABLE_NAME_TV_TYPE}.id WHERE ${DbConstant.TableName.TABLE_NAME_TV_TYPE}.collection= :collection ORDER BY ${DbConstant.TableName.TABLE_NAME_TV_TYPE}.`index`")
+    @Query("SELECT $TABLE_NAME_TV.id, title, overview, voteAvg, backdropPath, genres FROM $TABLE_NAME_TV INNER JOIN $TABLE_NAME_TV_TYPE ON $TABLE_NAME_TV.id = $TABLE_NAME_TV_TYPE.id WHERE $TABLE_NAME_TV_TYPE.collection= :collection ORDER BY $TABLE_NAME_TV_TYPE.`index`")
     fun getPagedTvShowSource(collection: String): DataSource.Factory<Int, ShowModelMinimal>
 
-    @Query("SELECT * FROM ${DbConstant.TableName.TABLE_NAME_TV} WHERE id = :tvShowId")
+    @Query("SELECT * FROM $TABLE_NAME_TV WHERE id = :tvShowId")
     fun listenToTvShow(tvShowId: Long): LiveData<TvModel>
 
-    @Query("SELECT id FROM ${DbConstant.TableName.TABLE_NAME_TV} WHERE id = :tvShowId")
+    @Query("SELECT id FROM $TABLE_NAME_TV WHERE id = :tvShowId")
     fun getTvShowId(tvShowId: Long): Long?
 
-    @Query("UPDATE ${DbConstant.TableName.TABLE_NAME_TV} SET voteCount = :voteCount, voteAvg = :voteAvg, releaseData = :releaseData, popularity = :popularity, genres = :genres, runtime = :runtime, status = :status, nextEpisode = :nextEpisode, lastEpisode = :lastEpisode, seasons = :seasons, numOfEpisode = :numOfEpisode, numOfSeason = :numOfSeason, directors = :directors WHERE id = :id")
+    @Query("UPDATE $TABLE_NAME_TV SET casts = :casts WHERE id = :tvShowId")
+    fun update(tvShowId: Long, casts: List<CastModel>)
+
+    @Query("UPDATE $TABLE_NAME_TV SET voteCount = :voteCount, voteAvg = :voteAvg, releaseData = :releaseData, popularity = :popularity, genres = :genres, runtime = :runtime, status = :status, nextEpisode = :nextEpisode, lastEpisode = :lastEpisode, seasons = :seasons, numOfEpisode = :numOfEpisode, numOfSeason = :numOfSeason, directors = :directors WHERE id = :id")
     suspend fun update(
         id: Long,
         voteCount: Int,

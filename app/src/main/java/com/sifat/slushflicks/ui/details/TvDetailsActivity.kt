@@ -8,6 +8,7 @@ import com.sifat.slushflicks.R
 import com.sifat.slushflicks.databinding.ActivityTvDetailsBinding
 import com.sifat.slushflicks.model.ShowModelMinimal
 import com.sifat.slushflicks.model.TvModel
+import com.sifat.slushflicks.ui.details.adapter.SeasonAdapter
 import com.sifat.slushflicks.ui.details.adapter.viewholder.ShowViewHolder
 import com.sifat.slushflicks.ui.details.state.dataaction.TvDetailDataAction
 import com.sifat.slushflicks.ui.details.state.event.TvDetailsViewEvent.*
@@ -21,6 +22,7 @@ class TvDetailsActivity : BaseDetailsActivity<ActivityTvDetailsBinding, TvDetail
     override fun getLayoutRes() = R.layout.activity_tv_details
 
     override fun getViewModelClass() = TvDetailsViewModel::class.java
+    private lateinit var seasonAdapter: SeasonAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,11 +40,17 @@ class TvDetailsActivity : BaseDetailsActivity<ActivityTvDetailsBinding, TvDetail
         viewModel.setTvShowId(tvShowId)
     }
 
+    override fun initVariable() {
+        super.initVariable()
+        seasonAdapter = SeasonAdapter()
+    }
+
     private fun setupList() {
         binding.rvCast.adapter = castAdapter
         binding.rvRecommended.adapter = recommendedAdapter
         binding.rvSimilar.adapter = similarAdapter
         binding.rvReview.adapter = reviewAdapter
+        binding.rvSeason.adapter = seasonAdapter
     }
 
     private fun initListener() {
@@ -92,9 +100,17 @@ class TvDetailsActivity : BaseDetailsActivity<ActivityTvDetailsBinding, TvDetail
         when (val viewState = action.viewState) {
             is ViewState.Success<TvModel> -> {
                 binding.model = viewState.data
-                //castAdapter.submitList(viewState.data?.casts?.toMutableList())
-                //checkMissingData(viewState.data)
+                seasonAdapter.submitList(viewState.data?.seasons?.reversed())
+                castAdapter.submitList(viewState.data?.casts?.toMutableList())
+                checkMissingData(viewState.data)
             }
+        }
+    }
+
+    private fun checkMissingData(data: TvModel?) {
+        data?.run {
+            //if (video.isEmpty()) viewModel.handleEvent(MovieDetailsViewEvent.FetchMovieVideoViewEvent())
+            if (casts.isEmpty()) viewModel.handleEvent(FetchTvCastViewEvent())
         }
     }
 

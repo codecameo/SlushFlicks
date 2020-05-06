@@ -34,7 +34,7 @@ abstract class BaseDetailsActivity<DB : ViewDataBinding, VM : ViewModel> :
         }
     }
 
-    protected fun initVariable() {
+    protected open fun initVariable() {
         castAdapter = CastAdapter()
         recommendedAdapter = RelatedMovieAdapter()
         similarAdapter = RelatedMovieAdapter()

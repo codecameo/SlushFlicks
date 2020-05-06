@@ -16,6 +16,7 @@ import com.sifat.slushflicks.api.ApiEndPoint.Companion.TOP_RATED_MOVIE_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.TOP_RATED_TV_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.TRENDING_MOVIE_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.TRENDING_TV_SHOW_URL
+import com.sifat.slushflicks.api.ApiEndPoint.Companion.TV_CREDITS_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.TV_SHOW_DETAILS_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.UPCOMING_MOVIE_URL
 import com.sifat.slushflicks.api.ApiRequest.Companion.PATH_COLLECTION
@@ -51,11 +52,8 @@ class ApiRequest {
 class ApiEndPoint {
     companion object {
         const val TRENDING_MOVIE_URL = "trending/movie/day"
-        const val TRENDING_TV_SHOW_URL = "trending/tv/day"
         const val MOVIE_DETAILS_URL = "movie/{$PATH_MOVIE_ID}"
-        const val TV_SHOW_DETAILS_URL = "tv/{$PATH_TV_SHOW_ID}"
         const val MOVIE_COLLECTION_URL = "movie/{$PATH_COLLECTION}"
-        const val TV_SHOW_COLLECTION_URL = "tv/{$PATH_COLLECTION}"
         const val MOVIE_VIDEOS_URL = "movie/{$PATH_MOVIE_ID}/videos"
         const val MOVIE_CREDITS_URL = "movie/{$PATH_MOVIE_ID}/credits"
         const val MOVIE_RECOMMENDATION_URL = "movie/{$PATH_MOVIE_ID}/$RECOMMENDATION_LABEL"
@@ -63,14 +61,19 @@ class ApiEndPoint {
         const val MOVIE_RELATED_MOVIE_URL = "movie/{$PATH_MOVIE_ID}/{$PATH_MOVIE_RELATION_TYPE}"
         const val MOVIE_REVIEWS_URL = "movie/{$PATH_MOVIE_ID}/reviews"
         const val GENRES_MOVIE_URL = "genre/movie/list"
-        const val GENRES_TV_URL = "genre/tv/list"
         const val POPULAR_MOVIE_URL = "movie/popular"
         const val NOW_PLAYING_MOVIE_URL = "movie/now_playing"
         const val TOP_RATED_MOVIE_URL = "movie/top_rated"
         const val UPCOMING_MOVIE_URL = "movie/upcoming"
+
+        const val GENRES_TV_URL = "genre/tv/list"
+        const val TRENDING_TV_SHOW_URL = "trending/tv/day"
+        const val TV_SHOW_DETAILS_URL = "tv/{$PATH_TV_SHOW_ID}"
+        const val TV_SHOW_COLLECTION_URL = "tv/{$PATH_COLLECTION}"
         const val POPULAR_TV_URL = "tv/popular"
         const val AIRING_TODAY_TV_URL = "tv/airing_today"
         const val TOP_RATED_TV_URL = "tv/top_rated"
+        const val TV_CREDITS_URL = "tv/{$PATH_TV_SHOW_ID}/credits"
     }
 }
 
@@ -101,7 +104,7 @@ class ApiTag {
         const val AIRING_TODAY_TV_API_TAG = AIRING_TODAY_TV_URL + GET
         const val TOP_RATED_TV_API_TAG = TOP_RATED_TV_URL + GET
         const val TV_SHOW_API_TAG = TV_SHOW_DETAILS_URL + GET
-
+        const val TV_CREDITS_API_TAG = TV_CREDITS_URL + GET
     }
 }
 

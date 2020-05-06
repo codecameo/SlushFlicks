@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import com.sifat.slushflicks.api.ApiResponse
 import com.sifat.slushflicks.api.ApiSuccessResponse
 import com.sifat.slushflicks.api.details.model.CreditsApiModel
-import com.sifat.slushflicks.api.home.movie.MovieService
+import com.sifat.slushflicks.api.home.tv.TvService
 import com.sifat.slushflicks.data.DataManager
 import com.sifat.slushflicks.model.CastModel
 import com.sifat.slushflicks.repository.resource.type.CacheUpdateResource
@@ -13,25 +13,25 @@ import com.sifat.slushflicks.utils.api.NetworkStateManager
 import com.sifat.slushflicks.utils.getCastListImageUrl
 import kotlinx.coroutines.Job
 
-class MovieCastNetworkResource(
-    private val movieService: MovieService,
+class TvCastNetworkResource(
+    private val tvService: TvService,
     private val dataManager: DataManager,
     private val requestModel: RequestModel,
     networkStateManager: NetworkStateManager
 ) : CacheUpdateResource<CreditsApiModel, List<CastModel>, Int>(networkStateManager) {
 
-    val maxCreditSize = 10
+    val maxCreditSize = 15
 
     override fun createCall(): LiveData<ApiResponse<CreditsApiModel>> {
-        return movieService.getMovieCredits(
-            movieId = requestModel.movieId,
+        return tvService.getTvShowCredits(
+            tvShowId = requestModel.tvShowId,
             apiKey = requestModel.apiKey
         )
     }
 
     override suspend fun updateLocalDb(cacheData: List<CastModel>?) {
         cacheData?.let {
-            // Saving only first 10 casts
+            // Saving only first 15 casts
             val size = if (cacheData.size > maxCreditSize) maxCreditSize else cacheData.size
             val castList = List<CastModel>(size) { index ->
                 val castModel = CastModel(
@@ -43,7 +43,7 @@ class MovieCastNetworkResource(
                 )
                 castModel
             }
-            dataManager.updateMovieDetails(castList, requestModel.movieId)
+            dataManager.updateTvDetails(castList, requestModel.tvShowId)
         }
     }
 
@@ -65,6 +65,5 @@ class MovieCastNetworkResource(
         )
     }
 
-
-    data class RequestModel(val apiKey: String, val movieId: Long)
+    data class RequestModel(val apiKey: String, val tvShowId: Long)
 }

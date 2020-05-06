@@ -2,6 +2,7 @@ package com.sifat.slushflicks.api.home.tv
 
 import androidx.lifecycle.LiveData
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.TRENDING_TV_SHOW_URL
+import com.sifat.slushflicks.api.ApiEndPoint.Companion.TV_CREDITS_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.TV_SHOW_COLLECTION_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.TV_SHOW_DETAILS_URL
 import com.sifat.slushflicks.api.ApiRequest.Companion.PATH_COLLECTION
@@ -9,7 +10,9 @@ import com.sifat.slushflicks.api.ApiRequest.Companion.PATH_TV_SHOW_ID
 import com.sifat.slushflicks.api.ApiRequest.Companion.QUERY_KEY_API_KEY
 import com.sifat.slushflicks.api.ApiRequest.Companion.QUERY_KEY_PAGE
 import com.sifat.slushflicks.api.ApiResponse
+import com.sifat.slushflicks.api.ApiTag.Companion.TV_CREDITS_API_TAG
 import com.sifat.slushflicks.api.ApiTag.Companion.TV_SHOW_API_TAG
+import com.sifat.slushflicks.api.details.model.CreditsApiModel
 import com.sifat.slushflicks.api.home.tv.model.TvListApiModel
 import com.sifat.slushflicks.api.home.tv.model.TvShowDetailsApiModel
 import retrofit2.http.GET
@@ -41,6 +44,13 @@ interface TvService {
         @Tag tag: String = TV_SHOW_API_TAG
     ): LiveData<ApiResponse<TvShowDetailsApiModel>>
 
+    @GET(TV_CREDITS_URL)
+    fun getTvShowCredits(
+        @Path(PATH_TV_SHOW_ID) tvShowId: Long,
+        @Query(QUERY_KEY_API_KEY) apiKey: String,
+        @Tag tag: String = TV_CREDITS_API_TAG
+    ): LiveData<ApiResponse<CreditsApiModel>>
+
     /*@GET(MOVIE_DETAILS_URL)
     fun getMovieDetails(
         @Path(PATH_MOVIE_ID) movieId: Long,
@@ -54,13 +64,6 @@ interface TvService {
         @Query(QUERY_KEY_API_KEY) apiKey: String,
         @Tag tag: String = MOVIE_VIDEO_API_TAG
     ): LiveData<ApiResponse<VideoListApiModel>>
-
-    @GET(MOVIE_CREDITS_URL)
-    fun getMovieCredits(
-        @Path(PATH_MOVIE_ID) movieId: Long,
-        @Query(QUERY_KEY_API_KEY) apiKey: String,
-        @Tag tag: String = MOVIE_CREDITS_API_TAG
-    ): LiveData<ApiResponse<CreditsApiModel>>
 
     @GET(MOVIE_RELATED_MOVIE_URL)
     fun getRelatedMovies(

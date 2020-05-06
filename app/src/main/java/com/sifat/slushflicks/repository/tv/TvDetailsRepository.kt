@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import com.sifat.slushflicks.api.home.tv.TvService
 import com.sifat.slushflicks.data.DataManager
 import com.sifat.slushflicks.model.TvModel
+import com.sifat.slushflicks.repository.resource.impl.TvCastNetworkResource
 import com.sifat.slushflicks.repository.resource.impl.TvDetailsNetworkResource
 import com.sifat.slushflicks.repository.resource.impl.TvDetailsNetworkResource.RequestModel
 import com.sifat.slushflicks.ui.state.DataState
@@ -31,18 +32,18 @@ class TvDetailsRepository(
             requestModel = MovieVideoNetworkResource.RequestModel(apiKey, movieId),
             networkStateManager = networkStateManager
         ).asLiveData()
-    }
+    }*/
 
     fun getTvShowCast(movieId: Long): LiveData<DataState<Int>> {
-        return MovieCastNetworkResource(
-            movieService = movieService,
+        return TvCastNetworkResource(
+            tvService = tvService,
             dataManager = dataManager,
-            requestModel = MovieCastNetworkResource.RequestModel(apiKey, movieId),
+            requestModel = TvCastNetworkResource.RequestModel(apiKey, movieId),
             networkStateManager = networkStateManager
         ).asLiveData()
     }
 
-    fun getSimilarTvShows(movieId: Long): LiveData<DataState<List<ShowModelMinimal>>> {
+    /*fun getSimilarTvShows(movieId: Long): LiveData<DataState<List<ShowModelMinimal>>> {
         return SimilarMoviesNetworkResource(
             movieService = movieService,
             dataManager = dataManager,

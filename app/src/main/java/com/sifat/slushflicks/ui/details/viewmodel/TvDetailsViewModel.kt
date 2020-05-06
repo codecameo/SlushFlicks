@@ -6,8 +6,10 @@ import com.sifat.slushflicks.model.TvModel
 import com.sifat.slushflicks.repository.tv.TvDetailsRepository
 import com.sifat.slushflicks.ui.base.BaseActionViewModel
 import com.sifat.slushflicks.ui.details.state.dataaction.TvDetailDataAction
+import com.sifat.slushflicks.ui.details.state.dataaction.TvDetailDataAction.FetchTvCastDataAction
 import com.sifat.slushflicks.ui.details.state.dataaction.TvDetailDataAction.FetchTvDetailsDataAction
 import com.sifat.slushflicks.ui.details.state.event.TvDetailsViewEvent
+import com.sifat.slushflicks.ui.details.state.event.TvDetailsViewEvent.*
 import com.sifat.slushflicks.ui.details.state.viewaction.TvDetailsViewAction
 import com.sifat.slushflicks.ui.details.state.viewstate.TvDetailsViewState
 import com.sifat.slushflicks.ui.state.DataState
@@ -29,27 +31,39 @@ class TvDetailsViewModel
 
     fun handleEvent(tvDetailsViewEvent: TvDetailsViewEvent) {
         when (tvDetailsViewEvent) {
-            is TvDetailsViewEvent.FetchTvDetailsViewEvent -> {
+            is FetchTvDetailsViewEvent -> {
                 fetchTvShowDetails(viewState.tvShowId)
             }
-            is TvDetailsViewEvent.FetchTvVideoViewEvent -> {
-                //fetchMovieVideo(viewState.tvShowId)
+            is FetchTvVideoViewEvent -> {
+                //fetchTvVideo(viewState.tvShowId)
             }
-            is TvDetailsViewEvent.FetchTvCastViewEvent -> {
-                //fetchMovieCast(viewState.tvShowId)
+            is FetchTvCastViewEvent -> {
+                fetchTvCast(viewState.tvShowId)
             }
-            is TvDetailsViewEvent.FetchRecommendedTvViewEvent -> {
+            is FetchRecommendedTvViewEvent -> {
                 //fetchRecommendedMovies(viewState.tvShowId)
             }
-            is TvDetailsViewEvent.FetchSimilarTvViewEvent -> {
+            is FetchSimilarTvViewEvent -> {
                 //fetchSimilarMovies(viewState.tvShowId)
             }
-            is TvDetailsViewEvent.FetchTvReviewsViewEvent -> {
+            is FetchTvReviewsViewEvent -> {
                 //fetchMovieReviews(viewState.tvShowId)
             }
-            is TvDetailsViewEvent.UpdateTvViewEvent -> {
+            is UpdateTvViewEvent -> {
                 //updateMovieInfo(movieDetailsViewEvent.showModelMinimal)
             }
+        }
+    }
+
+    private fun fetchTvCast(tvShowId: Long) {
+        if (viewState.isAlreadyCastAttempted) return
+        viewState.isAlreadyCastAttempted = true
+        val castSource = detailsRepository.getTvShowCast(tvShowId)
+        dataState.addSource(castSource) { castCount ->
+            dataState.removeSource(castSource)
+            dataState.value = FetchTvCastDataAction(
+                dataState = castCount
+            )
         }
     }
 

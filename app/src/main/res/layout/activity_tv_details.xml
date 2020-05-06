@@ -273,7 +273,6 @@
                     app:layout_constraintTop_toBottomOf="@id/tvDirectedBy" />
 
                 <include
-                    android:visibility="@{model.nextEpisode == null? View.GONE : View.VISIBLE}"
                     android:id="@+id/nextEpisode"
                     layout="@layout/item_episode"
                     android:layout_width="match_parent"
@@ -281,6 +280,7 @@
                     android:layout_marginStart="@dimen/standard_margin"
                     android:layout_marginTop="@dimen/quarter_less_standard_half"
                     android:layout_marginEnd="@dimen/standard_margin"
+                    android:visibility="@{model.nextEpisode == null? View.GONE : View.VISIBLE}"
                     app:episode="@{model.nextEpisode}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
@@ -295,7 +295,6 @@
                     app:layout_constraintTop_toBottomOf="@id/nextEpisode" />
 
                 <include
-                    android:visibility="@{model.lastEpisode == null? View.GONE : View.VISIBLE}"
                     android:id="@+id/lastEpisode"
                     layout="@layout/item_episode"
                     android:layout_width="match_parent"
@@ -303,6 +302,7 @@
                     android:layout_marginStart="@dimen/standard_margin"
                     android:layout_marginTop="@dimen/quarter_less_standard_half"
                     android:layout_marginEnd="@dimen/standard_margin"
+                    android:visibility="@{model.lastEpisode == null? View.GONE : View.VISIBLE}"
                     app:episode="@{model.lastEpisode}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
@@ -312,6 +312,7 @@
                     android:id="@+id/tvTitleSeason"
                     style="@style/DetailsTitleText"
                     android:text="@string/text_season"
+                    android:visibility="@{model.seasons.size() > 0 ? View.VISIBLE : View.GONE}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/lastEpisode" />
 
@@ -321,9 +322,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/small_margin"
                     android:clipToPadding="false"
+                    android:nestedScrollingEnabled="false"
                     android:paddingStart="@dimen/standard_margin"
                     android:paddingEnd="@dimen/standard_half_margin"
                     android:paddingBottom="@dimen/standard_half_margin"
+                    android:visibility="@{model.seasons.size() > 0 ? View.VISIBLE : View.GONE}"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

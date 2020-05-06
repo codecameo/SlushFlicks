@@ -48,4 +48,6 @@ interface DatabaseManager {
     fun getTvShowDetails(tvShowId: Long): LiveData<TvModel>
 
     suspend fun updateTvDetails(model: TvModel)
+
+    suspend fun updateTvDetails(casts: List<CastModel>, tvShowId: Long)
 }
