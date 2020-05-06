@@ -109,7 +109,7 @@ class TvDetailsActivity : BaseDetailsActivity<ActivityTvDetailsBinding, TvDetail
 
     private fun checkMissingData(data: TvModel?) {
         data?.run {
-            //if (video.isEmpty()) viewModel.handleEvent(MovieDetailsViewEvent.FetchMovieVideoViewEvent())
+            if (video.isEmpty()) viewModel.handleEvent(FetchTvVideoViewEvent())
             if (casts.isEmpty()) viewModel.handleEvent(FetchTvCastViewEvent())
         }
     }

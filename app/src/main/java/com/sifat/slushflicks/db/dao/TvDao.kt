@@ -26,6 +26,9 @@ interface TvDao : BaseDao<TvModel> {
     @Query("UPDATE $TABLE_NAME_TV SET casts = :casts WHERE id = :tvShowId")
     fun update(tvShowId: Long, casts: List<CastModel>)
 
+    @Query("UPDATE $TABLE_NAME_TV SET video = :key WHERE id = :tvShowId")
+    fun update(tvShowId: Long, key: String)
+
     @Query("UPDATE $TABLE_NAME_TV SET voteCount = :voteCount, voteAvg = :voteAvg, releaseData = :releaseData, popularity = :popularity, genres = :genres, runtime = :runtime, status = :status, nextEpisode = :nextEpisode, lastEpisode = :lastEpisode, seasons = :seasons, numOfEpisode = :numOfEpisode, numOfSeason = :numOfSeason, directors = :directors WHERE id = :id")
     suspend fun update(
         id: Long,

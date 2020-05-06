@@ -108,6 +108,7 @@
                     tools:text="Seasons 8 • Episodes 71" />
 
                 <TextView
+                    android:visibility="@{TextUtils.isEmpty(model.status) ? View.GONE : View.VISIBLE}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/standard_half_margin"

@@ -7,6 +7,7 @@ import com.sifat.slushflicks.model.TvModel
 import com.sifat.slushflicks.repository.resource.impl.TvCastNetworkResource
 import com.sifat.slushflicks.repository.resource.impl.TvDetailsNetworkResource
 import com.sifat.slushflicks.repository.resource.impl.TvDetailsNetworkResource.RequestModel
+import com.sifat.slushflicks.repository.resource.impl.TvVideoNetworkResource
 import com.sifat.slushflicks.ui.state.DataState
 import com.sifat.slushflicks.utils.api.NetworkStateManager
 
@@ -25,14 +26,14 @@ class TvDetailsRepository(
         ).asLiveData()
     }
 
-    /*fun getTvShowVideo(movieId: Long): LiveData<DataState<String>> {
-        return MovieVideoNetworkResource(
-            movieService = movieService,
+    fun getTvShowVideo(tvShowId: Long, seasonNumber: Int): LiveData<DataState<String>> {
+        return TvVideoNetworkResource(
+            tvService = tvService,
             dataManager = dataManager,
-            requestModel = MovieVideoNetworkResource.RequestModel(apiKey, movieId),
+            requestModel = TvVideoNetworkResource.RequestModel(apiKey, tvShowId, seasonNumber),
             networkStateManager = networkStateManager
         ).asLiveData()
-    }*/
+    }
 
     fun getTvShowCast(movieId: Long): LiveData<DataState<Int>> {
         return TvCastNetworkResource(

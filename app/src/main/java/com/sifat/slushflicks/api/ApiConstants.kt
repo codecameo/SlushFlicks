@@ -18,10 +18,12 @@ import com.sifat.slushflicks.api.ApiEndPoint.Companion.TRENDING_MOVIE_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.TRENDING_TV_SHOW_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.TV_CREDITS_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.TV_SHOW_DETAILS_URL
+import com.sifat.slushflicks.api.ApiEndPoint.Companion.TV_VIDEO_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.UPCOMING_MOVIE_URL
 import com.sifat.slushflicks.api.ApiRequest.Companion.PATH_COLLECTION
 import com.sifat.slushflicks.api.ApiRequest.Companion.PATH_MOVIE_ID
 import com.sifat.slushflicks.api.ApiRequest.Companion.PATH_MOVIE_RELATION_TYPE
+import com.sifat.slushflicks.api.ApiRequest.Companion.PATH_TV_SEASON_NUMBER
 import com.sifat.slushflicks.api.ApiRequest.Companion.PATH_TV_SHOW_ID
 import com.sifat.slushflicks.api.MethodName.Companion.GET
 import com.sifat.slushflicks.utils.Label.Companion.RECOMMENDATION_LABEL
@@ -45,6 +47,7 @@ class ApiRequest {
         const val PATH_COLLECTION = "collection"
         const val PATH_MOVIE_ID = "movie_id"
         const val PATH_TV_SHOW_ID = "tv_show_id"
+        const val PATH_TV_SEASON_NUMBER = "season_number"
         const val PATH_MOVIE_RELATION_TYPE = "relation_type"
     }
 }
@@ -74,6 +77,7 @@ class ApiEndPoint {
         const val AIRING_TODAY_TV_URL = "tv/airing_today"
         const val TOP_RATED_TV_URL = "tv/top_rated"
         const val TV_CREDITS_URL = "tv/{$PATH_TV_SHOW_ID}/credits"
+        const val TV_VIDEO_URL = "tv/{$PATH_TV_SHOW_ID}/season/{$PATH_TV_SEASON_NUMBER}/videos"
     }
 }
 
@@ -105,6 +109,7 @@ class ApiTag {
         const val TOP_RATED_TV_API_TAG = TOP_RATED_TV_URL + GET
         const val TV_SHOW_API_TAG = TV_SHOW_DETAILS_URL + GET
         const val TV_CREDITS_API_TAG = TV_CREDITS_URL + GET
+        const val TV_VIDEO_API_TAG = TV_VIDEO_URL + GET
     }
 }
 

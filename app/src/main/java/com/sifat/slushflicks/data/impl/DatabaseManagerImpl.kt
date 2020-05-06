@@ -96,4 +96,8 @@ class DatabaseManagerImpl
     override suspend fun updateTvDetails(casts: List<CastModel>, tvShowId: Long) {
         database.getTvDao().update(tvShowId, casts)
     }
+
+    override suspend fun updateTvDetails(videos: VideoApiModel, tvShowId: Long) {
+        database.getTvDao().update(tvShowId, videos.key)
+    }
 }

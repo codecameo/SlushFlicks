@@ -35,7 +35,7 @@ class TvDetailsViewModel
                 fetchTvShowDetails(viewState.tvShowId)
             }
             is FetchTvVideoViewEvent -> {
-                //fetchTvVideo(viewState.tvShowId)
+                fetchTvShowVideo(viewState.tvShowId, viewState.tvModel.numOfSeason)
             }
             is FetchTvCastViewEvent -> {
                 fetchTvCast(viewState.tvShowId)
@@ -52,6 +52,18 @@ class TvDetailsViewModel
             is UpdateTvViewEvent -> {
                 //updateMovieInfo(movieDetailsViewEvent.showModelMinimal)
             }
+        }
+    }
+
+    private fun fetchTvShowVideo(tvShowId: Long, seasonNumber: Int) {
+        if (viewState.isAlreadyVideoAttempted || seasonNumber == 0) return
+        viewState.isAlreadyVideoAttempted = true
+        val videoSource = detailsRepository.getTvShowVideo(tvShowId, seasonNumber)
+        dataState.addSource(videoSource) { videoKey ->
+            dataState.removeSource(videoSource)
+            dataState.value = TvDetailDataAction.FetchTvVideoDataAction(
+                dataState = videoKey
+            )
         }
     }
 

@@ -50,4 +50,6 @@ interface DatabaseManager {
     suspend fun updateTvDetails(model: TvModel)
 
     suspend fun updateTvDetails(casts: List<CastModel>, tvShowId: Long)
+
+    suspend fun updateTvDetails(videos: VideoApiModel, tvShowId: Long)
 }
