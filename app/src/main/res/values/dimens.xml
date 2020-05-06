@@ -19,6 +19,7 @@
     <dimen name="large_loading_width">300dp</dimen>
     <dimen name="rating_vertical_margin">2dp</dimen>
     <dimen name="small_font">12sp</dimen>
+    <dimen name="tag_font">10sp</dimen>
     <dimen name="title_font">20sp</dimen>
     <dimen name="extra_large_font">24sp</dimen>
     <dimen name="large_title_font">30sp</dimen>
@@ -31,4 +32,6 @@
     <dimen name="poster_height">424dp</dimen>
     <dimen name="btn_trailer_play_size">56dp</dimen>
     <dimen name="shadow_height">4dp</dimen>
+    <dimen name="episode_img_width">96dp</dimen>
+    <dimen name="img_season_size">56dp</dimen>
 </resources>

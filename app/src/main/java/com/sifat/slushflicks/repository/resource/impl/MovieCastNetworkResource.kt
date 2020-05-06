@@ -13,7 +13,7 @@ import com.sifat.slushflicks.utils.api.NetworkStateManager
 import com.sifat.slushflicks.utils.getCastListImageUrl
 import kotlinx.coroutines.Job
 
-class CastNetworkResource(
+class MovieCastNetworkResource(
     private val movieService: MovieService,
     private val dataManager: DataManager,
     private val requestModel: RequestModel,

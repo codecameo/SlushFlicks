@@ -1,0 +1,26 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="12dp"
+    android:height="12dp"
+    android:viewportWidth="512"
+    android:viewportHeight="512">
+    <path
+        android:fillColor="#FE9224"
+        android:pathData="m80,320h53.332c8.832,0 16,-7.168 16,-16v-53.332c0,-8.832 -7.168,-16 -16,-16h-53.332c-8.832,0 -16,7.168 -16,16v53.332c0,8.832 7.168,16 16,16zM80,320" />
+    <path
+        android:fillColor="#FE9224"
+        android:pathData="m80,448h53.332c8.832,0 16,-7.168 16,-16v-53.332c0,-8.832 -7.168,-16 -16,-16h-53.332c-8.832,0 -16,7.168 -16,16v53.332c0,8.832 7.168,16 16,16zM80,448" />
+    <path
+        android:fillColor="#FE9224"
+        android:pathData="m229.332,320h53.336c8.832,0 16,-7.168 16,-16v-53.332c0,-8.832 -7.168,-16 -16,-16h-53.336c-8.832,0 -16,7.168 -16,16v53.332c0,8.832 7.168,16 16,16zM229.332,320" />
+    <path
+        android:fillColor="#FE9224"
+        android:pathData="m229.332,448h53.336c8.832,0 16,-7.168 16,-16v-53.332c0,-8.832 -7.168,-16 -16,-16h-53.336c-8.832,0 -16,7.168 -16,16v53.332c0,8.832 7.168,16 16,16zM229.332,448" />
+    <path
+        android:fillColor="#FE9224"
+        android:pathData="m378.668,320h53.332c8.832,0 16,-7.168 16,-16v-53.332c0,-8.832 -7.168,-16 -16,-16h-53.332c-8.832,0 -16,7.168 -16,16v53.332c0,8.832 7.168,16 16,16zM378.668,320" />
+    <path
+        android:fillColor="#FE9224"
+        android:pathData="m448,64h-21.332v-42.668c0,-11.773 -9.559,-21.332 -21.336,-21.332h-21.332c-11.777,0 -21.332,9.559 -21.332,21.332v42.668h-213.336v-42.668c0,-11.773 -9.555,-21.332 -21.332,-21.332h-21.332c-11.777,0 -21.336,9.559 -21.336,21.332v42.668h-21.332c-35.285,0 -64,28.715 -64,64v320c0,35.285 28.715,64 64,64h384c35.285,0 64,-28.715 64,-64v-320c0,-35.285 -28.715,-64 -64,-64zM469.332,448c0,11.754 -9.578,21.332 -21.332,21.332h-384c-11.754,0 -21.332,-9.578 -21.332,-21.332v-233.813h426.664zM469.332,448" />
+</vector>
+
+    <!--Icons made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>-->

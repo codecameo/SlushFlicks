@@ -4,11 +4,11 @@ import androidx.paging.DataSource
 import com.sifat.slushflicks.api.home.movie.MovieService
 import com.sifat.slushflicks.model.ReviewModel
 
-class ReviewDataFactory(
+class MovieReviewDataFactory(
     private val movieService: MovieService,
-    private val requestModel: ReviewDataSource.RequestModel
+    private val requestModel: MovieReviewDataSource.RequestModel
 ) : DataSource.Factory<Long, ReviewModel>() {
     override fun create(): DataSource<Long, ReviewModel> {
-        return ReviewDataSource(movieService, requestModel)
+        return MovieReviewDataSource(movieService, requestModel)
     }
 }

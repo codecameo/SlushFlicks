@@ -9,7 +9,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ReviewDataSource(
+class MovieReviewDataSource(
     private val movieService: MovieService,
     private val requestModel: RequestModel
 ) : PageKeyedDataSource<Long, ReviewModel>() {

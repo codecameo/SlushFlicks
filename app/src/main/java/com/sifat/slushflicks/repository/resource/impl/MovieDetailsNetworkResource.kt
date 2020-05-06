@@ -14,7 +14,7 @@ import com.sifat.slushflicks.utils.api.NetworkStateManager
 import com.sifat.slushflicks.utils.getDistinct
 import kotlinx.coroutines.Job
 
-class DetailsNetworkResource(
+class MovieDetailsNetworkResource(
     private val dataManager: DataManager,
     private val movieService: MovieService,
     private val request: RequestModel,

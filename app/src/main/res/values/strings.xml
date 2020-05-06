@@ -21,4 +21,7 @@
     <string name="text_review">Review</string>
     <string name="text_review_not_found">Review Not Found</string>
     <string name="text_tvshow">Tv Show</string>
+    <string name="text_last_episode">Last Episode</string>
+    <string name="text_next_episode">Next Episode</string>
+    <string name="text_season">Seasons</string>
 </resources>

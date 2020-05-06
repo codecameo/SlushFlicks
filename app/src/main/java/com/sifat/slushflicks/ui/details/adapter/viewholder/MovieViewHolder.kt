@@ -4,7 +4,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.sifat.slushflicks.databinding.ItemRelatedMovieBinding
 import com.sifat.slushflicks.model.ShowModelMinimal
-import com.sifat.slushflicks.ui.home.adapter.model.MovieListModel
+import com.sifat.slushflicks.ui.home.adapter.model.ShowListModel
 
 class MovieViewHolder(
     private val binding: ItemRelatedMovieBinding,
@@ -15,7 +15,7 @@ class MovieViewHolder(
         binding.root.setOnClickListener(this)
     }
 
-    fun bindTo(model: MovieListModel) {
+    fun bindTo(model: ShowListModel) {
         binding.model = model.data
         binding.state = model.state
     }

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
@@ -93,19 +93,33 @@
                 android:paddingTop="@dimen/small_margin">
 
                 <TextView
-                    android:id="@+id/tvTagline"
-                    android:layout_width="@dimen/default_0dp"
+                    android:id="@+id/tvSeasonEpisode"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/standard_margin"
                     android:layout_marginEnd="@dimen/standard_margin"
-                    android:fontFamily="sans-serif-thin"
                     android:text="@{model.tagline}"
                     android:textColor="@color/light_gray"
                     android:textSize="@dimen/small_font"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Welcome to the Real World." />
+                    tools:text="Seasons 8 • Episodes 71" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/standard_half_margin"
+                    android:background="@drawable/bg_status_tag"
+                    android:fontFamily="sans-serif-medium"
+                    android:paddingLeft="@dimen/small_margin"
+                    android:paddingRight="@dimen/small_margin"
+                    android:textAllCaps="true"
+                    android:textColor="@color/blackTextColor"
+                    android:textSize="@dimen/tag_font"
+                    app:layout_constraintBottom_toBottomOf="@id/tvSeasonEpisode"
+                    app:layout_constraintLeft_toRightOf="@id/tvSeasonEpisode"
+                    app:layout_constraintTop_toTopOf="@id/tvSeasonEpisode"
+                    tools:text="Ended" />
 
                 <TextView
                     android:id="@+id/tvGenres"
@@ -119,7 +133,7 @@
                     app:genres="@{model.genres}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvTagline"
+                    app:layout_constraintTop_toBottomOf="@id/tvSeasonEpisode"
                     tools:text="Genres" />
 
                 <TextView
@@ -166,7 +180,7 @@
                     app:layout_constraintRight_toLeftOf="@id/secondDivider"
                     app:layout_constraintTop_toTopOf="@id/tvRating"
                     app:runtime="@{model.runtime}"
-                    tools:text="2h 10min" />
+                    tools:text="50min" />
 
                 <View
                     android:id="@+id/secondDivider"
@@ -187,7 +201,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/standard_margin"
-                    android:drawableStart="@drawable/ic_movie_small"
+                    android:drawableStart="@drawable/ic_calender"
                     android:drawablePadding="@dimen/standard_half_margin"
                     android:textColor="@color/subTextColor"
                     app:layout_constraintBottom_toBottomOf="@id/tvRating"
@@ -199,16 +213,24 @@
 
                 <TextView
                     android:id="@+id/tvTitleOverview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/standard_margin"
-                    android:layout_marginTop="@dimen/standard_margin"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/DetailsTitleText"
                     android:text="@string/text_overview"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/title_font"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvRating" />
+
+                <TextView
+                    android:id="@+id/tvOverview"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/standard_margin"
+                    android:layout_marginTop="@dimen/small_margin"
+                    android:layout_marginEnd="@dimen/standard_margin"
+                    android:text="@{model.overview}"
+                    android:textColor="@color/subTextColor"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvTitleOverview"
+                    tools:text="@string/long_dummy_description" />
 
                 <TextView
                     android:id="@+id/tvPopularity"
@@ -226,32 +248,83 @@
                     tools:text="78.1" />
 
                 <TextView
-                    android:id="@+id/tvOverview"
-                    android:layout_width="0dp"
+                    android:id="@+id/tvDirectedBy"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/standard_margin"
-                    android:layout_marginTop="@dimen/small_margin"
-                    android:layout_marginEnd="@dimen/standard_margin"
-                    android:text="@{model.overview}"
-                    android:textColor="@color/subTextColor"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvTitleOverview"
-                    tools:text="@string/long_dummy_description" />
+                    android:layout_marginTop="@dimen/standard_half_margin"
+                    android:textColor="@color/orange"
+                    android:textSize="@dimen/tag_font"
+                    app:layout_constraintLeft_toLeftOf="@id/tvOverview"
+                    app:layout_constraintTop_toBottomOf="@id/tvOverview"
+                    tools:text="directed by: Sifat Oshan, Zerin Haque" />
 
                 <TextView
-                    android:id="@+id/tvTitleCast"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tvNextEpisode"
+                    style="@style/DetailsTitleText"
+                    android:text="@string/text_next_episode"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvDirectedBy" />
+
+                <include
+                    android:id="@+id/nextEpisode"
+                    layout="@layout/item_episode"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/standard_margin"
                     android:layout_marginTop="@dimen/quarter_less_standard_half"
-                    android:fontFamily="sans-serif-medium"
-                    android:paddingTop="@dimen/small_margin"
-                    android:text="@string/text_cast"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/title_font"
+                    android:layout_marginEnd="@dimen/standard_margin"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvOverview" />
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvNextEpisode" />
+
+                <TextView
+                    android:id="@+id/tvLastEpisode"
+                    style="@style/DetailsTitleText"
+                    android:text="@string/text_last_episode"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/nextEpisode" />
+
+                <include
+                    android:id="@+id/lastEpisode"
+                    layout="@layout/item_episode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/standard_margin"
+                    android:layout_marginTop="@dimen/quarter_less_standard_half"
+                    android:layout_marginEnd="@dimen/standard_margin"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvLastEpisode" />
+
+                <TextView
+                    android:id="@+id/tvTitleSeason"
+                    style="@style/DetailsTitleText"
+                    android:text="@string/text_season"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/lastEpisode" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvSeason"
+                    android:layout_width="@dimen/default_0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/small_margin"
+                    android:clipToPadding="false"
+                    android:paddingStart="@dimen/standard_margin"
+                    android:paddingEnd="@dimen/standard_half_margin"
+                    android:paddingBottom="@dimen/standard_half_margin"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvTitleSeason"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_season" />
+
+                <TextView
+                    android:id="@+id/tvTitleCast"
+                    style="@style/DetailsTitleText"
+                    android:text="@string/text_cast"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rvSeason" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvCast"
@@ -272,15 +345,8 @@
 
                 <TextView
                     android:id="@+id/tvTitleRecommended"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/standard_margin"
-                    android:layout_marginTop="@dimen/quarter_less_standard_half"
-                    android:fontFamily="sans-serif-medium"
-                    android:paddingTop="@dimen/small_margin"
+                    style="@style/DetailsTitleText"
                     android:text="@string/text_recommended"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/title_font"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/rvCast" />
 
@@ -303,15 +369,8 @@
 
                 <TextView
                     android:id="@+id/tvTitleSimilar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/standard_margin"
-                    android:layout_marginTop="@dimen/quarter_less_standard_half"
-                    android:fontFamily="sans-serif-medium"
-                    android:paddingTop="@dimen/small_margin"
+                    style="@style/DetailsTitleText"
                     android:text="@string/text_similar"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/title_font"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/rvRecommended" />
 
@@ -334,15 +393,8 @@
 
                 <TextView
                     android:id="@+id/tvTitleReview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/standard_margin"
-                    android:layout_marginTop="@dimen/quarter_less_standard_half"
-                    android:fontFamily="sans-serif-medium"
-                    android:paddingTop="@dimen/small_margin"
+                    style="@style/DetailsTitleText"
                     android:text="@string/text_review"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/title_font"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/rvSimilar" />
 

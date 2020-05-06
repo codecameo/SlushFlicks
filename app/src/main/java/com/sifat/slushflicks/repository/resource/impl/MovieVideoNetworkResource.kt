@@ -13,7 +13,7 @@ import com.sifat.slushflicks.ui.state.DataSuccessResponse
 import com.sifat.slushflicks.utils.api.NetworkStateManager
 import kotlinx.coroutines.Job
 
-class VideoNetworkResource(
+class MovieVideoNetworkResource(
     private val movieService: MovieService,
     private val dataManager: DataManager,
     private val requestModel: RequestModel,

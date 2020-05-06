@@ -8,9 +8,9 @@ import com.sifat.slushflicks.R
 import com.sifat.slushflicks.databinding.ItemRelatedMovieBinding
 import com.sifat.slushflicks.ui.details.adapter.diffutils.MovieDiffUtils
 import com.sifat.slushflicks.ui.details.adapter.viewholder.MovieViewHolder
-import com.sifat.slushflicks.ui.home.adapter.model.MovieListModel
+import com.sifat.slushflicks.ui.home.adapter.model.ShowListModel
 
-class RelatedMovieAdapter : ListAdapter<MovieListModel, MovieViewHolder>(MovieDiffUtils()) {
+class RelatedMovieAdapter : ListAdapter<ShowListModel, MovieViewHolder>(MovieDiffUtils()) {
 
     lateinit var onMovieClickedListener: MovieViewHolder.OnMovieClickListener
 

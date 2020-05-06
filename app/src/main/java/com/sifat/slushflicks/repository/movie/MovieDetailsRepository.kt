@@ -8,16 +8,16 @@ import com.sifat.slushflicks.api.ApiTag.Companion.MOVIE_RECOMMENDATION_API_TAG
 import com.sifat.slushflicks.api.ApiTag.Companion.MOVIE_SIMILAR_API_TAG
 import com.sifat.slushflicks.api.home.movie.MovieService
 import com.sifat.slushflicks.data.DataManager
-import com.sifat.slushflicks.data.pager.ReviewDataFactory
-import com.sifat.slushflicks.data.pager.ReviewDataSource
+import com.sifat.slushflicks.data.pager.MovieReviewDataFactory
+import com.sifat.slushflicks.data.pager.MovieReviewDataSource
 import com.sifat.slushflicks.model.MovieModel
 import com.sifat.slushflicks.model.ReviewModel
 import com.sifat.slushflicks.model.ShowModelMinimal
-import com.sifat.slushflicks.repository.resource.impl.CastNetworkResource
-import com.sifat.slushflicks.repository.resource.impl.DetailsNetworkResource
-import com.sifat.slushflicks.repository.resource.impl.DetailsNetworkResource.RequestModel
+import com.sifat.slushflicks.repository.resource.impl.MovieCastNetworkResource
+import com.sifat.slushflicks.repository.resource.impl.MovieDetailsNetworkResource
+import com.sifat.slushflicks.repository.resource.impl.MovieDetailsNetworkResource.RequestModel
+import com.sifat.slushflicks.repository.resource.impl.MovieVideoNetworkResource
 import com.sifat.slushflicks.repository.resource.impl.SimilarMoviesNetworkResource
-import com.sifat.slushflicks.repository.resource.impl.VideoNetworkResource
 import com.sifat.slushflicks.ui.state.DataState
 import com.sifat.slushflicks.ui.state.DataSuccessResponse
 import com.sifat.slushflicks.utils.Label.Companion.RECOMMENDATION_LABEL
@@ -32,7 +32,7 @@ class MovieDetailsRepository(
     private val networkStateManager: NetworkStateManager
 ) {
     fun getMovieDetails(movieId: Long): LiveData<DataState<MovieModel>> {
-        return DetailsNetworkResource(
+        return MovieDetailsNetworkResource(
             dataManager = dataManager,
             movieService = movieService,
             request = RequestModel(apiKey, movieId),
@@ -41,19 +41,19 @@ class MovieDetailsRepository(
     }
 
     fun getMovieVideo(movieId: Long): LiveData<DataState<String>> {
-        return VideoNetworkResource(
+        return MovieVideoNetworkResource(
             movieService = movieService,
             dataManager = dataManager,
-            requestModel = VideoNetworkResource.RequestModel(apiKey, movieId),
+            requestModel = MovieVideoNetworkResource.RequestModel(apiKey, movieId),
             networkStateManager = networkStateManager
         ).asLiveData()
     }
 
     fun getMovieCast(movieId: Long): LiveData<DataState<Int>> {
-        return CastNetworkResource(
+        return MovieCastNetworkResource(
             movieService = movieService,
             dataManager = dataManager,
-            requestModel = CastNetworkResource.RequestModel(apiKey, movieId),
+            requestModel = MovieCastNetworkResource.RequestModel(apiKey, movieId),
             networkStateManager = networkStateManager
         ).asLiveData()
     }
@@ -92,9 +92,9 @@ class MovieDetailsRepository(
             .setInitialLoadSizeHint(PAGE_SIZE)
             .setPrefetchDistance(PAGE_SIZE / 2)
             .build()
-        val dataSource = ReviewDataFactory(
+        val dataSource = MovieReviewDataFactory(
             movieService = movieService,
-            requestModel = ReviewDataSource.RequestModel(apiKey, movieId)
+            requestModel = MovieReviewDataSource.RequestModel(apiKey, movieId)
         ).toLiveData(pageConfig)
         return Transformations.map(
             dataSource

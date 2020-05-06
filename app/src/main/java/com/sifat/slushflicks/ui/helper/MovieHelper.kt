@@ -9,16 +9,16 @@ import com.sifat.slushflicks.model.MovieModel
 import com.sifat.slushflicks.model.ShowModelMinimal
 import com.sifat.slushflicks.ui.base.ListViewState.LOADING
 import com.sifat.slushflicks.ui.base.ListViewState.VIEW
-import com.sifat.slushflicks.ui.home.adapter.model.MovieListModel
+import com.sifat.slushflicks.ui.home.adapter.model.ShowListModel
 import com.sifat.slushflicks.ui.state.MetaData
 import com.sifat.slushflicks.utils.EMPTY_STRING
 import com.sifat.slushflicks.utils.PAGE_SIZE
 import com.sifat.slushflicks.utils.getListImageUrl
 
-fun getMovieListLoadingModels(): List<MovieListModel> {
-    val list = mutableListOf<MovieListModel>()
+fun getMovieListLoadingModels(): List<ShowListModel> {
+    val list = mutableListOf<ShowListModel>()
     for (count in 0..5) {
-        list.add(MovieListModel(null, LOADING))
+        list.add(ShowListModel(null, LOADING))
     }
     return list
 }
@@ -55,11 +55,11 @@ fun getMovieList(
 /**
  * This conversion converts model to List models for view state
  * */
-fun getMovieListModel(shows: List<ShowModelMinimal>?): List<MovieListModel> {
-    val movieListModels = mutableListOf<MovieListModel>()
+fun getMovieListModel(shows: List<ShowModelMinimal>?): List<ShowListModel> {
+    val movieListModels = mutableListOf<ShowListModel>()
     shows?.let {
         for (movie in shows) {
-            val movieListModel = MovieListModel(movie, VIEW)
+            val movieListModel = ShowListModel(movie, VIEW)
             movieListModels.add(movieListModel)
         }
     }

@@ -19,11 +19,11 @@ import com.sifat.slushflicks.ui.details.adapter.CastAdapter
 import com.sifat.slushflicks.ui.details.adapter.RelatedMovieAdapter
 import com.sifat.slushflicks.ui.details.adapter.ReviewAdapter
 import com.sifat.slushflicks.ui.details.adapter.viewholder.MovieViewHolder
-import com.sifat.slushflicks.ui.details.state.dataaction.DetailDataAction.*
-import com.sifat.slushflicks.ui.details.state.event.DetailsViewEvent.*
-import com.sifat.slushflicks.ui.details.state.viewaction.DetailsViewAction.*
+import com.sifat.slushflicks.ui.details.state.dataaction.MovieDetailDataAction.*
+import com.sifat.slushflicks.ui.details.state.event.MovieDetailsViewEvent.*
+import com.sifat.slushflicks.ui.details.state.viewaction.MovieDetailsViewAction.*
 import com.sifat.slushflicks.ui.details.viewmodel.MovieDetailsViewModel
-import com.sifat.slushflicks.ui.home.adapter.model.MovieListModel
+import com.sifat.slushflicks.ui.home.adapter.model.ShowListModel
 import com.sifat.slushflicks.ui.state.ViewState
 import com.sifat.slushflicks.utils.INVALID_ID
 import com.sifat.slushflicks.utils.showToast
@@ -94,16 +94,16 @@ class MovieDetailsActivity :
     private fun subscribeAction() {
         viewModel.observeViewAction().observe(this, Observer { action ->
             when (action) {
-                is FetchDetailsViewAction -> {
+                is FetchMovieDetailsViewAction -> {
                     showMovieDetails(action)
                 }
-                is FetchRecommendationViewAction -> {
+                is FetchRecommendedMovieViewAction -> {
                     showRecommendedMovies(action)
                 }
-                is FetchSimilarViewAction -> {
+                is FetchSimilarMovieViewAction -> {
                     showSimilarMovies(action)
                 }
-                is FetchReviewViewAction -> {
+                is FetchMovieReviewViewAction -> {
                     showReviews(action)
                 }
             }
@@ -111,16 +111,16 @@ class MovieDetailsActivity :
 
         viewModel.observeDataAction().observe(this, Observer { action ->
             when (action) {
-                is FetchMovieDetailsAction -> {
+                is FetchMovieDetailsDataAction -> {
                     viewModel.setDataAction(action)
                 }
-                is FetchSimilarDataAction -> {
+                is FetchMovieSimilarDataAction -> {
                     viewModel.setDataAction(action)
                 }
-                is FetchRecommendationDataAction -> {
+                is FetchMovieRecommendationDataAction -> {
                     viewModel.setDataAction(action)
                 }
-                is FetchReviewDataAction -> {
+                is FetchMovieReviewDataAction -> {
                     viewModel.setDataAction(action)
                 }
             }
@@ -136,10 +136,10 @@ class MovieDetailsActivity :
     }
 
     private fun fetchMovieDetails() {
-        viewModel.handleEvent(FetchDetailsViewEvent())
+        viewModel.handleEvent(FetchMovieDetailsViewEvent())
         viewModel.handleEvent(FetchRecommendedMovieViewEvent())
         viewModel.handleEvent(FetchSimilarMovieViewEvent())
-        viewModel.handleEvent(FetchReviewsViewEvent())
+        viewModel.handleEvent(FetchMovieReviewsViewEvent())
     }
 
     override fun onClick(view: View?) {
@@ -173,7 +173,7 @@ class MovieDetailsActivity :
         }
     }
 
-    private fun showMovieDetails(action: FetchDetailsViewAction) {
+    private fun showMovieDetails(action: FetchMovieDetailsViewAction) {
         when (val viewState = action.viewState) {
             is ViewState.Success<MovieModel> -> {
                 binding.model = viewState.data
@@ -183,39 +183,39 @@ class MovieDetailsActivity :
         }
     }
 
-    private fun showRecommendedMovies(action: FetchRecommendationViewAction) {
+    private fun showRecommendedMovies(action: FetchRecommendedMovieViewAction) {
         when (val viewState = action.viewState) {
-            is ViewState.Loading<List<MovieListModel>> -> {
+            is ViewState.Loading<List<ShowListModel>> -> {
                 recommendedAdapter.submitList(viewState.data)
             }
-            is ViewState.Success<List<MovieListModel>> -> {
+            is ViewState.Success<List<ShowListModel>> -> {
                 recommendedAdapter.submitList(viewState.data)
                 if (viewState.data.isNullOrEmpty()) hideRecommendedSection()
             }
-            is ViewState.Error<List<MovieListModel>> -> {
+            is ViewState.Error<List<ShowListModel>> -> {
                 showToast(viewState.errorMessage ?: getString(R.string.similar_error_message))
                 hideRecommendedSection()
             }
         }
     }
 
-    private fun showSimilarMovies(action: FetchSimilarViewAction) {
+    private fun showSimilarMovies(action: FetchSimilarMovieViewAction) {
         when (val viewState = action.viewState) {
-            is ViewState.Loading<List<MovieListModel>> -> {
+            is ViewState.Loading<List<ShowListModel>> -> {
                 similarAdapter.submitList(viewState.data)
             }
-            is ViewState.Success<List<MovieListModel>> -> {
+            is ViewState.Success<List<ShowListModel>> -> {
                 similarAdapter.submitList(viewState.data)
                 if (viewState.data.isNullOrEmpty()) hideSimilarSection()
             }
-            is ViewState.Error<List<MovieListModel>> -> {
+            is ViewState.Error<List<ShowListModel>> -> {
                 showToast(viewState.errorMessage ?: getString(R.string.similar_error_message))
                 hideSimilarSection()
             }
         }
     }
 
-    private fun showReviews(action: FetchReviewViewAction) {
+    private fun showReviews(action: FetchMovieReviewViewAction) {
         when (val viewState = action.viewState) {
             is ViewState.Success<PagedList<ReviewModel>> -> {
                 reviewAdapter.submitList(viewState.data)
@@ -226,8 +226,8 @@ class MovieDetailsActivity :
 
     private fun checkMissingData(data: MovieModel?) {
         data?.run {
-            if (video.isEmpty()) viewModel.handleEvent(FetchVideoViewEvent())
-            if (casts.isEmpty()) viewModel.handleEvent(FetchCastViewEvent())
+            if (video.isEmpty()) viewModel.handleEvent(FetchMovieVideoViewEvent())
+            if (casts.isEmpty()) viewModel.handleEvent(FetchMovieCastViewEvent())
         }
     }
 
