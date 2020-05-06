@@ -3,7 +3,6 @@ package com.sifat.slushflicks.di.home
 import com.sifat.slushflicks.di.home.about.AboutScope
 import com.sifat.slushflicks.di.home.movie.MovieFragmentBuilderModule
 import com.sifat.slushflicks.di.home.movie.MovieScope
-import com.sifat.slushflicks.di.home.movie.MovieViewModelModule
 import com.sifat.slushflicks.di.home.search.SearchScope
 import com.sifat.slushflicks.di.home.tvshow.TvShowFragmentBuilderModule
 import com.sifat.slushflicks.di.home.tvshow.TvShowScope
@@ -18,7 +17,7 @@ import dagger.android.ContributesAndroidInjector
 abstract class HomeFragmentBuilderModule {
 
     @MovieScope
-    @ContributesAndroidInjector(modules = [MovieFragmentBuilderModule::class, MovieViewModelModule::class])
+    @ContributesAndroidInjector(modules = [MovieFragmentBuilderModule::class])
     internal abstract fun bindMovieListFragment(): HomeMovieFragment
 
     @TvShowScope

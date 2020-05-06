@@ -104,7 +104,8 @@
                     android:textColor="@color/blackTextColor"
                     android:visibility="@{model.voteAvg == ConstantKt.DEFAULT_DOUBLE? View.GONE : View.VISIBLE}"
                     app:layout_constraintBottom_toBottomOf="@id/rivPoster"
-                    app:layout_constraintRight_toRightOf="@id/rivPoster" />
+                    app:layout_constraintRight_toRightOf="@id/rivPoster"
+                    tools:text="8.7" />
 
                 <TextView
                     android:id="@+id/tvGenres"

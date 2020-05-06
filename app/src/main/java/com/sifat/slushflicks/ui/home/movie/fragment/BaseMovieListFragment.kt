@@ -30,7 +30,7 @@ abstract class BaseMovieListFragment<VM : BaseMovieListViewModel> :
     ShowViewHolder.OnShowClickListener {
 
     protected lateinit var adapter: ShowListAdapter
-    private var shouldForceUpdate = false
+    private var shouldForceUpdate = true
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
