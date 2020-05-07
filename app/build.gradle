@@ -28,6 +28,8 @@ android {
             buildConfigField 'String', "IMAGE_BASE_URL", '"http://image.tmdb.org/t/p/"'
             buildConfigField 'String', "DATABASE_NAME", '"slushflickdb"'
             buildConfigField 'String', "API_KEY", '"5bd74c7a7bbfad5678fe1acd33fe732a"'
+            buildConfigField 'String', "DYNAMIC_LINK_BASE_URL", '"https://codecameo.github.io"'
+            buildConfigField 'String', "DYNAMIC_LINK_DOMAIN", '"slushflicks.page.link"'
         }
         debug {
             buildConfigField 'String', "BASE_URL", '"https://api.themoviedb.org/"'
@@ -35,6 +37,8 @@ android {
             buildConfigField 'String', "IMAGE_BASE_URL", '"http://image.tmdb.org/t/p/"'
             buildConfigField 'String', "DATABASE_NAME", '"slushflickdb_debug"'
             buildConfigField 'String', "API_KEY", '"5bd74c7a7bbfad5678fe1acd33fe732a"'
+            buildConfigField 'String', "DYNAMIC_LINK_BASE_URL", '"https://codecameo.github.io"'
+            buildConfigField 'String', "DYNAMIC_LINK_DOMAIN", '"slushflicks.page.link"'
         }
     }
 
@@ -111,6 +115,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics:17.4.0'
     implementation 'com.google.firebase:firebase-crashlytics:17.0.0'
     implementation 'com.google.firebase:firebase-firestore-ktx:21.4.3'
+    implementation "com.google.firebase:firebase-dynamic-links:19.1.0"
 
     implementation 'com.android.support:multidex:1.0.3'
 

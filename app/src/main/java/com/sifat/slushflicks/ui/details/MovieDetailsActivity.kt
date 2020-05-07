@@ -76,6 +76,9 @@ class MovieDetailsActivity :
                 is FetchMovieReviewViewAction -> {
                     showReviews(action)
                 }
+                is ShareMovieViewAction -> {
+                    shareMovie(action)
+                }
             }
         })
 
@@ -95,6 +98,27 @@ class MovieDetailsActivity :
                 }
             }
         })
+    }
+
+    private fun shareMovie(action: ShareMovieViewAction) {
+        when (val viewState = action.viewState) {
+            // As we are using event specific action, it's easier to show specific loading state
+            is ViewState.Loading<String> -> {
+                shareMenuItem.isEnabled = false
+            }
+            is ViewState.Success<String> -> {
+                viewState.data?.let { link ->
+                    shareShow(link)
+                }
+                shareMenuItem.isEnabled = true
+            }
+            is ViewState.Error<String> -> {
+                val message =
+                    viewState.errorMessage ?: getString(R.string.error_failed_to_short_link)
+                showToast(message)
+                shareMenuItem.isEnabled = true
+            }
+        }
     }
 
     private fun fetchMovieDetails() {
@@ -197,6 +221,10 @@ class MovieDetailsActivity :
 
     private fun hideReviewList() {
         //binding.rvReview.visibility = INVISIBLE
+    }
+
+    override fun shareShow() {
+        viewModel.handleEvent(ShareMovieViewEvent())
     }
 
     override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {

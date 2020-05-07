@@ -32,4 +32,10 @@
     <string name="text_th">%dth Episode</string>
     <string name="text_st">%dst Episode</string>
     <string name="text_nd">%nd Episode</string>
+    <string name="dynamic_link_domain">slushflicks.page.link</string>
+    <string name="title_share">Share</string>
+    <string name="text_friend_message">Hey,\nCheck this out\nLink: %s</string>
+    <string name="text_share_to">Share to...</string>
+    <string name="error_no_app_found">No application found to share.</string>
+    <string name="error_failed_to_short_link">Failed to create sharable link. Try again</string>
 </resources>

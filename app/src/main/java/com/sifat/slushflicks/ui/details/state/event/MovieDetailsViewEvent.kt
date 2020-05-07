@@ -10,4 +10,5 @@ sealed class MovieDetailsViewEvent {
     class FetchSimilarMovieViewEvent : MovieDetailsViewEvent()
     class FetchMovieReviewsViewEvent : MovieDetailsViewEvent()
     class UpdateMovieViewEvent(val showModelMinimal: ShowModelMinimal) : MovieDetailsViewEvent()
+    class ShareMovieViewEvent : MovieDetailsViewEvent()
 }

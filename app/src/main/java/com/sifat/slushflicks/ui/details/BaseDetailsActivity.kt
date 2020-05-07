@@ -2,6 +2,7 @@ package com.sifat.slushflicks.ui.details
 
 import android.content.Intent
 import android.net.Uri
+import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.ViewDataBinding
@@ -11,6 +12,7 @@ import com.sifat.slushflicks.ui.base.FullScreenActivity
 import com.sifat.slushflicks.ui.details.adapter.CastAdapter
 import com.sifat.slushflicks.ui.details.adapter.RelatedMovieAdapter
 import com.sifat.slushflicks.ui.details.adapter.ReviewAdapter
+import com.sifat.slushflicks.utils.PLAIN_TEXT_TYPE
 import com.sifat.slushflicks.utils.showToast
 
 abstract class BaseDetailsActivity<DB : ViewDataBinding, VM : ViewModel> :
@@ -20,6 +22,8 @@ abstract class BaseDetailsActivity<DB : ViewDataBinding, VM : ViewModel> :
     protected lateinit var recommendedAdapter: RelatedMovieAdapter
     protected lateinit var similarAdapter: RelatedMovieAdapter
     protected lateinit var reviewAdapter: ReviewAdapter
+
+    protected lateinit var shareMenuItem: MenuItem
 
     /**
      * Set toolbar into actionbar.
@@ -41,13 +45,30 @@ abstract class BaseDetailsActivity<DB : ViewDataBinding, VM : ViewModel> :
         reviewAdapter = ReviewAdapter()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menu?.let {
+            val inflater = menuInflater
+            inflater.inflate(R.menu.detail_menu, it)
+            shareMenuItem = it.findItem(R.id.menu_share)
+        }
+        return true
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            onBackPressed()
-            return true
+        when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                return true
+            }
+            R.id.menu_share -> {
+                shareShow()
+                return true
+            }
         }
         return super.onOptionsItemSelected(item)
     }
+
+    abstract fun shareShow()
 
     private fun openYoutube(videoId: String) {
         val intent = Intent(
@@ -60,6 +81,18 @@ abstract class BaseDetailsActivity<DB : ViewDataBinding, VM : ViewModel> :
             startActivity(intent)
         } else {
             showToast(getString(R.string.install_youtube))
+        }
+    }
+
+    protected fun shareShow(dynamicLink: String) {
+        val message = String.format(getString(R.string.text_friend_message), dynamicLink)
+        try {
+            val i = Intent(Intent.ACTION_SEND)
+            i.type = PLAIN_TEXT_TYPE
+            i.putExtra(Intent.EXTRA_TEXT, message)
+            startActivity(Intent.createChooser(i, getString(R.string.text_share_to)))
+        } catch (e: Exception) {
+            showToast(getString(R.string.error_no_app_found))
         }
     }
 

@@ -54,6 +54,9 @@ class TvDetailsActivity : BaseDetailsActivity<ActivityTvDetailsBinding, TvDetail
                 is FetchTvReviewViewAction -> {
                     showReviews(action)
                 }
+                is ShareTvSeriesViewAction -> {
+                    shareTvSeries(action)
+                }
             }
         })
 
@@ -73,6 +76,27 @@ class TvDetailsActivity : BaseDetailsActivity<ActivityTvDetailsBinding, TvDetail
                 }
             }
         })
+    }
+
+    private fun shareTvSeries(action: ShareTvSeriesViewAction) {
+        when (val viewState = action.viewState) {
+            // As we are using event specific action, it's easier to show specific loading state
+            is ViewState.Loading<String> -> {
+                shareMenuItem.isEnabled = false
+            }
+            is ViewState.Success<String> -> {
+                viewState.data?.let { link ->
+                    shareShow(link)
+                }
+                shareMenuItem.isEnabled = true
+            }
+            is ViewState.Error<String> -> {
+                val message =
+                    viewState.errorMessage ?: getString(R.string.error_failed_to_short_link)
+                showToast(message)
+                shareMenuItem.isEnabled = true
+            }
+        }
     }
 
     private fun showTvShowDetails(action: FetchTvDetailsViewAction) {
@@ -200,6 +224,10 @@ class TvDetailsActivity : BaseDetailsActivity<ActivityTvDetailsBinding, TvDetail
         binding.appBarPoster.addOnOffsetChangedListener(this)
         recommendedAdapter.onShowClickedListener = this
         similarAdapter.onShowClickedListener = this
+    }
+
+    override fun shareShow() {
+        viewModel.handleEvent(ShareTvSeriesViewEvent())
     }
 
     private fun fetchTvShowDetails() {

@@ -6,6 +6,7 @@ import com.sifat.slushflicks.di.details.MovieDetailsScope
 import com.sifat.slushflicks.model.MovieModel
 import com.sifat.slushflicks.model.ReviewModel
 import com.sifat.slushflicks.model.ShowModelMinimal
+import com.sifat.slushflicks.provider.DynamicLinkProvider
 import com.sifat.slushflicks.repository.movie.MovieDetailsRepository
 import com.sifat.slushflicks.ui.base.BaseActionViewModel
 import com.sifat.slushflicks.ui.details.state.dataaction.MovieDetailDataAction
@@ -21,12 +22,17 @@ import com.sifat.slushflicks.ui.home.adapter.model.ShowListModel
 import com.sifat.slushflicks.ui.state.DataErrorResponse
 import com.sifat.slushflicks.ui.state.DataState
 import com.sifat.slushflicks.ui.state.ViewState
+import com.sifat.slushflicks.utils.DynamicLinkConst
+import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 @MovieDetailsScope
 class MovieDetailsViewModel
-@Inject constructor(private val detailsRepository: MovieDetailsRepository) :
-    BaseActionViewModel<MovieDetailDataAction, MovieDetailsViewAction, MovieDetailsViewState>() {
+@Inject constructor(
+    private val detailsRepository: MovieDetailsRepository,
+    private val dynamicLinkProvider: DynamicLinkProvider
+) : BaseActionViewModel<MovieDetailDataAction, MovieDetailsViewAction, MovieDetailsViewState>(),
+    DynamicLinkProvider.OnEventShareCallback {
     override val viewState by lazy {
         MovieDetailsViewState()
     }
@@ -58,7 +64,23 @@ class MovieDetailsViewModel
             is UpdateMovieViewEvent -> {
                 updateMovieInfo(movieDetailsViewEvent.showModelMinimal)
             }
+            is ShareMovieViewEvent -> {
+                shareMovie()
+            }
         }
+    }
+
+    private fun shareMovie() {
+        getAction().value = ShareMovieViewAction(ViewState.Loading())
+        val dynamicLinkParam = DynamicLinkProvider.DynamicLinkParam(
+            showId = viewState.movieId,
+            showName = viewState.movie.title,
+            showType = DynamicLinkConst.MOVIE_SHOW_TYPE,
+            overview = viewState.movie.overview,
+            imageUrl = viewState.movie.backdropPath
+        )
+        val callback = WeakReference<DynamicLinkProvider.OnEventShareCallback>(this)
+        dynamicLinkProvider.generateDynamicLink(dynamicLinkParam, callback)
     }
 
     private fun updateMovieInfo(showModelMinimal: ShowModelMinimal) {
@@ -224,6 +246,14 @@ class MovieDetailsViewModel
         )
     }
 
+    override fun onSuccess(shortUrl: String?) {
+        getAction().value = ShareMovieViewAction(
+            ViewState.Success(
+                data = shortUrl
+            )
+        )
+    }
+
     /*********** Send error action to view ************/
 
     private fun sendRecommendationErrorAction(dataResponse: DataErrorResponse<List<ShowModelMinimal>>) {
@@ -239,6 +269,12 @@ class MovieDetailsViewModel
             ViewState.Error(
                 errorMessage = dataResponse.errorMessage
             )
+        )
+    }
+
+    override fun onFailure() {
+        getAction().value = ShareMovieViewAction(
+            ViewState.Error()
         )
     }
 }

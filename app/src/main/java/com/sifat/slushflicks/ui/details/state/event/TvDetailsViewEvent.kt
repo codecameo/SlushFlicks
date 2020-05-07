@@ -10,4 +10,5 @@ sealed class TvDetailsViewEvent {
     class FetchSimilarTvViewEvent : TvDetailsViewEvent()
     class FetchTvReviewsViewEvent : TvDetailsViewEvent()
     class UpdateTvViewEvent(val showModelMinimal: ShowModelMinimal) : TvDetailsViewEvent()
+    class ShareTvSeriesViewEvent : TvDetailsViewEvent()
 }

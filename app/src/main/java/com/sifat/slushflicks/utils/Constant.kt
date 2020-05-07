@@ -16,6 +16,20 @@ class Label {
     }
 }
 
+class DynamicLinkConst {
+    companion object {
+        const val SHOW_ID_PARAM = "show-id"
+        const val SHOW_TYPE_PARAM = "show_type"
+        const val MOVIE_SHOW_TYPE = "movie"
+        const val TV_SERIES_TYPE = "tv_series"
+        const val ANDROID_FALL_BACK_URL =
+            "https://play.google.com/store/apps/details?id=com.sifat.slushflicks"
+        const val SOURCE = "android";
+        const val MEDIUM = "android";
+        const val CAMPAIGN = "event_share";
+    }
+}
+
 const val EMPTY_STRING = ""
 const val INVALID_ID = -1
 const val NA = "N\\A"
@@ -25,3 +39,8 @@ const val BULLET_SIGN = "\u2022"
 const val PAGE_SIZE = 20
 const val YOUTUBE_SITE = "YouTube"
 const val VIDEO_TYPE_TRAILER = "Trailer"
+const val QUESTION_MARK = "?"
+const val EQUAL_SIGN = "="
+const val AMPERSAND = "&"
+const val HTTP_PREFIX = "https://"
+const val PLAIN_TEXT_TYPE = "text/plain"

@@ -16,4 +16,6 @@ sealed class TvDetailsViewAction {
 
     data class FetchTvReviewViewAction(val viewState: ViewState<PagedList<ReviewModel>>) :
         TvDetailsViewAction()
+
+    class ShareTvSeriesViewAction(val viewState: ViewState<String>) : TvDetailsViewAction()
 }

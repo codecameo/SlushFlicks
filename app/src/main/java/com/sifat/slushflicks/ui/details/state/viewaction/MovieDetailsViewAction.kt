@@ -18,4 +18,7 @@ sealed class MovieDetailsViewAction {
 
     data class FetchMovieReviewViewAction(val viewState: ViewState<PagedList<ReviewModel>>) :
         MovieDetailsViewAction()
+
+    data class ShareMovieViewAction(val viewState: ViewState<String>) :
+        MovieDetailsViewAction()
 }

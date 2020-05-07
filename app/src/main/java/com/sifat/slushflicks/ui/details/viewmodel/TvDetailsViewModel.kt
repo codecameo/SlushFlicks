@@ -6,6 +6,7 @@ import com.sifat.slushflicks.di.details.TvDetailsScope
 import com.sifat.slushflicks.model.ReviewModel
 import com.sifat.slushflicks.model.ShowModelMinimal
 import com.sifat.slushflicks.model.TvModel
+import com.sifat.slushflicks.provider.DynamicLinkProvider
 import com.sifat.slushflicks.repository.tv.TvDetailsRepository
 import com.sifat.slushflicks.ui.base.BaseActionViewModel
 import com.sifat.slushflicks.ui.details.state.dataaction.TvDetailDataAction
@@ -21,12 +22,17 @@ import com.sifat.slushflicks.ui.home.adapter.model.ShowListModel
 import com.sifat.slushflicks.ui.state.DataErrorResponse
 import com.sifat.slushflicks.ui.state.DataState
 import com.sifat.slushflicks.ui.state.ViewState
+import com.sifat.slushflicks.utils.DynamicLinkConst
+import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 @TvDetailsScope
 class TvDetailsViewModel
-@Inject constructor(private val detailsRepository: TvDetailsRepository) :
-    BaseActionViewModel<TvDetailDataAction, TvDetailsViewAction, TvDetailsViewState>() {
+@Inject constructor(
+    private val detailsRepository: TvDetailsRepository,
+    private val dynamicLinkProvider: DynamicLinkProvider
+) : BaseActionViewModel<TvDetailDataAction, TvDetailsViewAction, TvDetailsViewState>(),
+    DynamicLinkProvider.OnEventShareCallback {
 
     override val viewState by lazy {
         TvDetailsViewState()
@@ -48,18 +54,34 @@ class TvDetailsViewModel
                 fetchTvCast(viewState.tvShowId)
             }
             is FetchRecommendedTvViewEvent -> {
-                fetchRecommendedMovies(viewState.tvShowId)
+                fetchRecommendedTvShows(viewState.tvShowId)
             }
             is FetchSimilarTvViewEvent -> {
-                fetchSimilarMovies(viewState.tvShowId)
+                fetchSimilarTvShows(viewState.tvShowId)
             }
             is FetchTvReviewsViewEvent -> {
-                fetchMovieReviews(viewState.tvShowId)
+                fetchTvShowReviews(viewState.tvShowId)
             }
             is UpdateTvViewEvent -> {
                 updateTvShowInfo(tvDetailsViewEvent.showModelMinimal)
             }
+            is ShareTvSeriesViewEvent -> {
+                shareTvSeries()
+            }
         }
+    }
+
+    private fun shareTvSeries() {
+        getAction().value = ShareTvSeriesViewAction(ViewState.Loading())
+        val dynamicLinkParam = DynamicLinkProvider.DynamicLinkParam(
+            showId = viewState.tvShowId,
+            showName = viewState.tvModel.title,
+            showType = DynamicLinkConst.TV_SERIES_TYPE,
+            overview = viewState.tvModel.overview,
+            imageUrl = viewState.tvModel.backdropPath
+        )
+        val callback = WeakReference<DynamicLinkProvider.OnEventShareCallback>(this)
+        dynamicLinkProvider.generateDynamicLink(dynamicLinkParam, callback)
     }
 
     private fun updateTvShowInfo(showModelMinimal: ShowModelMinimal) {
@@ -78,7 +100,7 @@ class TvDetailsViewModel
 
     /*********** Fetch data from repo ************/
 
-    private fun fetchSimilarMovies(tvShowId: Long) {
+    private fun fetchSimilarTvShows(tvShowId: Long) {
         getAction().value = FetchSimilarTvViewAction(
             ViewState.Loading<List<ShowListModel>>(getShowListLoadingModels())
         )
@@ -91,7 +113,7 @@ class TvDetailsViewModel
         }
     }
 
-    private fun fetchRecommendedMovies(tvShowId: Long) {
+    private fun fetchRecommendedTvShows(tvShowId: Long) {
         getAction().value = FetchRecommendedTvViewAction(
             ViewState.Loading<List<ShowListModel>>(getShowListLoadingModels())
         )
@@ -138,7 +160,7 @@ class TvDetailsViewModel
             })
     }
 
-    private fun fetchMovieReviews(tvShowId: Long) {
+    private fun fetchTvShowReviews(tvShowId: Long) {
         dataState.addSource(detailsRepository.getTvShowReviews(tvShowId),
             Observer { reviewList ->
                 dataState.value = FetchTvReviewDataAction(reviewList)
@@ -223,6 +245,14 @@ class TvDetailsViewModel
         )
     }
 
+    override fun onSuccess(shortUrl: String?) {
+        getAction().value = ShareTvSeriesViewAction(
+            ViewState.Success(
+                data = shortUrl
+            )
+        )
+    }
+
     /*********** Send error action to view ************/
 
     private fun sendRecommendationErrorAction(dataResponse: DataErrorResponse<List<ShowModelMinimal>>) {
@@ -238,6 +268,12 @@ class TvDetailsViewModel
             ViewState.Error(
                 errorMessage = dataResponse.errorMessage
             )
+        )
+    }
+
+    override fun onFailure() {
+        getAction().value = ShareTvSeriesViewAction(
+            ViewState.Error()
         )
     }
 }
