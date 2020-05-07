@@ -1,12 +1,15 @@
 package com.sifat.slushflicks.api.home.tv
 
 import androidx.lifecycle.LiveData
+import com.sifat.slushflicks.api.ApiEndPoint.Companion.RELATED_TV_SHOW_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.TRENDING_TV_SHOW_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.TV_CREDITS_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.TV_SHOW_COLLECTION_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.TV_SHOW_DETAILS_URL
+import com.sifat.slushflicks.api.ApiEndPoint.Companion.TV_SHOW_REVIEWS_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.TV_VIDEO_URL
 import com.sifat.slushflicks.api.ApiRequest.Companion.PATH_COLLECTION
+import com.sifat.slushflicks.api.ApiRequest.Companion.PATH_RELATION_TYPE
 import com.sifat.slushflicks.api.ApiRequest.Companion.PATH_TV_SEASON_NUMBER
 import com.sifat.slushflicks.api.ApiRequest.Companion.PATH_TV_SHOW_ID
 import com.sifat.slushflicks.api.ApiRequest.Companion.QUERY_KEY_API_KEY
@@ -14,11 +17,14 @@ import com.sifat.slushflicks.api.ApiRequest.Companion.QUERY_KEY_PAGE
 import com.sifat.slushflicks.api.ApiResponse
 import com.sifat.slushflicks.api.ApiTag.Companion.TV_CREDITS_API_TAG
 import com.sifat.slushflicks.api.ApiTag.Companion.TV_SHOW_API_TAG
+import com.sifat.slushflicks.api.ApiTag.Companion.TV_SHOW_REVIEWS_API_TAG
 import com.sifat.slushflicks.api.ApiTag.Companion.TV_VIDEO_API_TAG
 import com.sifat.slushflicks.api.details.model.CreditsApiModel
+import com.sifat.slushflicks.api.details.model.ReviewListApiModel
 import com.sifat.slushflicks.api.details.model.VideoListApiModel
 import com.sifat.slushflicks.api.home.tv.model.TvListApiModel
 import com.sifat.slushflicks.api.home.tv.model.TvShowDetailsApiModel
+import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -63,27 +69,20 @@ interface TvService {
         @Tag tag: String = TV_VIDEO_API_TAG
     ): LiveData<ApiResponse<VideoListApiModel>>
 
-    /*@GET(MOVIE_DETAILS_URL)
-    fun getMovieDetails(
-        @Path(PATH_MOVIE_ID) movieId: Long,
-        @Query(QUERY_KEY_API_KEY) apiKey: String,
-        @Tag tag: String = ApiTag.MOVIE_DETAIL_API_TAG
-    ): LiveData<ApiResponse<MovieDetailsApiModel>>
-
-    @GET(MOVIE_RELATED_MOVIE_URL)
-    fun getRelatedMovies(
-        @Path(PATH_MOVIE_ID) movieId: Long,
-        @Path(PATH_MOVIE_RELATION_TYPE) relation: String,
+    @GET(RELATED_TV_SHOW_URL)
+    fun getRelatedTvShows(
+        @Path(PATH_TV_SHOW_ID) tvShowId: Long,
+        @Path(PATH_RELATION_TYPE) relation: String,
         @Query(QUERY_KEY_API_KEY) apiKey: String,
         @Query(QUERY_KEY_PAGE) page: Int,
         @Tag tag: String
-    ): LiveData<ApiResponse<MovieListApiModel>>
+    ): LiveData<ApiResponse<TvListApiModel>>
 
-    @GET(MOVIE_REVIEWS_URL)
-    fun getMovieReviews(
-        @Path(PATH_MOVIE_ID) movieId: Long,
+    @GET(TV_SHOW_REVIEWS_URL)
+    fun getTvShowReviews(
+        @Path(PATH_TV_SHOW_ID) tvShowId: Long,
         @Query(QUERY_KEY_API_KEY) apiKey: String,
         @Query(QUERY_KEY_PAGE) page: Int,
-        @Tag tag: String = MOVIE_REVIEWS_API_TAG
-    ): Call<ReviewListApiModel>*/
+        @Tag tag: String = TV_SHOW_REVIEWS_API_TAG
+    ): Call<ReviewListApiModel>
 }

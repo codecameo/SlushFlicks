@@ -7,21 +7,12 @@ import com.sifat.slushflicks.model.GenreModel
 import com.sifat.slushflicks.model.MovieCollectionModel
 import com.sifat.slushflicks.model.MovieModel
 import com.sifat.slushflicks.model.ShowModelMinimal
-import com.sifat.slushflicks.ui.base.ListViewState.LOADING
 import com.sifat.slushflicks.ui.base.ListViewState.VIEW
 import com.sifat.slushflicks.ui.home.adapter.model.ShowListModel
 import com.sifat.slushflicks.ui.state.MetaData
 import com.sifat.slushflicks.utils.EMPTY_STRING
 import com.sifat.slushflicks.utils.PAGE_SIZE
 import com.sifat.slushflicks.utils.getListImageUrl
-
-fun getMovieListLoadingModels(): List<ShowListModel> {
-    val list = mutableListOf<ShowListModel>()
-    for (count in 0..5) {
-        list.add(ShowListModel(null, LOADING))
-    }
-    return list
-}
 
 /**
  * This conversion discard unnecessary data returned from api

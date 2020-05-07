@@ -10,7 +10,7 @@ import com.sifat.slushflicks.api.ApiEndPoint.Companion.MOVIE_VIDEOS_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.TRENDING_MOVIE_URL
 import com.sifat.slushflicks.api.ApiRequest.Companion.PATH_COLLECTION
 import com.sifat.slushflicks.api.ApiRequest.Companion.PATH_MOVIE_ID
-import com.sifat.slushflicks.api.ApiRequest.Companion.PATH_MOVIE_RELATION_TYPE
+import com.sifat.slushflicks.api.ApiRequest.Companion.PATH_RELATION_TYPE
 import com.sifat.slushflicks.api.ApiRequest.Companion.QUERY_KEY_API_KEY
 import com.sifat.slushflicks.api.ApiRequest.Companion.QUERY_KEY_PAGE
 import com.sifat.slushflicks.api.ApiResponse
@@ -70,7 +70,7 @@ interface MovieService {
     @GET(MOVIE_RELATED_MOVIE_URL)
     fun getRelatedMovies(
         @Path(PATH_MOVIE_ID) movieId: Long,
-        @Path(PATH_MOVIE_RELATION_TYPE) relation: String,
+        @Path(PATH_RELATION_TYPE) relation: String,
         @Query(QUERY_KEY_API_KEY) apiKey: String,
         @Query(QUERY_KEY_PAGE) page: Int,
         @Tag tag: String

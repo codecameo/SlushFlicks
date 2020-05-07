@@ -14,8 +14,10 @@ import com.sifat.slushflicks.ui.details.state.dataaction.TvDetailDataAction
 import com.sifat.slushflicks.ui.details.state.event.TvDetailsViewEvent.*
 import com.sifat.slushflicks.ui.details.state.viewaction.TvDetailsViewAction.*
 import com.sifat.slushflicks.ui.details.viewmodel.TvDetailsViewModel
+import com.sifat.slushflicks.ui.home.adapter.model.ShowListModel
 import com.sifat.slushflicks.ui.state.ViewState
 import com.sifat.slushflicks.utils.INVALID_ID
+import com.sifat.slushflicks.utils.showToast
 
 class TvDetailsActivity : BaseDetailsActivity<ActivityTvDetailsBinding, TvDetailsViewModel>(),
     View.OnClickListener, ShowViewHolder.OnShowClickListener, AppBarLayout.OnOffsetChangedListener {
@@ -33,6 +35,135 @@ class TvDetailsActivity : BaseDetailsActivity<ActivityTvDetailsBinding, TvDetail
         setupList()
         subscribeAction()
         fetchTvShowDetails()
+    }
+
+    private fun subscribeAction() {
+        viewModel.observeViewAction().observe(this, Observer { action ->
+            when (action) {
+                is FetchTvDetailsViewAction -> {
+                    showTvShowDetails(action)
+                }
+                is FetchRecommendedTvViewAction -> {
+                    showRecommendedTvShows(action)
+                }
+                is FetchSimilarTvViewAction -> {
+                    showSimilarTvShows(action)
+                }
+                is FetchTvReviewViewAction -> {
+                    //showReviews(action)
+                }
+            }
+        })
+
+        viewModel.observeDataAction().observe(this, Observer { action ->
+            when (action) {
+                is TvDetailDataAction.FetchTvDetailsDataAction -> {
+                    viewModel.setDataAction(action)
+                }
+                is TvDetailDataAction.FetchTvSimilarDataAction -> {
+                    viewModel.setDataAction(action)
+                }
+                is TvDetailDataAction.FetchRecommendedTvDataAction -> {
+                    viewModel.setDataAction(action)
+                }
+                is TvDetailDataAction.FetchTvReviewDataAction -> {
+                    //viewModel.setDataAction(action)
+                }
+            }
+        })
+    }
+
+    private fun showTvShowDetails(action: FetchTvDetailsViewAction) {
+        when (val viewState = action.viewState) {
+            is ViewState.Success<TvModel> -> {
+                binding.model = viewState.data
+                seasonAdapter.submitList(viewState.data?.seasons?.reversed())
+                castAdapter.submitList(viewState.data?.casts?.toMutableList())
+                checkMissingData(viewState.data)
+            }
+        }
+    }
+
+    private fun showRecommendedTvShows(action: FetchRecommendedTvViewAction) {
+        when (val viewState = action.viewState) {
+            is ViewState.Loading<List<ShowListModel>> -> {
+                recommendedAdapter.submitList(viewState.data)
+            }
+            is ViewState.Success<List<ShowListModel>> -> {
+                recommendedAdapter.submitList(viewState.data)
+                if (viewState.data.isNullOrEmpty()) hideRecommendedSection()
+            }
+            is ViewState.Error<List<ShowListModel>> -> {
+                showToast(viewState.errorMessage ?: getString(R.string.similar_error_message))
+                hideRecommendedSection()
+            }
+        }
+    }
+
+    private fun showSimilarTvShows(action: FetchSimilarTvViewAction) {
+        when (val viewState = action.viewState) {
+            is ViewState.Loading<List<ShowListModel>> -> {
+                similarAdapter.submitList(viewState.data)
+            }
+            is ViewState.Success<List<ShowListModel>> -> {
+                similarAdapter.submitList(viewState.data)
+                if (viewState.data.isNullOrEmpty()) hideSimilarSection()
+            }
+            is ViewState.Error<List<ShowListModel>> -> {
+                showToast(viewState.errorMessage ?: getString(R.string.similar_error_message))
+                hideSimilarSection()
+            }
+        }
+    }
+
+    override fun onClick(view: View?) {
+        when (view?.id) {
+            binding.ivPoster.id -> {
+                showTrailer(binding.model?.video)
+            }
+        }
+    }
+
+    override fun onShowClicked(showModelMinimal: ShowModelMinimal) {
+        refreshWith(showModelMinimal)
+    }
+
+    private fun refreshWith(model: ShowModelMinimal) {
+        updateTvShowDetails(model)
+        fetchTvShowDetails()
+        binding.nsvContent.smoothScrollTo(0, 0)
+        binding.appBarPoster.setExpanded(true, true)
+    }
+
+    private fun updateTvShowDetails(model: ShowModelMinimal) {
+        viewModel.handleEvent(UpdateTvViewEvent(model))
+    }
+
+    override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
+        val scrollRange = appBarLayout?.totalScrollRange ?: 0
+        binding.shadow.visibility =
+            if ((scrollRange + verticalOffset) == 0) View.VISIBLE else View.GONE
+    }
+
+    private fun hideRecommendedSection() {
+        binding.tvTitleRecommended.visibility = View.GONE
+        binding.rvRecommended.visibility = View.GONE
+    }
+
+    private fun hideSimilarSection() {
+        binding.tvTitleSimilar.visibility = View.GONE
+        binding.rvSimilar.visibility = View.GONE
+    }
+
+    private fun hideReviewList() {
+        //binding.rvReview.visibility = INVISIBLE
+    }
+
+    private fun checkMissingData(data: TvModel?) {
+        data?.run {
+            if (video.isEmpty()) viewModel.handleEvent(FetchTvVideoViewEvent())
+            if (casts.isEmpty()) viewModel.handleEvent(FetchTvCastViewEvent())
+        }
     }
 
     private fun extractData() {
@@ -60,82 +191,10 @@ class TvDetailsActivity : BaseDetailsActivity<ActivityTvDetailsBinding, TvDetail
         similarAdapter.onShowClickedListener = this
     }
 
-    private fun subscribeAction() {
-        viewModel.observeViewAction().observe(this, Observer { action ->
-            when (action) {
-                is FetchTvDetailsViewAction -> {
-                    showTvShowDetails(action)
-                }
-                is FetchRecommendedTvViewAction -> {
-                    //showRecommendedMovies(action)
-                }
-                is FetchSimilarTvViewAction -> {
-                    //showSimilarMovies(action)
-                }
-                is FetchTvReviewViewAction -> {
-                    //showReviews(action)
-                }
-            }
-        })
-
-        viewModel.observeDataAction().observe(this, Observer { action ->
-            when (action) {
-                is TvDetailDataAction.FetchTvDetailsDataAction -> {
-                    viewModel.setDataAction(action)
-                }
-                is TvDetailDataAction.FetchTvSimilarDataAction -> {
-                    //viewModel.setDataAction(action)
-                }
-                is TvDetailDataAction.FetchRecommendedTvDataAction -> {
-                    //viewModel.setDataAction(action)
-                }
-                is TvDetailDataAction.FetchTvReviewDataAction -> {
-                    //viewModel.setDataAction(action)
-                }
-            }
-        })
-    }
-
-    private fun showTvShowDetails(action: FetchTvDetailsViewAction) {
-        when (val viewState = action.viewState) {
-            is ViewState.Success<TvModel> -> {
-                binding.model = viewState.data
-                seasonAdapter.submitList(viewState.data?.seasons?.reversed())
-                castAdapter.submitList(viewState.data?.casts?.toMutableList())
-                checkMissingData(viewState.data)
-            }
-        }
-    }
-
-    private fun checkMissingData(data: TvModel?) {
-        data?.run {
-            if (video.isEmpty()) viewModel.handleEvent(FetchTvVideoViewEvent())
-            if (casts.isEmpty()) viewModel.handleEvent(FetchTvCastViewEvent())
-        }
-    }
-
     private fun fetchTvShowDetails() {
         viewModel.handleEvent(FetchTvDetailsViewEvent())
         viewModel.handleEvent(FetchRecommendedTvViewEvent())
         viewModel.handleEvent(FetchSimilarTvViewEvent())
         viewModel.handleEvent(FetchTvReviewsViewEvent())
-    }
-
-    override fun onClick(view: View?) {
-        when (view?.id) {
-            binding.ivPoster.id -> {
-                showTrailer(binding.model?.video)
-            }
-        }
-    }
-
-    override fun onShowClicked(showModelMinimal: ShowModelMinimal) {
-
-    }
-
-    override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
-        val scrollRange = appBarLayout?.totalScrollRange ?: 0
-        binding.shadow.visibility =
-            if ((scrollRange + verticalOffset) == 0) View.VISIBLE else View.GONE
     }
 }

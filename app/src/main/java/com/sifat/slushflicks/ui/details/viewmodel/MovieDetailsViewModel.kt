@@ -15,8 +15,8 @@ import com.sifat.slushflicks.ui.details.state.event.MovieDetailsViewEvent.*
 import com.sifat.slushflicks.ui.details.state.viewaction.MovieDetailsViewAction
 import com.sifat.slushflicks.ui.details.state.viewaction.MovieDetailsViewAction.*
 import com.sifat.slushflicks.ui.details.state.viewstate.MovieDetailsViewState
-import com.sifat.slushflicks.ui.helper.getMovieListLoadingModels
 import com.sifat.slushflicks.ui.helper.getMovieListModel
+import com.sifat.slushflicks.ui.helper.getShowListLoadingModels
 import com.sifat.slushflicks.ui.home.adapter.model.ShowListModel
 import com.sifat.slushflicks.ui.state.DataErrorResponse
 import com.sifat.slushflicks.ui.state.DataState
@@ -79,7 +79,7 @@ class MovieDetailsViewModel
 
     private fun fetchSimilarMovies(movieId: Long) {
         getAction().value = FetchSimilarMovieViewAction(
-            ViewState.Loading<List<ShowListModel>>(getMovieListLoadingModels())
+            ViewState.Loading<List<ShowListModel>>(getShowListLoadingModels())
         )
         val similarSource = detailsRepository.getSimilarMovies(movieId)
         dataState.addSource(similarSource) { similarMovies ->
@@ -92,7 +92,7 @@ class MovieDetailsViewModel
 
     private fun fetchRecommendedMovies(movieId: Long) {
         getAction().value = FetchRecommendedMovieViewAction(
-            ViewState.Loading<List<ShowListModel>>(getMovieListLoadingModels())
+            ViewState.Loading<List<ShowListModel>>(getShowListLoadingModels())
         )
         val recommendedSource = detailsRepository.getRecommendationMovies(movieId)
         dataState.addSource(recommendedSource) { recommendedMovies ->
@@ -104,7 +104,9 @@ class MovieDetailsViewModel
     }
 
     private fun fetchMovieVideo(movieId: Long) {
-        if (viewState.isAlreadyVideoAttempted) return
+        // Checking if the tv model is being fetched from database.
+        // if not video key won't be saved in the database since it performs update operation
+        if (viewState.isAlreadyVideoAttempted && viewState.movie.voteCount == 0) return
         viewState.isAlreadyVideoAttempted = true
         val videoSource = detailsRepository.getMovieVideo(movieId)
         dataState.addSource(videoSource) { videoKey ->
@@ -116,7 +118,9 @@ class MovieDetailsViewModel
     }
 
     private fun fetchMovieCast(movieId: Long) {
-        if (viewState.isAlreadyCastAttempted) return
+        // Checking if the tv model is being fetched from database.
+        // if not casting data won't be saved in the database since it performs update operation
+        if (viewState.isAlreadyCastAttempted && viewState.movie.voteCount == 0) return
         viewState.isAlreadyCastAttempted = true
         val castSource = detailsRepository.getMovieCast(movieId)
         dataState.addSource(castSource) { castCount ->
