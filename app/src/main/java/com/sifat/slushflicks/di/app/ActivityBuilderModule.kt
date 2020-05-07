@@ -6,6 +6,7 @@ import com.sifat.slushflicks.di.home.HomeModule
 import com.sifat.slushflicks.di.home.HomeScope
 import com.sifat.slushflicks.di.home.HomeViewModelModule
 import com.sifat.slushflicks.di.home.about.AboutViewModelModule
+import com.sifat.slushflicks.di.home.movie.MovieBindModule
 import com.sifat.slushflicks.di.home.movie.MovieModule
 import com.sifat.slushflicks.di.home.movie.MovieViewModelModule
 import com.sifat.slushflicks.di.home.search.SearchViewModelModule
@@ -33,6 +34,7 @@ abstract class ActivityBuilderModule {
     @ContributesAndroidInjector(
         modules = [HomeModule::class,
             MovieModule::class,
+            MovieBindModule::class,
             TvModule::class,
             TvBindModule::class,
             HomeViewModelModule::class,
@@ -45,7 +47,7 @@ abstract class ActivityBuilderModule {
     internal abstract fun bindHomeActivity(): HomeActivity
 
     @MovieDetailsScope
-    @ContributesAndroidInjector(modules = [MovieDetailsModule::class, MovieDetailsViewModelModule::class])
+    @ContributesAndroidInjector(modules = [MovieDetailsModule::class, MovieDetailsBindModule::class, MovieDetailsViewModelModule::class])
     internal abstract fun bindMovieDetailsActivity(): MovieDetailsActivity
 
     @TvDetailsScope

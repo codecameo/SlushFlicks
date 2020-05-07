@@ -1,4 +1,4 @@
-package com.sifat.slushflicks.repository.movie
+package com.sifat.slushflicks.repository.movie.impl
 
 import androidx.arch.core.util.Function
 import androidx.lifecycle.LiveData
@@ -9,6 +9,7 @@ import androidx.paging.toLiveData
 import com.sifat.slushflicks.api.home.movie.MovieService
 import com.sifat.slushflicks.data.DataManager
 import com.sifat.slushflicks.model.ShowModelMinimal
+import com.sifat.slushflicks.repository.movie.MovieListRepository
 import com.sifat.slushflicks.ui.state.DataState
 import com.sifat.slushflicks.ui.state.DataSuccessResponse
 import com.sifat.slushflicks.utils.PAGE_SIZE
@@ -19,13 +20,8 @@ abstract class BaseMovieListRepository(
     protected val apiKey: String,
     protected val dataManager: DataManager,
     protected val networkStateManager: NetworkStateManager
-) {
-
-    abstract val collection: String
-
-    abstract fun getMovieList(nextPage: Int): LiveData<DataState<Int>>
-
-    fun getPagingMovieList(boundaryCallback: BoundaryCallback<ShowModelMinimal>): LiveData<DataState<PagedList<ShowModelMinimal>>> {
+) : MovieListRepository {
+    override fun getPagingMovieList(boundaryCallback: BoundaryCallback<ShowModelMinimal>): LiveData<DataState<PagedList<ShowModelMinimal>>> {
         val pageConfig = PagedList.Config.Builder()
             .setPageSize(PAGE_SIZE)
             .setInitialLoadSizeHint(PAGE_SIZE)

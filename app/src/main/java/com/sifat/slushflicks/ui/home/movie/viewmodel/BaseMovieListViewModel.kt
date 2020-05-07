@@ -2,7 +2,7 @@ package com.sifat.slushflicks.ui.home.movie.viewmodel
 
 import androidx.paging.PagedList
 import com.sifat.slushflicks.model.ShowModelMinimal
-import com.sifat.slushflicks.repository.movie.BaseMovieListRepository
+import com.sifat.slushflicks.repository.movie.MovieListRepository
 import com.sifat.slushflicks.ui.base.BaseActionViewModel
 import com.sifat.slushflicks.ui.home.movie.state.dataaction.MovieListDataAction
 import com.sifat.slushflicks.ui.home.movie.state.dataaction.MovieListDataAction.FetchCacheMovieListDataAction
@@ -15,10 +15,9 @@ import com.sifat.slushflicks.ui.home.movie.state.viewstate.MovieListViewState
 import com.sifat.slushflicks.ui.state.DataState
 import com.sifat.slushflicks.ui.state.DataState.Error
 import com.sifat.slushflicks.ui.state.ViewState
-import javax.inject.Inject
 
 open class BaseMovieListViewModel
-@Inject constructor(private val repository: BaseMovieListRepository) :
+    (private val repository: MovieListRepository) :
     BaseActionViewModel<MovieListDataAction, MovieListViewAction, MovieListViewState>() {
     override val viewState by lazy {
         MovieListViewState()
