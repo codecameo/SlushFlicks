@@ -19,7 +19,7 @@ import com.sifat.slushflicks.db.DbConstant.TableName.Companion.TABLE_NAME_MOVIE_
         childColumns = arrayOf("id"),
         onDelete = ForeignKey.CASCADE
     )],
-    indices = [Index(value = ["id"], unique = true)]
+    indices = [Index(value = ["id"], unique = false)]
 )
 data class MovieCollectionModel(
     val collection: String,

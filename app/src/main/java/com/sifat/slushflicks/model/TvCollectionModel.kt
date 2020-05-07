@@ -19,7 +19,7 @@ import com.sifat.slushflicks.db.DbConstant.TableName.Companion.TABLE_NAME_TV_TYP
         childColumns = arrayOf("id"),
         onDelete = ForeignKey.CASCADE
     )],
-    indices = [Index(value = ["id"], unique = true)]
+    indices = [Index(value = ["id"], unique = false)]
 )
 data class TvCollectionModel(
     val collection: String,

@@ -103,3 +103,25 @@ fun TextView.setReleaseDate(releaseDate: String?) {
         }
     } ?: NA
 }
+
+@BindingAdapter("episode")
+fun TextView.setEpisode(episodeCount: Int) {
+    val rem = episodeCount % 10
+    text = when (rem) {
+        1 -> {
+            String.format(context.getString(R.string.text_st), episodeCount)
+        }
+        2 -> {
+            String.format(context.getString(R.string.text_nd), episodeCount)
+        }
+        else -> {
+            String.format(context.getString(R.string.text_th), episodeCount)
+        }
+    }
+}
+
+
+@BindingAdapter("rating")
+fun TextView.setRating(rating: Double) {
+    text = String.format("%.1f", rating)
+}

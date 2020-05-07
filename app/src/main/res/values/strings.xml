@@ -25,8 +25,11 @@
     <string name="text_next_episode">Next Episode</string>
     <string name="text_season">Seasons</string>
     <string name="seasons">Seasons:</string>
-    <string name="text_episode">Episode:</string>
+    <string name="text_episode">Episode</string>
     <string name="episodes">Episodes:</string>
     <string name="text_directed_by">directed by</string>
     <string name="text_episode_count">Episode Count:</string>
+    <string name="text_th">%dth Episode</string>
+    <string name="text_st">%dst Episode</string>
+    <string name="text_nd">%nd Episode</string>
 </resources>

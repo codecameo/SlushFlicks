@@ -56,12 +56,12 @@
             android:paddingTop="@dimen/rating_vertical_margin"
             android:paddingEnd="@dimen/standard_half_margin"
             android:paddingBottom="@dimen/rating_vertical_margin"
-            android:text="@{``+episode.voteAvg}"
             android:textColor="@color/blackTextColor"
             android:textSize="@dimen/tag_font"
             android:visibility="@{episode.voteAvg == 0.0? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="@id/ivEpisode"
             app:layout_constraintRight_toRightOf="@id/ivEpisode"
+            app:rating="@{episode.voteAvg}"
             tools:text="6.5" />
 
         <TextView
@@ -99,13 +99,13 @@
             android:layout_marginStart="@dimen/standard_margin"
             android:drawableStart="@drawable/ic_movie_small"
             android:drawablePadding="@dimen/standard_half_margin"
-            android:text="@{@string/text_episode+` `+episode.episodeNumber}"
             android:textColor="@color/subTextColor"
             android:textSize="@dimen/small_font"
+            app:episode="@{episode.episodeNumber}"
             app:layout_constraintBottom_toBottomOf="@id/tvAirDate"
             app:layout_constraintLeft_toRightOf="@id/tvAirDate"
             app:layout_constraintTop_toTopOf="@id/tvAirDate"
-            tools:text="Season 8 • Episode 7" />
+            tools:text="8th Episode" />
 
         <TextView
             android:id="@+id/tvEpisodeOverview"
