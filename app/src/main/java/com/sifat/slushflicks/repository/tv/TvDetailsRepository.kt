@@ -1,10 +1,16 @@
 package com.sifat.slushflicks.repository.tv
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
+import androidx.paging.PagedList
+import androidx.paging.toLiveData
 import com.sifat.slushflicks.api.ApiTag.Companion.TV_SHOW_RECOMMENDATION_API_TAG
 import com.sifat.slushflicks.api.ApiTag.Companion.TV_SHOW_SIMILAR_API_TAG
 import com.sifat.slushflicks.api.home.tv.TvService
 import com.sifat.slushflicks.data.DataManager
+import com.sifat.slushflicks.data.pager.TvReviewDataFactory
+import com.sifat.slushflicks.data.pager.TvReviewDataSource
+import com.sifat.slushflicks.model.ReviewModel
 import com.sifat.slushflicks.model.ShowModelMinimal
 import com.sifat.slushflicks.model.TvModel
 import com.sifat.slushflicks.repository.resource.impl.SimilarTvShowNetworkResource
@@ -13,8 +19,10 @@ import com.sifat.slushflicks.repository.resource.impl.TvDetailsNetworkResource
 import com.sifat.slushflicks.repository.resource.impl.TvDetailsNetworkResource.RequestModel
 import com.sifat.slushflicks.repository.resource.impl.TvVideoNetworkResource
 import com.sifat.slushflicks.ui.state.DataState
+import com.sifat.slushflicks.ui.state.DataSuccessResponse
 import com.sifat.slushflicks.utils.Label.Companion.RECOMMENDATION_LABEL
 import com.sifat.slushflicks.utils.Label.Companion.SIMILAR_LABEL
+import com.sifat.slushflicks.utils.PAGE_SIZE
 import com.sifat.slushflicks.utils.api.NetworkStateManager
 
 class TvDetailsRepository(
@@ -78,15 +86,15 @@ class TvDetailsRepository(
         ).asLiveData()
     }
 
-    /*fun getTvShowReviews(movieId: Long): LiveData<DataState<PagedList<ReviewModel>>> {
+    fun getTvShowReviews(movieId: Long): LiveData<DataState<PagedList<ReviewModel>>> {
         val pageConfig = PagedList.Config.Builder()
             .setPageSize(PAGE_SIZE)
             .setInitialLoadSizeHint(PAGE_SIZE)
             .setPrefetchDistance(PAGE_SIZE / 2)
             .build()
-        val dataSource = MovieReviewDataFactory(
-            movieService = movieService,
-            requestModel = MovieReviewDataSource.RequestModel(apiKey, movieId)
+        val dataSource = TvReviewDataFactory(
+            tvService = tvService,
+            requestModel = TvReviewDataSource.RequestModel(apiKey, movieId)
         ).toLiveData(pageConfig)
         return Transformations.map(
             dataSource
@@ -97,5 +105,5 @@ class TvDetailsRepository(
                 )
             )
         }
-    }*/
+    }
 }

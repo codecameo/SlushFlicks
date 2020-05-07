@@ -3,9 +3,11 @@ package com.sifat.slushflicks.ui.details
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
+import androidx.paging.PagedList
 import com.google.android.material.appbar.AppBarLayout
 import com.sifat.slushflicks.R
 import com.sifat.slushflicks.databinding.ActivityTvDetailsBinding
+import com.sifat.slushflicks.model.ReviewModel
 import com.sifat.slushflicks.model.ShowModelMinimal
 import com.sifat.slushflicks.model.TvModel
 import com.sifat.slushflicks.ui.details.adapter.SeasonAdapter
@@ -50,7 +52,7 @@ class TvDetailsActivity : BaseDetailsActivity<ActivityTvDetailsBinding, TvDetail
                     showSimilarTvShows(action)
                 }
                 is FetchTvReviewViewAction -> {
-                    //showReviews(action)
+                    showReviews(action)
                 }
             }
         })
@@ -67,7 +69,7 @@ class TvDetailsActivity : BaseDetailsActivity<ActivityTvDetailsBinding, TvDetail
                     viewModel.setDataAction(action)
                 }
                 is TvDetailDataAction.FetchTvReviewDataAction -> {
-                    //viewModel.setDataAction(action)
+                    viewModel.setDataAction(action)
                 }
             }
         })
@@ -112,6 +114,15 @@ class TvDetailsActivity : BaseDetailsActivity<ActivityTvDetailsBinding, TvDetail
             is ViewState.Error<List<ShowListModel>> -> {
                 showToast(viewState.errorMessage ?: getString(R.string.similar_error_message))
                 hideSimilarSection()
+            }
+        }
+    }
+
+    private fun showReviews(action: FetchTvReviewViewAction) {
+        when (val viewState = action.viewState) {
+            is ViewState.Success<PagedList<ReviewModel>> -> {
+                reviewAdapter.submitList(viewState.data)
+                if (viewState.data.isNullOrEmpty()) hideReviewList()
             }
         }
     }

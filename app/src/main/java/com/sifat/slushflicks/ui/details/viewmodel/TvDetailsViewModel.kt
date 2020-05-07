@@ -1,7 +1,9 @@
 package com.sifat.slushflicks.ui.details.viewmodel
 
 import androidx.lifecycle.Observer
+import androidx.paging.PagedList
 import com.sifat.slushflicks.di.details.TvDetailsScope
+import com.sifat.slushflicks.model.ReviewModel
 import com.sifat.slushflicks.model.ShowModelMinimal
 import com.sifat.slushflicks.model.TvModel
 import com.sifat.slushflicks.repository.tv.TvDetailsRepository
@@ -52,7 +54,7 @@ class TvDetailsViewModel
                 fetchSimilarMovies(viewState.tvShowId)
             }
             is FetchTvReviewsViewEvent -> {
-                //fetchMovieReviews(viewState.tvShowId)
+                fetchMovieReviews(viewState.tvShowId)
             }
             is UpdateTvViewEvent -> {
                 updateTvShowInfo(tvDetailsViewEvent.showModelMinimal)
@@ -136,6 +138,15 @@ class TvDetailsViewModel
             })
     }
 
+    private fun fetchMovieReviews(tvShowId: Long) {
+        dataState.addSource(detailsRepository.getTvShowReviews(tvShowId),
+            Observer { reviewList ->
+                dataState.value = FetchTvReviewDataAction(reviewList)
+            })
+    }
+
+    /*********** Send action to view ************/
+
     fun setDataAction(action: FetchTvDetailsDataAction) {
         when (val dataState = action.dataState) {
             is DataState.Success<TvModel> -> {
@@ -171,6 +182,15 @@ class TvDetailsViewModel
         }
     }
 
+    fun setDataAction(action: FetchTvReviewDataAction) {
+        when (val dataState = action.dataState) {
+            is DataState.Success<PagedList<ReviewModel>> -> {
+                viewState.reviews = dataState.dataResponse.data
+                sendReviewSuccessAction(dataState)
+            }
+        }
+    }
+
     /*********** Send success action to view ************/
 
     private fun sendRecommendationSuccessAction(dataState: DataState.Success<List<ShowModelMinimal>>) {
@@ -194,6 +214,12 @@ class TvDetailsViewModel
     private fun sendTvSuccessAction() {
         getAction().value = FetchTvDetailsViewAction(
             ViewState.Success(viewState.tvModel)
+        )
+    }
+
+    private fun sendReviewSuccessAction(dataState: DataState.Success<PagedList<ReviewModel>>) {
+        getAction().value = FetchTvReviewViewAction(
+            ViewState.Success(viewState.reviews)
         )
     }
 
