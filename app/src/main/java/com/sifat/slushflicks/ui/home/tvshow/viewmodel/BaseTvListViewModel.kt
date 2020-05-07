@@ -2,7 +2,7 @@ package com.sifat.slushflicks.ui.home.tvshow.viewmodel
 
 import androidx.paging.PagedList
 import com.sifat.slushflicks.model.ShowModelMinimal
-import com.sifat.slushflicks.repository.tv.BaseTvListRepository
+import com.sifat.slushflicks.repository.tv.TvListRepository
 import com.sifat.slushflicks.ui.base.BaseActionViewModel
 import com.sifat.slushflicks.ui.home.tvshow.state.dataaction.TvListDataAction
 import com.sifat.slushflicks.ui.home.tvshow.state.event.TvListEventState
@@ -10,10 +10,8 @@ import com.sifat.slushflicks.ui.home.tvshow.state.viewaction.TvListViewAction
 import com.sifat.slushflicks.ui.home.tvshow.state.viewstate.TvListViewState
 import com.sifat.slushflicks.ui.state.DataState
 import com.sifat.slushflicks.ui.state.ViewState
-import javax.inject.Inject
 
-open class BaseTvListViewModel
-@Inject constructor(private val repository: BaseTvListRepository) :
+open class BaseTvListViewModel(private val repository: TvListRepository) :
     BaseActionViewModel<TvListDataAction, TvListViewAction, TvListViewState>() {
     override val viewState by lazy {
         TvListViewState()

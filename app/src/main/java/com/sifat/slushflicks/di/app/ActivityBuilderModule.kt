@@ -9,6 +9,7 @@ import com.sifat.slushflicks.di.home.about.AboutViewModelModule
 import com.sifat.slushflicks.di.home.movie.MovieModule
 import com.sifat.slushflicks.di.home.movie.MovieViewModelModule
 import com.sifat.slushflicks.di.home.search.SearchViewModelModule
+import com.sifat.slushflicks.di.home.tvshow.TvBindModule
 import com.sifat.slushflicks.di.home.tvshow.TvModule
 import com.sifat.slushflicks.di.home.tvshow.TvViewModelModule
 import com.sifat.slushflicks.di.splash.SplashModule
@@ -33,6 +34,7 @@ abstract class ActivityBuilderModule {
         modules = [HomeModule::class,
             MovieModule::class,
             TvModule::class,
+            TvBindModule::class,
             HomeViewModelModule::class,
             HomeFragmentBuilderModule::class,
             MovieViewModelModule::class,
@@ -47,7 +49,7 @@ abstract class ActivityBuilderModule {
     internal abstract fun bindMovieDetailsActivity(): MovieDetailsActivity
 
     @TvDetailsScope
-    @ContributesAndroidInjector(modules = [TvDetailsModule::class, TvDetailsViewModelModule::class])
+    @ContributesAndroidInjector(modules = [TvDetailsModule::class, TvDetailsBindModule::class, TvDetailsViewModelModule::class])
     internal abstract fun bindTvDetailsActivity(): TvDetailsActivity
 
 }

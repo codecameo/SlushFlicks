@@ -1,28 +1,31 @@
-package com.sifat.slushflicks.repository.tv
+package com.sifat.slushflicks.repository.tv.impl
 
 import androidx.lifecycle.LiveData
 import com.sifat.slushflicks.api.ApiTag
 import com.sifat.slushflicks.api.home.tv.TvService
 import com.sifat.slushflicks.data.DataManager
+import com.sifat.slushflicks.di.constant.NAME_API_KEY
 import com.sifat.slushflicks.repository.resource.impl.TvListNetworkResource
 import com.sifat.slushflicks.ui.state.DataState
 import com.sifat.slushflicks.utils.Label
 import com.sifat.slushflicks.utils.api.NetworkStateManager
+import javax.inject.Inject
+import javax.inject.Named
 
-class AirTodayTvRepository(
+class PopularTvRepositoryImpl @Inject constructor(
     tvService: TvService,
-    apiKey: String,
+    @Named(NAME_API_KEY) apiKey: String,
     dataManager: DataManager,
     networkStateManager: NetworkStateManager
-) : BaseTvListRepository(tvService, apiKey, dataManager, networkStateManager) {
+) : BaseTvListRepositoryImpl(tvService, apiKey, dataManager, networkStateManager) {
     override val collection: String
-        get() = Label.AIRING_TODAY
+        get() = Label.POPULAR_LABEL
 
     override fun getTvList(nextPage: Int): LiveData<DataState<Int>> {
         val requestModel = TvListNetworkResource.RequestModel(
             page = nextPage,
             apiKey = apiKey,
-            apiTag = ApiTag.AIRING_TODAY_TV_API_TAG
+            apiTag = ApiTag.POPULAR_TV_API_TAG
         )
         val tvListNetworkResource = TvListNetworkResource(
             requestModel = requestModel,

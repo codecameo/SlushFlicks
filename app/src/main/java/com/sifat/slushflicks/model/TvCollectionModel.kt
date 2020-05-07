@@ -2,6 +2,7 @@ package com.sifat.slushflicks.model
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import com.sifat.slushflicks.db.DbConstant.TableName.Companion.TABLE_NAME_TV_TYPE
 
 /**
@@ -17,7 +18,8 @@ import com.sifat.slushflicks.db.DbConstant.TableName.Companion.TABLE_NAME_TV_TYP
         parentColumns = arrayOf("id"),
         childColumns = arrayOf("id"),
         onDelete = ForeignKey.CASCADE
-    )]
+    )],
+    indices = [Index(value = ["id"], unique = true)]
 )
 data class TvCollectionModel(
     val collection: String,
