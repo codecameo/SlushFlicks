@@ -31,7 +31,7 @@ fun ImageView.setImageSmallUrl(
 ) {
     val imageUrl = getSmallImageUrl(url)
     Glide.with(context)
-        .load(imageUrl ?: EMPTY_STRING)
+        .load(imageUrl)
         .placeholder(placeHolder ?: ContextCompat.getDrawable(context, R.drawable.placeholder))
         .error(placeHolder ?: ContextCompat.getDrawable(context, R.drawable.placeholder))
         .dontAnimate()

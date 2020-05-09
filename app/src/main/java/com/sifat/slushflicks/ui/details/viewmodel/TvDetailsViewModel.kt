@@ -98,6 +98,10 @@ class TvDetailsViewModel
         sendTvSuccessAction()
     }
 
+    private fun updateRecentTvSeries(tvShow: TvModel) {
+        detailsRepository.updateRecentTvShow(tvShow.id)
+    }
+
     /*********** Fetch data from repo ************/
 
     private fun fetchSimilarTvShows(tvShowId: Long) {
@@ -175,6 +179,7 @@ class TvDetailsViewModel
                 dataState.dataResponse.data?.let { tvShow ->
                     viewState.tvModel = tvShow
                     sendTvSuccessAction()
+                    updateRecentTvSeries(tvShow)
                 }
             }
         }
@@ -208,7 +213,7 @@ class TvDetailsViewModel
         when (val dataState = action.dataState) {
             is DataState.Success<PagedList<ReviewModel>> -> {
                 viewState.reviews = dataState.dataResponse.data
-                sendReviewSuccessAction(dataState)
+                sendReviewSuccessAction()
             }
         }
     }
@@ -239,7 +244,7 @@ class TvDetailsViewModel
         )
     }
 
-    private fun sendReviewSuccessAction(dataState: DataState.Success<PagedList<ReviewModel>>) {
+    private fun sendReviewSuccessAction() {
         getAction().value = FetchTvReviewViewAction(
             ViewState.Success(viewState.reviews)
         )

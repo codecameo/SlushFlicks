@@ -13,4 +13,5 @@
     <color name="divider_color">#828282</color>
     <color name="bg_play_button">#55F2F2F2</color>
     <color name="light_divider">#f2f2f2</color>
+    <color name="dark_gray">#727272</color>
 </resources>

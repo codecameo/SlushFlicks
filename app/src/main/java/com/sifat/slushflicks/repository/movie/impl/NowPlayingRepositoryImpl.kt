@@ -13,12 +13,12 @@ import javax.inject.Inject
 import javax.inject.Named
 
 class NowPlayingRepositoryImpl @Inject constructor(
-    movieService: MovieService,
+    private val movieService: MovieService,
     @Named(NAME_API_KEY)
-    apiKey: String,
-    dataManager: DataManager,
-    networkStateManager: NetworkStateManager
-) : BaseMovieListRepository(movieService, apiKey, dataManager, networkStateManager) {
+    private val apiKey: String,
+    private val networkStateManager: NetworkStateManager,
+    dataManager: DataManager
+) : BaseMovieListRepository(dataManager) {
     override val collection: String
         get() = NOW_PLAYING_LABEL
 

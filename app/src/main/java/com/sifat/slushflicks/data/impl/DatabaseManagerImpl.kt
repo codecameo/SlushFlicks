@@ -30,11 +30,19 @@ class DatabaseManagerImpl
         database.getMovieCollectionDao().saveMovieCollectionList(collection, collectionModels)
     }
 
+    override suspend fun insertNewMovieCollection(movie: MovieCollectionModel) {
+        database.getMovieCollectionDao().insertReplace(movie)
+    }
+
     override suspend fun insertNewTvCollection(
         collection: String,
         collectionModels: List<TvCollectionModel>
     ) {
         database.getTvCollectionDao().saveTvCollectionList(collection, collectionModels)
+    }
+
+    override suspend fun insertNewTvCollection(tvShow: TvCollectionModel) {
+        database.getTvCollectionDao().insertReplace(tvShow)
     }
 
     override suspend fun softInsertMovie(movies: List<MovieModel>) {
@@ -44,10 +52,6 @@ class DatabaseManagerImpl
     override suspend fun softInsertTv(tvShows: List<TvModel>) {
         database.getTvDao().insertIgnore(tvShows)
     }
-
-    /*override suspend fun getMovies(collection: String): List<MovieModel>? {
-        return database.getMovieDao().getMovies(collection)
-    }*/
 
     override fun getPagingMovies(collection: String): DataSource.Factory<Int, ShowModelMinimal> {
         return database.getMovieDao().getPagedMovieSource(collection)

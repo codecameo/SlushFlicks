@@ -17,11 +17,12 @@ import javax.inject.Named
  * TODO Create repository interface and Implement that
  * */
 class TrendingTvRepositoryImpl @Inject constructor(
-    tvService: TvService,
-    @Named(NAME_API_KEY) apiKey: String,
-    dataManager: DataManager,
-    networkStateManager: NetworkStateManager
-) : BaseTvListRepositoryImpl(tvService, apiKey, dataManager, networkStateManager) {
+    private val tvService: TvService,
+    @Named(NAME_API_KEY)
+    private val apiKey: String,
+    private val networkStateManager: NetworkStateManager,
+    dataManager: DataManager
+) : BaseTvListRepositoryImpl(dataManager) {
     override val collection: String
         get() = TRENDING_LABEL
 

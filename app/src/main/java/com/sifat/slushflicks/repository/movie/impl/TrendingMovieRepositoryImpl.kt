@@ -17,12 +17,12 @@ import javax.inject.Named
  * TODO Create repository interface and Implement that
  * */
 class TrendingMovieRepositoryImpl @Inject constructor(
-    movieService: MovieService,
+    private val movieService: MovieService,
     @Named(NAME_API_KEY)
-    apiKey: String,
-    dataManager: DataManager,
-    networkStateManager: NetworkStateManager
-) : BaseMovieListRepository(movieService, apiKey, dataManager, networkStateManager) {
+    private val apiKey: String,
+    private val networkStateManager: NetworkStateManager,
+    dataManager: DataManager
+) : BaseMovieListRepository(dataManager) {
     override val collection: String
         get() = TRENDING_LABEL
 

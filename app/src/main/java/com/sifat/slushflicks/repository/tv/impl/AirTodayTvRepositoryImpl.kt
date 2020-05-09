@@ -13,11 +13,12 @@ import javax.inject.Inject
 import javax.inject.Named
 
 class AirTodayTvRepositoryImpl @Inject constructor(
-    tvService: TvService,
-    @Named(NAME_API_KEY) apiKey: String,
-    dataManager: DataManager,
-    networkStateManager: NetworkStateManager
-) : BaseTvListRepositoryImpl(tvService, apiKey, dataManager, networkStateManager) {
+    private val tvService: TvService,
+    @Named(NAME_API_KEY)
+    private val apiKey: String,
+    private val networkStateManager: NetworkStateManager,
+    dataManager: DataManager
+) : BaseTvListRepositoryImpl(dataManager) {
     override val collection: String
         get() = Label.AIRING_TODAY
 

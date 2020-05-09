@@ -48,7 +48,7 @@ class TvSearchDataSource(
     }
 
     override fun loadAfter(params: LoadParams<Long>, callback: LoadCallback<Long, TvApiModel>) {
-        val page = params.key ?: return
+        val page = params.key
         searchService.getSearchTvShows(
             query = requestModel.query,
             apiKey = requestModel.apiKey,

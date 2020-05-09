@@ -13,12 +13,12 @@ import javax.inject.Inject
 import javax.inject.Named
 
 class PopularMovieRepositoryImpl @Inject constructor(
-    movieService: MovieService,
+    private val movieService: MovieService,
     @Named(NAME_API_KEY)
-    apiKey: String,
+    private val apiKey: String,
     dataManager: DataManager,
-    networkStateManager: NetworkStateManager
-) : BaseMovieListRepository(movieService, apiKey, dataManager, networkStateManager) {
+    private val networkStateManager: NetworkStateManager
+) : BaseMovieListRepository(dataManager) {
     override val collection: String
         get() = POPULAR_LABEL
 

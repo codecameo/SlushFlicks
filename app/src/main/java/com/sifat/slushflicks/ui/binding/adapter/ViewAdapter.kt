@@ -15,6 +15,6 @@ fun ShimmerFrameLayout.setShimmer(listViewState: ListViewState) {
 }
 
 @BindingAdapter("selected")
-fun View.setSelected(selected: Boolean) {
+fun View.setSelectedState(selected: Boolean) {
     isSelected = selected
 }

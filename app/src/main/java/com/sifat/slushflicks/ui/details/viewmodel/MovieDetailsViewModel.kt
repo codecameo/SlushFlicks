@@ -168,6 +168,10 @@ class MovieDetailsViewModel
             })
     }
 
+    private fun updateRecentMovie(movie: MovieModel) {
+        detailsRepository.updateRecentMovie(movie.id)
+    }
+
     /*********** Send action to view ************/
 
     fun setDataAction(action: FetchMovieDetailsDataAction) {
@@ -176,6 +180,7 @@ class MovieDetailsViewModel
                 dataState.dataResponse.data?.let { movie ->
                     viewState.movie = movie
                     sendMovieSuccessAction()
+                    updateRecentMovie(movie)
                 }
             }
         }
@@ -209,7 +214,7 @@ class MovieDetailsViewModel
         when (val dataState = action.dataState) {
             is DataState.Success<PagedList<ReviewModel>> -> {
                 viewState.reviews = dataState.dataResponse.data
-                sendReviewSuccessAction(dataState)
+                sendReviewSuccessAction()
             }
         }
     }
@@ -240,7 +245,7 @@ class MovieDetailsViewModel
         )
     }
 
-    private fun sendReviewSuccessAction(dataState: DataState.Success<PagedList<ReviewModel>>) {
+    private fun sendReviewSuccessAction() {
         getAction().value = FetchMovieReviewViewAction(
             ViewState.Success(viewState.reviews)
         )

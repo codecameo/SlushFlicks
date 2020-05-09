@@ -50,11 +50,19 @@ class DataManagerImpl
         databaseManager.insertNewMovieCollection(collection, collectionModels)
     }
 
+    override suspend fun insertNewMovieCollection(movie: MovieCollectionModel) {
+        databaseManager.insertNewMovieCollection(movie)
+    }
+
     override suspend fun insertNewTvCollection(
         collection: String,
         collectionModels: List<TvCollectionModel>
     ) {
         databaseManager.insertNewTvCollection(collection, collectionModels)
+    }
+
+    override suspend fun insertNewTvCollection(tvShow: TvCollectionModel) {
+        databaseManager.insertNewTvCollection(tvShow)
     }
 
     override suspend fun softInsertMovie(movies: List<MovieModel>) {

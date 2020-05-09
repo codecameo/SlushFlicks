@@ -1,5 +1,7 @@
 package com.sifat.slushflicks.ui.home.search.viewmodel
 
+import android.text.TextUtils
+import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.sifat.slushflicks.di.home.HomeScope
 import com.sifat.slushflicks.model.ShowModelMinimal
@@ -8,10 +10,10 @@ import com.sifat.slushflicks.ui.base.BaseActionViewModel
 import com.sifat.slushflicks.ui.home.search.state.dataaction.SearchDataAction
 import com.sifat.slushflicks.ui.home.search.state.dataaction.SearchDataAction.SearchMovieDataAction
 import com.sifat.slushflicks.ui.home.search.state.event.SearchEventState
-import com.sifat.slushflicks.ui.home.search.state.event.SearchEventState.SetSearchQueryEvent
-import com.sifat.slushflicks.ui.home.search.state.event.SearchEventState.UpdateShowTypeEvent
+import com.sifat.slushflicks.ui.home.search.state.event.SearchEventState.*
 import com.sifat.slushflicks.ui.home.search.state.viewaction.SearchViewAction
 import com.sifat.slushflicks.ui.home.search.state.viewaction.SearchViewAction.*
+import com.sifat.slushflicks.ui.home.search.state.viewstate.QueryModel
 import com.sifat.slushflicks.ui.home.search.state.viewstate.SearchViewState
 import com.sifat.slushflicks.ui.state.DataState
 import com.sifat.slushflicks.ui.state.ViewState
@@ -28,11 +30,11 @@ class SearchViewModel
 
     fun handleEvent(viewEvent: SearchEventState) {
         when (viewEvent) {
-            is SearchEventState.ShowSearchEvent -> {
-                searchShow(viewEvent)
+            is ShowSearchEvent -> {
+                searchShow()
             }
-            is SetSearchQueryEvent -> {
-                seyQueryText(viewEvent)
+            is SetInitialEvent -> {
+                setInitialData()
             }
             is UpdateShowTypeEvent -> {
                 updateShowType(viewEvent)
@@ -50,24 +52,19 @@ class SearchViewModel
         )
     }
 
-    private fun seyQueryText(viewEvent: SetSearchQueryEvent) {
-        getAction().value = UpdateQueryViewAction(
-            ViewState.Success(viewState.queryModel)
+    private fun setInitialData() {
+        getAction().value = UpdateInitialViewAction(
+            ViewState.Success(
+                data = InitialData(viewState.queryModel, viewState.showType)
+            )
         )
     }
 
-    private fun searchShow(viewEvent: SearchEventState.ShowSearchEvent) {
+    private fun searchShow() {
         getAction().value = SearchShowViewAction(
             ViewState.Loading<PagedList<ShowModelMinimal>>()
         )
-        val source = when (viewState.showType) {
-            MOVIE -> {
-                searchRepository.searchMovies(viewState.queryModel.query, boundaryCallback)
-            }
-            TV_SERIES -> {
-                searchRepository.searchTvShows(viewState.queryModel.query, boundaryCallback)
-            }
-        }
+        val source = if (shouldShowRecent()) getRecentSource() else getSearchSource()
         dataState.addSource(source) { dataResponse ->
             dataState.removeSource(source)
             dataState.value = SearchMovieDataAction(dataResponse)
@@ -97,9 +94,33 @@ class SearchViewModel
         SearchViewState()
     }
 
+    private fun shouldShowRecent() = TextUtils.isEmpty(viewState.queryModel.query)
+
+    private fun getRecentSource(): LiveData<DataState<PagedList<ShowModelMinimal>>> {
+        return when (viewState.showType) {
+            MOVIE -> {
+                searchRepository.getRecentMovieList(boundaryCallback)
+            }
+            TV_SERIES -> {
+                searchRepository.getRecentTvShowList(boundaryCallback)
+            }
+        }
+    }
+
+    private fun getSearchSource(): LiveData<DataState<PagedList<ShowModelMinimal>>> {
+        return when (viewState.showType) {
+            MOVIE -> {
+                searchRepository.searchMovies(viewState.queryModel.query, boundaryCallback)
+            }
+            TV_SERIES -> {
+                searchRepository.searchTvShows(viewState.queryModel.query, boundaryCallback)
+            }
+        }
+    }
+
     private val boundaryCallback = object : PagedList.BoundaryCallback<ShowModelMinimal>() {
         override fun onZeroItemsLoaded() {
-            getAction().value = SearchViewAction.ResultFoundViewAction(
+            getAction().value = ResultFoundViewAction(
                 ViewState.Success<Boolean>(
                     data = false
                 )
@@ -107,13 +128,15 @@ class SearchViewModel
         }
 
         override fun onItemAtFrontLoaded(itemAtFront: ShowModelMinimal) {
-            getAction().value = SearchViewAction.ResultFoundViewAction(
+            getAction().value = ResultFoundViewAction(
                 ViewState.Success<Boolean>(
                     data = true
                 )
             )
         }
     }
+
+    data class InitialData(val queryModel: QueryModel, val showType: ShowType)
 
     companion object {
         private const val TAG = "SearchViewModel"

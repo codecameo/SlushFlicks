@@ -45,7 +45,7 @@ class MovieReviewDataSource(
     }
 
     override fun loadAfter(params: LoadParams<Long>, callback: LoadCallback<Long, ReviewModel>) {
-        val page = params.key ?: return
+        val page = params.key
         movieService.getMovieReviews(
             movieId = requestModel.movieId,
             apiKey = requestModel.apiKey,

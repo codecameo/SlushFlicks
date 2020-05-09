@@ -15,4 +15,12 @@ interface SearchRepository {
         query: String,
         boundaryCallback: PagedList.BoundaryCallback<ShowModelMinimal>
     ): LiveData<DataState<PagedList<ShowModelMinimal>>>
+
+    fun getRecentMovieList(
+        boundaryCallback: PagedList.BoundaryCallback<ShowModelMinimal>
+    ): LiveData<DataState<PagedList<ShowModelMinimal>>>
+
+    fun getRecentTvShowList(
+        boundaryCallback: PagedList.BoundaryCallback<ShowModelMinimal>
+    ): LiveData<DataState<PagedList<ShowModelMinimal>>>
 }

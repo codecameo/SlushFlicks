@@ -48,7 +48,7 @@ class MovieSearchDataSource(
     }
 
     override fun loadAfter(params: LoadParams<Long>, callback: LoadCallback<Long, MovieApiModel>) {
-        val page = params.key ?: return
+        val page = params.key
         Log.d(TAG, "loadAfter: page $page")
         searchService.getSearchMovies(
             query = requestModel.query,

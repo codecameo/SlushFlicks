@@ -47,7 +47,7 @@ class TvReviewDataSource(
     }
 
     override fun loadAfter(params: LoadParams<Long>, callback: LoadCallback<Long, ReviewModel>) {
-        val page = params.key ?: return
+        val page = params.key
         tvService.getTvShowReviews(
             tvShowId = requestModel.movieId,
             apiKey = requestModel.apiKey,

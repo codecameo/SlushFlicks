@@ -6,20 +6,15 @@ import androidx.lifecycle.Transformations
 import androidx.paging.PagedList
 import androidx.paging.PagedList.BoundaryCallback
 import androidx.paging.toLiveData
-import com.sifat.slushflicks.api.home.movie.MovieService
 import com.sifat.slushflicks.data.DataManager
 import com.sifat.slushflicks.model.ShowModelMinimal
 import com.sifat.slushflicks.repository.movie.MovieListRepository
 import com.sifat.slushflicks.ui.state.DataState
 import com.sifat.slushflicks.ui.state.DataSuccessResponse
 import com.sifat.slushflicks.utils.PAGE_SIZE
-import com.sifat.slushflicks.utils.api.NetworkStateManager
 
 abstract class BaseMovieListRepository(
-    protected val movieService: MovieService,
-    protected val apiKey: String,
-    protected val dataManager: DataManager,
-    protected val networkStateManager: NetworkStateManager
+    protected val dataManager: DataManager
 ) : MovieListRepository {
     override fun getPagingMovieList(boundaryCallback: BoundaryCallback<ShowModelMinimal>): LiveData<DataState<PagedList<ShowModelMinimal>>> {
         val pageConfig = PagedList.Config.Builder()

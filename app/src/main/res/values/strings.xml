@@ -43,4 +43,7 @@
     <string name="text_filter">Filter</string>
     <string name="text_done">Done</string>
     <string name="text_tv_series">TV Series</string>
+    <string name="text_no_result_found">No %s Found for Query \"%s\"</string>
+    <string name="text_no_recent_result_found">No Recent %s Found</string>
+    <string name="text_not_found">No Result Found</string>
 </resources>

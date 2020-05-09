@@ -25,7 +25,6 @@ import com.sifat.slushflicks.ui.home.adapter.viewholder.ShowViewHolder
 import com.sifat.slushflicks.ui.home.search.state.dataaction.SearchDataAction
 import com.sifat.slushflicks.ui.home.search.state.event.SearchEventState.*
 import com.sifat.slushflicks.ui.home.search.state.viewaction.SearchViewAction.*
-import com.sifat.slushflicks.ui.home.search.state.viewstate.QueryModel
 import com.sifat.slushflicks.ui.home.search.viewmodel.SearchViewModel
 import com.sifat.slushflicks.ui.state.ViewState
 import com.sifat.slushflicks.ui.widget.FilterWidget
@@ -49,27 +48,7 @@ class SearchFragment :
         initListener()
         setupList()
         subscribeAction()
-        fetchQuery()
-    }
-
-    private fun initListener() {
-        binding.fbFilter.setOnClickListener(this)
-        binding.ivClearSearch.setOnClickListener(this)
-        binding.rvSearch.addOnScrollListener(listScrollListener)
-        showListAdapter.onShowClickListener = this
-        binding.etSearch.addTextChangedListener(watcher)
-    }
-
-    private fun setupList() {
-        binding.rvSearch.adapter = showListAdapter
-    }
-
-    private fun initVariable() {
-        showListAdapter = ShowListAdapter()
-    }
-
-    private fun fetchQuery() {
-        viewModel.handleEvent(SetSearchQueryEvent())
+        fetchInitialData()
     }
 
     private fun subscribeAction() {
@@ -78,8 +57,8 @@ class SearchFragment :
                 is SearchShowViewAction -> {
                     setSearchList(action)
                 }
-                is UpdateQueryViewAction -> {
-                    setQueryText(action)
+                is UpdateInitialViewAction -> {
+                    setInitialData(action)
                 }
                 is UpdateShowTypeViewAction -> {
                     setShowType(action)
@@ -99,6 +78,10 @@ class SearchFragment :
         })
     }
 
+    private fun fetchInitialData() {
+        viewModel.handleEvent(SetInitialEvent())
+    }
+
     private fun setShowType(action: UpdateShowTypeViewAction) {
         when (val viewState = action.viewState) {
             is ViewState.Success<ShowType> -> {
@@ -110,10 +93,14 @@ class SearchFragment :
         }
     }
 
-    private fun setQueryText(action: UpdateQueryViewAction) {
+    private fun setInitialData(action: UpdateInitialViewAction) {
+        searchShow()
         when (val viewState = action.viewState) {
-            is ViewState.Success<QueryModel> -> {
-                binding.model = viewState.data
+            is ViewState.Success<SearchViewModel.InitialData> -> {
+                viewState.data?.let { init ->
+                    binding.model = init.queryModel
+                    showType = init.showType
+                }
             }
         }
     }
@@ -167,9 +154,7 @@ class SearchFragment :
             filterView.completeListener = object : FilterWidget.OnCompleteListener {
                 override fun onComplete(showType: ShowType) {
                     bottomSheetDialog.dismiss()
-                    if (!TextUtils.isEmpty(binding.model?.query)) {
-                        viewModel.handleEvent(UpdateShowTypeEvent(showType))
-                    }
+                    viewModel.handleEvent(UpdateShowTypeEvent(showType))
                 }
             }
             bottomSheetDialog.setOnShowListener { dialog ->
@@ -181,11 +166,27 @@ class SearchFragment :
         }
     }
 
+    private fun initListener() {
+        binding.fbFilter.setOnClickListener(this)
+        binding.ivClearSearch.setOnClickListener(this)
+        binding.rvSearch.addOnScrollListener(listScrollListener)
+        showListAdapter.onShowClickListener = this
+        binding.etSearch.addTextChangedListener(watcher)
+    }
+
+    private fun setupList() {
+        binding.rvSearch.adapter = showListAdapter
+    }
+
+    private fun initVariable() {
+        showListAdapter = ShowListAdapter()
+    }
+
     private fun showLoading() {
         binding.shimmer.visibility = View.VISIBLE
         binding.shimmer.startShimmer()
         binding.rvSearch.visibility = View.INVISIBLE
-        binding.ivNoResult.visibility = View.GONE
+        binding.tvNoResult.visibility = View.GONE
     }
 
     private fun showResult(action: ResultFoundViewAction) {
@@ -203,9 +204,27 @@ class SearchFragment :
             if (isFound) {
                 binding.rvSearch.visibility = View.VISIBLE
             } else {
-                binding.ivNoResult.visibility = View.VISIBLE
+                binding.tvNoResult.text = getNoResultText()
+                binding.tvNoResult.visibility = View.VISIBLE
             }
         }
+    }
+
+    private fun getNoResultText(): String {
+        return binding.model?.run {
+            if (TextUtils.isEmpty(query)) {
+                String.format(
+                    getString(R.string.text_no_recent_result_found),
+                    showType.value
+                )
+            } else {
+                String.format(
+                    getString(R.string.text_no_result_found),
+                    showType.value,
+                    query
+                )
+            }
+        } ?: getString(R.string.text_not_found)
     }
 
     private val searchShow = Runnable {

@@ -19,4 +19,6 @@ interface TvDetailsRepository {
     fun getRecommendationTvShows(movieId: Long): LiveData<DataState<List<ShowModelMinimal>>>
 
     fun getTvShowReviews(movieId: Long): LiveData<DataState<PagedList<ReviewModel>>>
+
+    fun updateRecentTvShow(tvShowId: Long)
 }

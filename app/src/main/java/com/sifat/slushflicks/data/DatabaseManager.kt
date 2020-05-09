@@ -16,10 +16,14 @@ interface DatabaseManager {
         collectionModels: List<MovieCollectionModel>
     )
 
+    suspend fun insertNewMovieCollection(movie: MovieCollectionModel)
+
     suspend fun insertNewTvCollection(
         collection: String,
         collectionModels: List<TvCollectionModel>
     )
+
+    suspend fun insertNewTvCollection(tvShow: TvCollectionModel)
 
     suspend fun softInsertMovie(movies: List<MovieModel>)
 

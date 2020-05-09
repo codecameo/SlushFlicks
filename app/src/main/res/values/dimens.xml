@@ -13,6 +13,7 @@
     <dimen name="quarter_less_standard_half">12dp</dimen>
     <dimen name="standard_margin">16dp</dimen>
     <dimen name="large_margin">24dp</dimen>
+    <dimen name="extra_large_margin">36dp</dimen>
     <dimen name="font_18">18sp</dimen>
     <dimen name="medium_loading_width">180dp</dimen>
     <dimen name="small_loading_width">64dp</dimen>

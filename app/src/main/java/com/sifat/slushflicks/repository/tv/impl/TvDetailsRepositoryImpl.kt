@@ -13,6 +13,7 @@ import com.sifat.slushflicks.data.pager.source.TvReviewDataSource
 import com.sifat.slushflicks.di.constant.NAME_API_KEY
 import com.sifat.slushflicks.model.ReviewModel
 import com.sifat.slushflicks.model.ShowModelMinimal
+import com.sifat.slushflicks.model.TvCollectionModel
 import com.sifat.slushflicks.model.TvModel
 import com.sifat.slushflicks.repository.resource.impl.SimilarTvShowNetworkResource
 import com.sifat.slushflicks.repository.resource.impl.TvCastNetworkResource
@@ -22,10 +23,14 @@ import com.sifat.slushflicks.repository.resource.impl.TvVideoNetworkResource
 import com.sifat.slushflicks.repository.tv.TvDetailsRepository
 import com.sifat.slushflicks.ui.state.DataState
 import com.sifat.slushflicks.ui.state.DataSuccessResponse
+import com.sifat.slushflicks.utils.Label
 import com.sifat.slushflicks.utils.Label.Companion.RECOMMENDATION_LABEL
 import com.sifat.slushflicks.utils.Label.Companion.SIMILAR_LABEL
 import com.sifat.slushflicks.utils.PAGE_SIZE
 import com.sifat.slushflicks.utils.api.NetworkStateManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -107,6 +112,19 @@ class TvDetailsRepositoryImpl @Inject constructor(
             DataState.Success<PagedList<ReviewModel>>(
                 DataSuccessResponse(
                     data = pagedList
+                )
+            )
+        }
+    }
+
+    override fun updateRecentTvShow(tvShowId: Long) {
+        val time = (System.currentTimeMillis() / 1000).toInt()
+        CoroutineScope(Dispatchers.IO).launch {
+            dataManager.insertNewTvCollection(
+                TvCollectionModel(
+                    collection = Label.RECENTLY_VISITED_TV_SHOW,
+                    id = tvShowId,
+                    index = -1 * time // Reversing the order
                 )
             )
         }

@@ -8,6 +8,8 @@ class Label {
         const val UPCOMING_LABEL = "upcoming"
         const val NOW_PLAYING_LABEL = "now_playing"
         const val AIRING_TODAY = "airing_today"
+        const val RECENTLY_VISITED_MOVIE = "recent_movie"
+        const val RECENTLY_VISITED_TV_SHOW = "recent_tv_show"
         const val SIMILAR_LABEL = "similar"
         const val RECOMMENDATION_LABEL = "recommendations"
         const val DEFAULT_LABEL = TRENDING_LABEL
@@ -30,9 +32,9 @@ class DynamicLinkConst {
     }
 }
 
-enum class ShowType {
-    MOVIE,
-    TV_SERIES
+enum class ShowType(val value: String) {
+    MOVIE("Movie"),
+    TV_SERIES("TV Series")
 }
 
 const val EMPTY_STRING = ""

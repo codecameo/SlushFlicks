@@ -2,7 +2,7 @@ package com.sifat.slushflicks.ui.home.search.state.viewaction
 
 import androidx.paging.PagedList
 import com.sifat.slushflicks.model.ShowModelMinimal
-import com.sifat.slushflicks.ui.home.search.state.viewstate.QueryModel
+import com.sifat.slushflicks.ui.home.search.viewmodel.SearchViewModel
 import com.sifat.slushflicks.ui.state.ViewState
 import com.sifat.slushflicks.utils.ShowType
 
@@ -16,6 +16,6 @@ sealed class SearchViewAction {
     class UpdateShowTypeViewAction(val viewState: ViewState<ShowType>) :
         SearchViewAction()
 
-    class UpdateQueryViewAction(val viewState: ViewState<QueryModel>) :
+    class UpdateInitialViewAction(val viewState: ViewState<SearchViewModel.InitialData>) :
         SearchViewAction()
 }
