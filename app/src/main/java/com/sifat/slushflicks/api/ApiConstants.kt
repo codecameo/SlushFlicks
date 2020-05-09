@@ -12,6 +12,8 @@ import com.sifat.slushflicks.api.ApiEndPoint.Companion.MOVIE_VIDEOS_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.NOW_PLAYING_MOVIE_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.POPULAR_MOVIE_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.POPULAR_TV_URL
+import com.sifat.slushflicks.api.ApiEndPoint.Companion.SEARCH_MOVIE_URL
+import com.sifat.slushflicks.api.ApiEndPoint.Companion.SEARCH_TV_SHOW_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.TOP_RATED_MOVIE_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.TOP_RATED_TV_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.TRENDING_MOVIE_URL
@@ -46,6 +48,7 @@ enum class ImageDimension(val dimension: String) {
 class ApiRequest {
     companion object {
         const val QUERY_KEY_API_KEY = "api_key"
+        const val QUERY_KEY_SEARCH = "query"
         const val QUERY_KEY_PAGE = "page"
         const val PATH_COLLECTION = "collection"
         const val PATH_MOVIE_ID = "movie_id"
@@ -71,6 +74,7 @@ class ApiEndPoint {
         const val NOW_PLAYING_MOVIE_URL = "movie/now_playing"
         const val TOP_RATED_MOVIE_URL = "movie/top_rated"
         const val UPCOMING_MOVIE_URL = "movie/upcoming"
+        const val SEARCH_MOVIE_URL = "search/movie"
 
         const val GENRES_TV_URL = "genre/tv/list"
         const val TRENDING_TV_SHOW_URL = "trending/tv/day"
@@ -85,6 +89,7 @@ class ApiEndPoint {
         const val TV_SHOW_SIMILAR_URL = "tv/{$PATH_TV_SHOW_ID}/$SIMILAR_LABEL"
         const val TV_SHOW_REVIEWS_URL = "tv/{$PATH_TV_SHOW_ID}/reviews"
         const val RELATED_TV_SHOW_URL = "tv/{$PATH_TV_SHOW_ID}/{$PATH_RELATION_TYPE}"
+        const val SEARCH_TV_SHOW_URL = "search/tv"
     }
 }
 
@@ -109,6 +114,7 @@ class ApiTag {
         const val MOVIE_RECOMMENDATION_API_TAG = MOVIE_RECOMMENDATION_URL + GET
         const val MOVIE_SIMILAR_API_TAG = MOVIE_SIMILAR_URL + GET
         const val MOVIE_REVIEWS_API_TAG = MOVIE_REVIEWS_URL + GET
+        const val MOVIE_SEARCH_API_TAG = SEARCH_MOVIE_URL + GET
 
         const val TRENDING_TV_API_TAG = TRENDING_TV_SHOW_URL + GET
         const val POPULAR_TV_API_TAG = POPULAR_TV_URL + GET
@@ -120,6 +126,7 @@ class ApiTag {
         const val TV_SHOW_RECOMMENDATION_API_TAG = TV_SHOW_RECOMMENDATION_URL + GET
         const val TV_SHOW_SIMILAR_API_TAG = TV_SHOW_SIMILAR_URL + GET
         const val TV_SHOW_REVIEWS_API_TAG = TV_SHOW_REVIEWS_URL + GET
+        const val TV_SHOW_SEARCH_API_TAG = SEARCH_TV_SHOW_URL + GET
     }
 }
 

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_top_round">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:padding="@dimen/standard_margin"
+            android:text="@string/text_filter"
+            android:textColor="@color/blackTextColor"
+            android:textSize="@dimen/title_font"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/vDivider"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/small_height"
+            android:background="@color/light_divider"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+        <TextView
+            android:id="@+id/tvMovie"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_check"
+            android:fontFamily="sans-serif-light"
+            android:padding="@dimen/standard_margin"
+            android:text="@string/text_movie"
+            android:textAllCaps="true"
+            android:textColor="@color/blackTextColor"
+            android:textSize="@dimen/large_font"
+            app:layout_constraintTop_toBottomOf="@id/vDivider" />
+
+        <View
+            android:id="@+id/vDivider2"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/default_1dp"
+            android:background="@color/light_gray"
+            app:layout_constraintTop_toBottomOf="@id/tvMovie" />
+
+        <TextView
+            android:id="@+id/tvTvShow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:padding="@dimen/standard_margin"
+            android:text="@string/text_tv_series"
+            android:textAllCaps="true"
+            android:textColor="@color/blackTextColor"
+            android:textSize="@dimen/large_font"
+            app:layout_constraintTop_toBottomOf="@id/vDivider2" />
+
+        <View
+            android:id="@+id/vBottomDivider"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/small_height"
+            android:background="@color/light_gray"
+            app:layout_constraintTop_toBottomOf="@id/tvTvShow" />
+
+        <TextView
+            android:id="@+id/tvDone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:padding="@dimen/standard_margin"
+            android:text="@string/text_done"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/large_font"
+            app:layout_constraintTop_toBottomOf="@id/vBottomDivider" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -38,4 +38,9 @@
     <string name="text_share_to">Share to...</string>
     <string name="error_no_app_found">No application found to share.</string>
     <string name="error_failed_to_short_link">Failed to create sharable link. Try again</string>
+    <string name="text_search">Search</string>
+    <string name="text_search_show">Search your show</string>
+    <string name="text_filter">Filter</string>
+    <string name="text_done">Done</string>
+    <string name="text_tv_series">TV Series</string>
 </resources>

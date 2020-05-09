@@ -1,26 +1,28 @@
-package com.sifat.slushflicks.data.pager
+package com.sifat.slushflicks.data.pager.source
 
 import android.util.Log
 import androidx.paging.PageKeyedDataSource
 import com.sifat.slushflicks.api.details.model.ReviewListApiModel
-import com.sifat.slushflicks.api.home.movie.MovieService
+import com.sifat.slushflicks.api.home.tv.TvService
 import com.sifat.slushflicks.model.ReviewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MovieReviewDataSource(
-    private val movieService: MovieService,
+class TvReviewDataSource(
+    private val tvService: TvService,
     private val requestModel: RequestModel
 ) : PageKeyedDataSource<Long, ReviewModel>() {
-    val TAG = "ReviewDataSource"
+    companion object {
+        private const val TAG = "TvReviewDataSource"
+    }
 
     override fun loadInitial(
         params: LoadInitialParams<Long>,
         callback: LoadInitialCallback<Long, ReviewModel>
     ) {
-        movieService.getMovieReviews(
-            movieId = requestModel.movieId,
+        tvService.getTvShowReviews(
+            tvShowId = requestModel.movieId,
             apiKey = requestModel.apiKey,
             page = 1
         ).enqueue(object : Callback<ReviewListApiModel> {
@@ -46,8 +48,8 @@ class MovieReviewDataSource(
 
     override fun loadAfter(params: LoadParams<Long>, callback: LoadCallback<Long, ReviewModel>) {
         val page = params.key ?: return
-        movieService.getMovieReviews(
-            movieId = requestModel.movieId,
+        tvService.getTvShowReviews(
+            tvShowId = requestModel.movieId,
             apiKey = requestModel.apiKey,
             page = page.toInt()
         ).enqueue(object : Callback<ReviewListApiModel> {

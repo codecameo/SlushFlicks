@@ -30,6 +30,11 @@ class DynamicLinkConst {
     }
 }
 
+enum class ShowType {
+    MOVIE,
+    TV_SERIES
+}
+
 const val EMPTY_STRING = ""
 const val INVALID_ID = -1
 const val NA = "N\\A"

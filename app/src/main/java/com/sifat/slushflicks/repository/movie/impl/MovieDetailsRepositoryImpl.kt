@@ -8,8 +8,8 @@ import com.sifat.slushflicks.api.ApiTag.Companion.MOVIE_RECOMMENDATION_API_TAG
 import com.sifat.slushflicks.api.ApiTag.Companion.MOVIE_SIMILAR_API_TAG
 import com.sifat.slushflicks.api.home.movie.MovieService
 import com.sifat.slushflicks.data.DataManager
-import com.sifat.slushflicks.data.pager.MovieReviewDataFactory
-import com.sifat.slushflicks.data.pager.MovieReviewDataSource
+import com.sifat.slushflicks.data.pager.factory.MovieReviewDataFactory
+import com.sifat.slushflicks.data.pager.source.MovieReviewDataSource
 import com.sifat.slushflicks.di.constant.NAME_API_KEY
 import com.sifat.slushflicks.model.MovieModel
 import com.sifat.slushflicks.model.ReviewModel

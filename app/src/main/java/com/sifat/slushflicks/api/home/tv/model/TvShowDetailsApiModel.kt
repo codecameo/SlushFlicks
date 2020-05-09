@@ -19,7 +19,7 @@ data class TvShowDetailsApiModel(
     val episodeRunTime: List<Int>,
     @SerializedName("first_air_date")
     @Expose
-    val firstAirDate: String,
+    val firstAirDate: String?,
     @SerializedName("genres")
     @Expose
     val genres: List<GenreModel>,

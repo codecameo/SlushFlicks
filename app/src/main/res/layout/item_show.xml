@@ -40,36 +40,6 @@
                 android:layout_marginBottom="@dimen/standard_margin"
                 android:background="@color/white">
 
-                <View
-                    android:id="@+id/vLoading1"
-                    android:layout_width="@dimen/default_0dp"
-                    android:layout_height="@dimen/default_0dp"
-                    android:background="@color/loading_color"
-                    app:layout_constraintDimensionRatio="6:3"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <View
-                    android:id="@+id/vLoading2"
-                    android:layout_width="@dimen/medium_loading_width"
-                    android:layout_height="@dimen/loading_height"
-                    android:layout_marginStart="@dimen/standard_margin"
-                    android:layout_marginTop="@dimen/quarter_less_standard_half"
-                    android:background="@color/loading_color"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/vLoading1" />
-
-                <View
-                    android:id="@+id/vLoading3"
-                    android:layout_width="@dimen/large_loading_width"
-                    android:layout_height="@dimen/loading_height"
-                    android:layout_marginStart="@dimen/standard_margin"
-                    android:layout_marginTop="@dimen/quarter_less_standard_half"
-                    android:background="@color/loading_color"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/vLoading2" />
-
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/rivPoster"
                     android:layout_width="match_parent"
@@ -100,11 +70,11 @@
                     android:paddingTop="@dimen/rating_vertical_margin"
                     android:paddingEnd="@dimen/quarter_less_standard_half"
                     android:paddingBottom="@dimen/rating_vertical_margin"
-                    android:text="@{``+model.voteAvg}"
                     android:textColor="@color/blackTextColor"
                     android:visibility="@{model.voteAvg == ConstantKt.DEFAULT_DOUBLE? View.GONE : View.VISIBLE}"
                     app:layout_constraintBottom_toBottomOf="@id/rivPoster"
                     app:layout_constraintRight_toRightOf="@id/rivPoster"
+                    app:rating="@{model.voteAvg}"
                     tools:text="8.7" />
 
                 <TextView
@@ -157,12 +127,42 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 
+                <View
+                    android:id="@+id/vLoading1"
+                    android:layout_width="@dimen/default_0dp"
+                    android:layout_height="@dimen/default_0dp"
+                    android:background="@color/loading_color"
+                    app:layout_constraintDimensionRatio="6:3"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/vLoading2"
+                    android:layout_width="@dimen/medium_loading_width"
+                    android:layout_height="@dimen/loading_height"
+                    android:layout_marginStart="@dimen/standard_margin"
+                    android:layout_marginTop="@dimen/quarter_less_standard_half"
+                    android:background="@color/loading_color"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/vLoading1" />
+
+                <View
+                    android:id="@+id/vLoading3"
+                    android:layout_width="@dimen/large_loading_width"
+                    android:layout_height="@dimen/loading_height"
+                    android:layout_marginStart="@dimen/standard_margin"
+                    android:layout_marginTop="@dimen/quarter_less_standard_half"
+                    android:background="@color/loading_color"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/vLoading2" />
+
                 <androidx.constraintlayout.widget.Group
                     android:id="@+id/grpView"
                     android:layout_width="@dimen/default_0dp"
                     android:layout_height="@dimen/default_0dp"
                     android:visibility="@{state == ListViewState.LOADING? View.GONE : View.VISIBLE}"
-                    app:constraint_referenced_ids="rivPoster,tvDescription,tvRating,tvTitle"
+                    app:constraint_referenced_ids="rivPoster,tvDescription,tvTitle"
                     tools:visibility="visible" />
 
                 <androidx.constraintlayout.widget.Group

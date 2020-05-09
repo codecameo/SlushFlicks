@@ -76,6 +76,42 @@ fun getShowMinimalModel(tvShows: List<TvModel>?): List<ShowModelMinimal>? {
     return moviesMinimalList
 }
 
+fun getTvShowMinimalApiModels(
+    tvShows: List<TvApiModel>?,
+    genreMap: Map<Long, String>
+): List<ShowModelMinimal> {
+    if (tvShows.isNullOrEmpty()) return emptyList()
+    val tvShowsMinimalList = mutableListOf<ShowModelMinimal>()
+    for (tvShow in tvShows) {
+        val genresModels = getGenresModels(tvShow.genreIds, genreMap)
+        val movieModelMinimal = ShowModelMinimal(
+            id = tvShow.id,
+            overview = tvShow.overview,
+            title = tvShow.title,
+            genres = genresModels,
+            voteAvg = tvShow.voteAverage,
+            backdropPath = tvShow.backdropPath ?: EMPTY_STRING
+        )
+        tvShowsMinimalList.add(movieModelMinimal)
+    }
+    return tvShowsMinimalList
+}
+
+fun getTvShowMinimalApiModel(
+    tvShow: TvApiModel,
+    genreMap: Map<Long, String>
+): ShowModelMinimal {
+    val genresModels = getGenresModels(tvShow.genreIds, genreMap)
+    return ShowModelMinimal(
+        id = tvShow.id,
+        overview = tvShow.overview,
+        title = tvShow.title,
+        genres = genresModels,
+        voteAvg = tvShow.voteAverage,
+        backdropPath = getListImageUrl(tvShow.backdropPath)
+    )
+}
+
 fun getTvDetails(apiModel: TvShowDetailsApiModel?): TvModel? {
     return apiModel?.run {
         TvModel(
@@ -94,7 +130,7 @@ fun getTvDetails(apiModel: TvShowDetailsApiModel?): TvModel? {
             numOfEpisode = apiModel.episodeCount,
             title = apiModel.name,
             overview = apiModel.overview,
-            releaseData = apiModel.firstAirDate,
+            releaseData = apiModel.firstAirDate ?: EMPTY_STRING,
             directors = getDirectors(apiModel.createdBy),
             runtime = getRuntime(apiModel.episodeRunTime)
         )

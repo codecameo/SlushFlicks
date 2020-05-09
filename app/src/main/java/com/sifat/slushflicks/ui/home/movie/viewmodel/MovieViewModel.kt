@@ -23,7 +23,9 @@ class MovieViewModel
 @Inject constructor(
     private val repository: MovieHomeRepository
 ) : BaseActionViewModel<MovieHomeDataAction, MovieHomeViewAction, MovieHomeViewState>() {
-    override var viewState = MovieHomeViewState()
+    override val viewState by lazy {
+        MovieHomeViewState()
+    }
 
     fun handleEvent(homeEvent: MovieHomeEventState) {
         when (homeEvent) {

@@ -23,7 +23,7 @@ interface DatabaseManager {
 
     suspend fun softInsertMovie(movies: List<MovieModel>)
 
-    suspend fun softInsertTv(movies: List<TvModel>)
+    suspend fun softInsertTv(tvShows: List<TvModel>)
 
     //suspend fun getMovies(collection: String): List<MovieModel>?
 

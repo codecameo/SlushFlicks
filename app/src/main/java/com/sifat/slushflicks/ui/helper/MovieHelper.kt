@@ -74,6 +74,34 @@ fun getMovieMinimalModel(movies: List<MovieModel>?): List<ShowModelMinimal>? {
     return moviesMinimalList
 }
 
+fun getMovieMinimalApiModels(
+    movies: List<MovieApiModel>?,
+    genreMap: Map<Long, String>
+): List<ShowModelMinimal> {
+    if (movies.isNullOrEmpty()) return emptyList()
+    val moviesMinimalList = mutableListOf<ShowModelMinimal>()
+    for (movie in movies) {
+        moviesMinimalList.add(getMovieMinimalApiModel(movie, genreMap))
+    }
+    return moviesMinimalList
+}
+
+fun getMovieMinimalApiModel(
+    movie: MovieApiModel,
+    genreMap: Map<Long, String>
+): ShowModelMinimal {
+    val genresModels = getGenresModels(movie.genreIds, genreMap)
+    return ShowModelMinimal(
+        id = movie.id,
+        overview = movie.overview,
+        title = movie.title,
+        genres = genresModels,
+        voteAvg = movie.voteAverage,
+        backdropPath = getListImageUrl(movie.backdropPath)
+    )
+}
+
+
 fun getGenresModels(
     genreIds: List<Long>,
     genreMap: Map<Long, String>

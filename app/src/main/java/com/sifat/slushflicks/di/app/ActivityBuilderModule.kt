@@ -6,11 +6,10 @@ import com.sifat.slushflicks.di.home.HomeModule
 import com.sifat.slushflicks.di.home.HomeScope
 import com.sifat.slushflicks.di.home.HomeViewModelModule
 import com.sifat.slushflicks.di.home.about.AboutViewModelModule
-import com.sifat.slushflicks.di.home.movie.MovieBindModule
 import com.sifat.slushflicks.di.home.movie.MovieModule
 import com.sifat.slushflicks.di.home.movie.MovieViewModelModule
+import com.sifat.slushflicks.di.home.search.SearchModule
 import com.sifat.slushflicks.di.home.search.SearchViewModelModule
-import com.sifat.slushflicks.di.home.tvshow.TvBindModule
 import com.sifat.slushflicks.di.home.tvshow.TvModule
 import com.sifat.slushflicks.di.home.tvshow.TvViewModelModule
 import com.sifat.slushflicks.di.splash.SplashModule
@@ -34,13 +33,12 @@ abstract class ActivityBuilderModule {
     @ContributesAndroidInjector(
         modules = [HomeModule::class,
             MovieModule::class,
-            MovieBindModule::class,
             TvModule::class,
-            TvBindModule::class,
             HomeViewModelModule::class,
             HomeFragmentBuilderModule::class,
             MovieViewModelModule::class,
             TvViewModelModule::class,
+            SearchModule::class,
             SearchViewModelModule::class,
             AboutViewModelModule::class]
     )

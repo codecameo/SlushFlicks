@@ -1,19 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <data>
+
+        <import type="android.text.TextUtils" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="model"
+            type="com.sifat.slushflicks.ui.home.search.state.viewstate.QueryModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:background="@color/light_gray">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Search"
-            app:layout_constraintBottom_toBottomOf="parent"
+        <EditText
+            android:id="@+id/etSearch"
+            android:layout_width="0dp"
+            android:layout_height="?attr/actionBarSize"
+            android:autofillHints="@string/text_search_show"
+            android:background="@color/white"
+            android:drawableStart="@drawable/ic_search_hint"
+            android:drawablePadding="@dimen/standard_margin"
+            android:hint="@string/text_search"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:paddingStart="@dimen/standard_margin"
+            android:paddingTop="@dimen/standard_margin"
+            android:paddingBottom="@dimen/standard_margin"
+            android:text="@={model.query}"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/ivClearSearch"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivClearSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/white"
+            android:padding="@dimen/standard_margin"
+            android:src="@drawable/ic_clear"
+            android:visibility="@{TextUtils.isEmpty(model.query)? View.GONE : View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="@id/etSearch"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageView
+            android:id="@+id/ivNoResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_not_found"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etSearch"
+            tools:visibility="invisible" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvSearch"
+            android:layout_width="@dimen/default_0dp"
+            android:layout_height="@dimen/default_0dp"
+            android:background="@color/light_gray"
+            android:clipToPadding="false"
+            android:paddingTop="@dimen/standard_half_margin"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constrainedHeight="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etSearch"
+            tools:listitem="@layout/item_show"
+            tools:visibility="invisible" />
+
+        <View
+            android:id="@+id/vDivider"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/shadow_height"
+            android:background="@drawable/shadow"
+            app:layout_constraintTop_toBottomOf="@id/etSearch" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fbFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/large_margin"
+            android:background="@color/colorPrimaryDark"
+            android:src="@drawable/ic_filter"
+            app:backgroundTint="@color/colorPrimaryDark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer"
+            android:layout_width="@dimen/default_0dp"
+            android:layout_height="@dimen/default_0dp"
+            android:background="@color/light_divider"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etSearch">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/standard_margin">
+
+                <View
+                    android:id="@+id/vLoading1"
+                    android:layout_width="match_parent"
+                    android:layout_height="156dp"
+                    android:background="@color/loading_color" />
+
+                <View
+                    android:id="@+id/vLoading2"
+                    android:layout_width="@dimen/medium_loading_width"
+                    android:layout_height="@dimen/loading_height"
+                    android:layout_marginTop="@dimen/quarter_less_standard_half"
+                    android:background="@color/loading_color" />
+
+                <View
+                    android:id="@+id/vLoading3"
+                    android:layout_width="@dimen/large_loading_width"
+                    android:layout_height="@dimen/loading_height"
+                    android:layout_marginTop="@dimen/quarter_less_standard_half"
+                    android:background="@color/loading_color" />
+            </LinearLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

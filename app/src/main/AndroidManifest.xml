@@ -36,7 +36,9 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.home.HomeActivity" />
+        <activity
+            android:name=".ui.home.HomeActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.details.MovieDetailsActivity"
             android:parentActivityName=".ui.home.HomeActivity" />

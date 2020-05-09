@@ -1,7 +1,8 @@
-package com.sifat.slushflicks.data.pager
+package com.sifat.slushflicks.data.pager.factory
 
 import androidx.paging.DataSource
 import com.sifat.slushflicks.api.home.tv.TvService
+import com.sifat.slushflicks.data.pager.source.TvReviewDataSource
 import com.sifat.slushflicks.model.ReviewModel
 
 class TvReviewDataFactory(
@@ -9,6 +10,9 @@ class TvReviewDataFactory(
     private val requestModel: TvReviewDataSource.RequestModel
 ) : DataSource.Factory<Long, ReviewModel>() {
     override fun create(): DataSource<Long, ReviewModel> {
-        return TvReviewDataSource(tvService, requestModel)
+        return TvReviewDataSource(
+            tvService,
+            requestModel
+        )
     }
 }

@@ -1,16 +1,16 @@
-package com.sifat.slushflicks.data.pager
+package com.sifat.slushflicks.data.pager.source
 
 import android.util.Log
 import androidx.paging.PageKeyedDataSource
 import com.sifat.slushflicks.api.details.model.ReviewListApiModel
-import com.sifat.slushflicks.api.home.tv.TvService
+import com.sifat.slushflicks.api.home.movie.MovieService
 import com.sifat.slushflicks.model.ReviewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class TvReviewDataSource(
-    private val tvService: TvService,
+class MovieReviewDataSource(
+    private val movieService: MovieService,
     private val requestModel: RequestModel
 ) : PageKeyedDataSource<Long, ReviewModel>() {
     val TAG = "ReviewDataSource"
@@ -19,8 +19,8 @@ class TvReviewDataSource(
         params: LoadInitialParams<Long>,
         callback: LoadInitialCallback<Long, ReviewModel>
     ) {
-        tvService.getTvShowReviews(
-            tvShowId = requestModel.movieId,
+        movieService.getMovieReviews(
+            movieId = requestModel.movieId,
             apiKey = requestModel.apiKey,
             page = 1
         ).enqueue(object : Callback<ReviewListApiModel> {
@@ -46,8 +46,8 @@ class TvReviewDataSource(
 
     override fun loadAfter(params: LoadParams<Long>, callback: LoadCallback<Long, ReviewModel>) {
         val page = params.key ?: return
-        tvService.getTvShowReviews(
-            tvShowId = requestModel.movieId,
+        movieService.getMovieReviews(
+            movieId = requestModel.movieId,
             apiKey = requestModel.apiKey,
             page = page.toInt()
         ).enqueue(object : Callback<ReviewListApiModel> {

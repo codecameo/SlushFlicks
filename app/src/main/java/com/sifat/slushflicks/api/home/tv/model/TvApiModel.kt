@@ -21,13 +21,13 @@ data class TvApiModel(
     val releaseDate: String?,
     @SerializedName("backdrop_path")
     @Expose
-    val backdropPath: String,
+    val backdropPath: String?,
     @SerializedName("overview")
     @Expose
     val overview: String,
     @SerializedName("poster_path")
     @Expose
-    val posterPath: String,
+    val posterPath: String?,
     @SerializedName("popularity")
     @Expose
     val popularity: Double,

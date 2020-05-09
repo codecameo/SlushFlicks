@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_about" />
     <fragment
         android:id="@+id/menuSearch"
-        android:name="com.sifat.slushflicks.ui.home.search.SearchFragment"
+        android:name="com.sifat.slushflicks.ui.home.search.fragment.SearchFragment"
         android:label="SearchFragment"
         tools:layout="@layout/fragment_search" />
     <fragment

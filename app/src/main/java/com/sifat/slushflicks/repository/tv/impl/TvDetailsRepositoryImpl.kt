@@ -8,8 +8,8 @@ import com.sifat.slushflicks.api.ApiTag.Companion.TV_SHOW_RECOMMENDATION_API_TAG
 import com.sifat.slushflicks.api.ApiTag.Companion.TV_SHOW_SIMILAR_API_TAG
 import com.sifat.slushflicks.api.home.tv.TvService
 import com.sifat.slushflicks.data.DataManager
-import com.sifat.slushflicks.data.pager.TvReviewDataFactory
-import com.sifat.slushflicks.data.pager.TvReviewDataSource
+import com.sifat.slushflicks.data.pager.factory.TvReviewDataFactory
+import com.sifat.slushflicks.data.pager.source.TvReviewDataSource
 import com.sifat.slushflicks.di.constant.NAME_API_KEY
 import com.sifat.slushflicks.model.ReviewModel
 import com.sifat.slushflicks.model.ShowModelMinimal

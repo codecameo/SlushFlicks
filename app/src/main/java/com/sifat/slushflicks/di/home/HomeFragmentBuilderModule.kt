@@ -8,7 +8,7 @@ import com.sifat.slushflicks.di.home.tvshow.TvShowFragmentBuilderModule
 import com.sifat.slushflicks.di.home.tvshow.TvShowScope
 import com.sifat.slushflicks.ui.home.about.AboutFragment
 import com.sifat.slushflicks.ui.home.movie.fragment.HomeMovieFragment
-import com.sifat.slushflicks.ui.home.search.SearchFragment
+import com.sifat.slushflicks.ui.home.search.fragment.SearchFragment
 import com.sifat.slushflicks.ui.home.tvshow.fragment.HomeTvFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
