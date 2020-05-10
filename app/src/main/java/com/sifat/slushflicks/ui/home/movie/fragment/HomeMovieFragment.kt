@@ -120,22 +120,27 @@ class HomeMovieFragment :
     private fun getCollectionFragment(label: String?): Fragment {
         return when (label) {
             Label.TRENDING_LABEL -> {
-                childFragmentManager.findFragmentByTag(label) ?: TrendingFragment()
+                childFragmentManager.findFragmentByTag(getFragmentLabel(label))
+                    ?: TrendingFragment()
             }
             Label.UPCOMING_LABEL -> {
-                childFragmentManager.findFragmentByTag(label) ?: UpcomingFragment()
+                childFragmentManager.findFragmentByTag(getFragmentLabel(label))
+                    ?: UpcomingFragment()
             }
             Label.TOP_RATED_LABEL -> {
-                childFragmentManager.findFragmentByTag(label) ?: TopRatedFragment()
+                childFragmentManager.findFragmentByTag(getFragmentLabel(label))
+                    ?: TopRatedFragment()
             }
             Label.NOW_PLAYING_LABEL -> {
-                childFragmentManager.findFragmentByTag(label) ?: NowPlayingFragment()
+                childFragmentManager.findFragmentByTag(getFragmentLabel(label))
+                    ?: NowPlayingFragment()
             }
             Label.POPULAR_LABEL -> {
-                childFragmentManager.findFragmentByTag(label) ?: PopularFragment()
+                childFragmentManager.findFragmentByTag(getFragmentLabel(label)) ?: PopularFragment()
             }
             else -> {
-                childFragmentManager.findFragmentByTag(label) ?: TrendingFragment()
+                childFragmentManager.findFragmentByTag(getFragmentLabel(Label.DEFAULT_LABEL))
+                    ?: TrendingFragment()
             }
         }
     }
