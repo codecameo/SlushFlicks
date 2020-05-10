@@ -52,6 +52,7 @@ abstract class BaseMovieListFragment<VM : BaseMovieListViewModel> :
                     setMovieList(action)
                 }
                 is FetchNetworkMovieListViewAction -> {
+                    // This only show network error message
                     setMovieList(action)
                 }
             }
@@ -63,6 +64,7 @@ abstract class BaseMovieListFragment<VM : BaseMovieListViewModel> :
                     viewModel.setDataAction(action)
                 }
                 is FetchNetworkMovieListDataAction -> {
+                    // This only set the information of current and total page
                     viewModel.setDataAction(action)
                 }
             }

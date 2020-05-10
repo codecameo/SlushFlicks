@@ -1,4 +1,4 @@
-package com.sifat.slushflicks.provider
+package com.sifat.slushflicks.helper
 
 import android.net.Uri
 import com.google.firebase.dynamiclinks.DynamicLink

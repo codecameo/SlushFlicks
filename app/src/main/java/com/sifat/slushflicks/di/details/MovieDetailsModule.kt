@@ -4,7 +4,7 @@ import com.sifat.slushflicks.BuildConfig
 import com.sifat.slushflicks.api.home.movie.MovieService
 import com.sifat.slushflicks.di.constant.NAME_DYNAMIC_BASE_LINK
 import com.sifat.slushflicks.di.constant.NAME_DYNAMIC_DOMAIN
-import com.sifat.slushflicks.provider.DynamicLinkProvider
+import com.sifat.slushflicks.helper.DynamicLinkProvider
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit

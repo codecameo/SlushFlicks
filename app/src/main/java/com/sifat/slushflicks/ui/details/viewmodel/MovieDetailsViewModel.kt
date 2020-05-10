@@ -3,10 +3,10 @@ package com.sifat.slushflicks.ui.details.viewmodel
 import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import com.sifat.slushflicks.di.details.MovieDetailsScope
+import com.sifat.slushflicks.helper.DynamicLinkProvider
 import com.sifat.slushflicks.model.MovieModel
 import com.sifat.slushflicks.model.ReviewModel
 import com.sifat.slushflicks.model.ShowModelMinimal
-import com.sifat.slushflicks.provider.DynamicLinkProvider
 import com.sifat.slushflicks.repository.movie.MovieDetailsRepository
 import com.sifat.slushflicks.ui.base.BaseActionViewModel
 import com.sifat.slushflicks.ui.details.state.dataaction.MovieDetailDataAction
