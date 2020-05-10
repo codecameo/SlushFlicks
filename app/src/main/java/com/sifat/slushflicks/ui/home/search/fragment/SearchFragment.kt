@@ -191,7 +191,7 @@ class SearchFragment :
 
     private fun showResult(action: ResultFoundViewAction) {
         binding.shimmer.hideShimmer()
-        binding.shimmer.visibility = View.GONE
+        binding.shimmer.visibility = View.INVISIBLE
         when (val viewState = action.viewState) {
             is ViewState.Success<Boolean> -> {
                 setResultView(viewState.data)

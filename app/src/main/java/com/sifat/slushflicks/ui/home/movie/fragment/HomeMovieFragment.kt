@@ -145,4 +145,10 @@ class HomeMovieFragment :
     }
 
     private fun getFragmentLabel(label: String) = label + Label.MOVIE_LABEL
+
+    override fun onDestroyView() {
+        viewModel.observeDataAction().removeObservers(viewLifecycleOwner)
+        viewModel.observeViewAction().removeObservers(viewLifecycleOwner)
+        super.onDestroyView()
+    }
 }

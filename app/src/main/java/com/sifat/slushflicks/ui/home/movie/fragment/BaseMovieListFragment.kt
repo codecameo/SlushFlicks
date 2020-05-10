@@ -126,4 +126,10 @@ abstract class BaseMovieListFragment<VM : BaseMovieListViewModel> :
         binding.rvMovieList.adapter = adapter
         binding.rvMovieList.layoutManager = LinearLayoutManager(context)
     }
+
+    override fun onDestroyView() {
+        viewModel.observeViewAction().removeObservers(viewLifecycleOwner)
+        viewModel.observeDataAction().removeObservers(viewLifecycleOwner)
+        super.onDestroyView()
+    }
 }

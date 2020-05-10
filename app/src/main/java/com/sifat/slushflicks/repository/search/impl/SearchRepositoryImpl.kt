@@ -2,6 +2,7 @@ package com.sifat.slushflicks.repository.search.impl
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
+import androidx.paging.DataSource
 import androidx.paging.PagedList
 import androidx.paging.PagedList.BoundaryCallback
 import androidx.paging.toLiveData
@@ -29,6 +30,11 @@ class SearchRepositoryImpl @Inject constructor(
     private val apiKey: String,
     private val dataManager: DataManager
 ) : SearchRepository {
+
+    private var recentMovieLiveData: LiveData<PagedList<ShowModelMinimal>>? = null
+    private var movieDataFactory: DataSource.Factory<Int, ShowModelMinimal>? = null
+    private var recentTvShowLiveData: LiveData<PagedList<ShowModelMinimal>>? = null
+    private var tvShowDataFactory: DataSource.Factory<Int, ShowModelMinimal>? = null
 
     override fun searchTvShows(
         query: String,
@@ -65,20 +71,25 @@ class SearchRepositoryImpl @Inject constructor(
     }
 
     override fun getRecentMovieList(boundaryCallback: BoundaryCallback<ShowModelMinimal>): LiveData<DataState<PagedList<ShowModelMinimal>>> {
-        val dataSource = dataManager.getPagingMovies(Label.RECENTLY_VISITED_MOVIE).toLiveData(
+        // Create data-source if it's been not created already
+        movieDataFactory =
+            movieDataFactory ?: dataManager.getPagingMovies(Label.RECENTLY_VISITED_MOVIE)
+        recentMovieLiveData = movieDataFactory!!.toLiveData(
             config = getPageConfig(),
             boundaryCallback = boundaryCallback
         )
-        return getTransformedDataSource(dataSource)
+        return getTransformedDataSource(recentMovieLiveData!!)
     }
 
-
     override fun getRecentTvShowList(boundaryCallback: BoundaryCallback<ShowModelMinimal>): LiveData<DataState<PagedList<ShowModelMinimal>>> {
-        val dataSource = dataManager.getPagingTvShows(Label.RECENTLY_VISITED_TV_SHOW).toLiveData(
+        // Create data-source if it's been not created already
+        tvShowDataFactory =
+            tvShowDataFactory ?: dataManager.getPagingTvShows(Label.RECENTLY_VISITED_TV_SHOW)
+        recentTvShowLiveData = tvShowDataFactory!!.toLiveData(
             config = getPageConfig(),
             boundaryCallback = boundaryCallback
         )
-        return getTransformedDataSource(dataSource)
+        return getTransformedDataSource(recentTvShowLiveData!!)
     }
 
     private fun getTransformedDataSource(dataSource: LiveData<PagedList<ShowModelMinimal>>): LiveData<DataState<PagedList<ShowModelMinimal>>> {
