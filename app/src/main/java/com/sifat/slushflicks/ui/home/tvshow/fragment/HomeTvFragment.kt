@@ -143,5 +143,11 @@ class HomeTvFragment :
         viewModel.handleEvent(TvHomeEventState.TvCollectionClickEvent(index, collectionModel))
     }
 
+    override fun onDestroyView() {
+        viewModel.observeViewAction().removeObservers(viewLifecycleOwner)
+        viewModel.observeDataAction().removeObservers(viewLifecycleOwner)
+        super.onDestroyView()
+    }
+
     private fun getFragmentLabel(label: String) = label + Label.TV_LABEL
 }
