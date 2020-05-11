@@ -31,7 +31,7 @@ data class MovieDetailsApiModel(
     val originalTitle: String,
     @SerializedName("backdrop_path")
     @Expose
-    val backdropPath: String,
+    val backdropPath: String?,
     @SerializedName("adult")
     @Expose
     val adult: Boolean,
@@ -40,7 +40,7 @@ data class MovieDetailsApiModel(
     val overview: String,
     @SerializedName("poster_path")
     @Expose
-    val posterPath: String,
+    val posterPath: String?,
     @SerializedName("popularity")
     @Expose
     val popularity: Double,

@@ -31,7 +31,7 @@
             android:layout_marginEnd="@dimen/standard_half_margin">
 
             <com.makeramen.roundedimageview.RoundedImageView
-                imageUrl="@{model.backdropPath}"
+                image="@{model.backdropPath}"
                 placeholder="@{@drawable/placeholder}"
                 android:layout_width="256dp"
                 android:layout_height="@dimen/default_0dp"

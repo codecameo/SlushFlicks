@@ -47,7 +47,7 @@
                     android:foreground="@drawable/image_foreground"
                     android:scaleType="centerCrop"
                     android:src="@drawable/placeholder"
-                    app:imageUrl="@{model.backdropPath}"
+                    app:image="@{model.backdropPath}"
                     app:layout_constraintDimensionRatio="6:3"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"

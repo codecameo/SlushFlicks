@@ -10,7 +10,6 @@ import com.sifat.slushflicks.model.CastModel
 import com.sifat.slushflicks.repository.resource.type.CacheUpdateResource
 import com.sifat.slushflicks.ui.state.DataSuccessResponse
 import com.sifat.slushflicks.utils.api.NetworkStateManager
-import com.sifat.slushflicks.utils.getCastListImageUrl
 import kotlinx.coroutines.Job
 
 class TvCastNetworkResource(
@@ -33,16 +32,7 @@ class TvCastNetworkResource(
         cacheData?.let {
             // Saving only first 15 casts
             val size = if (cacheData.size > maxCreditSize) maxCreditSize else cacheData.size
-            val castList = List<CastModel>(size) { index ->
-                val castModel = CastModel(
-                    castId = cacheData[index].castId,
-                    profileImage = getCastListImageUrl(cacheData[index].profileImage),
-                    order = cacheData[index].order,
-                    name = cacheData[index].name,
-                    character = cacheData[index].character
-                )
-                castModel
-            }
+            val castList = cacheData.subList(0, size)
             dataManager.updateTvDetails(castList, requestModel.tvShowId)
         }
     }

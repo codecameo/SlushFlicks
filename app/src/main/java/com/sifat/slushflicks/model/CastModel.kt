@@ -18,7 +18,7 @@ data class CastModel(
     val order: Int,
     @SerializedName("profile_path")
     @Expose
-    val profileImage: String
+    val profileImage: String?
 )
 
 /**

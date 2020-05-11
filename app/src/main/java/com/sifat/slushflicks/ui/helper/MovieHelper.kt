@@ -12,7 +12,6 @@ import com.sifat.slushflicks.ui.home.adapter.model.ShowListModel
 import com.sifat.slushflicks.ui.state.MetaData
 import com.sifat.slushflicks.utils.EMPTY_STRING
 import com.sifat.slushflicks.utils.PAGE_SIZE
-import com.sifat.slushflicks.utils.getListImageUrl
 
 /**
  * This conversion discard unnecessary data returned from api
@@ -27,11 +26,11 @@ fun getMovieList(
             val genresModels = getGenresModels(movie.genreIds, genres)
             val movieModel = MovieModel(
                 id = movie.id,
-                backdropPath = getListImageUrl(movie.backdropPath),
+                backdropPath = movie.backdropPath ?: EMPTY_STRING,
                 overview = movie.overview,
                 genres = genresModels,
                 popularity = movie.popularity,
-                posterPath = getListImageUrl(movie.posterPath),
+                posterPath = movie.posterPath ?: EMPTY_STRING,
                 releaseData = movie.releaseDate ?: EMPTY_STRING,
                 title = movie.title,
                 voteAvg = movie.voteAverage,
@@ -97,7 +96,7 @@ fun getMovieMinimalApiModel(
         title = movie.title,
         genres = genresModels,
         voteAvg = movie.voteAverage,
-        backdropPath = getListImageUrl(movie.backdropPath)
+        backdropPath = movie.backdropPath ?: EMPTY_STRING
     )
 }
 
@@ -151,11 +150,11 @@ fun getMovieDetails(apiModel: MovieDetailsApiModel?): MovieModel? {
             voteAvg = voteAverage,
             overview = overview,
             voteCount = voteCount,
-            backdropPath = getListImageUrl(backdropPath),
+            backdropPath = backdropPath ?: EMPTY_STRING,
             title = title,
             genres = genres,
             releaseData = releaseDate,
-            posterPath = getListImageUrl(posterPath),
+            posterPath = posterPath ?: EMPTY_STRING,
             popularity = popularity,
             budget = budget,
             revenue = revenue,

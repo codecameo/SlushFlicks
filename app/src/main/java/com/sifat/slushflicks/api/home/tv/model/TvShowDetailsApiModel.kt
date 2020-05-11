@@ -10,7 +10,7 @@ data class TvShowDetailsApiModel(
     val id: Long,
     @SerializedName("backdrop_path")
     @Expose
-    val backdropPath: String,
+    val backdropPath: String?,
     @SerializedName("created_by")
     @Expose
     val createdBy: List<CreatedBy>,
@@ -40,7 +40,7 @@ data class TvShowDetailsApiModel(
     val seasonCount: Int,
     @SerializedName("poster_path")
     @Expose
-    val posterPath: String,
+    val posterPath: String?,
     @SerializedName("overview")
     @Expose
     val overview: String,

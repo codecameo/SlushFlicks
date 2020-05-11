@@ -22,7 +22,7 @@
 
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/rivCast"
-                imageUrl="@{model.profileImage}"
+                imageSmallUrl="@{model.profileImage}"
                 placeholder="@{@drawable/ic_avatar}"
                 android:layout_width="@dimen/cast_img_width"
                 android:layout_height="@dimen/cast_img_height"

@@ -3,7 +3,10 @@ package com.sifat.slushflicks.ui.helper
 import com.sifat.slushflicks.api.home.tv.model.*
 import com.sifat.slushflicks.model.*
 import com.sifat.slushflicks.ui.state.MetaData
-import com.sifat.slushflicks.utils.*
+import com.sifat.slushflicks.utils.BULLET_SIGN
+import com.sifat.slushflicks.utils.EMPTY_STRING
+import com.sifat.slushflicks.utils.PAGE_SIZE
+import com.sifat.slushflicks.utils.SPACE
 
 
 /**
@@ -16,11 +19,11 @@ fun getTvList(tvApiModels: List<TvApiModel>?, genres: Map<Long, String>): List<T
             val genresModels = getGenresModels(tv.genreIds, genres)
             val tvModel = TvModel(
                 id = tv.id,
-                backdropPath = getListImageUrl(tv.backdropPath),
+                backdropPath = tv.backdropPath ?: EMPTY_STRING,
                 overview = tv.overview,
                 genres = genresModels,
                 popularity = tv.popularity,
-                posterPath = getListImageUrl(tv.posterPath),
+                posterPath = tv.posterPath ?: EMPTY_STRING,
                 releaseData = tv.releaseDate ?: EMPTY_STRING,
                 title = tv.title,
                 voteAvg = tv.voteAverage,
@@ -108,7 +111,7 @@ fun getTvShowMinimalApiModel(
         title = tvShow.title,
         genres = genresModels,
         voteAvg = tvShow.voteAverage,
-        backdropPath = getListImageUrl(tvShow.backdropPath)
+        backdropPath = tvShow.backdropPath ?: EMPTY_STRING
     )
 }
 
@@ -116,8 +119,8 @@ fun getTvDetails(apiModel: TvShowDetailsApiModel?): TvModel? {
     return apiModel?.run {
         TvModel(
             id = apiModel.id,
-            backdropPath = getListImageUrl(apiModel.backdropPath),
-            posterPath = getListImageUrl(apiModel.posterPath),
+            backdropPath = backdropPath ?: EMPTY_STRING,
+            posterPath = posterPath ?: EMPTY_STRING,
             popularity = apiModel.popularity,
             voteAvg = apiModel.voteAvg,
             voteCount = apiModel.voteCount,
