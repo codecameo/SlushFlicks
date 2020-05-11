@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.sifat.slushflicks.di.ViewModelKey
 import com.sifat.slushflicks.di.constant.NAME_CONTENT_FACTORY
-import com.sifat.slushflicks.ui.home.tvshow.viewmodel.*
+import com.sifat.slushflicks.ui.home.tvshow.viewmodel.TvShowViewModel
 import com.sifat.slushflicks.ui.viewmodel.ContentViewModelFactory
 import dagger.Binds
 import dagger.Module
@@ -24,28 +24,4 @@ abstract class TvViewModelModule {
     @IntoMap
     @ViewModelKey(TvShowViewModel::class)
     abstract fun bindTvShowViewModel(tvShowViewModel: TvShowViewModel): ViewModel
-
-    @TvShowScope
-    @Binds
-    @IntoMap
-    @ViewModelKey(TrendingTvViewModel::class)
-    abstract fun bindTrendingTvViewModel(trendingTvViewModel: TrendingTvViewModel): ViewModel
-
-    @TvShowScope
-    @Binds
-    @IntoMap
-    @ViewModelKey(PopularTvViewModel::class)
-    abstract fun bindPopularTvViewModel(popularTvViewModel: PopularTvViewModel): ViewModel
-
-    @TvShowScope
-    @Binds
-    @IntoMap
-    @ViewModelKey(AirTodayTvViewModel::class)
-    abstract fun bindAirTodayTvViewModel(airTodayTvViewModel: AirTodayTvViewModel): ViewModel
-
-    @TvShowScope
-    @Binds
-    @IntoMap
-    @ViewModelKey(TopRatedTvViewModel::class)
-    abstract fun bindTopRatedTvViewModel(topRatedTvViewModel: TopRatedTvViewModel): ViewModel
 }

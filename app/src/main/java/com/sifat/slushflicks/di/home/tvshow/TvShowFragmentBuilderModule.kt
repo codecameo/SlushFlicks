@@ -11,18 +11,18 @@ import dagger.android.ContributesAndroidInjector
 abstract class TvShowFragmentBuilderModule {
 
     @TvShowListScope
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = [TvListModule::class, TvListViewModelModule::class])
     internal abstract fun bindTrendingTvFragment(): TrendingTvFragment
 
     @TvShowListScope
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = [TvListModule::class, TvListViewModelModule::class])
     internal abstract fun bindPopularTvFragment(): PopularTvFragment
 
     @TvShowListScope
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = [TvListModule::class, TvListViewModelModule::class])
     internal abstract fun bindTopRatedTvFragment(): TopRatedTvFragment
 
     @TvShowListScope
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = [TvListModule::class, TvListViewModelModule::class])
     internal abstract fun bindAirTodayTvFragment(): AirTodayTvFragment
 }

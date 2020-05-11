@@ -9,7 +9,7 @@ import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sifat.slushflicks.R
 import com.sifat.slushflicks.databinding.FragmentTvListBinding
-import com.sifat.slushflicks.di.constant.NAME_CONTENT_FACTORY
+import com.sifat.slushflicks.di.constant.NAME_SHOW_LIST_FACTORY
 import com.sifat.slushflicks.model.ShowModelMinimal
 import com.sifat.slushflicks.ui.base.BaseFragment
 import com.sifat.slushflicks.ui.base.ListViewState
@@ -31,7 +31,7 @@ abstract class BaseTvListFragment<VM : BaseTvListViewModel> :
     ShowViewHolder.OnShowClickListener {
 
     @Inject
-    @field:Named(NAME_CONTENT_FACTORY)
+    @field:Named(NAME_SHOW_LIST_FACTORY)
     lateinit var viewModelFactory: ViewModelProvider.Factory
     protected lateinit var adapter: ShowListAdapter
     private var shouldForceUpdate = false

@@ -8,23 +8,22 @@ import dagger.android.ContributesAndroidInjector
 abstract class MovieFragmentBuilderModule {
 
     @MovieListScope
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = [MovieListModule::class, MovieListViewModelModule::class])
     internal abstract fun bindTrendingMovieFragment(): TrendingFragment
 
     @MovieListScope
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = [MovieListModule::class, MovieListViewModelModule::class])
     internal abstract fun bindPopularMovieFragment(): PopularFragment
 
     @MovieListScope
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = [MovieListModule::class, MovieListViewModelModule::class])
     internal abstract fun bindTopRatedMovieFragment(): TopRatedFragment
 
     @MovieListScope
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = [MovieListModule::class, MovieListViewModelModule::class])
     internal abstract fun bindUpcomingMovieFragment(): UpcomingFragment
 
     @MovieListScope
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = [MovieListModule::class, MovieListViewModelModule::class])
     internal abstract fun bindNowPlayingMovieFragment(): NowPlayingFragment
-
 }
