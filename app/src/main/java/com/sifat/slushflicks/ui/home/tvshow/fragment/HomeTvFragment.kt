@@ -5,9 +5,11 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sifat.slushflicks.R
 import com.sifat.slushflicks.databinding.FragmentTvshowBinding
+import com.sifat.slushflicks.di.constant.NAME_CONTENT_FACTORY
 import com.sifat.slushflicks.model.CollectionModel
 import com.sifat.slushflicks.ui.base.BaseFragment
 import com.sifat.slushflicks.ui.home.adapter.TypeTagListAdapter
@@ -19,13 +21,20 @@ import com.sifat.slushflicks.ui.home.tvshow.state.viewaction.TvHomeViewAction
 import com.sifat.slushflicks.ui.home.tvshow.viewmodel.TvShowViewModel
 import com.sifat.slushflicks.ui.state.ViewState
 import com.sifat.slushflicks.utils.Label
+import javax.inject.Inject
+import javax.inject.Named
 
 class HomeTvFragment :
     BaseFragment<FragmentTvshowBinding, TvShowViewModel>(R.layout.fragment_tvshow),
     TypeTagViewModel.OnCollectionClickListener {
 
+    @Inject
+    @field:Named(NAME_CONTENT_FACTORY)
+    lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var adapter: TypeTagListAdapter
+
     override fun getViewModelClass(): Class<TvShowViewModel> = TvShowViewModel::class.java
+    override fun provideViewModelFactory(): ViewModelProvider.Factory = viewModelFactory
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

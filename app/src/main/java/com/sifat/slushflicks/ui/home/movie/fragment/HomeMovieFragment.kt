@@ -5,10 +5,12 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
 import com.sifat.slushflicks.R
 import com.sifat.slushflicks.databinding.FragmentMovieBinding
+import com.sifat.slushflicks.di.constant.NAME_CONTENT_FACTORY
 import com.sifat.slushflicks.model.CollectionModel
 import com.sifat.slushflicks.ui.base.BaseFragment
 import com.sifat.slushflicks.ui.home.adapter.TypeTagListAdapter
@@ -22,14 +24,20 @@ import com.sifat.slushflicks.ui.home.movie.state.viewaction.MovieHomeViewAction.
 import com.sifat.slushflicks.ui.home.movie.viewmodel.MovieViewModel
 import com.sifat.slushflicks.ui.state.ViewState
 import com.sifat.slushflicks.utils.Label
+import javax.inject.Inject
+import javax.inject.Named
 
 class HomeMovieFragment :
     BaseFragment<FragmentMovieBinding, MovieViewModel>(R.layout.fragment_movie),
     TypeTagViewModel.OnCollectionClickListener {
 
+    @Inject
+    @field:Named(NAME_CONTENT_FACTORY)
+    lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var adapter: TypeTagListAdapter
 
     override fun getViewModelClass(): Class<MovieViewModel> = MovieViewModel::class.java
+    override fun provideViewModelFactory(): ViewModelProvider.Factory = viewModelFactory
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

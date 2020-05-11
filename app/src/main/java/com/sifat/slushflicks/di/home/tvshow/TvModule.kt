@@ -5,7 +5,6 @@ import com.sifat.slushflicks.di.constant.NAME_AIR_TODAY_TV_REPO
 import com.sifat.slushflicks.di.constant.NAME_POPULAR_TV_REPO
 import com.sifat.slushflicks.di.constant.NAME_TOP_RATED_TV_REPO
 import com.sifat.slushflicks.di.constant.NAME_TRENDING_TV_REPO
-import com.sifat.slushflicks.di.home.HomeScope
 import com.sifat.slushflicks.repository.tv.TvHomeRepository
 import com.sifat.slushflicks.repository.tv.TvListRepository
 import com.sifat.slushflicks.repository.tv.impl.*
@@ -18,27 +17,27 @@ import javax.inject.Named
 @Module(includes = [InnerModule::class])
 abstract class TvModule {
 
-    @HomeScope
+    @TvShowScope
     @Binds
     @Named(NAME_TRENDING_TV_REPO)
     abstract fun provideTrendingTvRepository(trendingTvRepositoryImpl: TrendingTvRepositoryImpl): TvListRepository
 
-    @HomeScope
+    @TvShowScope
     @Binds
     @Named(NAME_POPULAR_TV_REPO)
     abstract fun providePopularTvRepository(popularTvRepositoryImpl: PopularTvRepositoryImpl): TvListRepository
 
-    @HomeScope
+    @TvShowScope
     @Binds
     @Named(NAME_AIR_TODAY_TV_REPO)
     abstract fun provideAirTodayTvRepository(airTodayTvRepositoryImpl: AirTodayTvRepositoryImpl): TvListRepository
 
-    @HomeScope
+    @TvShowScope
     @Binds
     @Named(NAME_TOP_RATED_TV_REPO)
     abstract fun provideTopRatedTvRepository(topRatedTvRepositoryImpl: TopRatedTvRepositoryImpl): TvListRepository
 
-    @HomeScope
+    @TvShowScope
     @Binds
     abstract fun provideTvHomeRepository(tvHomeRepositoryImpl: TvHomeRepositoryImpl): TvHomeRepository
 
@@ -46,7 +45,7 @@ abstract class TvModule {
 
 @Module
 class InnerModule {
-    @HomeScope
+    @TvShowScope
     @Provides
     fun provideTvService(retrofit: Retrofit): TvService =
         retrofit.create(TvService::class.java)

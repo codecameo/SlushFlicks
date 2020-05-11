@@ -9,11 +9,13 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.FrameLayout
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.sifat.slushflicks.R
 import com.sifat.slushflicks.databinding.FragmentSearchBinding
+import com.sifat.slushflicks.di.constant.NAME_CONTENT_FACTORY
 import com.sifat.slushflicks.model.ShowModelMinimal
 import com.sifat.slushflicks.ui.base.BaseFragment
 import com.sifat.slushflicks.ui.base.ListViewState
@@ -31,16 +33,22 @@ import com.sifat.slushflicks.ui.widget.FilterWidget
 import com.sifat.slushflicks.utils.EMPTY_STRING
 import com.sifat.slushflicks.utils.ShowType
 import com.sifat.slushflicks.utils.hideKeyboard
+import javax.inject.Inject
+import javax.inject.Named
 
 class SearchFragment :
     BaseFragment<FragmentSearchBinding, SearchViewModel>(R.layout.fragment_search),
     ShowViewHolder.OnShowClickListener, View.OnClickListener {
 
+    @Inject
+    @field:Named(NAME_CONTENT_FACTORY)
+    lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var showListAdapter: ShowListAdapter
     private val searchDelay = 600L
     private var showType = ShowType.MOVIE
 
     override fun getViewModelClass(): Class<SearchViewModel> = SearchViewModel::class.java
+    override fun provideViewModelFactory(): ViewModelProvider.Factory = viewModelFactory
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

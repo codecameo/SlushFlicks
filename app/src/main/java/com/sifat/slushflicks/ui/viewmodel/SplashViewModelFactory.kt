@@ -6,7 +6,7 @@ import javax.inject.Inject
 import javax.inject.Provider
 
 @SplashScope
-open class SplashViewModelFactory @Inject
+class SplashViewModelFactory @Inject
 constructor(
     creators: Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>
 ) : BaseViewModelFactory(creators)

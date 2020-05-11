@@ -1,6 +1,6 @@
 package com.sifat.slushflicks.ui.home.movie.viewmodel
 
-import com.sifat.slushflicks.di.home.HomeScope
+import com.sifat.slushflicks.di.home.movie.MovieScope
 import com.sifat.slushflicks.model.CollectionModel
 import com.sifat.slushflicks.repository.movie.MovieHomeRepository
 import com.sifat.slushflicks.ui.base.BaseActionViewModel
@@ -18,7 +18,7 @@ import com.sifat.slushflicks.ui.state.DataState.Error
 import com.sifat.slushflicks.ui.state.ViewState
 import javax.inject.Inject
 
-@HomeScope
+@MovieScope
 class MovieViewModel
 @Inject constructor(
     private val repository: MovieHomeRepository

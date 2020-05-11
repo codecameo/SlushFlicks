@@ -1,6 +1,6 @@
 package com.sifat.slushflicks.ui.home.tvshow.viewmodel
 
-import com.sifat.slushflicks.di.home.HomeScope
+import com.sifat.slushflicks.di.home.tvshow.TvShowScope
 import com.sifat.slushflicks.model.CollectionModel
 import com.sifat.slushflicks.repository.tv.TvHomeRepository
 import com.sifat.slushflicks.ui.base.BaseActionViewModel
@@ -14,7 +14,7 @@ import com.sifat.slushflicks.ui.state.DataState
 import com.sifat.slushflicks.ui.state.ViewState
 import javax.inject.Inject
 
-@HomeScope
+@TvShowScope
 class TvShowViewModel @Inject constructor(
     private val repository: TvHomeRepository
 ) : BaseActionViewModel<TvHomeDataAction, TvHomeViewAction, TvHomeViewState>() {

@@ -5,13 +5,6 @@ import com.sifat.slushflicks.di.home.HomeFragmentBuilderModule
 import com.sifat.slushflicks.di.home.HomeModule
 import com.sifat.slushflicks.di.home.HomeScope
 import com.sifat.slushflicks.di.home.HomeViewModelModule
-import com.sifat.slushflicks.di.home.about.AboutViewModelModule
-import com.sifat.slushflicks.di.home.movie.MovieModule
-import com.sifat.slushflicks.di.home.movie.MovieViewModelModule
-import com.sifat.slushflicks.di.home.search.SearchModule
-import com.sifat.slushflicks.di.home.search.SearchViewModelModule
-import com.sifat.slushflicks.di.home.tvshow.TvModule
-import com.sifat.slushflicks.di.home.tvshow.TvViewModelModule
 import com.sifat.slushflicks.di.splash.SplashModule
 import com.sifat.slushflicks.di.splash.SplashScope
 import com.sifat.slushflicks.di.splash.SplashViewModelModule
@@ -32,15 +25,8 @@ abstract class ActivityBuilderModule {
     @HomeScope
     @ContributesAndroidInjector(
         modules = [HomeModule::class,
-            MovieModule::class,
-            TvModule::class,
             HomeViewModelModule::class,
-            HomeFragmentBuilderModule::class,
-            MovieViewModelModule::class,
-            TvViewModelModule::class,
-            SearchModule::class,
-            SearchViewModelModule::class,
-            AboutViewModelModule::class]
+            HomeFragmentBuilderModule::class]
     )
     internal abstract fun bindHomeActivity(): HomeActivity
 

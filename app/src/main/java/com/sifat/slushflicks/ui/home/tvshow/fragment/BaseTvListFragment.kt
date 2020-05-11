@@ -4,10 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sifat.slushflicks.R
 import com.sifat.slushflicks.databinding.FragmentTvListBinding
+import com.sifat.slushflicks.di.constant.NAME_CONTENT_FACTORY
 import com.sifat.slushflicks.model.ShowModelMinimal
 import com.sifat.slushflicks.ui.base.BaseFragment
 import com.sifat.slushflicks.ui.base.ListViewState
@@ -21,13 +23,20 @@ import com.sifat.slushflicks.ui.home.tvshow.state.viewaction.TvListViewAction
 import com.sifat.slushflicks.ui.home.tvshow.viewmodel.BaseTvListViewModel
 import com.sifat.slushflicks.ui.state.ViewState
 import com.sifat.slushflicks.utils.showToast
+import javax.inject.Inject
+import javax.inject.Named
 
 abstract class BaseTvListFragment<VM : BaseTvListViewModel> :
     BaseFragment<FragmentTvListBinding, VM>(R.layout.fragment_tv_list),
     ShowViewHolder.OnShowClickListener {
 
+    @Inject
+    @field:Named(NAME_CONTENT_FACTORY)
+    lateinit var viewModelFactory: ViewModelProvider.Factory
     protected lateinit var adapter: ShowListAdapter
     private var shouldForceUpdate = false
+
+    override fun provideViewModelFactory(): ViewModelProvider.Factory = viewModelFactory
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

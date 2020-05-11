@@ -7,7 +7,7 @@ import javax.inject.Inject
 import javax.inject.Provider
 
 @HomeScope
-open class HomeViewModelFactory @Inject
+class HomeViewModelFactory @Inject
 constructor(
     creators: Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>
 ) : BaseViewModelFactory(creators)

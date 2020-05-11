@@ -22,9 +22,6 @@ abstract class BaseFragment<DB : ViewDataBinding, VM : ViewModel>(@LayoutRes res
     protected lateinit var viewModel: VM
 
     @Inject
-    protected lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    @Inject
     lateinit var childFragmentInjector: DispatchingAndroidInjector<Fragment?>
 
     override fun onAttach(context: Context) {
@@ -36,10 +33,11 @@ abstract class BaseFragment<DB : ViewDataBinding, VM : ViewModel>(@LayoutRes res
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = DataBindingUtil.bind(view)!!
-        viewModel = ViewModelProvider(this, viewModelFactory).get(getViewModelClass())
+        viewModel = ViewModelProvider(this, provideViewModelFactory()).get(getViewModelClass())
     }
 
     abstract fun getViewModelClass(): Class<VM>
+    abstract fun provideViewModelFactory(): ViewModelProvider.Factory
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment?>? {
         return childFragmentInjector

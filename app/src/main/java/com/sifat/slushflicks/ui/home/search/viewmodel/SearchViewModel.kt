@@ -3,7 +3,7 @@ package com.sifat.slushflicks.ui.home.search.viewmodel
 import android.text.TextUtils
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
-import com.sifat.slushflicks.di.home.HomeScope
+import com.sifat.slushflicks.di.home.search.SearchScope
 import com.sifat.slushflicks.model.ShowModelMinimal
 import com.sifat.slushflicks.repository.search.SearchRepository
 import com.sifat.slushflicks.ui.base.BaseActionViewModel
@@ -22,7 +22,7 @@ import com.sifat.slushflicks.utils.ShowType.MOVIE
 import com.sifat.slushflicks.utils.ShowType.TV_SERIES
 import javax.inject.Inject
 
-@HomeScope
+@SearchScope
 class SearchViewModel
 @Inject constructor(
     private val searchRepository: SearchRepository
