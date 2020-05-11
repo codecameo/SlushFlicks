@@ -19,7 +19,7 @@ class MovieCastNetworkResource(
     networkStateManager: NetworkStateManager
 ) : CacheUpdateResource<CreditsApiModel, List<CastModel>, Int>(networkStateManager) {
 
-    val maxCreditSize = 10
+    private val maxCreditSize = 10
 
     override fun createCall(): LiveData<ApiResponse<CreditsApiModel>> {
         return movieService.getMovieCredits(

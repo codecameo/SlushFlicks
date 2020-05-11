@@ -19,7 +19,7 @@ class TvCastNetworkResource(
     networkStateManager: NetworkStateManager
 ) : CacheUpdateResource<CreditsApiModel, List<CastModel>, Int>(networkStateManager) {
 
-    val maxCreditSize = 15
+    private val maxCreditSize = 15
 
     override fun createCall(): LiveData<ApiResponse<CreditsApiModel>> {
         return tvService.getTvShowCredits(
