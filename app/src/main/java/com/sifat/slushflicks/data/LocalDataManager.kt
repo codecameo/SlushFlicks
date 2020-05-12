@@ -6,6 +6,8 @@ interface LocalDataManager {
 
     fun addGenre(id : Long, name : String)
 
+    fun addGenre(genres: List<GenreModel>)
+
     fun getGenre(id : Long) : String?
 
     fun initGenres(genres : List<GenreModel>?)

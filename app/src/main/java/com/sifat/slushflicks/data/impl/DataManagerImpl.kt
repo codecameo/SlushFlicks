@@ -23,6 +23,10 @@ class DataManagerImpl
         localDataManager.addGenre(id, name)
     }
 
+    override fun addGenre(genres: List<GenreModel>) {
+        localDataManager.addGenre(genres)
+    }
+
     override fun getGenre(id: Long): String? {
         return localDataManager.getGenre(id)
     }
@@ -36,6 +40,9 @@ class DataManagerImpl
     }
 
     override suspend fun saveGenre(genres: List<GenreModel>) {
+        // Since it's done from api responses.
+        // Through initGenres, 2nd response wont be able to set it's genres
+        localDataManager.addGenre(genres)
         databaseManager.saveGenre(genres)
     }
 
@@ -72,10 +79,6 @@ class DataManagerImpl
     override suspend fun softInsertTv(tvShows: List<TvModel>) {
         databaseManager.softInsertTv(tvShows)
     }
-
-    /*override suspend fun getMovies(collection: String): List<MovieModel>? {
-        return databaseManager.getMovies(collection)
-    }*/
 
     override fun getPagingMovies(collection: String): DataSource.Factory<Int, ShowModelMinimal> {
         return databaseManager.getPagingMovies(collection)
