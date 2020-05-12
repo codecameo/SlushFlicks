@@ -18,6 +18,12 @@ class LocalDataManagerImpl
         genreMap[id] = name
     }
 
+    override fun addGenre(genres: List<GenreModel>) {
+        for (genre in genres) {
+            genreMap[genre.id] = genre.name
+        }
+    }
+
     override fun getGenre(id: Long): String? {
         return genreMap[id]
     }
