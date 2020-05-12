@@ -1,5 +1,6 @@
 package com.sifat.slushflicks.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
@@ -22,7 +23,10 @@ import com.sifat.slushflicks.db.DbConstant.TableName.Companion.TABLE_NAME_MOVIE_
     indices = [Index(value = ["id"], unique = false)]
 )
 data class MovieCollectionModel(
+    @ColumnInfo(name = "collection")
     val collection: String,
+    @ColumnInfo(name = "id")
     val id: Long,
+    @ColumnInfo(name = "index")
     val index: Int
 )

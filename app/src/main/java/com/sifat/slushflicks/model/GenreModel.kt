@@ -1,5 +1,6 @@
 package com.sifat.slushflicks.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.Expose
@@ -13,8 +14,10 @@ data class GenreModel(
     @SerializedName("id")
     @Expose
     @PrimaryKey(autoGenerate = false)
+    @ColumnInfo(name = "id")
     val id: Long = INVALID_ID.toLong(),
     @SerializedName("name")
     @Expose
+    @ColumnInfo(name = "name")
     val name: String = EMPTY_STRING
 )

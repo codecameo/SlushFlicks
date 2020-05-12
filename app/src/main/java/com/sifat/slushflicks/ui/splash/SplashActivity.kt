@@ -1,15 +1,13 @@
 package com.sifat.slushflicks.ui.splash
 
 import android.animation.ValueAnimator
-import android.animation.ValueAnimator.INFINITE
-import android.animation.ValueAnimator.REVERSE
 import android.app.TaskStackBuilder
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.text.TextUtils
-import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.BounceInterpolator
 import androidx.lifecycle.Observer
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.sifat.slushflicks.R
@@ -20,10 +18,10 @@ import com.sifat.slushflicks.ui.details.MovieDetailsActivity
 import com.sifat.slushflicks.ui.details.TvDetailsActivity
 import com.sifat.slushflicks.ui.home.HomeActivity
 import com.sifat.slushflicks.ui.splash.viewmodel.SplashViewModel
-import com.sifat.slushflicks.utils.DynamicLinkConst
 import com.sifat.slushflicks.utils.DynamicLinkConst.Companion.MOVIE_SHOW_TYPE
 import com.sifat.slushflicks.utils.DynamicLinkConst.Companion.SHOW_ID_PARAM
 import com.sifat.slushflicks.utils.DynamicLinkConst.Companion.SHOW_TYPE_PARAM
+import com.sifat.slushflicks.utils.DynamicLinkConst.Companion.TV_SERIES_TYPE
 
 
 /**
@@ -36,7 +34,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, SplashViewModel>() {
     private lateinit var scaleAnimator: ValueAnimator
     private val handler = Handler()
     private val splashTime = 3000L
-    private val animationDuration = 1200L
+    private val animationDuration = 2000L
     private val nextScreenAction = Runnable {
         viewModel.setGenreList().observe(this, Observer {
             moveToNextScreen()
@@ -72,11 +70,9 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, SplashViewModel>() {
     }
 
     private fun setAnimation() {
-        scaleAnimator = ValueAnimator.ofFloat(0.85f, 1.15f)
+        scaleAnimator = ValueAnimator.ofFloat(0.25f, 1.25f)
         scaleAnimator.duration = animationDuration
-        scaleAnimator.repeatMode = REVERSE
-        scaleAnimator.repeatCount = INFINITE
-        scaleAnimator.interpolator = AccelerateDecelerateInterpolator()
+        scaleAnimator.interpolator = BounceInterpolator()
         scaleAnimator.addUpdateListener { value ->
             binding.tvAppName.scaleX = value.animatedValue as Float
             binding.tvAppName.scaleY = value.animatedValue as Float
@@ -91,7 +87,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, SplashViewModel>() {
                 MOVIE_SHOW_TYPE -> {
                     Intent(this, MovieDetailsActivity::class.java)
                 }
-                DynamicLinkConst.TV_SERIES_TYPE -> {
+                TV_SERIES_TYPE -> {
                     Intent(this, TvDetailsActivity::class.java)
                 }
                 else -> {
