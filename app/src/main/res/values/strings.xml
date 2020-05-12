@@ -46,4 +46,14 @@
     <string name="text_no_result_found">No %s Found for Query \"%s\"</string>
     <string name="text_no_recent_result_found">No Recent %s Found</string>
     <string name="text_not_found">No Result Found</string>
+    <string name="developed_by">Developed by:</string>
+    <string name="email">code.cameo92@gmail.com</string>
+    <string name="text_architecture">Architecture</string>
+    <string name="mvvm_nmvi">MVVM\nMVI</string>
+    <string name="kotlin">Kotlin</string>
+    <string name="text_language">Language</string>
+    <string name="text_libraries_and_components">Libraries and Components</string>
+    <string name="libraries_components_list">ViewModel\nLiveData\nRoom\nCorotuine\nPaging Library\nNavigation Component\nDataBinding\nDagger2\nRetrofit\nFirebase</string>
+    <string name="text_appreciation">In Appreciation</string>
+    <string name="reference_list">Architecture Components Samples\nSunflower App from Google\nCodingWithMitch.com</string>
 </resources>

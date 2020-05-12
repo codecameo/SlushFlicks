@@ -11,7 +11,7 @@ import com.sifat.slushflicks.model.*
     version = 1
 )
 @TypeConverters(RoomConverter::class)
-abstract class AppDatabase: RoomDatabase() {
+abstract class AppDatabase : RoomDatabase() {
 
     abstract fun getGenreDao(): GenreDao
 
