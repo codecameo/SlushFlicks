@@ -5,9 +5,10 @@ import androidx.paging.PagedList
 import com.sifat.slushflicks.model.MovieModel
 import com.sifat.slushflicks.model.ReviewModel
 import com.sifat.slushflicks.model.ShowModelMinimal
+import com.sifat.slushflicks.repository.BaseRepository
 import com.sifat.slushflicks.ui.state.DataState
 
-interface MovieDetailsRepository {
+interface MovieDetailsRepository : BaseRepository {
     fun getMovieDetails(movieId: Long): LiveData<DataState<MovieModel>>
     fun getMovieVideo(movieId: Long): LiveData<DataState<String>>
     fun getMovieCast(movieId: Long): LiveData<DataState<Int>>

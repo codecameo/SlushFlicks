@@ -11,6 +11,7 @@ import com.sifat.slushflicks.data.DataManager
 import com.sifat.slushflicks.data.pager.factory.MovieReviewDataFactory
 import com.sifat.slushflicks.data.pager.source.MovieReviewDataSource
 import com.sifat.slushflicks.di.constant.NAME_API_KEY
+import com.sifat.slushflicks.helper.JobManager
 import com.sifat.slushflicks.model.MovieCollectionModel
 import com.sifat.slushflicks.model.MovieModel
 import com.sifat.slushflicks.model.ReviewModel
@@ -40,15 +41,20 @@ class MovieDetailsRepositoryImpl
     private val dataManager: DataManager,
     @Named(NAME_API_KEY)
     private val apiKey: String,
-    private val networkStateManager: NetworkStateManager
+    private val networkStateManager: NetworkStateManager,
+    private val jobManager: JobManager
 ) : MovieDetailsRepository {
 
     override fun getMovieDetails(movieId: Long): LiveData<DataState<MovieModel>> {
         return MovieDetailsNetworkResource(
             dataManager = dataManager,
             movieService = movieService,
-            request = RequestModel(apiKey, movieId),
-            networkStateManager = networkStateManager
+            request = RequestModel(
+                apiKey = apiKey,
+                movieId = movieId
+            ),
+            networkStateManager = networkStateManager,
+            jobManager = jobManager
         ).asLiveData()
     }
 
@@ -56,8 +62,12 @@ class MovieDetailsRepositoryImpl
         return MovieVideoNetworkResource(
             movieService = movieService,
             dataManager = dataManager,
-            requestModel = MovieVideoNetworkResource.RequestModel(apiKey, movieId),
-            networkStateManager = networkStateManager
+            requestModel = MovieVideoNetworkResource.RequestModel(
+                apiKey = apiKey,
+                movieId = movieId
+            ),
+            networkStateManager = networkStateManager,
+            jobManager = jobManager
         ).asLiveData()
     }
 
@@ -65,8 +75,12 @@ class MovieDetailsRepositoryImpl
         return MovieCastNetworkResource(
             movieService = movieService,
             dataManager = dataManager,
-            requestModel = MovieCastNetworkResource.RequestModel(apiKey, movieId),
-            networkStateManager = networkStateManager
+            requestModel = MovieCastNetworkResource.RequestModel(
+                apiKey = apiKey,
+                movieId = movieId
+            ),
+            networkStateManager = networkStateManager,
+            jobManager = jobManager
         ).asLiveData()
     }
 
@@ -80,7 +94,8 @@ class MovieDetailsRepositoryImpl
                 apiTag = MOVIE_SIMILAR_API_TAG,
                 relationType = SIMILAR_LABEL
             ),
-            networkStateManager = networkStateManager
+            networkStateManager = networkStateManager,
+            jobManager = jobManager
         ).asLiveData()
     }
 
@@ -94,7 +109,8 @@ class MovieDetailsRepositoryImpl
                 apiTag = MOVIE_RECOMMENDATION_API_TAG,
                 relationType = RECOMMENDATION_LABEL
             ),
-            networkStateManager = networkStateManager
+            networkStateManager = networkStateManager,
+            jobManager = jobManager
         ).asLiveData()
     }
 
@@ -106,7 +122,10 @@ class MovieDetailsRepositoryImpl
             .build()
         val dataSource = MovieReviewDataFactory(
             movieService = movieService,
-            requestModel = MovieReviewDataSource.RequestModel(apiKey, movieId)
+            requestModel = MovieReviewDataSource.RequestModel(
+                apiKey = apiKey,
+                movieId = movieId
+            )
         ).toLiveData(pageConfig)
         return Transformations.map(
             dataSource
@@ -130,5 +149,9 @@ class MovieDetailsRepositoryImpl
                 )
             )
         }
+    }
+
+    override fun cancelAllJobs() {
+        jobManager.cancelActiveJobs()
     }
 }

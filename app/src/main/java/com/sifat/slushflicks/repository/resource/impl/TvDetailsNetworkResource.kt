@@ -6,6 +6,7 @@ import com.sifat.slushflicks.api.ApiSuccessResponse
 import com.sifat.slushflicks.api.home.tv.TvService
 import com.sifat.slushflicks.api.home.tv.model.TvShowDetailsApiModel
 import com.sifat.slushflicks.data.DataManager
+import com.sifat.slushflicks.helper.JobManager
 import com.sifat.slushflicks.model.MovieModel
 import com.sifat.slushflicks.model.TvModel
 import com.sifat.slushflicks.repository.resource.type.CacheFirstNetworkUpdateResource
@@ -19,6 +20,7 @@ class TvDetailsNetworkResource(
     private val dataManager: DataManager,
     private val tvService: TvService,
     private val request: RequestModel,
+    private val jobManager: JobManager,
     networkStateManager: NetworkStateManager
 ) : CacheFirstNetworkUpdateResource<TvShowDetailsApiModel, TvModel, TvModel>(
     networkStateManager
@@ -53,12 +55,16 @@ class TvDetailsNetworkResource(
     }
 
     override fun setJob(job: Job) {
-        // Implement JobManager and add job to it
+        jobManager.addJob(TAG, job)
     }
 
     data class RequestModel(val apiKey: String, val tvShowId: Long)
 
     override fun loadFromCache(): LiveData<TvModel> {
         return dataManager.getTvShowDetails(request.tvShowId).getDistinct()
+    }
+
+    companion object {
+        private const val TAG = "TvDetailsNetworkResourc"
     }
 }

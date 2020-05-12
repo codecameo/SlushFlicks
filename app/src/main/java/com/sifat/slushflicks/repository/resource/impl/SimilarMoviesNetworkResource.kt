@@ -6,6 +6,7 @@ import com.sifat.slushflicks.api.ApiSuccessResponse
 import com.sifat.slushflicks.api.home.movie.MovieService
 import com.sifat.slushflicks.api.home.movie.model.MovieListApiModel
 import com.sifat.slushflicks.data.DataManager
+import com.sifat.slushflicks.helper.JobManager
 import com.sifat.slushflicks.model.MovieModel
 import com.sifat.slushflicks.model.ShowModelMinimal
 import com.sifat.slushflicks.repository.resource.type.NetworkOnlyResource
@@ -21,6 +22,7 @@ class SimilarMoviesNetworkResource(
     private val movieService: MovieService,
     private val dataManager: DataManager,
     private val requestModel: RequestModel,
+    private val jobManager: JobManager,
     networkStateManager: NetworkStateManager
 ) : NetworkOnlyResource<MovieListApiModel, List<MovieModel>, List<ShowModelMinimal>>(
     networkStateManager
@@ -36,7 +38,7 @@ class SimilarMoviesNetworkResource(
     }
 
     override suspend fun updateLocalDb(cacheData: List<MovieModel>?) {
-        /** Skip caching, since it's taking too much memory in the device*/
+        /** Skip caching, since it's taking too much memory in the device */
         /*if (!cacheData.isNullOrEmpty()) {
             // Insert with Ignore strategy
             dataManager.softInsertMovie(cacheData)
@@ -58,7 +60,7 @@ class SimilarMoviesNetworkResource(
     }
 
     override fun setJob(job: Job) {
-
+        jobManager.addJob(requestModel.apiTag, job)
     }
 
     override fun getAppDataSuccessResponse(response: DataSuccessResponse<List<MovieModel>>): DataSuccessResponse<List<ShowModelMinimal>> {

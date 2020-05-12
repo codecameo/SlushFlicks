@@ -6,6 +6,7 @@ import com.sifat.slushflicks.api.ApiSuccessResponse
 import com.sifat.slushflicks.api.home.tv.TvService
 import com.sifat.slushflicks.api.home.tv.model.TvListApiModel
 import com.sifat.slushflicks.data.DataManager
+import com.sifat.slushflicks.helper.JobManager
 import com.sifat.slushflicks.model.ShowModelMinimal
 import com.sifat.slushflicks.model.TvModel
 import com.sifat.slushflicks.repository.resource.type.NetworkOnlyResource
@@ -21,6 +22,7 @@ class SimilarTvShowNetworkResource(
     private val tvService: TvService,
     private val dataManager: DataManager,
     private val requestModel: RequestModel,
+    private val jobManager: JobManager,
     networkStateManager: NetworkStateManager
 ) : NetworkOnlyResource<TvListApiModel, List<TvModel>, List<ShowModelMinimal>>(
     networkStateManager
@@ -58,7 +60,7 @@ class SimilarTvShowNetworkResource(
     }
 
     override fun setJob(job: Job) {
-
+        jobManager.addJob(requestModel.apiTag, job)
     }
 
     override fun getAppDataSuccessResponse(response: DataSuccessResponse<List<TvModel>>): DataSuccessResponse<List<ShowModelMinimal>> {

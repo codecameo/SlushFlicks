@@ -4,9 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import androidx.paging.PagedList.BoundaryCallback
 import com.sifat.slushflicks.model.ShowModelMinimal
+import com.sifat.slushflicks.repository.BaseRepository
 import com.sifat.slushflicks.ui.state.DataState
 
-interface MovieListRepository {
+interface MovieListRepository : BaseRepository {
 
     val collection: String
 

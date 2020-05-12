@@ -11,6 +11,7 @@ import com.sifat.slushflicks.data.DataManager
 import com.sifat.slushflicks.data.pager.factory.TvReviewDataFactory
 import com.sifat.slushflicks.data.pager.source.TvReviewDataSource
 import com.sifat.slushflicks.di.constant.NAME_API_KEY
+import com.sifat.slushflicks.helper.JobManager
 import com.sifat.slushflicks.model.ReviewModel
 import com.sifat.slushflicks.model.ShowModelMinimal
 import com.sifat.slushflicks.model.TvCollectionModel
@@ -39,14 +40,16 @@ class TvDetailsRepositoryImpl @Inject constructor(
     private val dataManager: DataManager,
     @Named(NAME_API_KEY)
     private val apiKey: String,
-    private val networkStateManager: NetworkStateManager
+    private val networkStateManager: NetworkStateManager,
+    private val jobManager: JobManager
 ) : TvDetailsRepository {
     override fun getTvShowDetails(tvShowId: Long): LiveData<DataState<TvModel>> {
         return TvDetailsNetworkResource(
             dataManager = dataManager,
             tvService = tvService,
             request = RequestModel(apiKey, tvShowId),
-            networkStateManager = networkStateManager
+            networkStateManager = networkStateManager,
+            jobManager = jobManager
         ).asLiveData()
     }
 
@@ -55,7 +58,8 @@ class TvDetailsRepositoryImpl @Inject constructor(
             tvService = tvService,
             dataManager = dataManager,
             requestModel = TvVideoNetworkResource.RequestModel(apiKey, tvShowId, seasonNumber),
-            networkStateManager = networkStateManager
+            networkStateManager = networkStateManager,
+            jobManager = jobManager
         ).asLiveData()
     }
 
@@ -64,7 +68,8 @@ class TvDetailsRepositoryImpl @Inject constructor(
             tvService = tvService,
             dataManager = dataManager,
             requestModel = TvCastNetworkResource.RequestModel(apiKey, movieId),
-            networkStateManager = networkStateManager
+            networkStateManager = networkStateManager,
+            jobManager = jobManager
         ).asLiveData()
     }
 
@@ -78,7 +83,8 @@ class TvDetailsRepositoryImpl @Inject constructor(
                 apiTag = TV_SHOW_SIMILAR_API_TAG,
                 relationType = SIMILAR_LABEL
             ),
-            networkStateManager = networkStateManager
+            networkStateManager = networkStateManager,
+            jobManager = jobManager
         ).asLiveData()
     }
 
@@ -92,7 +98,8 @@ class TvDetailsRepositoryImpl @Inject constructor(
                 apiTag = TV_SHOW_RECOMMENDATION_API_TAG,
                 relationType = RECOMMENDATION_LABEL
             ),
-            networkStateManager = networkStateManager
+            networkStateManager = networkStateManager,
+            jobManager = jobManager
         ).asLiveData()
     }
 
@@ -128,5 +135,9 @@ class TvDetailsRepositoryImpl @Inject constructor(
                 )
             )
         }
+    }
+
+    override fun cancelAllJobs() {
+        jobManager.cancelActiveJobs()
     }
 }

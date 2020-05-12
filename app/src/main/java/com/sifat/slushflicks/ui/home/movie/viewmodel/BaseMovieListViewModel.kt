@@ -140,4 +140,8 @@ open class BaseMovieListViewModel
             super.onZeroItemsLoaded()
         }
     }
+
+    override fun onCleared() {
+        repository.cancelAllJobs()
+    }
 }

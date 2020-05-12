@@ -7,15 +7,10 @@ import com.sifat.slushflicks.repository.resource.type.CacheUpdateResource
 import com.sifat.slushflicks.ui.helper.isYoutubeModel
 import com.sifat.slushflicks.ui.state.DataSuccessResponse
 import com.sifat.slushflicks.utils.api.NetworkStateManager
-import kotlinx.coroutines.Job
 
 abstract class BaseVideoNetworkResource(
     networkStateManager: NetworkStateManager
 ) : CacheUpdateResource<VideoListApiModel, VideoApiModel, String>(networkStateManager) {
-
-    override fun setJob(job: Job) {
-
-    }
 
     override fun getAppDataSuccessResponse(response: DataSuccessResponse<VideoApiModel>): DataSuccessResponse<String> {
         return DataSuccessResponse(

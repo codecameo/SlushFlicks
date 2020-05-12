@@ -5,6 +5,7 @@ import com.sifat.slushflicks.api.ApiTag.Companion.TRENDING_MOVIE_API_TAG
 import com.sifat.slushflicks.api.home.movie.MovieService
 import com.sifat.slushflicks.data.DataManager
 import com.sifat.slushflicks.di.constant.NAME_API_KEY
+import com.sifat.slushflicks.helper.JobManager
 import com.sifat.slushflicks.repository.resource.impl.MovieListNetworkResource
 import com.sifat.slushflicks.repository.resource.impl.TrendingMovieListResource
 import com.sifat.slushflicks.ui.state.DataState
@@ -16,13 +17,15 @@ import javax.inject.Named
 /**
  * TODO Create repository interface and Implement that
  * */
-class TrendingMovieRepositoryImpl @Inject constructor(
+class TrendingMovieRepositoryImpl
+@Inject constructor(
     private val movieService: MovieService,
     @Named(NAME_API_KEY)
     private val apiKey: String,
     private val networkStateManager: NetworkStateManager,
+    jobManager: JobManager,
     dataManager: DataManager
-) : BaseMovieListRepository(dataManager) {
+) : BaseMovieListRepository(dataManager, jobManager) {
     override val collection: String
         get() = TRENDING_LABEL
 
@@ -38,7 +41,8 @@ class TrendingMovieRepositoryImpl @Inject constructor(
             movieService = movieService,
             networkStateManager = networkStateManager,
             dataManager = dataManager,
-            collection = collection
+            collection = collection,
+            jobManager = jobManager
         )
         return movieListNetworkResource.asLiveData()
     }

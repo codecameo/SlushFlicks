@@ -6,6 +6,7 @@ import com.sifat.slushflicks.api.ApiSuccessResponse
 import com.sifat.slushflicks.api.home.movie.MovieService
 import com.sifat.slushflicks.api.home.movie.model.MovieListApiModel
 import com.sifat.slushflicks.data.DataManager
+import com.sifat.slushflicks.helper.JobManager
 import com.sifat.slushflicks.model.MovieModel
 import com.sifat.slushflicks.repository.resource.type.NetworkOnlyResource
 import com.sifat.slushflicks.ui.helper.getCollectionModels
@@ -21,6 +22,7 @@ open class MovieListNetworkResource(
     protected val requestModel: RequestModel,
     protected val dataManager: DataManager,
     private val collection: String,
+    private val jobManager: JobManager,
     networkStateManager: NetworkStateManager
 ) : NetworkOnlyResource<MovieListApiModel, List<MovieModel>, Int>(
     networkStateManager
@@ -62,12 +64,8 @@ open class MovieListNetworkResource(
         )
     }
 
-    /*override suspend fun getFromCache(): List<MovieModel>? {
-        return dataManager.getMovies(collection)
-    }*/
-
     override fun setJob(job: Job) {
-
+        jobManager.addJob(collection, job)
     }
 
     override fun getAppDataSuccessResponse(response: DataSuccessResponse<List<MovieModel>>): DataSuccessResponse<Int> {

@@ -6,6 +6,7 @@ import com.sifat.slushflicks.api.ApiSuccessResponse
 import com.sifat.slushflicks.api.home.movie.MovieService
 import com.sifat.slushflicks.api.home.movie.model.MovieDetailsApiModel
 import com.sifat.slushflicks.data.DataManager
+import com.sifat.slushflicks.helper.JobManager
 import com.sifat.slushflicks.model.MovieModel
 import com.sifat.slushflicks.repository.resource.type.CacheFirstNetworkUpdateResource
 import com.sifat.slushflicks.ui.helper.getMovieDetails
@@ -18,6 +19,7 @@ class MovieDetailsNetworkResource(
     private val dataManager: DataManager,
     private val movieService: MovieService,
     private val request: RequestModel,
+    private val jobManager: JobManager,
     networkStateManager: NetworkStateManager
 ) : CacheFirstNetworkUpdateResource<MovieDetailsApiModel, MovieModel, MovieModel>(
     networkStateManager
@@ -52,12 +54,16 @@ class MovieDetailsNetworkResource(
     }
 
     override fun setJob(job: Job) {
-        // Implement JobManager and add job to it
+        jobManager.addJob(TAG, job = job)
     }
 
     data class RequestModel(val apiKey: String, val movieId: Long)
 
     override fun loadFromCache(): LiveData<MovieModel> {
         return dataManager.getMovieDetails(request.movieId).getDistinct()
+    }
+
+    companion object {
+        private const val TAG = "MovieDetailsNetworkReso"
     }
 }

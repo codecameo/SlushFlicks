@@ -282,4 +282,8 @@ class MovieDetailsViewModel
             ViewState.Error()
         )
     }
+
+    override fun onCleared() {
+        detailsRepository.cancelAllJobs()
+    }
 }

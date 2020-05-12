@@ -137,8 +137,4 @@ class SearchViewModel
     }
 
     data class InitialData(val queryModel: QueryModel, val showType: ShowType)
-
-    companion object {
-        private const val TAG = "SearchViewModel"
-    }
 }

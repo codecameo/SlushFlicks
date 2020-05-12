@@ -6,12 +6,15 @@ import com.sifat.slushflicks.api.details.model.VideoApiModel
 import com.sifat.slushflicks.api.details.model.VideoListApiModel
 import com.sifat.slushflicks.api.home.movie.MovieService
 import com.sifat.slushflicks.data.DataManager
+import com.sifat.slushflicks.helper.JobManager
 import com.sifat.slushflicks.utils.api.NetworkStateManager
+import kotlinx.coroutines.Job
 
 class MovieVideoNetworkResource(
     private val movieService: MovieService,
     private val dataManager: DataManager,
     private val requestModel: RequestModel,
+    private val jobManager: JobManager,
     networkStateManager: NetworkStateManager
 ) : BaseVideoNetworkResource(networkStateManager) {
 
@@ -28,5 +31,13 @@ class MovieVideoNetworkResource(
         }
     }
 
+    override fun setJob(job: Job) {
+        jobManager.addJob(TAG, job)
+    }
+
     data class RequestModel(val apiKey: String, val movieId: Long)
+
+    companion object {
+        private const val TAG = "MovieVideoNetworkResour"
+    }
 }

@@ -1,6 +1,7 @@
 package com.sifat.slushflicks.di.home.movie
 
 import com.sifat.slushflicks.api.home.movie.MovieService
+import com.sifat.slushflicks.helper.JobManager
 import com.sifat.slushflicks.repository.movie.MovieHomeRepository
 import com.sifat.slushflicks.repository.movie.impl.MovieHomeRepositoryImpl
 import dagger.Binds
@@ -23,4 +24,8 @@ class InnerModule {
     @Provides
     fun provideMovieService(retrofit: Retrofit): MovieService =
         retrofit.create(MovieService::class.java)
+
+    // Provide new instance of job manager when needed
+    @Provides
+    fun provideJobManager() = JobManager()
 }

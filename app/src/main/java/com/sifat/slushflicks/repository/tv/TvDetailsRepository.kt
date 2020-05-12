@@ -5,9 +5,10 @@ import androidx.paging.PagedList
 import com.sifat.slushflicks.model.ReviewModel
 import com.sifat.slushflicks.model.ShowModelMinimal
 import com.sifat.slushflicks.model.TvModel
+import com.sifat.slushflicks.repository.BaseRepository
 import com.sifat.slushflicks.ui.state.DataState
 
-interface TvDetailsRepository {
+interface TvDetailsRepository : BaseRepository {
     fun getTvShowDetails(tvShowId: Long): LiveData<DataState<TvModel>>
 
     fun getTvShowVideo(tvShowId: Long, seasonNumber: Int): LiveData<DataState<String>>

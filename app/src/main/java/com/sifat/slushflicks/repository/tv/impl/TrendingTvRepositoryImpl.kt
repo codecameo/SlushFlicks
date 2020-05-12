@@ -5,6 +5,7 @@ import com.sifat.slushflicks.api.ApiTag.Companion.TRENDING_TV_API_TAG
 import com.sifat.slushflicks.api.home.tv.TvService
 import com.sifat.slushflicks.data.DataManager
 import com.sifat.slushflicks.di.constant.NAME_API_KEY
+import com.sifat.slushflicks.helper.JobManager
 import com.sifat.slushflicks.repository.resource.impl.TrendingTvListResource
 import com.sifat.slushflicks.repository.resource.impl.TvListNetworkResource
 import com.sifat.slushflicks.ui.state.DataState
@@ -21,8 +22,9 @@ class TrendingTvRepositoryImpl @Inject constructor(
     @Named(NAME_API_KEY)
     private val apiKey: String,
     private val networkStateManager: NetworkStateManager,
+    jobManager: JobManager,
     dataManager: DataManager
-) : BaseTvListRepositoryImpl(dataManager) {
+) : BaseTvListRepositoryImpl(dataManager, jobManager) {
     override val collection: String
         get() = TRENDING_LABEL
 
@@ -37,7 +39,8 @@ class TrendingTvRepositoryImpl @Inject constructor(
             tvService = tvService,
             networkStateManager = networkStateManager,
             dataManager = dataManager,
-            collection = collection
+            collection = collection,
+            jobManager = jobManager
         )
         return tvListNetworkResource.asLiveData()
     }

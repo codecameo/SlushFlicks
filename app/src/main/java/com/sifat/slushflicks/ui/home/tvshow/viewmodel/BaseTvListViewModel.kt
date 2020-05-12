@@ -134,4 +134,8 @@ open class BaseTvListViewModel(private val repository: TvListRepository) :
             super.onZeroItemsLoaded()
         }
     }
+
+    override fun onCleared() {
+        repository.cancelAllJobs()
+    }
 }

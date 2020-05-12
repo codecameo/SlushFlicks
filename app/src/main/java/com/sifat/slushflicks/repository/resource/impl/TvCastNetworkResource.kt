@@ -6,6 +6,7 @@ import com.sifat.slushflicks.api.ApiSuccessResponse
 import com.sifat.slushflicks.api.details.model.CreditsApiModel
 import com.sifat.slushflicks.api.home.tv.TvService
 import com.sifat.slushflicks.data.DataManager
+import com.sifat.slushflicks.helper.JobManager
 import com.sifat.slushflicks.model.CastModel
 import com.sifat.slushflicks.repository.resource.type.CacheUpdateResource
 import com.sifat.slushflicks.ui.state.DataSuccessResponse
@@ -16,6 +17,7 @@ class TvCastNetworkResource(
     private val tvService: TvService,
     private val dataManager: DataManager,
     private val requestModel: RequestModel,
+    private val jobManager: JobManager,
     networkStateManager: NetworkStateManager
 ) : CacheUpdateResource<CreditsApiModel, List<CastModel>, Int>(networkStateManager) {
 
@@ -38,7 +40,7 @@ class TvCastNetworkResource(
     }
 
     override fun setJob(job: Job) {
-
+        jobManager.addJob(TAG, job)
     }
 
     override fun getAppDataSuccessResponse(response: DataSuccessResponse<List<CastModel>>): DataSuccessResponse<Int> {
@@ -56,4 +58,8 @@ class TvCastNetworkResource(
     }
 
     data class RequestModel(val apiKey: String, val tvShowId: Long)
+
+    companion object {
+        private const val TAG = "TvCastNetworkResource"
+    }
 }

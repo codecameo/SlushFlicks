@@ -7,6 +7,7 @@ import androidx.paging.PagedList
 import androidx.paging.PagedList.BoundaryCallback
 import androidx.paging.toLiveData
 import com.sifat.slushflicks.data.DataManager
+import com.sifat.slushflicks.helper.JobManager
 import com.sifat.slushflicks.model.ShowModelMinimal
 import com.sifat.slushflicks.repository.movie.MovieListRepository
 import com.sifat.slushflicks.ui.state.DataState
@@ -14,7 +15,8 @@ import com.sifat.slushflicks.ui.state.DataSuccessResponse
 import com.sifat.slushflicks.utils.PAGE_SIZE
 
 abstract class BaseMovieListRepository(
-    protected val dataManager: DataManager
+    protected val dataManager: DataManager,
+    protected val jobManager: JobManager
 ) : MovieListRepository {
     override fun getPagingMovieList(boundaryCallback: BoundaryCallback<ShowModelMinimal>): LiveData<DataState<PagedList<ShowModelMinimal>>> {
         val pageConfig = PagedList.Config.Builder()
@@ -35,5 +37,9 @@ abstract class BaseMovieListRepository(
                     )
                 )
             })
+    }
+
+    override fun cancelAllJobs() {
+        jobManager.cancelActiveJobs()
     }
 }

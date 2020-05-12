@@ -5,6 +5,7 @@ import com.sifat.slushflicks.api.home.movie.MovieService
 import com.sifat.slushflicks.di.constant.NAME_DYNAMIC_BASE_LINK
 import com.sifat.slushflicks.di.constant.NAME_DYNAMIC_DOMAIN
 import com.sifat.slushflicks.helper.DynamicLinkProvider
+import com.sifat.slushflicks.helper.JobManager
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -41,4 +42,8 @@ class MovieDetailsModule {
     ): DynamicLinkProvider {
         return DynamicLinkProvider(baseUrl, domain)
     }
+
+    // Provide new instance of job manager when needed
+    @Provides
+    fun provideJobManager() = JobManager()
 }

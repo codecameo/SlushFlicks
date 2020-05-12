@@ -1,36 +1,25 @@
 package com.sifat.slushflicks.di.splash
 
 import com.sifat.slushflicks.api.home.genre.GenreService
-import com.sifat.slushflicks.data.DataManager
-import com.sifat.slushflicks.di.constant.NAME_API_KEY
 import com.sifat.slushflicks.repository.genre.GenreRepository
-import com.sifat.slushflicks.utils.api.NetworkStateManager
+import com.sifat.slushflicks.repository.genre.impl.GenreRepositoryImpl
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
-import javax.inject.Named
 
-@Module
+@Module(includes = [InnerModule::class])
 class SplashModule {
 
     @SplashScope
     @Provides
     fun getMovieService(retrofit: Retrofit): GenreService =
         retrofit.create(GenreService::class.java)
+}
 
+@Module
+abstract class InnerModule {
     @SplashScope
-    @Provides
-    fun providesGenreRepository(
-        genreService: GenreService,
-        @Named(NAME_API_KEY) apiKey: String,
-        networkStateManager: NetworkStateManager,
-        dataManager: DataManager
-    ) : GenreRepository {
-        return GenreRepository(
-            genreService = genreService,
-            apiKey = apiKey,
-            networkStateManager = networkStateManager,
-            dataManager = dataManager
-        )
-    }
+    @Binds
+    abstract fun providesGenreRepository(genreRepositoryImpl: GenreRepositoryImpl): GenreRepository
 }

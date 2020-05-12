@@ -281,4 +281,8 @@ class TvDetailsViewModel
             ViewState.Error()
         )
     }
+
+    override fun onCleared() {
+        detailsRepository.cancelAllJobs()
+    }
 }
