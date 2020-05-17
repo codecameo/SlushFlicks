@@ -32,6 +32,12 @@ class DynamicLinkProvider(private val baseUrl: String, private val dynamicLink: 
                     .setFallbackUrl(Uri.parse(DynamicLinkConst.ANDROID_FALL_BACK_URL))
                     .build()
             )
+            // As currently there is no ios version of this app, navigating to play store from ios as well
+            .setIosParameters(
+                DynamicLink.IosParameters.Builder(BuildConfig.APPLICATION_ID)
+                    .setFallbackUrl(Uri.parse(DynamicLinkConst.ANDROID_FALL_BACK_URL))
+                    .build()
+            )
             .setGoogleAnalyticsParameters(
                 DynamicLink.GoogleAnalyticsParameters.Builder()
                     .setSource(DynamicLinkConst.SOURCE)

@@ -6,7 +6,6 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
         tools:context=".ui.home.movie.fragment.BaseHomeListFragment">
 
         <com.google.android.material.appbar.AppBarLayout
@@ -21,13 +20,13 @@
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                 <TextView
-                    android:textAllCaps="true"
                     android:id="@+id/tvTitle"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     android:background="@color/colorPrimaryDark"
                     android:gravity="center"
                     android:text="@string/text_movie"
+                    android:textAllCaps="true"
                     android:textColor="@color/white"
                     android:textSize="@dimen/font_title"
                     android:textStyle="bold" />
@@ -54,6 +53,7 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.fragment.app.FragmentContainerView
+            android:background="@color/light_divider"
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

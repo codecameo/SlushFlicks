@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -9,53 +10,47 @@
             type="com.sifat.slushflicks.model.CastModel" />
     </data>
 
-    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/standard_half_margin"
-        app:cardCornerRadius="@dimen/cardview_default_radius"
-        app:cardElevation="@dimen/default_elevation">
+        android:layout_marginEnd="@dimen/standard_half_margin">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/rivCast"
+            imageSmallUrl="@{model.profileImage}"
+            placeholder="@{@drawable/ic_avatar}"
+            android:layout_width="@dimen/cast_img_width"
+            android:layout_height="@dimen/cast_img_height"
+            android:paddingBottom="@dimen/default_1dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:riv_corner_radius="@dimen/cardview_default_radius"
+            tools:src="@tools:sample/avatars" />
 
-            <com.makeramen.roundedimageview.RoundedImageView
-                android:id="@+id/rivCast"
-                imageSmallUrl="@{model.profileImage}"
-                placeholder="@{@drawable/ic_avatar}"
-                android:layout_width="@dimen/cast_img_width"
-                android:layout_height="@dimen/cast_img_height"
-                android:scaleType="centerCrop"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:riv_corner_radius="@dimen/cardview_default_radius"
-                tools:src="@tools:sample/avatars" />
+        <View
+            android:layout_width="@dimen/default_0dp"
+            android:layout_height="@dimen/default_0dp"
+            android:background="@drawable/detail_image_foreground"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <View
-                android:layout_width="@dimen/default_0dp"
-                android:layout_height="@dimen/default_0dp"
-                android:background="@drawable/detail_image_foreground"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:layout_width="@dimen/default_0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-medium"
+            android:padding="@dimen/small_margin"
+            android:singleLine="true"
+            android:text="@{model.name}"
+            android:textColor="@color/subTextColor"
+            app:layout_constraintBottom_toBottomOf="@id/rivCast"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:text="@tools:sample/first_names" />
 
-            <TextView
-                android:layout_width="@dimen/default_0dp"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:fontFamily="sans-serif-medium"
-                android:padding="@dimen/small_margin"
-                android:singleLine="true"
-                android:text="@{model.name}"
-                android:textColor="@color/subTextColor"
-                app:layout_constraintBottom_toBottomOf="@id/rivCast"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                tools:text="@tools:sample/first_names" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

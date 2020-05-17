@@ -197,7 +197,7 @@ class MovieDetailsActivity :
         when (val viewState = action.viewState) {
             is ViewState.Success<PagedList<ReviewModel>> -> {
                 reviewAdapter.submitList(viewState.data)
-                if (viewState.data.isNullOrEmpty()) hideReviewList()
+                if (!viewState.data.isNullOrEmpty()) hideReviewEmptyState()
             }
         }
     }
@@ -219,8 +219,8 @@ class MovieDetailsActivity :
         binding.rvSimilar.visibility = GONE
     }
 
-    private fun hideReviewList() {
-        //binding.rvReview.visibility = INVISIBLE
+    private fun hideReviewEmptyState() {
+        binding.tvReviewNotFound.visibility = GONE
     }
 
     override fun shareShow() {

@@ -15,7 +15,15 @@ import com.sifat.slushflicks.model.ShowModelMinimal
 @Dao
 interface MovieDao : BaseDao<MovieModel> {
 
-    @Query("SELECT ${TABLE_NAME_MOVIE}.id, title, overview, voteAvg, backdropPath, genres FROM $TABLE_NAME_MOVIE INNER JOIN $TABLE_NAME_MOVIE_TYPE ON ${TABLE_NAME_MOVIE}.id = ${TABLE_NAME_MOVIE_TYPE}.id WHERE ${TABLE_NAME_MOVIE_TYPE}.collection= :collection ORDER BY ${TABLE_NAME_MOVIE_TYPE}.`index`")
+    @Query(
+        """
+        SELECT ${TABLE_NAME_MOVIE}.id, title, overview, voteAvg, backdropPath, genres 
+        FROM $TABLE_NAME_MOVIE INNER JOIN $TABLE_NAME_MOVIE_TYPE 
+        ON ${TABLE_NAME_MOVIE}.id = ${TABLE_NAME_MOVIE_TYPE}.id 
+        WHERE ${TABLE_NAME_MOVIE_TYPE}.collection= :collection 
+        ORDER BY ${TABLE_NAME_MOVIE_TYPE}.`index`
+    """
+    )
     fun getPagedMovieSource(collection: String): DataSource.Factory<Int, ShowModelMinimal>
 
     @Query("SELECT * FROM $TABLE_NAME_MOVIE WHERE id = :movieId")
@@ -30,7 +38,15 @@ interface MovieDao : BaseDao<MovieModel> {
     @Query("UPDATE $TABLE_NAME_MOVIE SET casts = :casts WHERE id = :movieId")
     fun update(movieId: Long, casts: List<CastModel>)
 
-    @Query("UPDATE $TABLE_NAME_MOVIE SET voteCount = :voteCount, voteAvg = :voteAvg, releaseData = :releaseData, popularity = :popularity, genres = :genres, budget = :budget, revenue = :revenue, runtime = :runtime, status = :status, tagline = :tagline WHERE id = :id")
+    @Query(
+        """
+        UPDATE $TABLE_NAME_MOVIE 
+        SET voteCount = :voteCount, voteAvg = :voteAvg, releaseData = :releaseData, 
+        popularity = :popularity, genres = :genres, budget = :budget, revenue = :revenue, 
+        runtime = :runtime, status = :status, tagline = :tagline 
+        WHERE id = :id
+    """
+    )
     suspend fun update(
         id: Long,
         voteCount: Int,

@@ -12,7 +12,16 @@ import com.sifat.slushflicks.model.*
 @Dao
 interface TvDao : BaseDao<TvModel> {
 
-    @Query("SELECT $TABLE_NAME_TV.id, title, overview, voteAvg, backdropPath, genres FROM $TABLE_NAME_TV INNER JOIN $TABLE_NAME_TV_TYPE ON $TABLE_NAME_TV.id = $TABLE_NAME_TV_TYPE.id WHERE $TABLE_NAME_TV_TYPE.collection= :collection ORDER BY $TABLE_NAME_TV_TYPE.`index`")
+    @Query(
+        """
+        SELECT $TABLE_NAME_TV.id, title, overview, voteAvg, backdropPath, genres 
+        FROM $TABLE_NAME_TV 
+        INNER JOIN $TABLE_NAME_TV_TYPE 
+        ON $TABLE_NAME_TV.id = $TABLE_NAME_TV_TYPE.id 
+        WHERE $TABLE_NAME_TV_TYPE.collection= :collection 
+        ORDER BY $TABLE_NAME_TV_TYPE.`index`
+    """
+    )
     fun getPagedTvShowSource(collection: String): DataSource.Factory<Int, ShowModelMinimal>
 
     @Query("SELECT * FROM $TABLE_NAME_TV WHERE id = :tvShowId")
@@ -27,7 +36,16 @@ interface TvDao : BaseDao<TvModel> {
     @Query("UPDATE $TABLE_NAME_TV SET video = :key WHERE id = :tvShowId")
     fun update(tvShowId: Long, key: String)
 
-    @Query("UPDATE $TABLE_NAME_TV SET voteCount = :voteCount, voteAvg = :voteAvg, releaseData = :releaseData, popularity = :popularity, genres = :genres, runtime = :runtime, status = :status, nextEpisode = :nextEpisode, lastEpisode = :lastEpisode, seasons = :seasons, numOfEpisode = :numOfEpisode, numOfSeason = :numOfSeason, directors = :directors WHERE id = :id")
+    @Query(
+        """
+        UPDATE $TABLE_NAME_TV 
+        SET voteCount = :voteCount, voteAvg = :voteAvg, releaseData = :releaseData, 
+        popularity = :popularity, genres = :genres, runtime = :runtime, status = :status, 
+        nextEpisode = :nextEpisode, lastEpisode = :lastEpisode, seasons = :seasons, 
+        numOfEpisode = :numOfEpisode, numOfSeason = :numOfSeason, directors = :directors 
+        WHERE id = :id
+    """
+    )
     suspend fun update(
         id: Long,
         voteCount: Int,

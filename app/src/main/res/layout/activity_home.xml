@@ -6,8 +6,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white">
+        android:layout_height="match_parent">
 
         <fragment
             android:id="@+id/navHostFragment"
@@ -29,7 +28,6 @@
             android:background="@color/white"
             android:clipToPadding="false"
             app:elevation="@dimen/default_elevation"
-            app:itemBackground="@color/white"
             app:itemIconTint="@drawable/bottom_nav_icon_color_selector"
             app:itemTextColor="@drawable/bottom_nav_icon_color_selector"
             app:labelVisibilityMode="unlabeled"

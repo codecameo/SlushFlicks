@@ -5,14 +5,12 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white">
+        android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvTvList"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@color/light_gray"
             android:clipToPadding="false"
             android:paddingLeft="@dimen/small_margin"
             android:paddingTop="@dimen/quarter_less_standard_half"

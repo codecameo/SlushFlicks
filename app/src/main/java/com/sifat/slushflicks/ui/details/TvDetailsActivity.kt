@@ -2,6 +2,8 @@ package com.sifat.slushflicks.ui.details
 
 import android.os.Bundle
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import com.google.android.material.appbar.AppBarLayout
@@ -146,7 +148,7 @@ class TvDetailsActivity : BaseDetailsActivity<ActivityTvDetailsBinding, TvDetail
         when (val viewState = action.viewState) {
             is ViewState.Success<PagedList<ReviewModel>> -> {
                 reviewAdapter.submitList(viewState.data)
-                if (viewState.data.isNullOrEmpty()) hideReviewList()
+                if (!viewState.data.isNullOrEmpty()) hideNoReview()
             }
         }
     }
@@ -177,21 +179,21 @@ class TvDetailsActivity : BaseDetailsActivity<ActivityTvDetailsBinding, TvDetail
     override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
         val scrollRange = appBarLayout?.totalScrollRange ?: 0
         binding.shadow.visibility =
-            if ((scrollRange + verticalOffset) == 0) View.VISIBLE else View.GONE
+            if ((scrollRange + verticalOffset) == 0) VISIBLE else GONE
     }
 
     private fun hideRecommendedSection() {
-        binding.tvTitleRecommended.visibility = View.GONE
-        binding.rvRecommended.visibility = View.GONE
+        binding.tvTitleRecommended.visibility = GONE
+        binding.rvRecommended.visibility = GONE
     }
 
     private fun hideSimilarSection() {
-        binding.tvTitleSimilar.visibility = View.GONE
-        binding.rvSimilar.visibility = View.GONE
+        binding.tvTitleSimilar.visibility = GONE
+        binding.rvSimilar.visibility = GONE
     }
 
-    private fun hideReviewList() {
-        //binding.rvReview.visibility = INVISIBLE
+    private fun hideNoReview() {
+        binding.tvNoResult.visibility = GONE
     }
 
     private fun checkMissingData(data: TvModel?) {

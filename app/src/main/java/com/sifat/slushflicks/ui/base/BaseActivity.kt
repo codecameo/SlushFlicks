@@ -23,6 +23,7 @@ abstract class BaseActivity<DB : ViewDataBinding, VM : ViewModel> : DaggerAppCom
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.setBackgroundDrawable(null)
         binding = DataBindingUtil.setContentView(this, getLayoutRes())
         viewModel = ViewModelProvider(this, viewModelFactory).get(getViewModelClass())
     }

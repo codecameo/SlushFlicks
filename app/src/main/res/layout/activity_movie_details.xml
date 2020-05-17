@@ -349,6 +349,7 @@
                     app:layout_constraintTop_toBottomOf="@id/rvSimilar" />
 
                 <TextView
+                    android:id="@+id/tvReviewNotFound"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/standard_half_margin"
@@ -366,7 +367,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/standard_half_margin"
                     android:layout_marginBottom="@dimen/standard_half_margin"
-                    android:background="@color/colorPrimaryDark"
                     android:clipToPadding="false"
                     android:nestedScrollingEnabled="false"
                     android:paddingStart="@dimen/standard_margin"
