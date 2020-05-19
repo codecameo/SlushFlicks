@@ -59,7 +59,7 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
     implementation "com.makeramen:roundedimageview:$roundimage_version"
 
-    kapt 'com.android.databinding:compiler:3.1.4'
+    kapt "com.android.databinding:compiler:$databinding_version"
 
     // Glide
     implementation "com.github.bumptech.glide:glide:$glide_version"
@@ -83,8 +83,8 @@ dependencies {
     implementation "androidx.navigation:navigation-runtime:$nav_version"
 
     // Paging Library
-    implementation 'android.arch.paging:runtime:1.0.1'
-    implementation "androidx.paging:paging-runtime-ktx:2.1.2"
+    implementation "android.arch.paging:runtime:$paging_version"
+    implementation "androidx.paging:paging-runtime-ktx:$paging_ktx_version"
 
     //Room
     implementation "androidx.room:room-runtime:$room_version"
@@ -112,12 +112,12 @@ dependencies {
     implementation "com.facebook.shimmer:shimmer:$shimmer_version"
 
     // Firebase
-    implementation 'com.google.firebase:firebase-analytics:17.4.0'
-    implementation 'com.google.firebase:firebase-crashlytics:17.0.0'
-    implementation 'com.google.firebase:firebase-firestore-ktx:21.4.3'
-    implementation "com.google.firebase:firebase-dynamic-links:19.1.0"
+    implementation "com.google.firebase:firebase-analytics:$analytics_version"
+    implementation "com.google.firebase:firebase-crashlytics:$crashlytics_version"
+    implementation "com.google.firebase:firebase-firestore-ktx:$firestore_ktx_version"
+    implementation "com.google.firebase:firebase-dynamic-links:$dynamic_links_version"
 
-    implementation 'com.android.support:multidex:1.0.3'
+    implementation "com.android.support:multidex:$multidex_version"
 
     //Leak Canary
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leak_canary_version"
