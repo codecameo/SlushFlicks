@@ -27,4 +27,7 @@ A movie and tv series suggestion app using IMDB APIs to demostare the implementa
 
 # ErrorMaper
 
-# GPU Overdraw optimization
+# Optimization
+
++ Memory leak
++ GPU Overdraw optimization
