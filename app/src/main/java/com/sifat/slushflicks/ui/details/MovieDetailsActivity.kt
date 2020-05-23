@@ -13,7 +13,6 @@ import com.sifat.slushflicks.model.MovieModel
 import com.sifat.slushflicks.model.ReviewModel
 import com.sifat.slushflicks.model.ShowModelMinimal
 import com.sifat.slushflicks.ui.details.adapter.viewholder.ShowViewHolder
-import com.sifat.slushflicks.ui.details.state.dataaction.MovieDetailDataAction.*
 import com.sifat.slushflicks.ui.details.state.event.MovieDetailsViewEvent.*
 import com.sifat.slushflicks.ui.details.state.viewaction.MovieDetailsViewAction.*
 import com.sifat.slushflicks.ui.details.viewmodel.MovieDetailsViewModel
@@ -82,22 +81,7 @@ class MovieDetailsActivity :
             }
         })
 
-        viewModel.observeDataAction().observe(this, Observer { action ->
-            when (action) {
-                is FetchMovieDetailsDataAction -> {
-                    viewModel.setDataAction(action)
-                }
-                is FetchMovieSimilarDataAction -> {
-                    viewModel.setDataAction(action)
-                }
-                is FetchMovieRecommendationDataAction -> {
-                    viewModel.setDataAction(action)
-                }
-                is FetchMovieReviewDataAction -> {
-                    viewModel.setDataAction(action)
-                }
-            }
-        })
+        viewModel.observeDataAction().observe(this, Observer {})
     }
 
     private fun shareMovie(action: ShareMovieViewAction) {

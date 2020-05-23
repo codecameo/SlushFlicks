@@ -9,8 +9,9 @@ import dagger.Provides
 import retrofit2.Retrofit
 
 @Module(includes = [InnerModule::class])
-class SplashModule {
+object SplashModule {
 
+    @JvmStatic
     @SplashScope
     @Provides
     fun getMovieService(retrofit: Retrofit): GenreService =

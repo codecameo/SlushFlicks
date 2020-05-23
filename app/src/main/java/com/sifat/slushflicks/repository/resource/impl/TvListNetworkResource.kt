@@ -15,6 +15,8 @@ import com.sifat.slushflicks.ui.helper.getTvList
 import com.sifat.slushflicks.ui.state.DataState
 import com.sifat.slushflicks.ui.state.DataSuccessResponse
 import com.sifat.slushflicks.utils.api.NetworkStateManager
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 
 open class TvListNetworkResource(
@@ -23,9 +25,10 @@ open class TvListNetworkResource(
     protected val dataManager: DataManager,
     private val collection: String,
     private val jobManager: JobManager,
-    networkStateManager: NetworkStateManager
+    networkStateManager: NetworkStateManager,
+    dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : NetworkOnlyResource<TvListApiModel, List<TvModel>, Int>(
-    networkStateManager
+    networkStateManager, dispatcher
 ) {
 
     override fun createCall(): LiveData<ApiResponse<TvListApiModel>> {

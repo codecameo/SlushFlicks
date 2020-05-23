@@ -2,14 +2,16 @@ package com.sifat.slushflicks.repository.resource.type
 
 import androidx.lifecycle.Observer
 import com.sifat.slushflicks.api.ApiSuccessResponse
-import com.sifat.slushflicks.repository.resource.NetworkBoundResource
+import com.sifat.slushflicks.repository.resource.Resource
 import com.sifat.slushflicks.ui.state.DataState
 import com.sifat.slushflicks.ui.state.DataSuccessResponse
 import com.sifat.slushflicks.utils.api.NetworkStateManager
+import kotlinx.coroutines.CoroutineDispatcher
 
 abstract class CacheFirstNetworkUpdateResource<ApiData, CacheData, AppData>(
-    private val networkStateManager: NetworkStateManager
-) : NetworkBoundResource<ApiData, CacheData, AppData>() {
+    private val networkStateManager: NetworkStateManager,
+    dispatcher: CoroutineDispatcher
+) : Resource<ApiData, CacheData, AppData>(dispatcher) {
 
     override fun execute() {
         super.execute()

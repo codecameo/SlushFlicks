@@ -13,6 +13,8 @@ import com.sifat.slushflicks.ui.helper.getMovieDetails
 import com.sifat.slushflicks.ui.state.DataSuccessResponse
 import com.sifat.slushflicks.utils.api.NetworkStateManager
 import com.sifat.slushflicks.utils.getDistinct
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 
 class MovieDetailsNetworkResource(
@@ -20,9 +22,10 @@ class MovieDetailsNetworkResource(
     private val movieService: MovieService,
     private val request: RequestModel,
     private val jobManager: JobManager,
-    networkStateManager: NetworkStateManager
+    networkStateManager: NetworkStateManager,
+    dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : CacheFirstNetworkUpdateResource<MovieDetailsApiModel, MovieModel, MovieModel>(
-    networkStateManager
+    networkStateManager, dispatcher
 ) {
 
     /**

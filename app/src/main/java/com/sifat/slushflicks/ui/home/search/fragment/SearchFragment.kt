@@ -24,7 +24,6 @@ import com.sifat.slushflicks.ui.details.MovieDetailsActivity
 import com.sifat.slushflicks.ui.details.TvDetailsActivity
 import com.sifat.slushflicks.ui.home.adapter.ShowListAdapter
 import com.sifat.slushflicks.ui.home.adapter.viewholder.ShowViewHolder
-import com.sifat.slushflicks.ui.home.search.state.dataaction.SearchDataAction
 import com.sifat.slushflicks.ui.home.search.state.event.SearchEventState.*
 import com.sifat.slushflicks.ui.home.search.state.viewaction.SearchViewAction.*
 import com.sifat.slushflicks.ui.home.search.viewmodel.SearchViewModel
@@ -77,13 +76,7 @@ class SearchFragment :
             }
         })
 
-        viewModel.observeDataAction().observe(viewLifecycleOwner, Observer { action ->
-            when (action) {
-                is SearchDataAction.SearchMovieDataAction -> {
-                    viewModel.setDataAction(action)
-                }
-            }
-        })
+        viewModel.observeDataAction().observe(viewLifecycleOwner, Observer {})
     }
 
     private fun fetchInitialData() {
@@ -266,12 +259,8 @@ class SearchFragment :
 
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             if (dy > 0 || dy < 0 && binding.fbFilter.isShown) {
-                binding.fbFilter.hide();
+                binding.fbFilter.hide()
             }
         }
-    }
-
-    companion object {
-        private const val TAG = "SearchFragment"
     }
 }

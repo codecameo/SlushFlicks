@@ -7,8 +7,6 @@ import com.sifat.slushflicks.di.home.search.SearchScope
 import com.sifat.slushflicks.model.ShowModelMinimal
 import com.sifat.slushflicks.repository.search.SearchRepository
 import com.sifat.slushflicks.ui.base.BaseActionViewModel
-import com.sifat.slushflicks.ui.home.search.state.dataaction.SearchDataAction
-import com.sifat.slushflicks.ui.home.search.state.dataaction.SearchDataAction.SearchMovieDataAction
 import com.sifat.slushflicks.ui.home.search.state.event.SearchEventState
 import com.sifat.slushflicks.ui.home.search.state.event.SearchEventState.*
 import com.sifat.slushflicks.ui.home.search.state.viewaction.SearchViewAction
@@ -26,7 +24,7 @@ import javax.inject.Inject
 class SearchViewModel
 @Inject constructor(
     private val searchRepository: SearchRepository
-) : BaseActionViewModel<SearchDataAction, SearchViewAction, SearchViewState>() {
+) : BaseActionViewModel<SearchViewAction, SearchViewState>() {
 
     fun handleEvent(viewEvent: SearchEventState) {
         when (viewEvent) {
@@ -46,7 +44,7 @@ class SearchViewModel
         if (viewState.showType == viewEvent.showType) return
         viewState.showType = viewEvent.showType
         getAction().value = UpdateShowTypeViewAction(
-            ViewState.Success<ShowType>(
+            ViewState.Success(
                 data = viewEvent.showType
             )
         )
@@ -62,29 +60,29 @@ class SearchViewModel
 
     private fun searchShow() {
         getAction().value = SearchShowViewAction(
-            ViewState.Loading<PagedList<ShowModelMinimal>>()
+            ViewState.Loading()
         )
         val source = if (shouldShowRecent()) getRecentSource() else getSearchSource()
         dataState.addSource(source) { dataResponse ->
             dataState.removeSource(source)
-            dataState.value = SearchMovieDataAction(dataResponse)
+            setSearchedShows(dataResponse)
         }
     }
 
-    fun setDataAction(action: SearchMovieDataAction) {
-        when (val dataState = action.dataState) {
+    private fun setSearchedShows(dataState: DataState<PagedList<ShowModelMinimal>>) {
+        when (dataState) {
             is DataState.Success<PagedList<ShowModelMinimal>> -> {
                 dataState.dataResponse.data?.let { movieList ->
                     viewState.showList = movieList
-                    sendMovieSearchSuccessAction()
+                    sendShowSearchSuccessAction()
                 }
             }
         }
     }
 
-    private fun sendMovieSearchSuccessAction() {
+    private fun sendShowSearchSuccessAction() {
         getAction().value = SearchShowViewAction(
-            ViewState.Success<PagedList<ShowModelMinimal>>(
+            ViewState.Success(
                 data = viewState.showList
             )
         )
@@ -121,17 +119,13 @@ class SearchViewModel
     private val boundaryCallback = object : PagedList.BoundaryCallback<ShowModelMinimal>() {
         override fun onZeroItemsLoaded() {
             getAction().value = ResultFoundViewAction(
-                ViewState.Success<Boolean>(
-                    data = false
-                )
+                ViewState.Success(data = false)
             )
         }
 
         override fun onItemAtFrontLoaded(itemAtFront: ShowModelMinimal) {
             getAction().value = ResultFoundViewAction(
-                ViewState.Success<Boolean>(
-                    data = true
-                )
+                ViewState.Success(data = true)
             )
         }
     }

@@ -18,13 +18,15 @@ abstract class TvModule {
 }
 
 @Module
-class InnerModule {
+object InnerModule {
+    @JvmStatic
     @TvShowScope
     @Provides
     fun provideTvService(retrofit: Retrofit): TvService =
         retrofit.create(TvService::class.java)
 
     // Provide new instance of job manager when needed
+    @JvmStatic
     @Provides
     fun provideJobManager() = JobManager()
 }

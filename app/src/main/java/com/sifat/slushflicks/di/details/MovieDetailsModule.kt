@@ -12,13 +12,15 @@ import retrofit2.Retrofit
 import javax.inject.Named
 
 @Module
-class MovieDetailsModule {
+object MovieDetailsModule {
 
+    @JvmStatic
     @MovieDetailsScope
     @Provides
     fun provideMovieService(retrofit: Retrofit): MovieService =
         retrofit.create(MovieService::class.java)
 
+    @JvmStatic
     @MovieDetailsScope
     @Provides
     @Named(NAME_DYNAMIC_BASE_LINK)
@@ -26,6 +28,7 @@ class MovieDetailsModule {
         return BuildConfig.DYNAMIC_LINK_BASE_URL
     }
 
+    @JvmStatic
     @MovieDetailsScope
     @Provides
     @Named(NAME_DYNAMIC_DOMAIN)
@@ -33,6 +36,7 @@ class MovieDetailsModule {
         return BuildConfig.DYNAMIC_LINK_DOMAIN
     }
 
+    @JvmStatic
     @MovieDetailsScope
     @Provides
     fun getDeepLinkProvider(
@@ -44,6 +48,7 @@ class MovieDetailsModule {
     }
 
     // Provide new instance of job manager when needed
+    @JvmStatic
     @Provides
     fun provideJobManager() = JobManager()
 }

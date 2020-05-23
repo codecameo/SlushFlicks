@@ -11,13 +11,15 @@ import com.sifat.slushflicks.ui.state.DataSuccessResponse
 import com.sifat.slushflicks.utils.livedata.AbsentLiveData
 import kotlinx.coroutines.*
 
-abstract class NetworkBoundResource<ApiData, CacheData, AppData> {
+abstract class Resource<ApiData, CacheData, AppData>(
+    private val dispatcher: CoroutineDispatcher
+) {
 
-    private val TAG: String = "AppDebug"
+    private val tag: String = "AppDebug"
 
     protected val result = MediatorLiveData<DataState<AppData>>()
     protected lateinit var job: CompletableJob
-    protected lateinit var coroutineScope: CoroutineScope
+    private lateinit var coroutineScope: CoroutineScope
 
     open fun doCacheRequest() {
         coroutineScope.launch {
@@ -86,7 +88,7 @@ abstract class NetworkBoundResource<ApiData, CacheData, AppData> {
 
     @UseExperimental(InternalCoroutinesApi::class)
     private fun initNewJob(): Job {
-        Log.d(TAG, "initNewJob: called.")
+        Log.d(tag, "initNewJob: called.")
         job = Job() // create new job
         job.invokeOnCompletion(
             onCancelling = true,
@@ -94,22 +96,22 @@ abstract class NetworkBoundResource<ApiData, CacheData, AppData> {
             handler = object : CompletionHandler {
                 override fun invoke(cause: Throwable?) {
                     if (job.isCancelled) {
-                        Log.e(TAG, "NetworkBoundResource: Job has been cancelled.")
+                        Log.e(tag, "NetworkBoundResource: Job has been cancelled.")
                         val dataErrorResponse = DataErrorResponse<AppData>(
                             statusCode = StatusCode.REQUEST_CANCELLED,
                             errorMessage = cause?.message
                         )
                         onJobCancelled(dataErrorResponse)
                     } else if (job.isCompleted) {
-                        Log.e(TAG, "NetworkBoundResource: Job has been completed.")
+                        Log.e(tag, "NetworkBoundResource: Job has been completed.")
                     }
                 }
             })
-        coroutineScope = CoroutineScope(Dispatchers.IO + job)
+        coroutineScope = CoroutineScope(dispatcher + job)
         return job
     }
 
-    fun asLiveData() : LiveData<DataState<AppData>> {
+    fun asLiveData(): LiveData<DataState<AppData>> {
         execute()
         return result
     }

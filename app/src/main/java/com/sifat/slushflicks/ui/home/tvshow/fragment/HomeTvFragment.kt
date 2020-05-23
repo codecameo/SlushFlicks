@@ -15,7 +15,6 @@ import com.sifat.slushflicks.ui.base.BaseFragment
 import com.sifat.slushflicks.ui.home.adapter.TypeTagListAdapter
 import com.sifat.slushflicks.ui.home.adapter.model.CollectionListModel
 import com.sifat.slushflicks.ui.home.adapter.viewholder.TypeTagViewModel
-import com.sifat.slushflicks.ui.home.tvshow.state.dataaction.TvHomeDataAction
 import com.sifat.slushflicks.ui.home.tvshow.state.event.TvHomeEventState
 import com.sifat.slushflicks.ui.home.tvshow.state.viewaction.TvHomeViewAction
 import com.sifat.slushflicks.ui.home.tvshow.viewmodel.TvShowViewModel
@@ -71,13 +70,7 @@ class HomeTvFragment :
             }
         })
 
-        viewModel.observeDataAction().observe(viewLifecycleOwner, Observer { action ->
-            when (action) {
-                is TvHomeDataAction.TvCollectionDataAction -> {
-                    viewModel.setDataAction(action)
-                }
-            }
-        })
+        viewModel.observeDataAction().observe(viewLifecycleOwner, Observer {})
     }
 
     private fun setContainerFragment(action: TvHomeViewAction.CollectionContainerUpdateViewAction) {

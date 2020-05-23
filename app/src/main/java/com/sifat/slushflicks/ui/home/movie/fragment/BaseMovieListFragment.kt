@@ -18,8 +18,6 @@ import com.sifat.slushflicks.ui.details.BaseDetailsActivity
 import com.sifat.slushflicks.ui.details.MovieDetailsActivity
 import com.sifat.slushflicks.ui.home.adapter.ShowListAdapter
 import com.sifat.slushflicks.ui.home.adapter.viewholder.ShowViewHolder
-import com.sifat.slushflicks.ui.home.movie.state.dataaction.MovieListDataAction.FetchCacheMovieListDataAction
-import com.sifat.slushflicks.ui.home.movie.state.dataaction.MovieListDataAction.FetchNetworkMovieListDataAction
 import com.sifat.slushflicks.ui.home.movie.state.event.MovieListEventState.FetchMovieListEvent
 import com.sifat.slushflicks.ui.home.movie.state.viewaction.MovieListViewAction.FetchCacheMovieListViewAction
 import com.sifat.slushflicks.ui.home.movie.state.viewaction.MovieListViewAction.FetchNetworkMovieListViewAction
@@ -67,17 +65,7 @@ abstract class BaseMovieListFragment<VM : BaseMovieListViewModel> :
             }
         })
 
-        viewModel.observeDataAction().observe(viewLifecycleOwner, Observer { action ->
-            when (action) {
-                is FetchCacheMovieListDataAction -> {
-                    viewModel.setDataAction(action)
-                }
-                is FetchNetworkMovieListDataAction -> {
-                    // This only set the information of current and total page
-                    viewModel.setDataAction(action)
-                }
-            }
-        })
+        viewModel.observeDataAction().observe(viewLifecycleOwner, Observer {})
     }
 
     override fun onShowClicked(model: ShowModelMinimal) {

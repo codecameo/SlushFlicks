@@ -1,6 +1,5 @@
 package com.sifat.slushflicks.ui.details.viewmodel
 
-import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import com.sifat.slushflicks.di.details.TvDetailsScope
 import com.sifat.slushflicks.helper.DynamicLinkProvider
@@ -9,8 +8,6 @@ import com.sifat.slushflicks.model.ShowModelMinimal
 import com.sifat.slushflicks.model.TvModel
 import com.sifat.slushflicks.repository.tv.TvDetailsRepository
 import com.sifat.slushflicks.ui.base.BaseActionViewModel
-import com.sifat.slushflicks.ui.details.state.dataaction.TvDetailDataAction
-import com.sifat.slushflicks.ui.details.state.dataaction.TvDetailDataAction.*
 import com.sifat.slushflicks.ui.details.state.event.TvDetailsViewEvent
 import com.sifat.slushflicks.ui.details.state.event.TvDetailsViewEvent.*
 import com.sifat.slushflicks.ui.details.state.viewaction.TvDetailsViewAction
@@ -31,7 +28,7 @@ class TvDetailsViewModel
 @Inject constructor(
     private val detailsRepository: TvDetailsRepository,
     private val dynamicLinkProvider: DynamicLinkProvider
-) : BaseActionViewModel<TvDetailDataAction, TvDetailsViewAction, TvDetailsViewState>(),
+) : BaseActionViewModel<TvDetailsViewAction, TvDetailsViewState>(),
     DynamicLinkProvider.OnEventShareCallback {
 
     override val viewState by lazy {
@@ -111,9 +108,7 @@ class TvDetailsViewModel
         val similarSource = detailsRepository.getSimilarTvShows(tvShowId)
         dataState.addSource(similarSource) { similarTvShows ->
             dataState.removeSource(similarSource)
-            dataState.value = FetchTvSimilarDataAction(
-                dataState = similarTvShows
-            )
+            setSimilarTvSeries(similarTvShows)
         }
     }
 
@@ -124,9 +119,7 @@ class TvDetailsViewModel
         val recommendedSource = detailsRepository.getRecommendationTvShows(tvShowId)
         dataState.addSource(recommendedSource) { recommendedMovies ->
             dataState.removeSource(recommendedSource)
-            dataState.value = FetchRecommendedTvDataAction(
-                dataState = recommendedMovies
-            )
+            setRecommendedTvSeries(recommendedMovies)
         }
     }
 
@@ -134,11 +127,8 @@ class TvDetailsViewModel
         if (viewState.isAlreadyVideoAttempted || seasonNumber == 0) return
         viewState.isAlreadyVideoAttempted = true
         val videoSource = detailsRepository.getTvShowVideo(tvShowId, seasonNumber)
-        dataState.addSource(videoSource) { videoKey ->
+        dataState.addSource(videoSource) {
             dataState.removeSource(videoSource)
-            dataState.value = FetchTvVideoDataAction(
-                dataState = videoKey
-            )
         }
     }
 
@@ -148,33 +138,29 @@ class TvDetailsViewModel
         if (viewState.isAlreadyCastAttempted && viewState.tvModel.voteCount == 0) return
         viewState.isAlreadyCastAttempted = true
         val castSource = detailsRepository.getTvShowCast(tvShowId)
-        dataState.addSource(castSource) { castCount ->
+        dataState.addSource(castSource) {
             dataState.removeSource(castSource)
-            dataState.value = FetchTvCastDataAction(
-                dataState = castCount
-            )
         }
     }
 
     private fun fetchTvShowDetails(tvShowId: Long) {
         dataState.addSource(
-            detailsRepository.getTvShowDetails(tvShowId = tvShowId),
-            Observer { dataResponse ->
-                dataState.value = FetchTvDetailsDataAction(dataResponse)
-            })
+            detailsRepository.getTvShowDetails(tvShowId = tvShowId)
+        ) { tvShow ->
+            setTvSeriesDetails(tvShow)
+        }
     }
 
     private fun fetchTvShowReviews(tvShowId: Long) {
-        dataState.addSource(detailsRepository.getTvShowReviews(tvShowId),
-            Observer { reviewList ->
-                dataState.value = FetchTvReviewDataAction(reviewList)
-            })
+        dataState.addSource(detailsRepository.getTvShowReviews(tvShowId)) { reviewList ->
+            setTvSeriesReview(reviewList)
+        }
     }
 
     /*********** Send action to view ************/
 
-    fun setDataAction(action: FetchTvDetailsDataAction) {
-        when (val dataState = action.dataState) {
+    private fun setTvSeriesDetails(dataState: DataState<TvModel>) {
+        when (dataState) {
             is DataState.Success<TvModel> -> {
                 dataState.dataResponse.data?.let { tvShow ->
                     viewState.tvModel = tvShow
@@ -185,8 +171,8 @@ class TvDetailsViewModel
         }
     }
 
-    fun setDataAction(action: FetchTvSimilarDataAction) {
-        when (val dataState = action.dataState) {
+    private fun setSimilarTvSeries(dataState: DataState<List<ShowModelMinimal>>) {
+        when (dataState) {
             is DataState.Success<List<ShowModelMinimal>> -> {
                 viewState.similarTvShows = getMovieListModel(dataState.dataResponse.data)
                 sendSimilarSuccessAction(dataState)
@@ -197,8 +183,8 @@ class TvDetailsViewModel
         }
     }
 
-    fun setDataAction(action: FetchRecommendedTvDataAction) {
-        when (val dataState = action.dataState) {
+    private fun setRecommendedTvSeries(dataState: DataState<List<ShowModelMinimal>>) {
+        when (dataState) {
             is DataState.Success<List<ShowModelMinimal>> -> {
                 viewState.recommendedTvShows = getMovieListModel(dataState.dataResponse.data)
                 sendRecommendationSuccessAction(dataState)
@@ -209,8 +195,8 @@ class TvDetailsViewModel
         }
     }
 
-    fun setDataAction(action: FetchTvReviewDataAction) {
-        when (val dataState = action.dataState) {
+    private fun setTvSeriesReview(dataState: DataState<PagedList<ReviewModel>>) {
+        when (dataState) {
             is DataState.Success<PagedList<ReviewModel>> -> {
                 viewState.reviews = dataState.dataResponse.data
                 sendReviewSuccessAction()

@@ -8,6 +8,8 @@ import com.sifat.slushflicks.api.home.tv.TvService
 import com.sifat.slushflicks.data.DataManager
 import com.sifat.slushflicks.helper.JobManager
 import com.sifat.slushflicks.utils.api.NetworkStateManager
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 
 class TvVideoNetworkResource(
@@ -15,8 +17,9 @@ class TvVideoNetworkResource(
     private val dataManager: DataManager,
     private val requestModel: RequestModel,
     private val jobManager: JobManager,
-    networkStateManager: NetworkStateManager
-) : BaseVideoNetworkResource(networkStateManager) {
+    networkStateManager: NetworkStateManager,
+    dispatcher: CoroutineDispatcher = Dispatchers.IO
+) : BaseVideoNetworkResource(networkStateManager, dispatcher) {
     override fun createCall(): LiveData<ApiResponse<VideoListApiModel>> {
         return tvService.getTvShowVideos(
             tvShowId = requestModel.tvShowId,

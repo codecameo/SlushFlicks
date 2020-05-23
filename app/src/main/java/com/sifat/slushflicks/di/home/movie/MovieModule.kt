@@ -18,14 +18,16 @@ abstract class MovieModule {
 }
 
 @Module
-class InnerModule {
+object InnerModule {
 
+    @JvmStatic
     @MovieScope
     @Provides
     fun provideMovieService(retrofit: Retrofit): MovieService =
         retrofit.create(MovieService::class.java)
 
     // Provide new instance of job manager when needed
+    @JvmStatic
     @Provides
     fun provideJobManager() = JobManager()
 }

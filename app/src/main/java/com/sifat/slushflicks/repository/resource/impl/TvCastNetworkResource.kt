@@ -11,6 +11,8 @@ import com.sifat.slushflicks.model.CastModel
 import com.sifat.slushflicks.repository.resource.type.CacheUpdateResource
 import com.sifat.slushflicks.ui.state.DataSuccessResponse
 import com.sifat.slushflicks.utils.api.NetworkStateManager
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 
 class TvCastNetworkResource(
@@ -18,8 +20,9 @@ class TvCastNetworkResource(
     private val dataManager: DataManager,
     private val requestModel: RequestModel,
     private val jobManager: JobManager,
-    networkStateManager: NetworkStateManager
-) : CacheUpdateResource<CreditsApiModel, List<CastModel>, Int>(networkStateManager) {
+    networkStateManager: NetworkStateManager,
+    dispatcher: CoroutineDispatcher = Dispatchers.IO
+) : CacheUpdateResource<CreditsApiModel, List<CastModel>, Int>(networkStateManager, dispatcher) {
 
     private val maxCreditSize = 15
 

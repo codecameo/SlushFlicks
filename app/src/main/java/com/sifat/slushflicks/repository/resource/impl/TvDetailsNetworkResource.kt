@@ -14,6 +14,8 @@ import com.sifat.slushflicks.ui.helper.getTvDetails
 import com.sifat.slushflicks.ui.state.DataSuccessResponse
 import com.sifat.slushflicks.utils.api.NetworkStateManager
 import com.sifat.slushflicks.utils.getDistinct
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 
 class TvDetailsNetworkResource(
@@ -21,9 +23,10 @@ class TvDetailsNetworkResource(
     private val tvService: TvService,
     private val request: RequestModel,
     private val jobManager: JobManager,
-    networkStateManager: NetworkStateManager
+    networkStateManager: NetworkStateManager,
+    dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : CacheFirstNetworkUpdateResource<TvShowDetailsApiModel, TvModel, TvModel>(
-    networkStateManager
+    networkStateManager, dispatcher
 ) {
 
     /**

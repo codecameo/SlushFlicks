@@ -16,7 +16,6 @@ import com.sifat.slushflicks.ui.base.BaseFragment
 import com.sifat.slushflicks.ui.home.adapter.TypeTagListAdapter
 import com.sifat.slushflicks.ui.home.adapter.model.CollectionListModel
 import com.sifat.slushflicks.ui.home.adapter.viewholder.TypeTagViewModel
-import com.sifat.slushflicks.ui.home.movie.state.dataaction.MovieHomeDataAction
 import com.sifat.slushflicks.ui.home.movie.state.event.MovieHomeEventState
 import com.sifat.slushflicks.ui.home.movie.state.event.MovieHomeEventState.MovieCollectionClickEvent
 import com.sifat.slushflicks.ui.home.movie.state.viewaction.MovieHomeViewAction.CollectionContainerUpdateViewAction
@@ -78,13 +77,7 @@ class HomeMovieFragment :
             }
         })
 
-        viewModel.observeDataAction().observe(viewLifecycleOwner, Observer { action ->
-            when (action) {
-                is MovieHomeDataAction.MovieCollectionDataAction -> {
-                    viewModel.setDataAction(action)
-                }
-            }
-        })
+        viewModel.observeDataAction().observe(viewLifecycleOwner, Observer {})
     }
 
     private fun setContainerFragment(action: CollectionContainerUpdateViewAction) {

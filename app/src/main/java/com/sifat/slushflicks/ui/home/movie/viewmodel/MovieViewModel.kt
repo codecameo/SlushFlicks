@@ -6,8 +6,6 @@ import com.sifat.slushflicks.repository.movie.MovieHomeRepository
 import com.sifat.slushflicks.ui.base.BaseActionViewModel
 import com.sifat.slushflicks.ui.helper.getCollectionListLoadingModel
 import com.sifat.slushflicks.ui.helper.getCollectionListModel
-import com.sifat.slushflicks.ui.home.movie.state.dataaction.MovieHomeDataAction
-import com.sifat.slushflicks.ui.home.movie.state.dataaction.MovieHomeDataAction.MovieCollectionDataAction
 import com.sifat.slushflicks.ui.home.movie.state.event.MovieHomeEventState
 import com.sifat.slushflicks.ui.home.movie.state.event.MovieHomeEventState.MovieCollectionClickEvent
 import com.sifat.slushflicks.ui.home.movie.state.event.MovieHomeEventState.MovieCollectionEvent
@@ -22,7 +20,7 @@ import javax.inject.Inject
 class MovieViewModel
 @Inject constructor(
     private val repository: MovieHomeRepository
-) : BaseActionViewModel<MovieHomeDataAction, MovieHomeViewAction, MovieHomeViewState>() {
+) : BaseActionViewModel<MovieHomeViewAction, MovieHomeViewState>() {
     override val viewState by lazy {
         MovieHomeViewState()
     }
@@ -56,12 +54,12 @@ class MovieViewModel
         sendCollectionLoadingAction()
 
         dataState.addSource(repository.getMovieCollection()) { dataResponse ->
-            dataState.value = MovieCollectionDataAction(dataResponse)
+            setMovieCollection(dataResponse)
         }
     }
 
-    fun setDataAction(action: MovieCollectionDataAction) {
-        when (val dataState = action.dataState) {
+    private fun setMovieCollection(dataState: DataState<List<CollectionModel>>) {
+        when (dataState) {
             is DataState.Success<List<CollectionModel>> -> {
                 dataState.dataResponse.data?.let { collection ->
                     viewState.movieCollectionList = getCollectionListModel(collection)
