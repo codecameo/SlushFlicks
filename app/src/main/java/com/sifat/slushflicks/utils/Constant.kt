@@ -51,3 +51,4 @@ const val EQUAL_SIGN = "="
 const val AMPERSAND = "&"
 const val HTTP_PREFIX = "https://"
 const val PLAIN_TEXT_TYPE = "text/plain"
+const val LOADING_MODEL_COUNT = 5
