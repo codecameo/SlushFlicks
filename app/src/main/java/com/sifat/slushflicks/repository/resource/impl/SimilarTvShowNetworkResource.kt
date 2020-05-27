@@ -11,8 +11,8 @@ import com.sifat.slushflicks.model.ShowModelMinimal
 import com.sifat.slushflicks.model.TvModel
 import com.sifat.slushflicks.repository.resource.type.NetworkOnlyResource
 import com.sifat.slushflicks.ui.helper.getMetaData
-import com.sifat.slushflicks.ui.helper.getShowMinimalModel
 import com.sifat.slushflicks.ui.helper.getTvList
+import com.sifat.slushflicks.ui.helper.getTvMinimalModel
 import com.sifat.slushflicks.ui.state.DataState
 import com.sifat.slushflicks.ui.state.DataSuccessResponse
 import com.sifat.slushflicks.utils.api.NetworkStateManager
@@ -68,7 +68,7 @@ class SimilarTvShowNetworkResource(
 
     override fun getAppDataSuccessResponse(response: DataSuccessResponse<List<TvModel>>): DataSuccessResponse<List<ShowModelMinimal>> {
         return DataSuccessResponse(
-            data = getShowMinimalModel(response.data),
+            data = getTvMinimalModel(response.data),
             metaData = response.metaData,
             message = response.message
         )

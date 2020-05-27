@@ -13,8 +13,8 @@ import com.sifat.slushflicks.ui.details.state.event.TvDetailsViewEvent.*
 import com.sifat.slushflicks.ui.details.state.viewaction.TvDetailsViewAction
 import com.sifat.slushflicks.ui.details.state.viewaction.TvDetailsViewAction.*
 import com.sifat.slushflicks.ui.details.state.viewstate.TvDetailsViewState
-import com.sifat.slushflicks.ui.helper.getMovieListModel
 import com.sifat.slushflicks.ui.helper.getShowListLoadingModels
+import com.sifat.slushflicks.ui.helper.getShowListModel
 import com.sifat.slushflicks.ui.home.adapter.model.ShowListModel
 import com.sifat.slushflicks.ui.state.DataErrorResponse
 import com.sifat.slushflicks.ui.state.DataState
@@ -174,7 +174,7 @@ class TvDetailsViewModel
     private fun setSimilarTvSeries(dataState: DataState<List<ShowModelMinimal>>) {
         when (dataState) {
             is DataState.Success<List<ShowModelMinimal>> -> {
-                viewState.similarTvShows = getMovieListModel(dataState.dataResponse.data)
+                viewState.similarTvShows = getShowListModel(dataState.dataResponse.data)
                 sendSimilarSuccessAction(dataState)
             }
             is DataState.Error<List<ShowModelMinimal>> -> {
@@ -186,7 +186,7 @@ class TvDetailsViewModel
     private fun setRecommendedTvSeries(dataState: DataState<List<ShowModelMinimal>>) {
         when (dataState) {
             is DataState.Success<List<ShowModelMinimal>> -> {
-                viewState.recommendedTvShows = getMovieListModel(dataState.dataResponse.data)
+                viewState.recommendedTvShows = getShowListModel(dataState.dataResponse.data)
                 sendRecommendationSuccessAction(dataState)
             }
             is DataState.Error<List<ShowModelMinimal>> -> {
