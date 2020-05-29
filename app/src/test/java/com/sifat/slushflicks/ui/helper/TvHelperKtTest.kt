@@ -6,10 +6,7 @@ import com.sifat.slushflicks.api.home.tv.model.*
 import com.sifat.slushflicks.model.GenreModel
 import com.sifat.slushflicks.model.SeasonModel
 import com.sifat.slushflicks.model.TvModel
-import com.sifat.slushflicks.utils.EMPTY_STRING
-import com.sifat.slushflicks.utils.INVALID_PAGE
-import com.sifat.slushflicks.utils.PAGE_SIZE
-import com.sifat.slushflicks.utils.getGenreList
+import com.sifat.slushflicks.utils.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
@@ -202,7 +199,7 @@ internal class TvHelperKtTest {
     @Test
     fun testTvDetailsApiModel() {
         // Arrange
-        val tvDetailApiModel = Gson().fromJson(tvDetailsResponse, TvShowDetailsApiModel::class.java)
+        val tvDetailApiModel = getTvDetailsTestModel()
         //Act
         val actual = getTvDetails(tvDetailApiModel)
         //Assert
@@ -224,8 +221,7 @@ internal class TvHelperKtTest {
     @Test
     fun testTvDetailsApiModelWithNullValue() {
         // Arrange
-        val tvDetailApiModel =
-            Gson().fromJson(tvDetailsNullResponse, TvShowDetailsApiModel::class.java)
+        val tvDetailApiModel = getNullTvDetailsTestModel()
         //Act
         val actual = getTvDetails(tvDetailApiModel)
         //Assert
@@ -545,170 +541,6 @@ internal class TvHelperKtTest {
         releaseDate = null,
         voteCount = 462
     )
-
-    private val tvDetailsResponse by lazy {
-        """
-            {
-            "backdrop_path": "/9wCsImxDW4MCVP47vVjny0Wa06s.jpg",
-            "created_by": [
-            {
-            "id": 18189,
-            "credit_id": "5c92fafd0e0a261045e7ae95",
-            "name": "Mark Bomback",
-            "gender": 2,
-            "profile_path": "/6h43JZtgvcYrbl8FGHHPxeZUHht.jpg"
-            }
-            ],
-            "episode_run_time": [
-            60
-            ],
-            "first_air_date": "2020-04-24",
-            "genres": [
-            {
-            "id": 18,
-            "name": "Drama"
-            },
-            {
-            "id": 9648,
-            "name": "Mystery"
-            },
-            {
-            "id": 80,
-            "name": "Crime"
-            }
-            ],
-            "id": 87784,
-            "last_air_date": "2020-05-01",
-            "last_episode_to_air": {
-            "air_date": "2020-05-01",
-            "episode_number": 4,
-            "id": 2239042,
-            "name": "Damage Control",
-            "overview": "Andy takes matters into his own hands. Laurie reexamines the life she knew.",
-            "season_number": 1,
-            "still_path": "/AqV73RG7IWfwoY8CwGoRwn4wncp.jpg",
-            "vote_average": 0,
-            "vote_count": 0
-            },
-            "name": "Defending Jacob",
-            "next_episode_to_air": {
-            "air_date": "2020-05-08",
-            "episode_number": 5,
-            "id": 2243944,
-            "name": "Episode 5",
-            "overview": "",
-            "production_code": "",
-            "season_number": 1,
-            "show_id": 87784,
-            "still_path": null,
-            "vote_average": 0,
-            "vote_count": 0
-            },
-            "number_of_episodes": 5,
-            "number_of_seasons": 1,
-            "overview": "A family’s lives are irreparably disrupted when the 14-year-old son is accused of murdering a fellow classmate in this dramatic legal thriller.",
-            "popularity": 72.767,
-            "poster_path": "/JTmkzwSDRiS9nvSPwpDB9fmZj2.jpg",
-            "seasons": [
-            {
-            "air_date": "2020-04-24",
-            "episode_count": 5,
-            "id": 120893,
-            "name": "Season 1",
-            "overview": "",
-            "poster_path": "/JTmkzwSDRiS9nvSPwpDB9fmZj2.jpg",
-            "season_number": 1
-            }
-            ],
-            "status": "Returning Series",
-            "type": "Miniseries",
-            "vote_average": 8.2,
-            "vote_count": 75
-            }
-        """.trimIndent()
-    }
-
-    private val tvDetailsNullResponse by lazy {
-        """
-            {
-            "backdrop_path": null,
-            "created_by": [
-            {
-            "id": 18189,
-            "credit_id": "5c92fafd0e0a261045e7ae95",
-            "name": "Mark Bomback",
-            "gender": 2,
-            "profile_path": "/6h43JZtgvcYrbl8FGHHPxeZUHht.jpg"
-            }
-            ],
-            "episode_run_time": [
-            60
-            ],
-            "first_air_date": null,
-            "genres": [
-            {
-            "id": 18,
-            "name": "Drama"
-            },
-            {
-            "id": 9648,
-            "name": "Mystery"
-            },
-            {
-            "id": 80,
-            "name": "Crime"
-            }
-            ],
-            "id": 87784,
-            "last_air_date": "2020-05-01",
-            "last_episode_to_air": {
-            "air_date": "2020-05-01",
-            "episode_number": 4,
-            "id": 2239042,
-            "name": "Damage Control",
-            "overview": "Andy takes matters into his own hands. Laurie reexamines the life she knew.",
-            "season_number": 1,
-            "still_path": "/AqV73RG7IWfwoY8CwGoRwn4wncp.jpg",
-            "vote_average": 0,
-            "vote_count": 0
-            },
-            "name": "Defending Jacob",
-            "next_episode_to_air": {
-            "air_date": "2020-05-08",
-            "episode_number": 5,
-            "id": 2243944,
-            "name": "Episode 5",
-            "overview": "",
-            "production_code": "",
-            "season_number": 1,
-            "show_id": 87784,
-            "still_path": null,
-            "vote_average": 0,
-            "vote_count": 0
-            },
-            "number_of_episodes": 5,
-            "number_of_seasons": 1,
-            "overview": "A family’s lives are irreparably disrupted when the 14-year-old son is accused of murdering a fellow classmate in this dramatic legal thriller.",
-            "popularity": 72.767,
-            "poster_path": null",
-            "seasons": [
-            {
-            "air_date": "2020-04-24",
-            "episode_count": 5,
-            "id": 120893,
-            "name": "Season 1",
-            "overview": "",
-            "poster_path": "/JTmkzwSDRiS9nvSPwpDB9fmZj2.jpg",
-            "season_number": 1
-            }
-            ],
-            "status": "Returning Series",
-            "type": "Miniseries",
-            "vote_average": 8.2,
-            "vote_count": 75
-            }
-        """.trimIndent()
-    }
 
     private val seasonListResponse by lazy {
         """

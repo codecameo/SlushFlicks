@@ -110,7 +110,7 @@ fun getMovieDetails(apiModel: MovieDetailsApiModel?): MovieModel? {
             backdropPath = backdropPath ?: EMPTY_STRING,
             title = title,
             genres = genres,
-            releaseData = releaseDate,
+            releaseData = releaseDate ?: EMPTY_STRING,
             posterPath = posterPath ?: EMPTY_STRING,
             popularity = popularity,
             budget = budget,

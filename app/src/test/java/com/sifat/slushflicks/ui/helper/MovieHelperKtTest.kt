@@ -1,15 +1,10 @@
 package com.sifat.slushflicks.ui.helper
 
-import com.google.gson.Gson
 import com.sifat.slushflicks.api.home.movie.model.MovieApiModel
-import com.sifat.slushflicks.api.home.movie.model.MovieDetailsApiModel
 import com.sifat.slushflicks.api.home.movie.model.MovieListApiModel
 import com.sifat.slushflicks.model.GenreModel
 import com.sifat.slushflicks.model.MovieModel
-import com.sifat.slushflicks.utils.EMPTY_STRING
-import com.sifat.slushflicks.utils.INVALID_PAGE
-import com.sifat.slushflicks.utils.PAGE_SIZE
-import com.sifat.slushflicks.utils.getGenreList
+import com.sifat.slushflicks.utils.*
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
@@ -197,8 +192,7 @@ internal class MovieHelperKtTest {
     @Test
     fun testMovieDetailsApiModel() {
         // Arrange
-        val movieDetailApiModel =
-            Gson().fromJson(movieDetailsResponse, MovieDetailsApiModel::class.java)
+        val movieDetailApiModel = getMovieDetailsTestModel()
         //Act
         val actual = getMovieDetails(movieDetailApiModel)
         //Assert
@@ -222,8 +216,7 @@ internal class MovieHelperKtTest {
     @Test
     fun testMovieDetailsApiModelWithNullValue() {
         // Arrange
-        val movieDetailApiModel =
-            Gson().fromJson(movieDetailsResponse, MovieDetailsApiModel::class.java)
+        val movieDetailApiModel = getNullMovieDetailsTestModel()
         //Act
         val actual = getMovieDetails(movieDetailApiModel)
         //Assert
@@ -360,68 +353,4 @@ internal class MovieHelperKtTest {
         releaseDate = null,
         voteCount = 462
     )
-
-    val movieDetailsResponse by lazy {
-        """
-            {
-              "backdrop_path": "/ByDf0zjLSumz1MP1cDEo2JWVtU.jpg",
-              "budget": 63000000,
-              "genres": [
-                {
-                  "id": 28,
-                  "name": "Action"
-                },
-                {
-                  "id": 878,
-                  "name": "Science Fiction"
-                }
-              ],
-              "id": 603,
-              "overview": "Set in the 22nd century, The Matrix tells the story of a computer hacker who joins a group of underground insurgents fighting the vast and powerful computers who now rule the earth.",
-              "popularity": 40.794,
-              "poster_path": "/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg",
-              "release_date": "1999-03-30",
-              "revenue": 463517383,
-              "runtime": 136,
-              "status": "Released",
-              "tagline": "Welcome to the Real World.",
-              "title": "The Matrix",
-              "video": false,
-              "vote_average": 8.1,
-              "vote_count": 17021
-            }
-        """.trimIndent()
-    }
-
-    val movieDetailsNullResponse by lazy {
-        """
-            {
-              "backdrop_path": null,
-              "budget": 63000000,
-              "genres": [
-                {
-                  "id": 28,
-                  "name": "Action"
-                },
-                {
-                  "id": 878,
-                  "name": "Science Fiction"
-                }
-              ],
-              "id": 603,
-              "overview": "Set in the 22nd century, The Matrix tells the story of a computer hacker who joins a group of underground insurgents fighting the vast and powerful computers who now rule the earth.",
-              "popularity": 40.794,
-              "poster_path": null,
-              "release_date": null,
-              "revenue": 463517383,
-              "runtime": 136,
-              "status": "Released",
-              "tagline": "Welcome to the Real World.",
-              "title": "The Matrix",
-              "video": false,
-              "vote_average": 8.1,
-              "vote_count": 17021
-            }
-        """.trimIndent()
-    }
 }

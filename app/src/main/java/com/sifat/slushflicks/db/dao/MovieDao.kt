@@ -11,6 +11,7 @@ import com.sifat.slushflicks.model.CastModel
 import com.sifat.slushflicks.model.GenreModel
 import com.sifat.slushflicks.model.MovieModel
 import com.sifat.slushflicks.model.ShowModelMinimal
+import org.jetbrains.annotations.TestOnly
 
 @Dao
 interface MovieDao : BaseDao<MovieModel> {
@@ -82,4 +83,8 @@ interface MovieDao : BaseDao<MovieModel> {
             )
         }
     }
+
+    @TestOnly
+    @Query("SELECT * FROM $TABLE_NAME_MOVIE WHERE id = :movieId")
+    fun getMovie(movieId: Long): MovieModel
 }
