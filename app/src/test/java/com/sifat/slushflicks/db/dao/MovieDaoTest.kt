@@ -4,6 +4,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.sifat.slushflicks.db.AppDatabaseTest
 import com.sifat.slushflicks.model.CastModel
 import com.sifat.slushflicks.ui.helper.getMovieDetails
+import com.sifat.slushflicks.utils.getCastList
 import com.sifat.slushflicks.utils.getMovieDetailsTestModel
 import com.sifat.slushflicks.utils.getMovieDiffDetailsTestModel
 import com.sifat.slushflicks.utils.getOrAwaitValue
@@ -69,10 +70,7 @@ class MovieDaoTest : AppDatabaseTest() {
     @Test
     fun testUpdateCast() = mainCoroutineDispatcher.runBlockingTest {
         val movie = getMovieDetails(getMovieDetailsTestModel())
-        val cast = mutableListOf<CastModel>()
-        cast.add(CastModel(12, "iron", "downey", 2, "profileImage1"))
-        cast.add(CastModel(22, "captain", "evans", 1, "profileImage1"))
-        cast.add(CastModel(56, "thor", "crish", 4, "profileImage1"))
+        val cast = getCastList()
 
         movieDaoTest.insertReplace(movie!!)
         movieDaoTest.update(movieId = movie.id, casts = cast)

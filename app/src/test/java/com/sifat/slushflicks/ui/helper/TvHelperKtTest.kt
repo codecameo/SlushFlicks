@@ -3,9 +3,7 @@ package com.sifat.slushflicks.ui.helper
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.sifat.slushflicks.api.home.tv.model.*
-import com.sifat.slushflicks.model.GenreModel
 import com.sifat.slushflicks.model.SeasonModel
-import com.sifat.slushflicks.model.TvModel
 import com.sifat.slushflicks.utils.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
@@ -19,7 +17,7 @@ internal class TvHelperKtTest {
     fun testTvListModel() {
         // Arrange
         val apiList = getTvApiList()
-        val genreList = getGenreList()
+        val genreList = getGenreMap()
         //Act
         val actual = getTvList(apiList, genreList)
         //Assert
@@ -149,7 +147,7 @@ internal class TvHelperKtTest {
     fun testTvShowMinimalApiModels() {
         // Arrange
         val tvModel = getTvApiModel()
-        val genreModels = getGenreList()
+        val genreModels = getGenreMap()
         // Act
         val actual = getTvShowMinimalApiModel(tvModel, genreModels)
         // Assert
@@ -175,7 +173,7 @@ internal class TvHelperKtTest {
     fun testTvShowMinimalApiModelsWithNullValue() {
         // Arrange
         val tvModel = getTvApiNullModel()
-        val genreModels = getGenreList()
+        val genreModels = getGenreMap()
         // Act
         val actual = getTvShowMinimalApiModel(tvModel, genreModels)
         // Assert
@@ -468,51 +466,6 @@ internal class TvHelperKtTest {
             mutableListOf<Long>(4, 3, 9)
         )
         list.add(item)
-        return list
-    }
-
-    private fun getTvListModel(): List<TvModel> {
-        val list = mutableListOf<TvModel>()
-        list.add(
-            TvModel(
-                id = 1,
-                overview = "overview1",
-                backdropPath = "backdropPath1",
-                title = "title1",
-                voteAvg = 7.8,
-                genres = mutableListOf(
-                    GenreModel(1, "name1"),
-                    GenreModel(2, "name2"),
-                    GenreModel(3, "name3")
-                )
-            )
-        )
-        list.add(
-            TvModel(
-                id = 2,
-                overview = "overview2",
-                backdropPath = "backdropPath2",
-                title = "title2",
-                voteAvg = 8.5,
-                genres = mutableListOf(
-                    GenreModel(4, "name4"),
-                    GenreModel(2, "name2")
-                )
-            )
-        )
-        list.add(
-            TvModel(
-                id = 3,
-                overview = "overview3",
-                backdropPath = "backdropPath3",
-                title = "title3",
-                voteAvg = 5.8,
-                genres = mutableListOf(
-                    GenreModel(1, "name1"),
-                    GenreModel(5, "name5")
-                )
-            )
-        )
         return list
     }
 

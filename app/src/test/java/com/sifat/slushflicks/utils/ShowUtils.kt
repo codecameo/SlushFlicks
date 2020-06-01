@@ -3,8 +3,9 @@ package com.sifat.slushflicks.utils
 import com.google.gson.Gson
 import com.sifat.slushflicks.api.home.movie.model.MovieDetailsApiModel
 import com.sifat.slushflicks.api.home.tv.model.TvShowDetailsApiModel
+import com.sifat.slushflicks.model.*
 
-fun getGenreList(): Map<Long, String> {
+fun getGenreMap(): Map<Long, String> {
     val map = HashMap<Long, String>()
     map[1] = "genre1"
     map[2] = "genre2"
@@ -12,6 +13,158 @@ fun getGenreList(): Map<Long, String> {
     map[4] = "genre4"
     map[5] = "genre5"
     return map
+}
+
+fun getGenreList(): List<GenreModel> {
+    val list = mutableListOf<GenreModel>()
+    list.add(GenreModel(1, "Genre1"))
+    list.add(GenreModel(2, "Genre2"))
+    list.add(GenreModel(3, "Genre3"))
+    list.add(GenreModel(4, "Genre4"))
+    return list
+}
+
+fun getShowList(): List<ShowModelMinimal> {
+    val list = mutableListOf<ShowModelMinimal>()
+    list.add(
+        ShowModelMinimal(
+            id = 1,
+            voteAvg = 7.8,
+            title = "title1",
+            overview = "overview1",
+            backdropPath = "backdropPath1",
+            genres = mutableListOf(
+                GenreModel(1, "genre1"),
+                GenreModel(2, "genre2"),
+                GenreModel(3, "genre3")
+            )
+        )
+    )
+    list.add(
+        ShowModelMinimal(
+            id = 2,
+            voteAvg = 6.4,
+            title = "title2",
+            overview = "overview2",
+            backdropPath = "backdropPath2",
+            genres = mutableListOf(
+                GenreModel(2, "genre2"),
+                GenreModel(5, "genre5")
+            )
+        )
+    )
+    list.add(
+        ShowModelMinimal(
+            id = 3,
+            voteAvg = 8.1,
+            title = "title3",
+            overview = "overview3",
+            backdropPath = "backdropPath3",
+            genres = mutableListOf(
+                GenreModel(3, "genre3"),
+                GenreModel(4, "genre4")
+            )
+        )
+    )
+    return list
+}
+
+fun getTvListModel(): List<TvModel> {
+    val list = mutableListOf<TvModel>()
+    list.add(
+        TvModel(
+            id = 1,
+            overview = "overview1",
+            backdropPath = "backdropPath1",
+            title = "title1",
+            voteAvg = 7.8,
+            genres = mutableListOf(
+                GenreModel(1, "name1"),
+                GenreModel(2, "name2"),
+                GenreModel(3, "name3")
+            )
+        )
+    )
+    list.add(
+        TvModel(
+            id = 2,
+            overview = "overview2",
+            backdropPath = "backdropPath2",
+            title = "title2",
+            voteAvg = 8.5,
+            genres = mutableListOf(
+                GenreModel(4, "name4"),
+                GenreModel(2, "name2")
+            )
+        )
+    )
+    list.add(
+        TvModel(
+            id = 3,
+            overview = "overview3",
+            backdropPath = "backdropPath3",
+            title = "title3",
+            voteAvg = 5.8,
+            genres = mutableListOf(
+                GenreModel(1, "name1"),
+                GenreModel(5, "name5")
+            )
+        )
+    )
+    return list
+}
+
+fun getMovieListModel(): List<MovieModel> {
+    val list = mutableListOf<MovieModel>()
+    list.add(
+        MovieModel(
+            id = 1,
+            overview = "overview1",
+            backdropPath = "backdropPath1",
+            title = "title1",
+            voteAvg = 7.8,
+            genres = mutableListOf(
+                GenreModel(1, "name1"),
+                GenreModel(2, "name2"),
+                GenreModel(3, "name3")
+            )
+        )
+    )
+    list.add(
+        MovieModel(
+            id = 2,
+            overview = "overview2",
+            backdropPath = "backdropPath2",
+            title = "title2",
+            voteAvg = 8.5,
+            genres = mutableListOf(
+                GenreModel(4, "name4"),
+                GenreModel(2, "name2")
+            )
+        )
+    )
+    list.add(
+        MovieModel(
+            id = 3,
+            overview = "overview3",
+            backdropPath = "backdropPath3",
+            title = "title3",
+            voteAvg = 5.8,
+            genres = mutableListOf(
+                GenreModel(1, "name1"),
+                GenreModel(5, "name5")
+            )
+        )
+    )
+    return list
+}
+
+fun getCastList(): MutableList<CastModel> {
+    val cast = mutableListOf<CastModel>()
+    cast.add(CastModel(12, "iron", "downey", 2, "profileImage1"))
+    cast.add(CastModel(22, "captain", "evans", 1, "profileImage1"))
+    cast.add(CastModel(56, "thor", "crish", 4, "profileImage1"))
+    return cast
 }
 
 fun getMovieDetailsTestModel(): MovieDetailsApiModel {

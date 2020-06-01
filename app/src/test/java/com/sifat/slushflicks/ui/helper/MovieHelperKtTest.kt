@@ -2,8 +2,6 @@ package com.sifat.slushflicks.ui.helper
 
 import com.sifat.slushflicks.api.home.movie.model.MovieApiModel
 import com.sifat.slushflicks.api.home.movie.model.MovieListApiModel
-import com.sifat.slushflicks.model.GenreModel
-import com.sifat.slushflicks.model.MovieModel
 import com.sifat.slushflicks.utils.*
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
@@ -14,7 +12,7 @@ internal class MovieHelperKtTest {
     fun testMovieListModel() {
         // Arrange
         val apiList = getMovieApiList()
-        val genreList = getGenreList()
+        val genreList = getGenreMap()
         //Act
         val actual = getMovieList(apiList, genreList)
         //Assert
@@ -71,7 +69,7 @@ internal class MovieHelperKtTest {
     fun testTvShowMinimalApiModels() {
         // Arrange
         val movieModel = getMovieApiModel()
-        val genreModels = getGenreList()
+        val genreModels = getGenreMap()
         // Act
         val actual = getMovieMinimalApiModel(movieModel, genreModels)
         // Assert
@@ -96,7 +94,7 @@ internal class MovieHelperKtTest {
     fun testTvShowMinimalApiModelsWithNullValue() {
         // Arrange
         val movieModel = getMovieApiNullModel()
-        val genreModels = getGenreList()
+        val genreModels = getGenreMap()
         // Act
         val actual = getMovieMinimalApiModel(movieModel, genreModels)
         // Assert
@@ -280,51 +278,6 @@ internal class MovieHelperKtTest {
             mutableListOf<Long>(4, 3, 9)
         )
         list.add(item)
-        return list
-    }
-
-    private fun getMovieListModel(): List<MovieModel> {
-        val list = mutableListOf<MovieModel>()
-        list.add(
-            MovieModel(
-                id = 1,
-                overview = "overview1",
-                backdropPath = "backdropPath1",
-                title = "title1",
-                voteAvg = 7.8,
-                genres = mutableListOf(
-                    GenreModel(1, "name1"),
-                    GenreModel(2, "name2"),
-                    GenreModel(3, "name3")
-                )
-            )
-        )
-        list.add(
-            MovieModel(
-                id = 2,
-                overview = "overview2",
-                backdropPath = "backdropPath2",
-                title = "title2",
-                voteAvg = 8.5,
-                genres = mutableListOf(
-                    GenreModel(4, "name4"),
-                    GenreModel(2, "name2")
-                )
-            )
-        )
-        list.add(
-            MovieModel(
-                id = 3,
-                overview = "overview3",
-                backdropPath = "backdropPath3",
-                title = "title3",
-                voteAvg = 5.8,
-                genres = mutableListOf(
-                    GenreModel(1, "name1"),
-                    GenreModel(5, "name5")
-                )
-            )
-        )
         return list
     }
 
