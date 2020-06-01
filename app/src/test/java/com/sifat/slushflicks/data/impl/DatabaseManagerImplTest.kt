@@ -47,7 +47,7 @@ class DatabaseManagerImplTest {
     }
 
     @Test
-    fun saveGenre() = mainCoroutineDispatcher.runBlockingTest {
+    fun testSavingGenre() = mainCoroutineDispatcher.runBlockingTest {
         // Arrange
         genreDaoMock = mock(GenreDao::class.java)
         val list = getGenreList()
@@ -60,7 +60,7 @@ class DatabaseManagerImplTest {
     }
 
     @Test
-    fun loadGenres() = mainCoroutineDispatcher.runBlockingTest {
+    fun testLoadingGenres() = mainCoroutineDispatcher.runBlockingTest {
         // Arrange
         genreDaoMock = mock(GenreDao::class.java)
         val list = getGenreList()
@@ -108,7 +108,7 @@ class DatabaseManagerImplTest {
     }
 
     @Test
-    fun insertNewTvCollection() = mainCoroutineDispatcher.runBlockingTest {
+    fun testInsertNewTvCollectionList() = mainCoroutineDispatcher.runBlockingTest {
         // Arrange
         tvCollectionDaoMock = mock(TvCollectionDao::class.java)
         val list = mutableListOf<TvCollectionModel>()
@@ -185,7 +185,7 @@ class DatabaseManagerImplTest {
     }
 
     @Test
-    fun getPagingTvShows() {
+    fun testPagingTvShows() {
         // Arrange
         tvDaoMock = mock(TvDao::class.java)
         val collectionName = "collectionName"
