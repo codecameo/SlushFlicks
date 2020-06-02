@@ -19,7 +19,7 @@ import kotlin.test.assertNull
 @RunWith(AndroidJUnit4::class)
 class TvDaoTest : AppDatabaseTest() {
 
-    lateinit var tvDaoTest: TvDao
+    private lateinit var tvDaoTest: TvDao
 
     @Before
     override fun setup() {

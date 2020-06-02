@@ -1,6 +1,7 @@
 package com.sifat.slushflicks.utils
 
 import com.google.gson.Gson
+import com.sifat.slushflicks.api.details.model.VideoApiModel
 import com.sifat.slushflicks.api.home.movie.model.MovieDetailsApiModel
 import com.sifat.slushflicks.api.home.tv.model.TvShowDetailsApiModel
 import com.sifat.slushflicks.model.*
@@ -114,6 +115,24 @@ fun getTvListModel(): List<TvModel> {
     return list
 }
 
+fun getMovieCollectionModel(collectionName: String): List<MovieCollectionModel> {
+    val list = mutableListOf<MovieCollectionModel>()
+    list.add(MovieCollectionModel(collectionName, 1, 0))
+    list.add(MovieCollectionModel(collectionName, 5, 1))
+    list.add(MovieCollectionModel(collectionName, 3, 2))
+    list.add(MovieCollectionModel(collectionName, 7, 3))
+    return list
+}
+
+fun getTvCollectionModel(collectionName: String): List<TvCollectionModel> {
+    val list = mutableListOf<TvCollectionModel>()
+    list.add(TvCollectionModel(collectionName, 1, 0))
+    list.add(TvCollectionModel(collectionName, 5, 1))
+    list.add(TvCollectionModel(collectionName, 3, 2))
+    list.add(TvCollectionModel(collectionName, 7, 3))
+    return list
+}
+
 fun getMovieListModel(): List<MovieModel> {
     val list = mutableListOf<MovieModel>()
     list.add(
@@ -166,6 +185,8 @@ fun getCastList(): MutableList<CastModel> {
     cast.add(CastModel(56, "thor", "crish", 4, "profileImage1"))
     return cast
 }
+
+fun getVideoModel() = VideoApiModel("id001", "videokey", "type", "platform")
 
 fun getMovieDetailsTestModel(): MovieDetailsApiModel {
     return Gson().fromJson(movieDetailsResponse, MovieDetailsApiModel::class.java)

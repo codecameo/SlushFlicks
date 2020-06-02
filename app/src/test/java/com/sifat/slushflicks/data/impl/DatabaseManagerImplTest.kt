@@ -77,12 +77,8 @@ class DatabaseManagerImplTest {
     fun testInsertNewMovieCollectionList() = mainCoroutineDispatcher.runBlockingTest {
         // Arrange
         movieCollectionDaoMock = mock(MovieCollectionDao::class.java)
-        val list = mutableListOf<MovieCollectionModel>()
         val collectionName = "collectionName"
-        list.add(MovieCollectionModel(collectionName, 1, 0))
-        list.add(MovieCollectionModel(collectionName, 5, 1))
-        list.add(MovieCollectionModel(collectionName, 3, 2))
-        list.add(MovieCollectionModel(collectionName, 7, 3))
+        val list = getMovieCollectionModel(collectionName)
         `when`(appDatabase.getMovieCollectionDao()).thenReturn(movieCollectionDaoMock)
 
         //Act
@@ -111,12 +107,8 @@ class DatabaseManagerImplTest {
     fun testInsertNewTvCollectionList() = mainCoroutineDispatcher.runBlockingTest {
         // Arrange
         tvCollectionDaoMock = mock(TvCollectionDao::class.java)
-        val list = mutableListOf<TvCollectionModel>()
         val collectionName = "collectionName"
-        list.add(TvCollectionModel(collectionName, 1, 0))
-        list.add(TvCollectionModel(collectionName, 5, 1))
-        list.add(TvCollectionModel(collectionName, 3, 2))
-        list.add(TvCollectionModel(collectionName, 7, 3))
+        val list = getTvCollectionModel(collectionName)
         `when`(appDatabase.getTvCollectionDao()).thenReturn(tvCollectionDaoMock)
 
         //Act
@@ -207,12 +199,8 @@ class DatabaseManagerImplTest {
     fun testAddMovieCollection() = mainCoroutineDispatcher.runBlockingTest {
         // Arrange
         movieCollectionDaoMock = mock(MovieCollectionDao::class.java)
-        val list = mutableListOf<MovieCollectionModel>()
         val collectionName = "collectionName"
-        list.add(MovieCollectionModel(collectionName, 1, 0))
-        list.add(MovieCollectionModel(collectionName, 5, 1))
-        list.add(MovieCollectionModel(collectionName, 3, 2))
-        list.add(MovieCollectionModel(collectionName, 7, 3))
+        val list = getMovieCollectionModel(collectionName)
         `when`(appDatabase.getMovieCollectionDao()).thenReturn(movieCollectionDaoMock)
 
         //Act
@@ -226,12 +214,8 @@ class DatabaseManagerImplTest {
     fun testAddTvCollection() = mainCoroutineDispatcher.runBlockingTest {
         // Arrange
         tvCollectionDaoMock = mock(TvCollectionDao::class.java)
-        val list = mutableListOf<TvCollectionModel>()
         val collectionName = "collectionName"
-        list.add(TvCollectionModel(collectionName, 1, 0))
-        list.add(TvCollectionModel(collectionName, 5, 1))
-        list.add(TvCollectionModel(collectionName, 3, 2))
-        list.add(TvCollectionModel(collectionName, 7, 3))
+        val list = getTvCollectionModel(collectionName)
         `when`(appDatabase.getTvCollectionDao()).thenReturn(tvCollectionDaoMock)
 
         //Act
@@ -298,7 +282,7 @@ class DatabaseManagerImplTest {
     fun testUpdateMovieVideoLink() = mainCoroutineDispatcher.runBlockingTest {
         // Arrange
         movieDaoMock = mock(MovieDao::class.java)
-        val video = VideoApiModel("id001", "videokey", "type", "platform")
+        val video = getVideoModel()
         val movieId = 1L
         `when`(appDatabase.getMovieDao()).thenReturn(movieDaoMock)
         //Act
