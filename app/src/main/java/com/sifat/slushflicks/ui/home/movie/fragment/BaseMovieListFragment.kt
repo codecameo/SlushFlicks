@@ -64,8 +64,6 @@ abstract class BaseMovieListFragment<VM : BaseMovieListViewModel> :
                 }
             }
         })
-
-        viewModel.observeDataAction().observe(viewLifecycleOwner, Observer {})
     }
 
     override fun onShowClicked(model: ShowModelMinimal) {
@@ -128,7 +126,6 @@ abstract class BaseMovieListFragment<VM : BaseMovieListViewModel> :
 
     override fun onDestroyView() {
         viewModel.observeViewAction().removeObservers(viewLifecycleOwner)
-        viewModel.observeDataAction().removeObservers(viewLifecycleOwner)
         super.onDestroyView()
     }
 }

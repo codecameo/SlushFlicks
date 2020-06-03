@@ -69,8 +69,6 @@ class HomeTvFragment :
                 }
             }
         })
-
-        viewModel.observeDataAction().observe(viewLifecycleOwner, Observer {})
     }
 
     private fun setContainerFragment(action: TvHomeViewAction.CollectionContainerUpdateViewAction) {
@@ -147,7 +145,6 @@ class HomeTvFragment :
 
     override fun onDestroyView() {
         viewModel.observeViewAction().removeObservers(viewLifecycleOwner)
-        viewModel.observeDataAction().removeObservers(viewLifecycleOwner)
         super.onDestroyView()
     }
 

@@ -57,8 +57,6 @@ abstract class BaseTvListFragment<VM : BaseTvListViewModel> :
                 }
             }
         })
-
-        viewModel.observeDataAction().observe(viewLifecycleOwner, Observer {})
     }
 
     private fun setMovieList(actionNetwork: TvListViewAction.FetchNetworkTvListViewAction) {

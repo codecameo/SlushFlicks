@@ -75,8 +75,6 @@ class SearchFragment :
                 }
             }
         })
-
-        viewModel.observeDataAction().observe(viewLifecycleOwner, Observer {})
     }
 
     private fun fetchInitialData() {

@@ -60,8 +60,6 @@ class TvDetailsActivity : BaseDetailsActivity<ActivityTvDetailsBinding, TvDetail
                 }
             }
         })
-
-        viewModel.observeDataAction().observe(this, Observer {})
     }
 
     private fun shareTvSeries(action: ShareTvSeriesViewAction) {
