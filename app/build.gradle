@@ -26,6 +26,8 @@ android {
         sourceSets {
             androidTest.java.srcDirs += "src/testCommon/java"
             test.java.srcDirs += "src/testCommon/java"
+            debug.assets.srcDirs += "src/debug/assets"
+            release.assets.srcDirs += "src/release/assets"
         }
     }
 
@@ -168,6 +170,6 @@ dependencies {
     testImplementation "androidx.room:room-testing:$room_version"
 
     // MOCKITO
-    def mockito_version = "2.19.0"
     testImplementation "org.mockito:mockito-core:$mockito_version"
+    testImplementation "org.mockito:mockito-inline:$mockito_version"
 }

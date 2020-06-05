@@ -43,7 +43,5 @@ abstract class CacheOnlyResource<ApiData, CacheData, AppData>(
 
     override suspend fun updateLocalDb(cacheData: CacheData?) {}
 
-    override fun setJob(job: Job) {
-
-    }
+    override fun setJob(job: Job) {}
 }

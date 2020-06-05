@@ -1,5 +1,7 @@
 package com.sifat.slushflicks.api
 
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.AIRING_TODAY_TV_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.GENRES_MOVIE_URL
 import com.sifat.slushflicks.api.ApiEndPoint.Companion.GENRES_TV_URL
@@ -140,3 +142,12 @@ class StatusCode {
         const val REQUEST_CANCELLED = 100
     }
 }
+
+data class ErrorResponse(
+    @SerializedName("status_code")
+    @Expose
+    val statusCode: Int,
+    @SerializedName("status_message")
+    @Expose
+    val message: String
+)
