@@ -3,10 +3,7 @@ package com.sifat.slushflicks.ui.helper
 import com.sifat.slushflicks.api.home.tv.model.*
 import com.sifat.slushflicks.model.*
 import com.sifat.slushflicks.ui.state.MetaData
-import com.sifat.slushflicks.utils.BULLET_SIGN
-import com.sifat.slushflicks.utils.EMPTY_STRING
-import com.sifat.slushflicks.utils.PAGE_SIZE
-import com.sifat.slushflicks.utils.SPACE
+import com.sifat.slushflicks.utils.*
 
 
 /**
@@ -40,6 +37,7 @@ fun getCollectionModels(
     collection: String,
     page: Int
 ): List<TvCollectionModel> {
+    if (page < 1) throw RuntimeException(String.format(INVALID_PAGE, page))
     val collectionList = mutableListOf<TvCollectionModel>()
     for (index in tvShows.indices) {
         val collectionModel = TvCollectionModel(
@@ -52,8 +50,8 @@ fun getCollectionModels(
     return collectionList
 }
 
-fun getMetaData(movieListApiModel: TvListApiModel?): MetaData? {
-    return movieListApiModel?.let { model ->
+fun getMetaData(tvListApiModel: TvListApiModel?): MetaData? {
+    return tvListApiModel?.let { model ->
         MetaData(
             page = model.page,
             totalResult = model.totalResults,
@@ -62,7 +60,9 @@ fun getMetaData(movieListApiModel: TvListApiModel?): MetaData? {
     }
 }
 
-fun getShowMinimalModel(tvShows: List<TvModel>?): List<ShowModelMinimal>? {
+fun getTvMinimalModel(
+    tvShows: List<TvModel>?
+): List<ShowModelMinimal>? {
     if (tvShows.isNullOrEmpty()) return null
     val moviesMinimalList = mutableListOf<ShowModelMinimal>()
     for (tv in tvShows) {
@@ -77,27 +77,6 @@ fun getShowMinimalModel(tvShows: List<TvModel>?): List<ShowModelMinimal>? {
         moviesMinimalList.add(movieModelMinimal)
     }
     return moviesMinimalList
-}
-
-fun getTvShowMinimalApiModels(
-    tvShows: List<TvApiModel>?,
-    genreMap: Map<Long, String>
-): List<ShowModelMinimal> {
-    if (tvShows.isNullOrEmpty()) return emptyList()
-    val tvShowsMinimalList = mutableListOf<ShowModelMinimal>()
-    for (tvShow in tvShows) {
-        val genresModels = getGenresModels(tvShow.genreIds, genreMap)
-        val movieModelMinimal = ShowModelMinimal(
-            id = tvShow.id,
-            overview = tvShow.overview,
-            title = tvShow.title,
-            genres = genresModels,
-            voteAvg = tvShow.voteAverage,
-            backdropPath = tvShow.backdropPath ?: EMPTY_STRING
-        )
-        tvShowsMinimalList.add(movieModelMinimal)
-    }
-    return tvShowsMinimalList
 }
 
 fun getTvShowMinimalApiModel(
@@ -156,13 +135,13 @@ fun getDirectors(createdBy: List<CreatedBy>?): String {
 }
 
 fun getRuntime(runtimes: List<Int>?): Int {
-    return runtimes?.let {
+    return if (!runtimes.isNullOrEmpty()) {
         var runtime = 0
         for (time in runtimes) {
             runtime += time
         }
         (runtime / runtimes.size)
-    } ?: 0
+    } else 0
 }
 
 fun getEpisode(model: Episode?): EpisodeModel? {
@@ -201,3 +180,25 @@ fun getSeason(season: Season): SeasonModel {
         episodeCount = season.episodeCount
     )
 }
+
+/*
+fun getTvShowMinimalApiModels(
+    tvShows: List<TvApiModel>?,
+    genreMap: Map<Long, String>
+): List<ShowModelMinimal> {
+    if (tvShows.isNullOrEmpty()) return emptyList()
+    val tvShowsMinimalList = mutableListOf<ShowModelMinimal>()
+    for (tvShow in tvShows) {
+        val genresModels = getGenresModels(tvShow.genreIds, genreMap)
+        val movieModelMinimal = ShowModelMinimal(
+            id = tvShow.id,
+            overview = tvShow.overview,
+            title = tvShow.title,
+            genres = genresModels,
+            voteAvg = tvShow.voteAverage,
+            backdropPath = tvShow.backdropPath ?: EMPTY_STRING
+        )
+        tvShowsMinimalList.add(movieModelMinimal)
+    }
+    return tvShowsMinimalList
+}*/

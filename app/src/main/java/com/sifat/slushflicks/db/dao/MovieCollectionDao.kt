@@ -5,6 +5,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import com.sifat.slushflicks.db.DbConstant.TableName.Companion.TABLE_NAME_MOVIE_TYPE
 import com.sifat.slushflicks.model.MovieCollectionModel
+import org.jetbrains.annotations.TestOnly
 
 @Dao
 interface MovieCollectionDao : BaseDao<MovieCollectionModel> {
@@ -22,4 +23,7 @@ interface MovieCollectionDao : BaseDao<MovieCollectionModel> {
     @Query(value = "DELETE FROM $TABLE_NAME_MOVIE_TYPE WHERE collection = :label")
     suspend fun deleteCollection(label: String)
 
+    @TestOnly
+    @Query(value = "SELECT * FROM $TABLE_NAME_MOVIE_TYPE")
+    suspend fun getCollections(): List<MovieCollectionModel>
 }

@@ -1,6 +1,5 @@
 package com.sifat.slushflicks.repository.resource
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import com.sifat.slushflicks.api.*
@@ -88,7 +87,6 @@ abstract class Resource<ApiData, CacheData, AppData>(
 
     @UseExperimental(InternalCoroutinesApi::class)
     private fun initNewJob(): Job {
-        Log.d(tag, "initNewJob: called.")
         job = Job() // create new job
         job.invokeOnCompletion(
             onCancelling = true,
@@ -96,14 +94,14 @@ abstract class Resource<ApiData, CacheData, AppData>(
             handler = object : CompletionHandler {
                 override fun invoke(cause: Throwable?) {
                     if (job.isCancelled) {
-                        Log.e(tag, "NetworkBoundResource: Job has been cancelled.")
+                        //Log.e(tag, "NetworkBoundResource: Job has been cancelled.")
                         val dataErrorResponse = DataErrorResponse<AppData>(
                             statusCode = StatusCode.REQUEST_CANCELLED,
                             errorMessage = cause?.message
                         )
                         onJobCancelled(dataErrorResponse)
                     } else if (job.isCompleted) {
-                        Log.e(tag, "NetworkBoundResource: Job has been completed.")
+                        //Log.e(tag, "NetworkBoundResource: Job has been completed.")
                     }
                 }
             })

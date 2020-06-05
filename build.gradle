@@ -32,6 +32,8 @@ buildscript {
         firestore_ktx_version = '21.4.3'
         dynamic_links_version = '19.1.0'
         multidex_version = '1.0.3'
+
+        mockito_version = "3.3.3"
     }
     repositories {
         google()

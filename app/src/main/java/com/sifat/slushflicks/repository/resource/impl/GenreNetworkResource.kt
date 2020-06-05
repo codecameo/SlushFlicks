@@ -15,17 +15,9 @@ class GenreNetworkResource(
     dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : CacheOnlyResource<GenreListApiModel, List<GenreModel>, List<GenreModel>>(dispatcher) {
 
-    override suspend fun handleApiSuccessResponse(response: ApiSuccessResponse<GenreListApiModel>) {
-        updateLocalDb(response.data?.genres)
-    }
+    override suspend fun getFromCache() = dataManager.loadGenres()
 
-    override suspend fun getFromCache(): List<GenreModel>? {
-        return dataManager.loadGenres()
-    }
-
-    override fun setJob(job: Job) {
-
-    }
+    override fun setJob(job: Job) {}
 
     override fun getAppDataSuccessResponse(response: DataSuccessResponse<List<GenreModel>>): DataSuccessResponse<List<GenreModel>> {
         return response
