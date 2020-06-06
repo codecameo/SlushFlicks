@@ -6,6 +6,7 @@ import com.sifat.slushflicks.data.DataManager
 import com.sifat.slushflicks.model.GenreModel
 import com.sifat.slushflicks.rule.MainCoroutineRule
 import com.sifat.slushflicks.ui.state.DataState
+import com.sifat.slushflicks.ui.state.DataState.Success
 import com.sifat.slushflicks.util.getOrAwaitValue
 import com.sifat.slushflicks.utils.getGenreList
 import kotlinx.coroutines.Dispatchers
@@ -18,8 +19,7 @@ import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.rules.TestRule
 import org.junit.runner.RunWith
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.mock
+import org.mockito.Mockito.*
 import org.mockito.junit.MockitoJUnitRunner
 import kotlin.test.assertNull
 
@@ -50,11 +50,13 @@ class GenreNetworkResourceTest {
                 `when`(manager.loadGenres()).thenReturn(emptyList())
                 //Act
                 val actual =
-                    sut.asLiveData().getOrAwaitValue() as DataState.Success<List<GenreModel>>
+                    sut.asLiveData().getOrAwaitValue() as Success<List<GenreModel>>
                 //Assert
                 assertEquals(emptyList<GenreModel>(), actual.dataResponse.data)
                 assertNull(actual.dataResponse.message)
                 assertNull(actual.dataResponse.metaData)
+                verify(manager, times(1)).loadGenres()
+                verifyNoMoreInteractions(manager)
             }
         }
     }
@@ -65,11 +67,13 @@ class GenreNetworkResourceTest {
         val list = getGenreList()
         `when`(manager.loadGenres()).thenReturn(list)
         //Act
-        val actual = sut.asLiveData().getOrAwaitValue() as DataState.Success<List<GenreModel>>
+        val actual = sut.asLiveData().getOrAwaitValue() as Success<List<GenreModel>>
         //Assert
         assertEquals(list, actual.dataResponse.data)
         assertNull(actual.dataResponse.message)
         assertNull(actual.dataResponse.metaData)
+        verify(manager, times(1)).loadGenres()
+        verifyNoMoreInteractions(manager)
     }
 
     @Test
@@ -82,6 +86,8 @@ class GenreNetworkResourceTest {
                 val actual = sut.asLiveData().getOrAwaitValue() as DataState.Error<List<GenreModel>>
                 assertEquals(INTERNAL_ERROR, actual.dataResponse.statusCode)
                 assertNull(actual.dataResponse.errorMessage)
+                verify(manager, times(1)).loadGenres()
+                verifyNoMoreInteractions(manager)
             }
         }
     }

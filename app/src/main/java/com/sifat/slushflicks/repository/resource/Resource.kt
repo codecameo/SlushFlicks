@@ -85,6 +85,10 @@ abstract class Resource<ApiData, CacheData, AppData>(
         result.value = dataState
     }
 
+    fun postValue(dataState: DataState<AppData>) {
+        result.postValue(dataState)
+    }
+
     @UseExperimental(InternalCoroutinesApi::class)
     private fun initNewJob(): Job {
         job = Job() // create new job

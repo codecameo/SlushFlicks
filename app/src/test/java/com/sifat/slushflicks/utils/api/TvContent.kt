@@ -1,7 +1,7 @@
 package com.sifat.slushflicks.utils.api
 
 const val tvCastResponse = """
-    {
+{
   "cast": [
     {
       "character": "Walter White",
@@ -74,172 +74,136 @@ const val tvCastResponse = """
       "gender": 2,
       "profile_path": "/va6APAzwv68YxvYQkB3lHhpccCi.jpg",
       "order": 7
-    }
-  ],
-  "crew": [
-    {
-      "credit_id": "52542287760ee31328001af1",
-      "department": "Production",
-      "id": 66633,
-      "name": "Vince Gilligan",
-      "gender": 2,
-      "job": "Executive Producer",
-      "profile_path": "/uFh3OrBvkwKSU3N5y0XnXOhqBJz.jpg"
     },
     {
-      "credit_id": "52542287760ee31328001b69",
-      "department": "Production",
-      "id": 5162,
-      "name": "Mark Johnson",
-      "gender": 2,
-      "job": "Executive Producer",
-      "profile_path": null
-    },
-    {
-      "credit_id": "52542288760ee31328001b83",
-      "department": "Production",
-      "id": 29779,
-      "name": "Michelle MacLaren",
-      "gender": 1,
-      "job": "Executive Producer",
-      "profile_path": null
-    },
-    {
-      "credit_id": "52b7034f19c2955402184de6",
-      "department": "Costume & Make-Up",
-      "id": 35583,
-      "name": "Kathleen Detoro",
-      "gender": 0,
-      "job": "Costume Design",
-      "profile_path": null
-    },
-    {
-      "credit_id": "52b7008819c29559eb03dd72",
-      "department": "Sound",
-      "id": 1280070,
-      "name": "Dave Porter",
-      "gender": 2,
-      "job": "Original Music Composer",
-      "profile_path": null
-    },
-    {
-      "credit_id": "52b7020b19c295223b0a46e8",
-      "department": "Art",
-      "id": 21640,
-      "name": "Robb Wilson King",
-      "gender": 2,
-      "job": "Production Design",
-      "profile_path": null
-    },
-    {
-      "credit_id": "52542287760ee31328001b07",
-      "department": "Production",
-      "id": 1218856,
-      "name": "Patty Lin",
-      "gender": 1,
-      "job": "Producer",
-      "profile_path": null
-    },
-    {
-      "credit_id": "52542287760ee31328001b27",
-      "department": "Production",
-      "id": 29924,
-      "name": "John Shiban",
-      "gender": 2,
-      "job": "Producer",
-      "profile_path": null
-    },
-    {
-      "credit_id": "52542289760ee31328001b9d",
-      "department": "Production",
-      "id": 1223199,
-      "name": "Melissa Bernstein",
-      "gender": 1,
-      "job": "Producer",
-      "profile_path": null
-    },
-    {
-      "credit_id": "52542289760ee31328001bb3",
-      "department": "Production",
-      "id": 1223194,
-      "name": "Sam Catlin",
-      "gender": 2,
-      "job": "Producer",
-      "profile_path": "/5Xt7ONeJpF3x2XZ9JwQO9vGDuJ1.jpg"
-    },
-    {
-      "credit_id": "52542289760ee31328001bd1",
-      "department": "Production",
-      "id": 24951,
-      "name": "Peter Gould",
-      "gender": 2,
-      "job": "Producer",
-      "profile_path": null
-    },
-    {
-      "credit_id": "52542289760ee31328001be9",
-      "department": "Production",
-      "id": 1223193,
-      "name": "George Mastras",
-      "gender": 2,
-      "job": "Producer",
-      "profile_path": null
-    },
-    {
-      "credit_id": "52542289760ee31328001c03",
-      "department": "Production",
-      "id": 103009,
-      "name": "Thomas Schnauz",
-      "gender": 2,
-      "job": "Producer",
-      "profile_path": null
-    },
-    {
-      "credit_id": "5254228a760ee31328001c1d",
-      "department": "Production",
-      "id": 1223200,
-      "name": "Stewart Lyons",
-      "gender": 0,
-      "job": "Producer",
-      "profile_path": null
-    },
-    {
-      "credit_id": "5254228c760ee31328001c37",
-      "department": "Production",
-      "id": 1223201,
-      "name": "Karen Moore",
-      "gender": 0,
-      "job": "Producer",
-      "profile_path": null
-    },
-    {
-      "credit_id": "5254228c760ee31328001c6d",
-      "department": "Production",
-      "id": 1223198,
-      "name": "Moira Walley-Beckett",
-      "gender": 1,
-      "job": "Producer",
-      "profile_path": null
-    },
-    {
-      "credit_id": "5254228d760ee31328001cc7",
-      "department": "Production",
+      "character": "Walter White",
+      "credit_id": "52542282760ee313280017f9",
       "id": 17419,
       "name": "Bryan Cranston",
       "gender": 2,
-      "job": "Producer",
-      "profile_path": "/aGSvZg7uITJveQtGHDcPNI6map1.jpg"
+      "profile_path": "/aGSvZg7uITJveQtGHDcPNI6map1.jpg",
+      "order": 8
     },
     {
-      "credit_id": "5254228e760ee31328001ce1",
-      "department": "Production",
-      "id": 1223202,
-      "name": "Diane Mercer",
+      "character": "Jesse Pinkman",
+      "credit_id": "52542282760ee31328001845",
+      "id": 84497,
+      "name": "Aaron Paul",
+      "gender": 2,
+      "profile_path": "/u8UdsB9yenM4uHEjmce4nkBn48X.jpg",
+      "order": 9
+    },
+    {
+      "character": "Skyler White",
+      "credit_id": "52542282760ee3132800181b",
+      "id": 134531,
+      "name": "Anna Gunn",
       "gender": 1,
-      "job": "Producer",
-      "profile_path": null
+      "profile_path": "/adppyeu1a4REN3khtgmXusrapFi.jpg",
+      "order": 10
+    },
+    {
+      "character": "Hank Schrader",
+      "credit_id": "52542283760ee3132800187b",
+      "id": 14329,
+      "name": "Dean Norris",
+      "gender": 2,
+      "profile_path": "/yV3DZ52LYRf5F605xRas5BEcJrZ.jpg",
+      "order": 11
+    },
+    {
+      "character": "Marie Schrader",
+      "credit_id": "52542283760ee31328001891",
+      "id": 1217934,
+      "name": "Betsy Brandt",
+      "gender": 1,
+      "profile_path": "/zmhhPmXnwjSzVyoTVL93i1EkLRK.jpg",
+      "order": 12
+    },
+    {
+      "character": "Walter White Jr.",
+      "credit_id": "52542284760ee313280018a9",
+      "id": 209674,
+      "name": "RJ Mitte",
+      "gender": 2,
+      "profile_path": "/aG6NYV2EgzBFLRIl7vvbtd7go1j.jpg",
+      "order": 13
+    },
+    {
+      "character": "Saul Goodman",
+      "credit_id": "5271b180760ee35afc09bb8d",
+      "id": 59410,
+      "name": "Bob Odenkirk",
+      "gender": 2,
+      "profile_path": "/rF0Lb6SBhGSTvjRffmlKRSeI3jE.jpg",
+      "order": 14
+    },
+    {
+      "character": "Mike Ehrmantraut",
+      "credit_id": "5271b1e6760ee35af60941ad",
+      "id": 783,
+      "name": "Jonathan Banks",
+      "gender": 2,
+      "profile_path": "/va6APAzwv68YxvYQkB3lHhpccCi.jpg",
+      "order": 15
     }
   ],
   "id": 1396
+}
+"""
+
+const val tvVideoResponse = """
+{
+  "id": 60735,
+  "results": [
+    {
+      "id": "5c9296fd0e0a267cdd168c57",
+      "iso_639_1": "en",
+      "iso_3166_1": "US",
+      "key": "Yj0l7iGKh8g",
+      "name": "The Flash | Extended Trailer | The CW",
+      "site": "YouTube",
+      "size": 1080,
+      "type": "Trailer"
+    },
+    {
+      "id": "552d7e27c3a368750100138b",
+      "iso_639_1": "en",
+      "iso_3166_1": "US",
+      "key": "Mx7xTF8fKz4",
+      "name": "THE FLASH 2014 T.V. SERIES INTRO",
+      "site": "YouTube",
+      "size": 360,
+      "type": "Opening Credits"
+    }
+  ]
+}
+"""
+
+const val tvNoVideoResponse = """
+{
+  "id": 60735,
+  "results": [
+    {
+      "id": "5c9296fd0e0a267cdd168c57",
+      "iso_639_1": "en",
+      "iso_3166_1": "US",
+      "key": "Yj0l7iGKh8g",
+      "name": "The Flash | Extended Trailer | The CW",
+      "site": "Insta",
+      "size": 1080,
+      "type": "Teaser"
+    },
+    {
+      "id": "552d7e27c3a368750100138b",
+      "iso_639_1": "en",
+      "iso_3166_1": "US",
+      "key": "Mx7xTF8fKz4",
+      "name": "THE FLASH 2014 T.V. SERIES INTRO",
+      "site": "YouTube",
+      "size": 360,
+      "type": "Opening Credits"
+    }
+  ]
 }
 """

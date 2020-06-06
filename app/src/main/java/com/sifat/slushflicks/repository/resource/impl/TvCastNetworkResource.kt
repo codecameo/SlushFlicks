@@ -1,5 +1,6 @@
 package com.sifat.slushflicks.repository.resource.impl
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import com.sifat.slushflicks.api.ApiResponse
 import com.sifat.slushflicks.api.ApiSuccessResponse
@@ -24,6 +25,7 @@ class TvCastNetworkResource(
     dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : CacheUpdateResource<CreditsApiModel, List<CastModel>, Int>(networkStateManager, dispatcher) {
 
+    @VisibleForTesting
     private val maxCreditSize = 15
 
     override fun createCall(): LiveData<ApiResponse<CreditsApiModel>> {

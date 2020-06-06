@@ -6,7 +6,6 @@ import com.sifat.slushflicks.api.ApiResponse
 import com.sifat.slushflicks.api.ErrorResponse
 import com.sifat.slushflicks.api.StatusCode.Companion.RESOURCE_NOT_FOUND
 import com.sifat.slushflicks.api.StatusCode.Companion.UNAUTHORIZED
-import com.sifat.slushflicks.api.details.model.CreditsApiModel
 
 const val unauthResponse =
     """
@@ -23,18 +22,18 @@ const val noResourceFound = """
     }
 """
 
-fun getUnAuthResponse(gson: Gson, tag: String): ApiResponse<CreditsApiModel>? {
+fun <T> getUnAuthResponse(gson: Gson, tag: String): ApiResponse<T>? {
     val credit = gson.fromJson(unauthResponse, ErrorResponse::class.java)
-    return ApiErrorResponse<CreditsApiModel>(
+    return ApiErrorResponse<T>(
         statusCode = UNAUTHORIZED,
         errorMessage = credit.message,
         apiTag = tag
     )
 }
 
-fun getNoResResponse(gson: Gson, tag: String): ApiResponse<CreditsApiModel>? {
+fun <T> getNoResResponse(gson: Gson, tag: String): ApiResponse<T>? {
     val credit = gson.fromJson(noResourceFound, ErrorResponse::class.java)
-    return ApiErrorResponse<CreditsApiModel>(
+    return ApiErrorResponse<T>(
         statusCode = RESOURCE_NOT_FOUND,
         errorMessage = credit.message,
         apiTag = tag

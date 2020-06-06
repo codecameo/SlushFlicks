@@ -308,7 +308,7 @@ val movieDetailsNullResponse by lazy {
         """.trimIndent()
 }
 
-private val tvDetailsResponse by lazy {
+val tvDetailsResponse by lazy {
     """
             {
             "backdrop_path": "/9wCsImxDW4MCVP47vVjny0Wa06s.jpg",

@@ -13,6 +13,7 @@ import org.junit.runners.Suite
     value = [
         DaoSuite::class,
         ResourceSuite::class,
-        DataSuite::class]
+        DataSuite::class
+    ]
 )
 class AppJunit4Suite
