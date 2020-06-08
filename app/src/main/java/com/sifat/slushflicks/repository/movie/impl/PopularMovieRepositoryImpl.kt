@@ -29,6 +29,7 @@ class PopularMovieRepositoryImpl
         val requestModel = MovieListNetworkResource.RequestModel(
             page = nextPage,
             apiKey = apiKey,
+            collection = collection,
             apiTag = POPULAR_MOVIE_API_TAG
         )
         val movieListNetworkResource = MovieListNetworkResource(
@@ -36,7 +37,6 @@ class PopularMovieRepositoryImpl
             movieService = movieService,
             networkStateManager = networkStateManager,
             dataManager = dataManager,
-            collection = collection,
             jobManager = jobManager
         )
         return movieListNetworkResource.asLiveData()

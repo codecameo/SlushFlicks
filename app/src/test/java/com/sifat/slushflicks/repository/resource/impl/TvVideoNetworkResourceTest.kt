@@ -17,6 +17,7 @@ import com.sifat.slushflicks.ui.state.DataState.Success
 import com.sifat.slushflicks.utils.any
 import com.sifat.slushflicks.utils.api.NetworkStateManager
 import com.sifat.slushflicks.utils.getOrAwaitValue
+import com.sifat.slushflicks.utils.single
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
@@ -74,7 +75,7 @@ class TvVideoNetworkResourceTest {
             mainCoroutineDispatcher.runBlockingTest {
                 val actual = sut.asLiveData().getOrAwaitValue() as Success<*>
                 assertNotNull(actual.dataResponse.data)
-                verify(dataManager, times(1)).updateTvDetails(
+                verify(dataManager, single()).updateTvDetails(
                     any<VideoApiModel>(),
                     anyLong()
                 )

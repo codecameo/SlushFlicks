@@ -9,13 +9,19 @@ import org.junit.runners.Suite
 @RunWith(Suite::class)
 @Suite.SuiteClasses(
     value = [
-        TvCastNetworkResourceTest::class,
         GenreNetworkResourceTest::class,
+        TvCastNetworkResourceTest::class,
         TvVideoNetworkResourceTest::class,
         TvDetailsNetworkResourceTest::class,
         SimilarTvShowNetworkResourceTest::class,
         TrendingTvListResourceTest::class,
-        TvListNetworkResourceTest::class
+        TvListNetworkResourceTest::class,
+        MovieCastNetworkResourceTest::class,
+        MovieVideoNetworkResourceTest::class,
+        MovieDetailsNetworkResourceTest::class,
+        SimilarMoviesNetworkResourceTest::class,
+        TrendingMovieListResourceTest::class,
+        MovieListNetworkResourceTest::class
     ]
 )
 class ResourceSuite

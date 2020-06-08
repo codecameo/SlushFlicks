@@ -19,13 +19,14 @@ import com.sifat.slushflicks.utils.any
 import com.sifat.slushflicks.utils.api.NetworkStateManager
 import com.sifat.slushflicks.utils.getOrAwaitValue
 import com.sifat.slushflicks.utils.getTvDiffDetailsTestModel
+import com.sifat.slushflicks.utils.single
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.rules.TestRule
 import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers.anyLong
@@ -73,11 +74,11 @@ class TvDetailsNetworkResourceTest {
         val live = MutableLiveData<TvModel>()
         live.value = tvModel
         `when`(dataManager.getTvShowDetails(tvShowId)).thenReturn(live)
-        Assertions.assertDoesNotThrow {
+        assertDoesNotThrow {
             mainCoroutineDispatcher.runBlockingTest {
                 sut.asLiveData().getOrAwaitValue() as Success<*>
-                verify(dataManager, times(1)).getTvShowDetails(anyLong())
-                verify(dataManager, times(1)).updateTvDetails(any())
+                verify(dataManager, single()).getTvShowDetails(anyLong())
+                verify(dataManager, single()).updateTvDetails(any())
                 verifyNoMoreInteractions(dataManager)
             }
         }
@@ -90,11 +91,11 @@ class TvDetailsNetworkResourceTest {
         val live = MutableLiveData<TvModel>()
         live.value = tvModel
         `when`(dataManager.getTvShowDetails(tvShowId)).thenReturn(live)
-        Assertions.assertDoesNotThrow {
+        assertDoesNotThrow {
             mainCoroutineDispatcher.runBlockingTest {
                 val actual = sut.asLiveData().getOrAwaitValue() as Success<TvModel>
                 assertEquals(tvModel, actual.dataResponse.data)
-                verify(dataManager, times(1)).getTvShowDetails(anyLong())
+                verify(dataManager, single()).getTvShowDetails(anyLong())
                 verifyNoMoreInteractions(dataManager)
             }
         }
@@ -106,11 +107,11 @@ class TvDetailsNetworkResourceTest {
         val live = MutableLiveData<TvModel>()
         live.value = null
         `when`(dataManager.getTvShowDetails(tvShowId)).thenReturn(live)
-        Assertions.assertDoesNotThrow {
+        assertDoesNotThrow {
             mainCoroutineDispatcher.runBlockingTest {
                 val actual = sut.asLiveData().getOrAwaitValue() as Success<TvModel>
                 assertNull(actual.dataResponse.data)
-                verify(dataManager, times(1)).getTvShowDetails(anyLong())
+                verify(dataManager, single()).getTvShowDetails(anyLong())
                 verifyNoMoreInteractions(dataManager)
             }
         }
@@ -124,11 +125,11 @@ class TvDetailsNetworkResourceTest {
         val live = MutableLiveData<TvModel>()
         live.value = tvModel
         `when`(dataManager.getTvShowDetails(tvShowId)).thenReturn(live)
-        Assertions.assertDoesNotThrow {
+        assertDoesNotThrow {
             val sutLive = sut.asLiveData()
             val initVal = sutLive.getOrAwaitValue() as Success<TvModel>
             assertEquals(tvModel, initVal.dataResponse.data)
-            verify(dataManager, times(1)).getTvShowDetails(anyLong())
+            verify(dataManager, single()).getTvShowDetails(anyLong())
             val laterVal = sutLive.getOrAwaitValue() as Error<TvModel>
             laterVal.dataResponse.run {
                 assertEquals(statusCode, UNAUTHORIZED)
@@ -147,11 +148,11 @@ class TvDetailsNetworkResourceTest {
         val live = MutableLiveData<TvModel>()
         live.value = tvModel
         `when`(dataManager.getTvShowDetails(tvShowId)).thenReturn(live)
-        Assertions.assertDoesNotThrow {
+        assertDoesNotThrow {
             val sutLive = sut.asLiveData()
             val initVal = sutLive.getOrAwaitValue() as Success<TvModel>
             assertEquals(tvModel, initVal.dataResponse.data)
-            verify(dataManager, times(1)).getTvShowDetails(anyLong())
+            verify(dataManager, single()).getTvShowDetails(anyLong())
             val laterVal = sutLive.getOrAwaitValue() as Error<TvModel>
             laterVal.dataResponse.run {
                 assertEquals(statusCode, RESOURCE_NOT_FOUND)

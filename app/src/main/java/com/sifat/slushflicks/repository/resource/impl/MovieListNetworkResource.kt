@@ -1,8 +1,10 @@
 package com.sifat.slushflicks.repository.resource.impl
 
 import androidx.lifecycle.LiveData
+import com.sifat.slushflicks.api.ApiErrorResponse
 import com.sifat.slushflicks.api.ApiResponse
 import com.sifat.slushflicks.api.ApiSuccessResponse
+import com.sifat.slushflicks.api.StatusCode.Companion.INTERNAL_ERROR
 import com.sifat.slushflicks.api.home.movie.MovieService
 import com.sifat.slushflicks.api.home.movie.model.MovieListApiModel
 import com.sifat.slushflicks.data.DataManager
@@ -23,7 +25,6 @@ open class MovieListNetworkResource(
     protected val movieService: MovieService,
     protected val requestModel: RequestModel,
     protected val dataManager: DataManager,
-    private val collection: String,
     private val jobManager: JobManager,
     networkStateManager: NetworkStateManager,
     dispatcher: CoroutineDispatcher = Dispatchers.IO
@@ -36,7 +37,7 @@ open class MovieListNetworkResource(
             apiKey = requestModel.apiKey,
             page = requestModel.page,
             tag = requestModel.apiTag,
-            collection = collection
+            collection = requestModel.collection
         )
     }
 
@@ -44,9 +45,10 @@ open class MovieListNetworkResource(
         if (!cacheData.isNullOrEmpty()) {
             // Insert with Ignore strategy
             dataManager.softInsertMovie(cacheData)
-            val collectionModels = getCollectionModels(cacheData, collection, requestModel.page)
+            val collectionModels =
+                getCollectionModels(cacheData, requestModel.collection, requestModel.page)
             if (requestModel.page == 1) {
-                dataManager.insertNewMovieCollection(collection, collectionModels)
+                dataManager.insertNewMovieCollection(requestModel.collection, collectionModels)
             } else {
                 dataManager.addMovieCollection(collectionModels)
             }
@@ -61,14 +63,14 @@ open class MovieListNetworkResource(
         val dataSuccessResponse = getDataSuccessResponse(response)
         updateLocalDb(dataSuccessResponse.data)
         onCompleteJob(
-            DataState.Success<Int>(
+            DataState.Success(
                 getAppDataSuccessResponse(dataSuccessResponse)
             )
         )
     }
 
     override fun setJob(job: Job) {
-        jobManager.addJob(collection, job)
+        jobManager.addJob(requestModel.collection, job)
     }
 
     override fun getAppDataSuccessResponse(response: DataSuccessResponse<List<MovieModel>>): DataSuccessResponse<Int> {
@@ -87,5 +89,15 @@ open class MovieListNetworkResource(
         )
     }
 
-    data class RequestModel(val page: Int, val apiKey: String, val apiTag: String)
+    override fun getInternalErrorResponse() = ApiErrorResponse<MovieListApiModel>(
+        statusCode = INTERNAL_ERROR,
+        apiTag = requestModel.apiTag
+    )
+
+    data class RequestModel(
+        val page: Int,
+        val apiKey: String,
+        val apiTag: String,
+        val collection: String
+    )
 }
