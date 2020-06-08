@@ -1,9 +1,6 @@
 package com.sifat.slushflicks.repository.resource
 
-import com.sifat.slushflicks.repository.resource.impl.GenreNetworkResourceTest
-import com.sifat.slushflicks.repository.resource.impl.TvCastNetworkResourceTest
-import com.sifat.slushflicks.repository.resource.impl.TvDetailsNetworkResourceTest
-import com.sifat.slushflicks.repository.resource.impl.TvVideoNetworkResourceTest
+import com.sifat.slushflicks.repository.resource.impl.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.runner.RunWith
 import org.junit.runners.Suite
@@ -15,7 +12,10 @@ import org.junit.runners.Suite
         TvCastNetworkResourceTest::class,
         GenreNetworkResourceTest::class,
         TvVideoNetworkResourceTest::class,
-        TvDetailsNetworkResourceTest::class
+        TvDetailsNetworkResourceTest::class,
+        SimilarTvShowNetworkResourceTest::class,
+        TrendingTvListResourceTest::class,
+        TvListNetworkResourceTest::class
     ]
 )
 class ResourceSuite

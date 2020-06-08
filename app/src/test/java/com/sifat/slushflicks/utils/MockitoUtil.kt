@@ -36,3 +36,5 @@ fun <T> capture(argumentCaptor: ArgumentCaptor<T>): T = argumentCaptor.capture()
  */
 inline fun <reified T : Any> argumentCaptor(): ArgumentCaptor<T> =
     ArgumentCaptor.forClass(T::class.java)
+
+fun single() = Mockito.times(1)!!

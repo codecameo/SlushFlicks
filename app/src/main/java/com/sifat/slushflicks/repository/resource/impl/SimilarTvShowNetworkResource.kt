@@ -1,8 +1,10 @@
 package com.sifat.slushflicks.repository.resource.impl
 
 import androidx.lifecycle.LiveData
+import com.sifat.slushflicks.api.ApiErrorResponse
 import com.sifat.slushflicks.api.ApiResponse
 import com.sifat.slushflicks.api.ApiSuccessResponse
+import com.sifat.slushflicks.api.StatusCode
 import com.sifat.slushflicks.api.home.tv.TvService
 import com.sifat.slushflicks.api.home.tv.model.TvListApiModel
 import com.sifat.slushflicks.data.DataManager
@@ -81,6 +83,11 @@ class SimilarTvShowNetworkResource(
             message = response.message
         )
     }
+
+    override fun getInternalErrorResponse() = ApiErrorResponse<TvListApiModel>(
+        statusCode = StatusCode.INTERNAL_ERROR,
+        apiTag = requestModel.apiTag
+    )
 
     data class RequestModel(
         val apiKey: String,

@@ -28,6 +28,7 @@ class PopularTvRepositoryImpl @Inject constructor(
         val requestModel = TvListNetworkResource.RequestModel(
             page = nextPage,
             apiKey = apiKey,
+            collection = collection,
             apiTag = ApiTag.POPULAR_TV_API_TAG
         )
         val tvListNetworkResource = TvListNetworkResource(
@@ -35,7 +36,6 @@ class PopularTvRepositoryImpl @Inject constructor(
             tvService = tvService,
             networkStateManager = networkStateManager,
             dataManager = dataManager,
-            collection = collection,
             jobManager = jobManager
         )
         return tvListNetworkResource.asLiveData()

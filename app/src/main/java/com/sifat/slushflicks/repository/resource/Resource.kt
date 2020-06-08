@@ -98,14 +98,14 @@ abstract class Resource<ApiData, CacheData, AppData>(
             handler = object : CompletionHandler {
                 override fun invoke(cause: Throwable?) {
                     if (job.isCancelled) {
-                        //Log.e(tag, "NetworkBoundResource: Job has been cancelled.")
+                        println("NetworkBoundResource: Job has been cancelled.")
                         val dataErrorResponse = DataErrorResponse<AppData>(
                             statusCode = StatusCode.REQUEST_CANCELLED,
                             errorMessage = cause?.message
                         )
                         onJobCancelled(dataErrorResponse)
                     } else if (job.isCompleted) {
-                        //Log.e(tag, "NetworkBoundResource: Job has been completed.")
+                        println("NetworkBoundResource: Job has been completed.")
                     }
                 }
             })
@@ -139,6 +139,9 @@ abstract class Resource<ApiData, CacheData, AppData>(
     protected open fun execute() {
         setJob(initNewJob())
     }
+
+    protected open fun getInternalErrorResponse() =
+        ApiErrorResponse<ApiData>(statusCode = StatusCode.INTERNAL_ERROR)
 
     /**
      * In case of local cache wrap it with [DataResponse]

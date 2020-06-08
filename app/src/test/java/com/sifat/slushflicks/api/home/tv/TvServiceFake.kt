@@ -16,7 +16,6 @@ import com.sifat.slushflicks.api.details.model.VideoListApiModel
 import com.sifat.slushflicks.api.home.tv.model.TvListApiModel
 import com.sifat.slushflicks.api.home.tv.model.TvShowDetailsApiModel
 import com.sifat.slushflicks.utils.api.*
-import com.sifat.slushflicks.utils.livedata.AbsentLiveData
 import com.sifat.slushflicks.utils.tvDetailsResponse
 import okhttp3.Request
 import retrofit2.Call
@@ -32,7 +31,13 @@ class TvServiceFake(private val gson: Gson) : TvService {
         page: Int,
         tag: String
     ): LiveData<ApiResponse<TvListApiModel>> {
-        return AbsentLiveData.create()
+        val live = MutableLiveData<ApiResponse<TvListApiModel>>()
+        live.value = when (errorCode) {
+            RESOURCE_NOT_FOUND -> getNoResResponse(gson, tag)
+            UNAUTHORIZED -> getUnAuthResponse(gson, tag)
+            else -> getTvShowListSuccessResponse()
+        }
+        return live
     }
 
     override fun getTvShowList(
@@ -41,7 +46,13 @@ class TvServiceFake(private val gson: Gson) : TvService {
         page: Int,
         tag: String
     ): LiveData<ApiResponse<TvListApiModel>> {
-        return AbsentLiveData.create()
+        val live = MutableLiveData<ApiResponse<TvListApiModel>>()
+        live.value = when (errorCode) {
+            RESOURCE_NOT_FOUND -> getNoResResponse(gson, tag)
+            UNAUTHORIZED -> getUnAuthResponse(gson, tag)
+            else -> getTvShowListSuccessResponse()
+        }
+        return live
     }
 
     override fun getTvShowDetails(
@@ -95,7 +106,13 @@ class TvServiceFake(private val gson: Gson) : TvService {
         page: Int,
         tag: String
     ): LiveData<ApiResponse<TvListApiModel>> {
-        return AbsentLiveData.create()
+        val live = MutableLiveData<ApiResponse<TvListApiModel>>()
+        live.value = when (errorCode) {
+            RESOURCE_NOT_FOUND -> getNoResResponse(gson, tag)
+            UNAUTHORIZED -> getUnAuthResponse(gson, tag)
+            else -> getTvShowListSuccessResponse()
+        }
+        return live
     }
 
     override fun getTvShowReviews(
@@ -131,21 +148,21 @@ class TvServiceFake(private val gson: Gson) : TvService {
 
     private fun getCreditSuccessResponse(): ApiResponse<CreditsApiModel>? {
         val credit = gson.fromJson(tvCastResponse, CreditsApiModel::class.java)
-        return ApiSuccessResponse<CreditsApiModel>(
+        return ApiSuccessResponse(
             data = credit
         )
     }
 
     private fun getVideoSuccessResponse(): ApiResponse<VideoListApiModel> {
         val videos = gson.fromJson(tvVideoResponse, VideoListApiModel::class.java)
-        return ApiSuccessResponse<VideoListApiModel>(
+        return ApiSuccessResponse(
             data = videos
         )
     }
 
     private fun getVideoSuccessResponseNoVideo(): ApiResponse<VideoListApiModel> {
         val videos = gson.fromJson(tvNoVideoResponse, VideoListApiModel::class.java)
-        return ApiSuccessResponse<VideoListApiModel>(
+        return ApiSuccessResponse(
             data = videos
         )
     }
@@ -153,6 +170,13 @@ class TvServiceFake(private val gson: Gson) : TvService {
     private fun getTvDetailsSuccessResponse(): ApiResponse<TvShowDetailsApiModel> {
         val tvModel = gson.fromJson(tvDetailsResponse, TvShowDetailsApiModel::class.java)
         return ApiSuccessResponse<TvShowDetailsApiModel>(
+            data = tvModel
+        )
+    }
+
+    private fun getTvShowListSuccessResponse(): ApiResponse<TvListApiModel> {
+        val tvModel = gson.fromJson(tvSimilarResponse, TvListApiModel::class.java)
+        return ApiSuccessResponse(
             data = tvModel
         )
     }
