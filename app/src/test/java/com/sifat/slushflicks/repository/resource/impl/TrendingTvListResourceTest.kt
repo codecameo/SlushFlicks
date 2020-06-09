@@ -2,40 +2,36 @@ package com.sifat.slushflicks.repository.resource.impl
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.gson.Gson
-import com.sifat.slushflicks.api.ApiTag.Companion.TV_CREDITS_API_TAG
 import com.sifat.slushflicks.api.StatusCode.Companion.INTERNAL_ERROR
 import com.sifat.slushflicks.api.StatusCode.Companion.RESOURCE_NOT_FOUND
 import com.sifat.slushflicks.api.StatusCode.Companion.UNAUTHORIZED
 import com.sifat.slushflicks.api.home.tv.TvServiceFake
 import com.sifat.slushflicks.data.DataManager
 import com.sifat.slushflicks.helper.JobManager
-import com.sifat.slushflicks.model.CastModel
+import com.sifat.slushflicks.repository.resource.impl.TvListNetworkResource.RequestModel
 import com.sifat.slushflicks.rule.MainCoroutineRule
 import com.sifat.slushflicks.ui.state.DataState
 import com.sifat.slushflicks.utils.api.NetworkStateManager
-import com.sifat.slushflicks.utils.capture
+import com.sifat.slushflicks.utils.getGenreMap
 import com.sifat.slushflicks.utils.getOrAwaitValue
 import com.sifat.slushflicks.utils.single
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.jupiter.api.Assertions.assertDoesNotThrow
+import org.junit.jupiter.api.Assertions
 import org.junit.rules.TestRule
 import org.junit.runner.RunWith
-import org.mockito.ArgumentCaptor
-import org.mockito.ArgumentCaptor.forClass
-import org.mockito.ArgumentMatchers.anyLong
+import org.mockito.ArgumentMatchers
 import org.mockito.Mockito.*
 import org.mockito.junit.MockitoJUnitRunner
-import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
 
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
-class TvCastNetworkResourceTest {
+class TrendingTvListResourceTest {
 
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
@@ -43,98 +39,114 @@ class TvCastNetworkResourceTest {
     @get:Rule
     val mainCoroutineDispatcher = MainCoroutineRule()
 
-    private lateinit var sut: TvCastNetworkResource
+    private lateinit var sut: TrendingTvListResource
     private lateinit var tvService: TvServiceFake
-    private lateinit var jobManager: JobManager
     private lateinit var networkStateManager: NetworkStateManager
     private lateinit var dataManager: DataManager
-    private val tvShowId = 100L
+    private val apiTag = "apiTag"
+    private val collection = "collection"
+    private val key = "key"
 
     @Before
     fun setup() {
         dataManager = mock(DataManager::class.java)
         tvService = TvServiceFake(Gson())
         networkStateManager = mock(NetworkStateManager::class.java)
-        jobManager = mock(JobManager::class.java)
-        sut = TvCastNetworkResource(
-            dataManager = dataManager,
-            tvService = tvService,
-            jobManager = jobManager,
-            networkStateManager = networkStateManager,
-            requestModel = TvCastNetworkResource.RequestModel("key", tvShowId),
-            dispatcher = Dispatchers.Main
-        )
     }
 
     @Test
-    fun testCastSuccessResponse() {
+    fun testTvShowSuccessListFirstPageResponse() {
+        initSut(1)
         `when`(networkStateManager.isOnline()).thenReturn(true)
-        assertDoesNotThrow {
-            mainCoroutineDispatcher.runBlockingTest {
-                sut.asLiveData().getOrAwaitValue() as DataState.Success<*>
-                verify(dataManager, single()).updateTvDetails(anyList(), anyLong())
-                verifyNoMoreInteractions(dataManager)
-            }
-        }
-    }
-
-    @Test
-    fun testCastSuccessResponseCheckMaxListCount() {
-        `when`(networkStateManager.isOnline()).thenReturn(true)
-        assertDoesNotThrow {
+        `when`(dataManager.getGenres()).thenReturn(getGenreMap())
+        Assertions.assertDoesNotThrow {
             mainCoroutineDispatcher.runBlockingTest {
                 val actual = sut.asLiveData().getOrAwaitValue() as DataState.Success<*>
-                assertEquals(16, actual.dataResponse.data)
-                val listClass: Class<List<CastModel>> = List::class.java as Class<List<CastModel>>
-                val argument: ArgumentCaptor<List<CastModel>> = forClass(listClass)
-                verify(dataManager, single()).updateTvDetails(
-                    capture(argument), anyLong()
+                assertNotNull(actual.dataResponse)
+                verify(dataManager, single()).getGenres()
+                verify(dataManager, single()).softInsertTv(ArgumentMatchers.anyList())
+                verify(dataManager, single()).insertNewTvCollection(
+                    ArgumentMatchers.anyString(),
+                    ArgumentMatchers.anyList()
                 )
-                assertEquals(15, argument.value.size)
                 verifyNoMoreInteractions(dataManager)
             }
         }
     }
 
     @Test
-    fun testCastErrorNoInternetResponse() {
-        `when`(networkStateManager.isOnline()).thenReturn(false)
-        assertDoesNotThrow {
+    fun testTvShowSuccessListLaterPageResponse() {
+        initSut(2)
+        `when`(networkStateManager.isOnline()).thenReturn(true)
+        `when`(dataManager.getGenres()).thenReturn(getGenreMap())
+        Assertions.assertDoesNotThrow {
             mainCoroutineDispatcher.runBlockingTest {
-                val error = sut.asLiveData().getOrAwaitValue() as DataState.Error<*>
-                assertEquals(INTERNAL_ERROR, error.dataResponse.statusCode)
-                verifyZeroInteractions(dataManager)
+                val actual = sut.asLiveData().getOrAwaitValue() as DataState.Success<*>
+                assertNotNull(actual.dataResponse)
+                verify(dataManager, single()).getGenres()
+                verify(dataManager, single()).softInsertTv(ArgumentMatchers.anyList())
+                verify(dataManager, single()).addTvCollection(ArgumentMatchers.anyList())
+                verifyNoMoreInteractions(dataManager)
             }
         }
     }
 
     @Test
-    fun testCastErrorUnauthResponse() {
+    fun testTvShowErrorResponseNoInternet() {
+        initSut(1)
+        `when`(networkStateManager.isOnline()).thenReturn(false)
+        Assertions.assertDoesNotThrow {
+            val actual = sut.asLiveData().getOrAwaitValue() as DataState.Error<*>
+            assertNotNull(actual.dataResponse)
+            actual.dataResponse.run {
+                assertEquals(INTERNAL_ERROR, statusCode)
+                assertEquals(this@TrendingTvListResourceTest.apiTag, apiTag)
+                assertNull(errorMessage)
+            }
+            verifyZeroInteractions(dataManager)
+        }
+    }
+
+    @Test
+    fun testErrorUnauthResponse() {
+        initSut(1)
         `when`(networkStateManager.isOnline()).thenReturn(true)
         tvService.errorCode = UNAUTHORIZED
-        assertDoesNotThrow {
+        Assertions.assertDoesNotThrow {
             val error = sut.asLiveData().getOrAwaitValue() as DataState.Error<*>
             error.dataResponse.run {
                 assertEquals(UNAUTHORIZED, statusCode)
                 assertNotNull(errorMessage)
-                assertEquals(TV_CREDITS_API_TAG, apiTag)
+                assertEquals(this@TrendingTvListResourceTest.apiTag, apiTag)
             }
             verifyZeroInteractions(dataManager)
         }
     }
 
     @Test
-    fun testCastErrorNoResourceResponse() {
+    fun testErrorNoResourceResponse() {
+        initSut(1)
         `when`(networkStateManager.isOnline()).thenReturn(true)
         tvService.errorCode = RESOURCE_NOT_FOUND
-        assertDoesNotThrow {
+        Assertions.assertDoesNotThrow {
             val error = sut.asLiveData().getOrAwaitValue() as DataState.Error<*>
             error.dataResponse.run {
                 assertEquals(RESOURCE_NOT_FOUND, statusCode)
                 assertNotNull(errorMessage)
-                assertEquals(TV_CREDITS_API_TAG, apiTag)
+                assertEquals(this@TrendingTvListResourceTest.apiTag, apiTag)
             }
             verifyZeroInteractions(dataManager)
         }
+    }
+
+    private fun initSut(page: Int) {
+        sut = TrendingTvListResource(
+            dataManager = dataManager,
+            tvService = tvService,
+            jobManager = mock(JobManager::class.java),
+            networkStateManager = networkStateManager,
+            requestModel = RequestModel(page, key, apiTag, collection),
+            dispatcher = Dispatchers.Main
+        )
     }
 }

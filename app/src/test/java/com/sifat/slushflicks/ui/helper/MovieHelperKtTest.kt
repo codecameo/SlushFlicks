@@ -247,7 +247,7 @@ internal class MovieHelperKtTest {
             "overview1",
             "posterPath1",
             67.9,
-            mutableListOf<Long>(2, 3, 5)
+            mutableListOf(2, 3, 5)
         )
         list.add(item)
 
@@ -261,7 +261,7 @@ internal class MovieHelperKtTest {
             "overview2",
             "posterPath2",
             85.7,
-            mutableListOf<Long>(1, 3, 4)
+            mutableListOf(1, 3, 4)
         )
         list.add(item)
         // checking null values
@@ -275,7 +275,7 @@ internal class MovieHelperKtTest {
             "overview4",
             null,
             85.3,
-            mutableListOf<Long>(4, 3, 9)
+            mutableListOf(4, 3, 9)
         )
         list.add(item)
         return list

@@ -22,18 +22,20 @@ fun getMovieList(
     movieApiModels?.let {
         for (movie in movieApiModels) {
             val genresModels = getGenresModels(movie.genreIds, genres)
-            val movieModel = MovieModel(
-                id = movie.id,
-                backdropPath = movie.backdropPath ?: EMPTY_STRING,
-                overview = movie.overview,
-                genres = genresModels,
-                popularity = movie.popularity,
-                posterPath = movie.posterPath ?: EMPTY_STRING,
-                releaseData = movie.releaseDate ?: EMPTY_STRING,
-                title = movie.title,
-                voteAvg = movie.voteAverage,
-                voteCount = movie.voteCount
-            )
+            val movieModel = movie.run {
+                MovieModel(
+                    id = id,
+                    backdropPath = backdropPath ?: EMPTY_STRING,
+                    overview = overview,
+                    genres = genresModels,
+                    popularity = popularity,
+                    posterPath = posterPath ?: EMPTY_STRING,
+                    releaseData = releaseDate ?: EMPTY_STRING,
+                    title = title,
+                    voteAvg = voteAverage,
+                    voteCount = voteCount
+                )
+            }
             movieModels.add(movieModel)
         }
     }
@@ -44,14 +46,16 @@ fun getMovieMinimalModel(movies: List<MovieModel>?): List<ShowModelMinimal>? {
     if (movies.isNullOrEmpty()) return null
     val moviesMinimalList = mutableListOf<ShowModelMinimal>()
     for (movie in movies) {
-        val movieModelMinimal = ShowModelMinimal(
-            id = movie.id,
-            overview = movie.overview,
-            title = movie.title,
-            genres = movie.genres,
-            voteAvg = movie.voteAvg,
-            backdropPath = movie.backdropPath
-        )
+        val movieModelMinimal = movie.run {
+            ShowModelMinimal(
+                id = movie.id,
+                overview = overview,
+                title = title,
+                genres = genres,
+                voteAvg = voteAvg,
+                backdropPath = backdropPath
+            )
+        }
         moviesMinimalList.add(movieModelMinimal)
     }
     return moviesMinimalList
@@ -73,11 +77,11 @@ fun getMovieMinimalApiModel(
 }
 
 fun getMetaData(movieListApiModel: MovieListApiModel?): MetaData? {
-    return movieListApiModel?.let { model ->
+    return movieListApiModel?.run {
         MetaData(
-            page = model.page,
-            totalResult = model.totalResults,
-            totalPage = model.totalPages
+            page = page,
+            totalResult = totalResults,
+            totalPage = totalPages
         )
     }
 }

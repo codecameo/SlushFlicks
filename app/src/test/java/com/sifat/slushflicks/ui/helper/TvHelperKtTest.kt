@@ -284,6 +284,16 @@ internal class TvHelperKtTest {
     }
 
     @Test
+    fun testNullRuntime() {
+        // Arrange
+        val expected = 0
+        //Act
+        val actualRuntime = getRuntime(null)
+        //Assert
+        assertEquals(expected, actualRuntime)
+    }
+
+    @Test
     fun testEpisode() {
         // Arrange
         val episode = Episode(

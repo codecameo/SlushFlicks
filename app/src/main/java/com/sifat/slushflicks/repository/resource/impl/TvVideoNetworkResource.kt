@@ -1,7 +1,10 @@
 package com.sifat.slushflicks.repository.resource.impl
 
 import androidx.lifecycle.LiveData
+import com.sifat.slushflicks.api.ApiErrorResponse
 import com.sifat.slushflicks.api.ApiResponse
+import com.sifat.slushflicks.api.ApiTag.Companion.TV_VIDEO_API_TAG
+import com.sifat.slushflicks.api.StatusCode.Companion.INTERNAL_ERROR
 import com.sifat.slushflicks.api.details.model.VideoApiModel
 import com.sifat.slushflicks.api.details.model.VideoListApiModel
 import com.sifat.slushflicks.api.home.tv.TvService
@@ -37,6 +40,11 @@ class TvVideoNetworkResource(
     override fun setJob(job: Job) {
         jobManager.addJob(TAG, job)
     }
+
+    override fun getInternalErrorResponse() = ApiErrorResponse<VideoListApiModel>(
+        statusCode = INTERNAL_ERROR,
+        apiTag = TV_VIDEO_API_TAG
+    )
 
     data class RequestModel(val apiKey: String, val tvShowId: Long, val seasonNumber: Int)
 

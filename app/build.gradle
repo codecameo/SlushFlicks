@@ -172,4 +172,5 @@ dependencies {
     // MOCKITO
     testImplementation "org.mockito:mockito-core:$mockito_version"
     testImplementation "org.mockito:mockito-inline:$mockito_version"
+    //testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
 }

@@ -1,8 +1,12 @@
 package com.sifat.slushflicks.repository.resource.impl
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
+import com.sifat.slushflicks.api.ApiErrorResponse
 import com.sifat.slushflicks.api.ApiResponse
 import com.sifat.slushflicks.api.ApiSuccessResponse
+import com.sifat.slushflicks.api.ApiTag.Companion.TV_CREDITS_API_TAG
+import com.sifat.slushflicks.api.StatusCode.Companion.INTERNAL_ERROR
 import com.sifat.slushflicks.api.details.model.CreditsApiModel
 import com.sifat.slushflicks.api.home.tv.TvService
 import com.sifat.slushflicks.data.DataManager
@@ -24,6 +28,7 @@ class TvCastNetworkResource(
     dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : CacheUpdateResource<CreditsApiModel, List<CastModel>, Int>(networkStateManager, dispatcher) {
 
+    @VisibleForTesting
     private val maxCreditSize = 15
 
     override fun createCall(): LiveData<ApiResponse<CreditsApiModel>> {
@@ -59,6 +64,11 @@ class TvCastNetworkResource(
             message = response.message
         )
     }
+
+    override fun getInternalErrorResponse() = ApiErrorResponse<CreditsApiModel>(
+        statusCode = INTERNAL_ERROR,
+        apiTag = TV_CREDITS_API_TAG
+    )
 
     data class RequestModel(val apiKey: String, val tvShowId: Long)
 

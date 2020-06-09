@@ -14,18 +14,20 @@ fun getTvList(tvApiModels: List<TvApiModel>?, genres: Map<Long, String>): List<T
     tvApiModels?.let {
         for (tv in tvApiModels) {
             val genresModels = getGenresModels(tv.genreIds, genres)
-            val tvModel = TvModel(
-                id = tv.id,
-                backdropPath = tv.backdropPath ?: EMPTY_STRING,
-                overview = tv.overview,
-                genres = genresModels,
-                popularity = tv.popularity,
-                posterPath = tv.posterPath ?: EMPTY_STRING,
-                releaseData = tv.releaseDate ?: EMPTY_STRING,
-                title = tv.title,
-                voteAvg = tv.voteAverage,
-                voteCount = tv.voteCount
-            )
+            val tvModel = tv.run {
+                TvModel(
+                    id = id,
+                    backdropPath = backdropPath ?: EMPTY_STRING,
+                    overview = overview,
+                    genres = genresModels,
+                    popularity = popularity,
+                    posterPath = posterPath ?: EMPTY_STRING,
+                    releaseData = releaseDate ?: EMPTY_STRING,
+                    title = title,
+                    voteAvg = voteAverage,
+                    voteCount = voteCount
+                )
+            }
             tvModels.add(tvModel)
         }
     }
@@ -51,11 +53,11 @@ fun getCollectionModels(
 }
 
 fun getMetaData(tvListApiModel: TvListApiModel?): MetaData? {
-    return tvListApiModel?.let { model ->
+    return tvListApiModel?.run {
         MetaData(
-            page = model.page,
-            totalResult = model.totalResults,
-            totalPage = model.totalPages
+            page = page,
+            totalResult = totalResults,
+            totalPage = totalPages
         )
     }
 }
@@ -66,14 +68,16 @@ fun getTvMinimalModel(
     if (tvShows.isNullOrEmpty()) return null
     val moviesMinimalList = mutableListOf<ShowModelMinimal>()
     for (tv in tvShows) {
-        val movieModelMinimal = ShowModelMinimal(
-            id = tv.id,
-            overview = tv.overview,
-            title = tv.title,
-            genres = tv.genres,
-            voteAvg = tv.voteAvg,
-            backdropPath = tv.backdropPath
-        )
+        val movieModelMinimal = tv.run {
+            ShowModelMinimal(
+                id = id,
+                overview = overview,
+                title = title,
+                genres = genres,
+                voteAvg = voteAvg,
+                backdropPath = backdropPath
+            )
+        }
         moviesMinimalList.add(movieModelMinimal)
     }
     return moviesMinimalList
@@ -97,24 +101,24 @@ fun getTvShowMinimalApiModel(
 fun getTvDetails(apiModel: TvShowDetailsApiModel?): TvModel? {
     return apiModel?.run {
         TvModel(
-            id = apiModel.id,
+            id = id,
             backdropPath = backdropPath ?: EMPTY_STRING,
             posterPath = posterPath ?: EMPTY_STRING,
-            popularity = apiModel.popularity,
-            voteAvg = apiModel.voteAvg,
-            voteCount = apiModel.voteCount,
-            genres = apiModel.genres,
-            status = apiModel.status,
-            nextEpisode = getEpisode(apiModel.nextEpisode),
-            lastEpisode = getEpisode(apiModel.lastEpisode),
-            seasons = getSeasons(apiModel.seasons),
-            numOfSeason = apiModel.seasonCount,
-            numOfEpisode = apiModel.episodeCount,
-            title = apiModel.name,
-            overview = apiModel.overview,
-            releaseData = apiModel.firstAirDate ?: EMPTY_STRING,
-            directors = getDirectors(apiModel.createdBy),
-            runtime = getRuntime(apiModel.episodeRunTime)
+            popularity = popularity,
+            voteAvg = voteAvg,
+            voteCount = voteCount,
+            genres = genres,
+            status = status,
+            nextEpisode = getEpisode(nextEpisode),
+            lastEpisode = getEpisode(lastEpisode),
+            seasons = getSeasons(seasons),
+            numOfSeason = seasonCount,
+            numOfEpisode = episodeCount,
+            title = name,
+            overview = overview,
+            releaseData = firstAirDate ?: EMPTY_STRING,
+            directors = getDirectors(createdBy),
+            runtime = getRuntime(episodeRunTime)
         )
     }
 }
@@ -145,16 +149,16 @@ fun getRuntime(runtimes: List<Int>?): Int {
 }
 
 fun getEpisode(model: Episode?): EpisodeModel? {
-    return model?.let { episode ->
+    return model?.run {
         EpisodeModel(
-            id = episode.id,
-            airDate = episode.airDate ?: EMPTY_STRING,
-            name = episode.name,
-            stillPath = episode.stillPath ?: EMPTY_STRING,
-            overview = episode.overview,
-            voteAvg = episode.voteAvg,
-            seasonNumber = episode.seasonNumber,
-            episodeNumber = episode.episodeNumber
+            id = id,
+            airDate = airDate ?: EMPTY_STRING,
+            name = name,
+            stillPath = stillPath ?: EMPTY_STRING,
+            overview = overview,
+            voteAvg = voteAvg,
+            seasonNumber = seasonNumber,
+            episodeNumber = episodeNumber
         )
     }
 }
@@ -170,15 +174,17 @@ fun getSeasons(models: List<Season>?): List<SeasonModel> {
 }
 
 fun getSeason(season: Season): SeasonModel {
-    return SeasonModel(
-        id = season.id,
-        airDate = season.airDate ?: EMPTY_STRING,
-        name = season.name,
-        posterPath = season.posterPath ?: EMPTY_STRING,
-        overview = season.overview,
-        seasonNumber = season.seasonNumber,
-        episodeCount = season.episodeCount
-    )
+    return season.run {
+        SeasonModel(
+            id = id,
+            airDate = airDate ?: EMPTY_STRING,
+            name = name,
+            posterPath = posterPath ?: EMPTY_STRING,
+            overview = overview,
+            seasonNumber = seasonNumber,
+            episodeCount = episodeCount
+        )
+    }
 }
 
 /*

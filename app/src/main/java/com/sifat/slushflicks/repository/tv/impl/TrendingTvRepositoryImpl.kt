@@ -32,6 +32,7 @@ class TrendingTvRepositoryImpl @Inject constructor(
         val requestModel = TvListNetworkResource.RequestModel(
             page = nextPage,
             apiKey = apiKey,
+            collection = collection,
             apiTag = TRENDING_TV_API_TAG
         )
         val tvListNetworkResource = TrendingTvListResource(
@@ -39,7 +40,6 @@ class TrendingTvRepositoryImpl @Inject constructor(
             tvService = tvService,
             networkStateManager = networkStateManager,
             dataManager = dataManager,
-            collection = collection,
             jobManager = jobManager
         )
         return tvListNetworkResource.asLiveData()

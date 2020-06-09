@@ -31,8 +31,14 @@ abstract class CacheFirstNetworkUpdateResource<ApiData, CacheData, AppData>(
     }
 
     override fun onCompleteJob(dataState: DataState<AppData>) {
-        // Database will the updated response back to view, so just completing the job
         job.complete()
+        /**
+         * In case of success response Database will the updated response back to view,
+         * In case of error, notify the user about it
+         * */
+        if (dataState is DataState.Error) {
+            postValue(dataState)
+        }
     }
 
     override fun doCacheRequest() {

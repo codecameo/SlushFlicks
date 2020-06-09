@@ -29,14 +29,14 @@ class NowPlayingRepositoryImpl
         val requestModel = MovieListNetworkResource.RequestModel(
             page = nextPage,
             apiKey = apiKey,
-            apiTag = NOW_PLAYING_MOVIE_API_TAG
+            apiTag = NOW_PLAYING_MOVIE_API_TAG,
+            collection = collection
         )
         val movieListNetworkResource = MovieListNetworkResource(
             requestModel = requestModel,
             movieService = movieService,
             networkStateManager = networkStateManager,
             dataManager = dataManager,
-            collection = collection,
             jobManager = jobManager
         )
         return movieListNetworkResource.asLiveData()

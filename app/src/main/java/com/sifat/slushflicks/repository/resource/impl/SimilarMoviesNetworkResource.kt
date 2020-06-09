@@ -1,8 +1,10 @@
 package com.sifat.slushflicks.repository.resource.impl
 
 import androidx.lifecycle.LiveData
+import com.sifat.slushflicks.api.ApiErrorResponse
 import com.sifat.slushflicks.api.ApiResponse
 import com.sifat.slushflicks.api.ApiSuccessResponse
+import com.sifat.slushflicks.api.StatusCode.Companion.INTERNAL_ERROR
 import com.sifat.slushflicks.api.home.movie.MovieService
 import com.sifat.slushflicks.api.home.movie.model.MovieListApiModel
 import com.sifat.slushflicks.data.DataManager
@@ -81,6 +83,11 @@ class SimilarMoviesNetworkResource(
             message = response.message
         )
     }
+
+    override fun getInternalErrorResponse() = ApiErrorResponse<MovieListApiModel>(
+        statusCode = INTERNAL_ERROR,
+        apiTag = requestModel.apiTag
+    )
 
     data class RequestModel(
         val apiKey: String,

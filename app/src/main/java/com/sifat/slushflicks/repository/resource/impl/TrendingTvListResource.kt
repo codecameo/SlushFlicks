@@ -14,20 +14,17 @@ class TrendingTvListResource(
     tvService: TvService,
     requestModel: RequestModel,
     dataManager: DataManager,
-    collection: String,
     networkStateManager: NetworkStateManager,
     jobManager: JobManager,
     dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : TvListNetworkResource(
     tvService = tvService,
     requestModel = requestModel,
-    collection = collection,
     dataManager = dataManager,
     networkStateManager = networkStateManager,
     jobManager = jobManager,
     dispatcher = dispatcher
 ) {
-
     override fun createCall(): LiveData<ApiResponse<TvListApiModel>> {
         return tvService.getTrendingTvShow(
             apiKey = requestModel.apiKey,

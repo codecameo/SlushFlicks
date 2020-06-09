@@ -14,14 +14,12 @@ class TrendingMovieListResource(
     movieService: MovieService,
     requestModel: RequestModel,
     dataManager: DataManager,
-    collection: String,
     networkStateManager: NetworkStateManager,
     jobManager: JobManager,
     dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : MovieListNetworkResource(
     movieService = movieService,
     requestModel = requestModel,
-    collection = collection,
     dataManager = dataManager,
     networkStateManager = networkStateManager,
     jobManager = jobManager,
