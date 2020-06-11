@@ -13,9 +13,9 @@ import com.sifat.slushflicks.ui.state.DataState
 import com.sifat.slushflicks.ui.state.DataState.Error
 import com.sifat.slushflicks.ui.state.ViewState
 
-open class BaseMovieListViewModel
-    (private val repository: MovieListRepository) :
-    BaseActionViewModel<MovieListViewAction, MovieListViewState>() {
+open class BaseMovieListViewModel(
+    private val repository: MovieListRepository
+) : BaseActionViewModel<MovieListViewAction, MovieListViewState>() {
     override val viewState by lazy {
         MovieListViewState()
     }

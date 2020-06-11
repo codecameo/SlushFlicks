@@ -76,8 +76,6 @@ class HomeMovieFragment :
                 }
             }
         })
-
-        viewModel.observeDataAction().observe(viewLifecycleOwner, Observer {})
     }
 
     private fun setContainerFragment(action: CollectionContainerUpdateViewAction) {
@@ -153,7 +151,6 @@ class HomeMovieFragment :
     private fun getFragmentLabel(label: String) = label + Label.MOVIE_LABEL
 
     override fun onDestroyView() {
-        viewModel.observeDataAction().removeObservers(viewLifecycleOwner)
         viewModel.observeViewAction().removeObservers(viewLifecycleOwner)
         super.onDestroyView()
     }

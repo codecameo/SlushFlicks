@@ -80,8 +80,6 @@ class MovieDetailsActivity :
                 }
             }
         })
-
-        viewModel.observeDataAction().observe(this, Observer {})
     }
 
     private fun shareMovie(action: ShareMovieViewAction) {
