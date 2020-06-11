@@ -2,48 +2,46 @@ package com.sifat.slushflicks.repository.genre.impl
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import com.sifat.slushflicks.api.home.genre.GenreService
 import com.sifat.slushflicks.data.DataManager
-import com.sifat.slushflicks.di.constant.NAME_API_KEY
 import com.sifat.slushflicks.di.splash.SplashScope
 import com.sifat.slushflicks.model.GenreModel
 import com.sifat.slushflicks.repository.genre.GenreRepository
 import com.sifat.slushflicks.repository.resource.impl.GenreNetworkResource
+import com.sifat.slushflicks.repository.resource.impl.MovieGenreNetworkResource
+import com.sifat.slushflicks.repository.resource.impl.TvGenreNetworkResource
 import com.sifat.slushflicks.ui.state.DataState
-import com.sifat.slushflicks.utils.api.NetworkStateManager
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import com.sifat.slushflicks.ui.state.DataState.Error
+import com.sifat.slushflicks.ui.state.DataState.Success
 import javax.inject.Inject
-import javax.inject.Named
 
 @SplashScope
 class GenreRepositoryImpl
 @Inject constructor(
-    private val genreService: GenreService,
-    private val dataManager: DataManager,
-    @Named(NAME_API_KEY)
-    private val apiKey: String,
-    private val networkStateManager: NetworkStateManager
+    private val dataManager: DataManager
 ) : GenreRepository {
+
+    @Inject
+    lateinit var genreNetworkResource: GenreNetworkResource
+
+    @Inject
+    lateinit var tvGenreNetworkResource: TvGenreNetworkResource
+
+    @Inject
+    lateinit var movieGenreNetworkResource: MovieGenreNetworkResource
 
     override fun setGenreList(): LiveData<DataState<List<GenreModel>>> {
         val mediatorLiveData = MediatorLiveData<DataState<List<GenreModel>>>()
-        val dataResponse = GenreNetworkResource(
-            dataManager = dataManager
-        ).asLiveData()
+        val dataResponse = genreNetworkResource.asLiveData()
 
-        mediatorLiveData.addSource(
-            dataResponse
-        ) { response ->
+        mediatorLiveData.addSource(dataResponse) { response ->
             mediatorLiveData.removeSource(dataResponse)
             when (response) {
-                is DataState.Success -> {
+                is Success -> {
                     // Initialize genre map in local dataManager
                     dataManager.initGenres(response.dataResponse.data)
                     mediatorLiveData.value = response
                 }
-                is DataState.Error -> {
+                is Error -> {
                     mediatorLiveData.value = response
                 }
             }
@@ -51,39 +49,18 @@ class GenreRepositoryImpl
         return mediatorLiveData
     }
 
-    override fun updateGenres() {
-        if (!networkStateManager.isOnline()) return
-        /**
-         * Two parallel corotuine was launched to update genre database.
-         * Ran it on global scope so that it finishes it's task
-         * even if user leaves the app or navigates to another screen
-         * */
-        GlobalScope.launch(IO) {
-            launch {
-                //TODO
-                try {
-                    val response = genreService.getTvGenre(apiKey)
-                    if (response.isSuccessful) {
-                        response.body()?.run {
-                            dataManager.saveGenre(genres)
-                        }
-                    }
-                } catch (ex: Exception) {
-                    ex.printStackTrace()
-                }
-            }
-            launch {
-                try {
-                    val response = genreService.getMovieGenre(apiKey)
-                    if (response.isSuccessful) {
-                        response.body()?.run {
-                            dataManager.saveGenre(genres)
-                        }
-                    }
-                } catch (ex: Exception) {
-                    ex.printStackTrace()
-                }
-            }
+    override fun updateGenres(): LiveData<DataState<List<GenreModel>>> {
+        val result = MediatorLiveData<DataState<List<GenreModel>>>()
+        val tvLive = tvGenreNetworkResource.asLiveData()
+        result.addSource(tvLive) { data ->
+            result.removeSource(tvLive)
+            result.value = data
         }
+        val movieLive = movieGenreNetworkResource.asLiveData()
+        result.addSource(movieLive) { data ->
+            result.removeSource(movieLive)
+            result.value = data
+        }
+        return result
     }
 }

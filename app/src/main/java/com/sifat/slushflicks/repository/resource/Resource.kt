@@ -1,5 +1,6 @@
 package com.sifat.slushflicks.repository.resource
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import com.sifat.slushflicks.api.*
@@ -128,6 +129,7 @@ abstract class Resource<ApiData, CacheData, AppData>(
         return AbsentLiveData.create()
     }
 
+    @VisibleForTesting
     protected open suspend fun getFromCache(): CacheData? {
         return null
     }

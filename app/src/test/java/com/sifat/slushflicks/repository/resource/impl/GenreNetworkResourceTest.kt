@@ -49,8 +49,7 @@ class GenreNetworkResourceTest {
                 // Arrange
                 `when`(manager.loadGenres()).thenReturn(emptyList())
                 //Act
-                val actual =
-                    sut.asLiveData().getOrAwaitValue() as Success<List<GenreModel>>
+                val actual = sut.asLiveData().getOrAwaitValue() as Success<List<GenreModel>>
                 //Assert
                 assertEquals(emptyList<GenreModel>(), actual.dataResponse.data)
                 assertNull(actual.dataResponse.message)
