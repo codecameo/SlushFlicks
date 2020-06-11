@@ -45,7 +45,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, SplashViewModel>() {
         super.onCreate(savedInstanceState)
         checkDynamicLink()
         setAnimation()
-        viewModel.updateGenres()
+        viewModel.updateGenres().observe(this, Observer {})
         handler.postDelayed(nextScreenAction, splashTime)
     }
 
