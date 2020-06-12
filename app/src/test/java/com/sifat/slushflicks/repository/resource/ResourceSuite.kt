@@ -21,7 +21,9 @@ import org.junit.runners.Suite
         MovieDetailsNetworkResourceTest::class,
         SimilarMoviesNetworkResourceTest::class,
         TrendingMovieListResourceTest::class,
-        MovieListNetworkResourceTest::class
+        MovieListNetworkResourceTest::class,
+        TvGenreNetworkResourceTest::class,
+        MovieGenreNetworkResourceTest::class
     ]
 )
 class ResourceSuite
