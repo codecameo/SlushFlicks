@@ -5,6 +5,7 @@ import com.sifat.slushflicks.ui.base.ListViewState.LOADING
 import com.sifat.slushflicks.ui.base.ListViewState.VIEW
 import com.sifat.slushflicks.ui.home.adapter.model.CollectionListModel
 import com.sifat.slushflicks.utils.LOADING_MODEL_COUNT
+import com.sifat.slushflicks.utils.getCollectionModel
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Test
@@ -28,10 +29,7 @@ internal class CollectionListHelperKtTest {
     @Test
     fun testCollectionListModel() {
         // Arrange
-        val collections = mutableListOf<CollectionModel>()
-        collections.add(CollectionModel("name1", "label1"))
-        collections.add(CollectionModel("name2", "label2"))
-        collections.add(CollectionModel("name3", "label3"))
+        val collections = getCollectionModel()
         //Act
         val actual = getCollectionListModel(collections)
         //Assert

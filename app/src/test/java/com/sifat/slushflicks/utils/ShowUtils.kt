@@ -25,6 +25,14 @@ fun getGenreList(): List<GenreModel> {
     return list
 }
 
+fun getCollectionModel(): List<CollectionModel> {
+    val collections = mutableListOf<CollectionModel>()
+    collections.add(CollectionModel("name1", "label1"))
+    collections.add(CollectionModel("name2", "label2"))
+    collections.add(CollectionModel("name3", "label3"))
+    return collections
+}
+
 fun getShowList(): List<ShowModelMinimal> {
     val list = mutableListOf<ShowModelMinimal>()
     list.add(

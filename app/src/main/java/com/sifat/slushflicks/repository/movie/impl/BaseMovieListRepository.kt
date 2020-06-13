@@ -1,6 +1,5 @@
 package com.sifat.slushflicks.repository.movie.impl
 
-import androidx.arch.core.util.Function
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.paging.PagedList
@@ -28,15 +27,11 @@ abstract class BaseMovieListRepository(
             config = pageConfig,
             boundaryCallback = boundaryCallback
         )
-        return Transformations.map(
-            dataSource,
-            Function<PagedList<ShowModelMinimal>, DataState<PagedList<ShowModelMinimal>>> { pagedList ->
-                DataState.Success<PagedList<ShowModelMinimal>>(
-                    DataSuccessResponse(
-                        data = pagedList
-                    )
-                )
-            })
+        return Transformations.map(dataSource) { pagedList ->
+            DataState.Success(
+                DataSuccessResponse(data = pagedList)
+            )
+        }
     }
 
     override fun cancelAllJobs() {
