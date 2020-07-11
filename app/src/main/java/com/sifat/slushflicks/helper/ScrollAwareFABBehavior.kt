@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.ViewCompat
+import androidx.core.view.ViewCompat.NestedScrollType
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -22,7 +23,7 @@ class ScrollAwareFABBehavior @JvmOverloads constructor(context: Context?, attrs:
         directTargetChild: View,
         target: View,
         nestedScrollAxes: Int,
-        @ViewCompat.NestedScrollType type: Int
+        @NestedScrollType type: Int
     ): Boolean {
         return nestedScrollAxes == ViewCompat.SCROLL_AXIS_VERTICAL ||
                 super.onStartNestedScroll(
@@ -51,7 +52,7 @@ class ScrollAwareFABBehavior @JvmOverloads constructor(context: Context?, attrs:
         dyConsumed: Int,
         dxUnconsumed: Int,
         dyUnconsumed: Int,
-        @ViewCompat.NestedScrollType type: Int,
+        @NestedScrollType type: Int,
         consumed: IntArray
     ) {
         super.onNestedScroll(
@@ -63,5 +64,15 @@ class ScrollAwareFABBehavior @JvmOverloads constructor(context: Context?, attrs:
         } else if (dyConsumed < 0 && child.visibility != View.VISIBLE) {
             child.show()
         }
+    }
+
+    override fun onStopNestedScroll(
+        coordinatorLayout: CoordinatorLayout,
+        child: FloatingActionButton,
+        target: View,
+        type: Int
+    ) {
+        super.onStopNestedScroll(coordinatorLayout, child, target, type)
+        child.show()
     }
 }
