@@ -8,6 +8,7 @@ import com.sifat.slushflicks.helper.DynamicLinkProvider
 import com.sifat.slushflicks.helper.JobManager
 import dagger.Module
 import dagger.Provides
+import kotlinx.coroutines.Dispatchers
 import retrofit2.Retrofit
 import javax.inject.Named
 
@@ -51,4 +52,9 @@ object MovieDetailsModule {
     @JvmStatic
     @Provides
     fun provideJobManager() = JobManager()
+
+    @JvmStatic
+    @Provides
+    @MovieDetailsScope
+    fun provideCoroutineScope() = Dispatchers.IO
 }

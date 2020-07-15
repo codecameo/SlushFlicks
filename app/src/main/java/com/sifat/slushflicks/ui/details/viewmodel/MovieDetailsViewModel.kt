@@ -119,24 +119,28 @@ class MovieDetailsViewModel
     }
 
     private fun fetchMovieVideo(movieId: Long) {
-        // Checking if the tv model is being fetched from database.
+        // Checking if the movie model is being fetched from database.
         // if not video key won't be saved in the database since it performs update operation
-        if (viewState.isAlreadyVideoAttempted && viewState.movie.voteCount == 0) return
-        viewState.isAlreadyVideoAttempted = true
-        val videoSource = detailsRepository.getMovieVideo(movieId)
-        dataState.addSource(videoSource) {
-            dataState.removeSource(videoSource)
+        viewState.run {
+            if (isAlreadyVideoAttempted || (movie.runtime == 0 && movie.voteCount == 0)) return
+            isAlreadyVideoAttempted = true
+            val videoSource = detailsRepository.getMovieVideo(movieId)
+            dataState.addSource(videoSource) {
+                dataState.removeSource(videoSource)
+            }
         }
     }
 
     private fun fetchMovieCast(movieId: Long) {
-        // Checking if the tv model is being fetched from database.
+        // Checking if the movie model is being fetched from database.
         // if not casting data won't be saved in the database since it performs update operation
-        if (viewState.isAlreadyCastAttempted && viewState.movie.voteCount == 0) return
-        viewState.isAlreadyCastAttempted = true
-        val castSource = detailsRepository.getMovieCast(movieId)
-        dataState.addSource(castSource) {
-            dataState.removeSource(castSource)
+        viewState.run {
+            if (isAlreadyCastAttempted || (movie.runtime == 0 && movie.voteCount == 0)) return
+            isAlreadyCastAttempted = true
+            val castSource = detailsRepository.getMovieCast(movieId)
+            dataState.addSource(castSource) {
+                dataState.removeSource(castSource)
+            }
         }
     }
 
