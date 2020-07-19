@@ -1,7 +1,10 @@
 package com.sifat.slushflicks.repository.resource.impl
 
 import androidx.lifecycle.LiveData
+import com.sifat.slushflicks.api.ApiErrorResponse
 import com.sifat.slushflicks.api.ApiResponse
+import com.sifat.slushflicks.api.ApiTag
+import com.sifat.slushflicks.api.StatusCode
 import com.sifat.slushflicks.api.details.model.VideoApiModel
 import com.sifat.slushflicks.api.details.model.VideoListApiModel
 import com.sifat.slushflicks.api.home.movie.MovieService
@@ -37,6 +40,11 @@ class MovieVideoNetworkResource(
     override fun setJob(job: Job) {
         jobManager.addJob(TAG, job)
     }
+
+    override fun getInternalErrorResponse() = ApiErrorResponse<VideoListApiModel>(
+        statusCode = StatusCode.INTERNAL_ERROR,
+        apiTag = ApiTag.MOVIE_VIDEO_API_TAG
+    )
 
     data class RequestModel(val apiKey: String, val movieId: Long)
 

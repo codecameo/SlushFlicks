@@ -1,8 +1,7 @@
 package com.sifat.slushflicks.repository.resource.impl
 
 import androidx.lifecycle.LiveData
-import com.sifat.slushflicks.api.ApiResponse
-import com.sifat.slushflicks.api.ApiSuccessResponse
+import com.sifat.slushflicks.api.*
 import com.sifat.slushflicks.api.details.model.CreditsApiModel
 import com.sifat.slushflicks.api.home.movie.MovieService
 import com.sifat.slushflicks.data.DataManager
@@ -59,6 +58,11 @@ class MovieCastNetworkResource(
             message = response.message
         )
     }
+
+    override fun getInternalErrorResponse() = ApiErrorResponse<CreditsApiModel>(
+        statusCode = StatusCode.INTERNAL_ERROR,
+        apiTag = ApiTag.MOVIE_CREDITS_API_TAG
+    )
 
     data class RequestModel(val apiKey: String, val movieId: Long)
 
