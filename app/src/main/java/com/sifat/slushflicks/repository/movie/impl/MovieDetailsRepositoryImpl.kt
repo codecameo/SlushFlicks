@@ -147,7 +147,7 @@ class MovieDetailsRepositoryImpl
 
     override fun updateRecentMovie(movieId: Long) {
         val time = (System.currentTimeMillis() / 1000).toInt()
-        CoroutineScope(IO).launch {
+        CoroutineScope(dispatcher).launch {
             dataManager.insertNewMovieCollection(
                 MovieCollectionModel(
                     collection = RECENTLY_VISITED_MOVIE,

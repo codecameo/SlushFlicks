@@ -1,55 +1,56 @@
-package com.sifat.slushflicks.repository.movie.impl
+package com.sifat.slushflicks.repository.tv.impl
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
-import com.sifat.slushflicks.api.ApiTag
+import com.sifat.slushflicks.api.ApiTag.Companion.TV_CREDITS_API_TAG
+import com.sifat.slushflicks.api.ApiTag.Companion.TV_SHOW_RECOMMENDATION_API_TAG
+import com.sifat.slushflicks.api.ApiTag.Companion.TV_SHOW_SIMILAR_API_TAG
+import com.sifat.slushflicks.api.ApiTag.Companion.TV_VIDEO_API_TAG
 import com.sifat.slushflicks.api.StatusCode.Companion.INTERNAL_ERROR
 import com.sifat.slushflicks.api.StatusCode.Companion.RESOURCE_NOT_FOUND
 import com.sifat.slushflicks.api.StatusCode.Companion.UNAUTHORIZED
 import com.sifat.slushflicks.api.details.model.CreditsApiModel
 import com.sifat.slushflicks.api.details.model.VideoApiModel
 import com.sifat.slushflicks.api.details.model.VideoListApiModel
-import com.sifat.slushflicks.api.home.movie.MovieServiceFake
-import com.sifat.slushflicks.api.home.movie.model.MovieListApiModel
+import com.sifat.slushflicks.api.home.tv.TvServiceFake
+import com.sifat.slushflicks.api.home.tv.model.TvListApiModel
 import com.sifat.slushflicks.data.DataManager
 import com.sifat.slushflicks.helper.JobManager
 import com.sifat.slushflicks.model.CastModel
-import com.sifat.slushflicks.model.MovieModel
 import com.sifat.slushflicks.model.ShowModelMinimal
-import com.sifat.slushflicks.repository.movie.MovieDetailsRepository
+import com.sifat.slushflicks.model.TvModel
+import com.sifat.slushflicks.repository.tv.TvDetailsRepository
 import com.sifat.slushflicks.rule.MainCoroutineRule
-import com.sifat.slushflicks.ui.helper.getMovieMinimalApiModel
+import com.sifat.slushflicks.ui.helper.getTvShowMinimalApiModel
 import com.sifat.slushflicks.ui.state.DataState.Error
 import com.sifat.slushflicks.ui.state.DataState.Success
 import com.sifat.slushflicks.utils.any
 import com.sifat.slushflicks.utils.api.NetworkStateManager
-import com.sifat.slushflicks.utils.api.movieCastResponse
-import com.sifat.slushflicks.utils.api.movieSimilarResponse
-import com.sifat.slushflicks.utils.api.movieVideoResponse
+import com.sifat.slushflicks.utils.api.tvCastResponse
+import com.sifat.slushflicks.utils.api.tvSimilarResponse
+import com.sifat.slushflicks.utils.api.tvVideoResponse
 import com.sifat.slushflicks.utils.getGenreMap
 import com.sifat.slushflicks.utils.getOrAwaitValue
-import com.sifat.slushflicks.utils.movieDetailsResponse
 import com.sifat.slushflicks.utils.single
+import com.sifat.slushflicks.utils.tvDetailsResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNull
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.jupiter.api.Assertions.assertDoesNotThrow
+import org.junit.jupiter.api.Assertions
 import org.junit.rules.TestRule
 import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers.anyLong
 import org.mockito.Mockito.*
 import org.mockito.junit.MockitoJUnitRunner
-import kotlin.test.assertNotNull
 
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
-class MovieDetailsRepositoryImplTest {
+class TvDetailsRepositoryImplTest {
 
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
@@ -57,9 +58,9 @@ class MovieDetailsRepositoryImplTest {
     @get:Rule
     val mainCoroutineDispatcher = MainCoroutineRule()
 
-    internal lateinit var sut: MovieDetailsRepository
+    internal lateinit var sut: TvDetailsRepository
     private lateinit var manager: DataManager
-    private lateinit var service: MovieServiceFake
+    private lateinit var service: TvServiceFake
     private lateinit var apiKey: String
     private lateinit var networkState: NetworkStateManager
     private lateinit var jobManager: JobManager
@@ -67,13 +68,13 @@ class MovieDetailsRepositoryImplTest {
     @Before
     fun setup() {
         manager = mock(DataManager::class.java)
-        service = MovieServiceFake(Gson())
+        service = TvServiceFake(Gson())
         jobManager = mock(JobManager::class.java)
         networkState = mock(NetworkStateManager::class.java)
         apiKey = "apiKey"
-        sut = MovieDetailsRepositoryImpl(
+        sut = TvDetailsRepositoryImpl(
             dataManager = manager,
-            movieService = service,
+            tvService = service,
             apiKey = apiKey,
             jobManager = jobManager,
             networkStateManager = networkState,
@@ -82,22 +83,23 @@ class MovieDetailsRepositoryImplTest {
     }
 
     @Test
-    fun testMovieDetailsSuccess() {
+    fun testTvDetailsSuccess() {
         // Arrange
-        val expected = Gson().fromJson(movieDetailsResponse, MovieModel::class.java)
-        val live = MutableLiveData<MovieModel>()
+        val expected = Gson().fromJson(tvDetailsResponse, TvModel::class.java)
+        val live = MutableLiveData<TvModel>()
         live.value = expected
-        `when`(manager.getMovieDetails(anyLong())).thenReturn(live)
+        `when`(manager.getTvShowDetails(anyLong())).thenReturn(live)
         `when`(networkState.isOnline()).thenReturn(true)
 
-        assertDoesNotThrow {
+        Assertions.assertDoesNotThrow {
             mainCoroutineDispatcher.runBlockingTest {
                 //Act
-                val actual = sut.getMovieDetails(expected.id).getOrAwaitValue() as Success
+                val actual =
+                    sut.getTvShowDetails(expected.id).getOrAwaitValue() as Success
                 //Assert
                 assertEquals(actual.dataResponse.data, expected)
-                verify(manager, single()).getMovieDetails(expected.id)
-                verify(manager, single()).updateMovieDetails(any())
+                verify(manager, single()).getTvShowDetails(expected.id)
+                verify(manager, single()).updateTvDetails(any())
                 verify(networkState, single()).isOnline()
                 verifyNoMoreInteractions(manager)
                 verifyNoMoreInteractions(networkState)
@@ -106,21 +108,21 @@ class MovieDetailsRepositoryImplTest {
     }
 
     @Test
-    fun testMovieDetailsNoNetwork() {
+    fun testTvDetailsNoNetwork() {
         // Arrange
-        val expected = Gson().fromJson(movieDetailsResponse, MovieModel::class.java)
-        val live = MutableLiveData<MovieModel>()
+        val expected = Gson().fromJson(tvDetailsResponse, TvModel::class.java)
+        val live = MutableLiveData<TvModel>()
         live.value = expected
-        `when`(manager.getMovieDetails(anyLong())).thenReturn(live)
+        `when`(manager.getTvShowDetails(anyLong())).thenReturn(live)
         `when`(networkState.isOnline()).thenReturn(false)
 
-        assertDoesNotThrow {
+        Assertions.assertDoesNotThrow {
             mainCoroutineDispatcher.runBlockingTest {
                 //Act
-                val actual = sut.getMovieDetails(expected.id).getOrAwaitValue() as Success
+                val actual = sut.getTvShowDetails(expected.id).getOrAwaitValue() as Success
                 //Assert
                 assertEquals(actual.dataResponse.data, expected)
-                verify(manager, single()).getMovieDetails(expected.id)
+                verify(manager, single()).getTvShowDetails(expected.id)
                 verify(networkState, single()).isOnline()
                 verifyNoMoreInteractions(manager)
                 verifyNoMoreInteractions(networkState)
@@ -129,22 +131,22 @@ class MovieDetailsRepositoryImplTest {
     }
 
     @Test
-    fun testMovieDetailsErrorUnauth() {
+    fun testTvDetailsErrorUnauth() {
         // Arrange
         service.errorCode = UNAUTHORIZED
-        val expected = Gson().fromJson(movieDetailsResponse, MovieModel::class.java)
-        val live = MutableLiveData<MovieModel>()
+        val expected = Gson().fromJson(tvDetailsResponse, TvModel::class.java)
+        val live = MutableLiveData<TvModel>()
         live.value = expected
-        `when`(manager.getMovieDetails(anyLong())).thenReturn(live)
+        `when`(manager.getTvShowDetails(anyLong())).thenReturn(live)
         `when`(networkState.isOnline()).thenReturn(true)
 
-        assertDoesNotThrow {
+        Assertions.assertDoesNotThrow {
             mainCoroutineDispatcher.runBlockingTest {
                 //Act
-                val actual = sut.getMovieDetails(expected.id).getOrAwaitValue() as Success
+                val actual = sut.getTvShowDetails(expected.id).getOrAwaitValue() as Success
                 //Assert
                 assertEquals(actual.dataResponse.data, expected)
-                verify(manager, single()).getMovieDetails(expected.id)
+                verify(manager, single()).getTvShowDetails(expected.id)
                 verify(networkState, single()).isOnline()
                 verifyNoMoreInteractions(manager)
                 verifyNoMoreInteractions(networkState)
@@ -153,22 +155,23 @@ class MovieDetailsRepositoryImplTest {
     }
 
     @Test
-    fun testMovieDetailsErrorResNotFound() {
+    fun testTvDetailsErrorResNotFound() {
         // Arrange
         service.errorCode = RESOURCE_NOT_FOUND
-        val expected = Gson().fromJson(movieDetailsResponse, MovieModel::class.java)
-        val live = MutableLiveData<MovieModel>()
+        val expected = Gson().fromJson(tvDetailsResponse, TvModel::class.java)
+        val live = MutableLiveData<TvModel>()
         live.value = expected
-        `when`(manager.getMovieDetails(anyLong())).thenReturn(live)
+        `when`(manager.getTvShowDetails(anyLong())).thenReturn(live)
         `when`(networkState.isOnline()).thenReturn(true)
 
-        assertDoesNotThrow {
+        Assertions.assertDoesNotThrow {
             mainCoroutineDispatcher.runBlockingTest {
                 //Act
-                val actual = sut.getMovieDetails(expected.id).getOrAwaitValue() as Success
+                val actual =
+                    sut.getTvShowDetails(expected.id).getOrAwaitValue() as Success
                 //Assert
                 assertEquals(actual.dataResponse.data, expected)
-                verify(manager, single()).getMovieDetails(expected.id)
+                verify(manager, single()).getTvShowDetails(expected.id)
                 verify(networkState, single()).isOnline()
                 verifyNoMoreInteractions(manager)
                 verifyNoMoreInteractions(networkState)
@@ -177,20 +180,25 @@ class MovieDetailsRepositoryImplTest {
     }
 
     @Test
-    fun testMovieVideoSuccess() {
+    fun testTvVideoSuccess() {
         // Arrange
-        val videoList = Gson().fromJson(movieVideoResponse, VideoListApiModel::class.java)
+        val videoList = Gson().fromJson(tvVideoResponse, VideoListApiModel::class.java)
         val expected = videoList.results[0].key
-        val movieId = 603L
+        val tvShowId = 603L
+        val sessionNumber = 3
         `when`(networkState.isOnline()).thenReturn(true)
 
-        assertDoesNotThrow {
+        Assertions.assertDoesNotThrow {
             mainCoroutineDispatcher.runBlockingTest {
                 //Act
-                val actual = sut.getMovieVideo(movieId).getOrAwaitValue() as Success
+                val actual =
+                    sut.getTvShowVideo(tvShowId, sessionNumber).getOrAwaitValue() as Success
                 //Assert
                 assertEquals(actual.dataResponse.data, expected)
-                verify(manager, single()).updateMovieDetails(any<VideoApiModel>(), anyLong())
+                verify(manager, single()).updateTvDetails(
+                    any<VideoApiModel>(),
+                    anyLong()
+                )
                 verify(networkState, single()).isOnline()
                 verifyNoMoreInteractions(manager)
                 verifyNoMoreInteractions(networkState)
@@ -199,16 +207,18 @@ class MovieDetailsRepositoryImplTest {
     }
 
     @Test
-    fun testMovieNoVideoSuccess() {
+    fun testTvNoVideoSuccess() {
         // Arrange
-        val movieId = 603L
+        val tvShowId = 603L
+        val sessionNumber = 3
         service.noYoutubeVideo = true
         `when`(networkState.isOnline()).thenReturn(true)
 
-        assertDoesNotThrow {
+        Assertions.assertDoesNotThrow {
             mainCoroutineDispatcher.runBlockingTest {
                 //Act
-                val actual = sut.getMovieVideo(movieId).getOrAwaitValue() as Success
+                val actual =
+                    sut.getTvShowVideo(tvShowId, sessionNumber).getOrAwaitValue() as Success
                 //Assert
                 assertNull(actual.dataResponse.data)
                 verify(networkState, single()).isOnline()
@@ -219,16 +229,17 @@ class MovieDetailsRepositoryImplTest {
     }
 
     @Test
-    fun testMovieVideoNoInternet() {
+    fun testTvVideoNoInternet() {
         // Arrange
-        val movieId = 603L
-        val tag = ApiTag.MOVIE_VIDEO_API_TAG
+        val tvShowId = 603L
+        val sessionNumber = 3
+        val tag = TV_VIDEO_API_TAG
         `when`(networkState.isOnline()).thenReturn(false)
 
-        assertDoesNotThrow {
+        Assertions.assertDoesNotThrow {
             mainCoroutineDispatcher.runBlockingTest {
                 //Act
-                val actual = sut.getMovieVideo(movieId).getOrAwaitValue() as Error
+                val actual = sut.getTvShowVideo(tvShowId, sessionNumber).getOrAwaitValue() as Error
                 //Assert
                 actual.dataResponse.run {
                     assertEquals(statusCode, INTERNAL_ERROR)
@@ -243,21 +254,22 @@ class MovieDetailsRepositoryImplTest {
     }
 
     @Test
-    fun testMovieVideoUnauth() {
+    fun testTvVideoUnauth() {
         // Arrange
-        val movieId = 603L
-        val tag = ApiTag.MOVIE_VIDEO_API_TAG
+        val tvShowId = 603L
+        val sessionNumber = 3
+        val tag = TV_VIDEO_API_TAG
         `when`(networkState.isOnline()).thenReturn(true)
         service.errorCode = UNAUTHORIZED
-        assertDoesNotThrow {
+        Assertions.assertDoesNotThrow {
             mainCoroutineDispatcher.runBlockingTest {
                 //Act
-                val actual = sut.getMovieVideo(movieId).getOrAwaitValue() as Error
+                val actual = sut.getTvShowVideo(tvShowId, sessionNumber).getOrAwaitValue() as Error
                 //Assert
                 actual.dataResponse.run {
                     assertEquals(statusCode, UNAUTHORIZED)
                     assertEquals(tag, apiTag)
-                    assertNotNull(errorMessage)
+                    kotlin.test.assertNotNull(errorMessage)
                 }
                 verify(networkState, single()).isOnline()
                 verifyZeroInteractions(manager)
@@ -267,16 +279,17 @@ class MovieDetailsRepositoryImplTest {
     }
 
     @Test
-    fun testMovieVideoResourceNotFound() {
+    fun testTvVideoResourceNotFound() {
         // Arrange
-        val movieId = 603L
-        val tag = ApiTag.MOVIE_VIDEO_API_TAG
+        val tvShowId = 603L
+        val sessionNumber = 3
+        val tag = TV_VIDEO_API_TAG
         `when`(networkState.isOnline()).thenReturn(true)
         service.errorCode = RESOURCE_NOT_FOUND
-        assertDoesNotThrow {
+        Assertions.assertDoesNotThrow {
             mainCoroutineDispatcher.runBlockingTest {
                 //Act
-                val actual = sut.getMovieVideo(movieId).getOrAwaitValue() as Error
+                val actual = sut.getTvShowVideo(tvShowId, sessionNumber).getOrAwaitValue() as Error
                 //Assert
                 actual.dataResponse.run {
                     assertEquals(statusCode, RESOURCE_NOT_FOUND)
@@ -291,19 +304,22 @@ class MovieDetailsRepositoryImplTest {
     }
 
     @Test
-    fun testMovieCastSuccess() {
+    fun testTvCastSuccess() {
         // Arrange
-        val expected = Gson().fromJson(movieCastResponse, CreditsApiModel::class.java)
-        val movieId = 603L
+        val expected = Gson().fromJson(tvCastResponse, CreditsApiModel::class.java)
+        val tvId = 603L
         `when`(networkState.isOnline()).thenReturn(true)
 
-        assertDoesNotThrow {
+        Assertions.assertDoesNotThrow {
             mainCoroutineDispatcher.runBlockingTest {
                 //Act
-                val actual = sut.getMovieCast(movieId).getOrAwaitValue() as Success
+                val actual = sut.getTvShowCast(tvId).getOrAwaitValue() as Success
                 //Assert
                 assertEquals(actual.dataResponse.data, expected.casts.size)
-                verify(manager, single()).updateMovieDetails(any<List<CastModel>>(), anyLong())
+                verify(manager, single()).updateTvDetails(
+                    any<List<CastModel>>(),
+                    anyLong()
+                )
                 verify(networkState, single()).isOnline()
                 verifyNoMoreInteractions(manager)
                 verifyNoMoreInteractions(networkState)
@@ -312,16 +328,16 @@ class MovieDetailsRepositoryImplTest {
     }
 
     @Test
-    fun testMovieCastNoInternet() {
+    fun testTvCastNoInternet() {
         // Arrange
-        val movieId = 603L
-        val tag = ApiTag.MOVIE_CREDITS_API_TAG
+        val tvId = 603L
+        val tag = TV_CREDITS_API_TAG
         `when`(networkState.isOnline()).thenReturn(false)
 
-        assertDoesNotThrow {
+        Assertions.assertDoesNotThrow {
             mainCoroutineDispatcher.runBlockingTest {
                 //Act
-                val actual = sut.getMovieCast(movieId).getOrAwaitValue() as Error
+                val actual = sut.getTvShowCast(tvId).getOrAwaitValue() as Error
                 //Assert
                 actual.dataResponse.run {
                     assertEquals(statusCode, INTERNAL_ERROR)
@@ -336,21 +352,21 @@ class MovieDetailsRepositoryImplTest {
     }
 
     @Test
-    fun testMovieCastUnauth() {
+    fun testTvCastUnauth() {
         // Arrange
-        val movieId = 603L
-        val tag = ApiTag.MOVIE_CREDITS_API_TAG
+        val tvId = 603L
+        val tag = TV_CREDITS_API_TAG
         `when`(networkState.isOnline()).thenReturn(true)
         service.errorCode = UNAUTHORIZED
-        assertDoesNotThrow {
+        Assertions.assertDoesNotThrow {
             mainCoroutineDispatcher.runBlockingTest {
                 //Act
-                val actual = sut.getMovieCast(movieId).getOrAwaitValue() as Error
+                val actual = sut.getTvShowCast(tvId).getOrAwaitValue() as Error
                 //Assert
                 actual.dataResponse.run {
                     assertEquals(statusCode, UNAUTHORIZED)
                     assertEquals(tag, apiTag)
-                    assertNotNull(errorMessage)
+                    kotlin.test.assertNotNull(errorMessage)
                 }
                 verify(networkState, single()).isOnline()
                 verifyZeroInteractions(manager)
@@ -360,21 +376,21 @@ class MovieDetailsRepositoryImplTest {
     }
 
     @Test
-    fun testMovieCastResourceNotFound() {
+    fun testTvCastResourceNotFound() {
         // Arrange
-        val movieId = 603L
-        val tag = ApiTag.MOVIE_CREDITS_API_TAG
+        val tvId = 603L
+        val tag = TV_CREDITS_API_TAG
         `when`(networkState.isOnline()).thenReturn(true)
         service.errorCode = RESOURCE_NOT_FOUND
-        assertDoesNotThrow {
+        Assertions.assertDoesNotThrow {
             mainCoroutineDispatcher.runBlockingTest {
                 //Act
-                val actual = sut.getMovieCast(movieId).getOrAwaitValue() as Error
+                val actual = sut.getTvShowCast(tvId).getOrAwaitValue() as Error
                 //Assert
                 actual.dataResponse.run {
                     assertEquals(statusCode, RESOURCE_NOT_FOUND)
                     assertEquals(tag, apiTag)
-                    assertNotNull(errorMessage)
+                    kotlin.test.assertNotNull(errorMessage)
                 }
                 verify(networkState, single()).isOnline()
                 verifyZeroInteractions(manager)
@@ -384,22 +400,23 @@ class MovieDetailsRepositoryImplTest {
     }
 
     @Test
-    fun testSimilarMovieSuccess() {
+    fun testSimilarTvSuccess() {
         // Arrange
-        val similarMovies = Gson().fromJson(movieSimilarResponse, MovieListApiModel::class.java)
-        val movieId = 603L
+        val similarTvs = Gson().fromJson(tvSimilarResponse, TvListApiModel::class.java)
+        val tvId = 603L
         val genre = getGenreMap()
         `when`(networkState.isOnline()).thenReturn(true)
         `when`(manager.getGenres()).thenReturn(genre)
         val expected = mutableListOf<ShowModelMinimal>()
-        for (movie in similarMovies.results) {
-            expected.add(getMovieMinimalApiModel(movie, genre))
+        for (tv in similarTvs.results) {
+            expected.add(getTvShowMinimalApiModel(tv, genre))
         }
 
-        assertDoesNotThrow {
+        Assertions.assertDoesNotThrow {
             mainCoroutineDispatcher.runBlockingTest {
                 //Act
-                val actual = sut.getSimilarMovies(movieId).getOrAwaitValue() as Success
+                val actual =
+                    sut.getSimilarTvShows(tvId).getOrAwaitValue() as Success
                 //Assert
                 assertEquals(actual.dataResponse.data, expected)
                 verify(manager, single()).getGenres()
@@ -411,16 +428,16 @@ class MovieDetailsRepositoryImplTest {
     }
 
     @Test
-    fun testSimilarMovieNoInternet() {
+    fun testSimilarTvNoInternet() {
         // Arrange
-        val movieId = 603L
-        val tag = ApiTag.MOVIE_SIMILAR_API_TAG
+        val tvId = 603L
+        val tag = TV_SHOW_SIMILAR_API_TAG
         `when`(networkState.isOnline()).thenReturn(false)
 
-        assertDoesNotThrow {
+        Assertions.assertDoesNotThrow {
             mainCoroutineDispatcher.runBlockingTest {
                 //Act
-                val actual = sut.getSimilarMovies(movieId).getOrAwaitValue() as Error
+                val actual = sut.getSimilarTvShows(tvId).getOrAwaitValue() as Error
                 //Assert
                 actual.dataResponse.run {
                     assertEquals(statusCode, INTERNAL_ERROR)
@@ -435,21 +452,21 @@ class MovieDetailsRepositoryImplTest {
     }
 
     @Test
-    fun testSimilarMovieUnauth() {
+    fun testSimilarTvUnauth() {
         // Arrange
-        val movieId = 603L
-        val tag = ApiTag.MOVIE_SIMILAR_API_TAG
+        val tvId = 603L
+        val tag = TV_SHOW_SIMILAR_API_TAG
         `when`(networkState.isOnline()).thenReturn(true)
         service.errorCode = UNAUTHORIZED
-        assertDoesNotThrow {
+        Assertions.assertDoesNotThrow {
             mainCoroutineDispatcher.runBlockingTest {
                 //Act
-                val actual = sut.getSimilarMovies(movieId).getOrAwaitValue() as Error
+                val actual = sut.getSimilarTvShows(tvId).getOrAwaitValue() as Error
                 //Assert
                 actual.dataResponse.run {
                     assertEquals(statusCode, UNAUTHORIZED)
                     assertEquals(tag, apiTag)
-                    assertNotNull(errorMessage)
+                    kotlin.test.assertNotNull(errorMessage)
                 }
                 verify(networkState, single()).isOnline()
                 verifyZeroInteractions(manager)
@@ -459,21 +476,21 @@ class MovieDetailsRepositoryImplTest {
     }
 
     @Test
-    fun testSimilarMovieResourceNotFound() {
+    fun testSimilarTvResourceNotFound() {
         // Arrange
-        val movieId = 603L
-        val tag = ApiTag.MOVIE_SIMILAR_API_TAG
+        val tvId = 603L
+        val tag = TV_SHOW_SIMILAR_API_TAG
         `when`(networkState.isOnline()).thenReturn(true)
         service.errorCode = RESOURCE_NOT_FOUND
-        assertDoesNotThrow {
+        Assertions.assertDoesNotThrow {
             mainCoroutineDispatcher.runBlockingTest {
                 //Act
-                val actual = sut.getSimilarMovies(movieId).getOrAwaitValue() as Error
+                val actual = sut.getSimilarTvShows(tvId).getOrAwaitValue() as Error
                 //Assert
                 actual.dataResponse.run {
                     assertEquals(statusCode, RESOURCE_NOT_FOUND)
                     assertEquals(tag, apiTag)
-                    assertNotNull(errorMessage)
+                    kotlin.test.assertNotNull(errorMessage)
                 }
                 verify(networkState, single()).isOnline()
                 verifyZeroInteractions(manager)
@@ -483,22 +500,22 @@ class MovieDetailsRepositoryImplTest {
     }
 
     @Test
-    fun testRecommendedMoviesSuccess() {
+    fun testRecommendedTvsSuccess() {
         // Arrange
-        val similarMovies = Gson().fromJson(movieSimilarResponse, MovieListApiModel::class.java)
-        val movieId = 603L
+        val similarTvs = Gson().fromJson(tvSimilarResponse, TvListApiModel::class.java)
+        val tvId = 603L
         val genre = getGenreMap()
         `when`(networkState.isOnline()).thenReturn(true)
         `when`(manager.getGenres()).thenReturn(genre)
         val expected = mutableListOf<ShowModelMinimal>()
-        for (movie in similarMovies.results) {
-            expected.add(getMovieMinimalApiModel(movie, genre))
+        for (tv in similarTvs.results) {
+            expected.add(getTvShowMinimalApiModel(tv, genre))
         }
 
-        assertDoesNotThrow {
+        Assertions.assertDoesNotThrow {
             mainCoroutineDispatcher.runBlockingTest {
                 //Act
-                val actual = sut.getRecommendationMovies(movieId).getOrAwaitValue() as Success
+                val actual = sut.getRecommendationTvShows(tvId).getOrAwaitValue() as Success
                 //Assert
                 assertEquals(actual.dataResponse.data, expected)
                 verify(manager, single()).getGenres()
@@ -510,16 +527,17 @@ class MovieDetailsRepositoryImplTest {
     }
 
     @Test
-    fun testRecommendedMovieNoInternet() {
+    fun testRecommendedTvNoInternet() {
         // Arrange
-        val movieId = 603L
-        val tag = ApiTag.MOVIE_RECOMMENDATION_API_TAG
+        val tvId = 603L
+        val tag = TV_SHOW_RECOMMENDATION_API_TAG
         `when`(networkState.isOnline()).thenReturn(false)
 
-        assertDoesNotThrow {
+        Assertions.assertDoesNotThrow {
             mainCoroutineDispatcher.runBlockingTest {
                 //Act
-                val actual = sut.getRecommendationMovies(movieId).getOrAwaitValue() as Error
+                val actual =
+                    sut.getRecommendationTvShows(tvId).getOrAwaitValue() as Error
                 //Assert
                 actual.dataResponse.run {
                     assertEquals(statusCode, INTERNAL_ERROR)
@@ -534,21 +552,22 @@ class MovieDetailsRepositoryImplTest {
     }
 
     @Test
-    fun testRecommendedMovieUnauth() {
+    fun testRecommendedTvUnauth() {
         // Arrange
-        val movieId = 603L
-        val tag = ApiTag.MOVIE_RECOMMENDATION_API_TAG
+        val tvId = 603L
+        val tag = TV_SHOW_RECOMMENDATION_API_TAG
         `when`(networkState.isOnline()).thenReturn(true)
         service.errorCode = UNAUTHORIZED
-        assertDoesNotThrow {
+        Assertions.assertDoesNotThrow {
             mainCoroutineDispatcher.runBlockingTest {
                 //Act
-                val actual = sut.getRecommendationMovies(movieId).getOrAwaitValue() as Error
+                val actual =
+                    sut.getRecommendationTvShows(tvId).getOrAwaitValue() as Error
                 //Assert
                 actual.dataResponse.run {
                     assertEquals(statusCode, UNAUTHORIZED)
                     assertEquals(tag, apiTag)
-                    assertNotNull(errorMessage)
+                    kotlin.test.assertNotNull(errorMessage)
                 }
                 verify(networkState, single()).isOnline()
                 verifyZeroInteractions(manager)
@@ -558,21 +577,22 @@ class MovieDetailsRepositoryImplTest {
     }
 
     @Test
-    fun testRecommendedMovieResourceNotFound() {
+    fun testRecommendedTvResourceNotFound() {
         // Arrange
-        val movieId = 603L
-        val tag = ApiTag.MOVIE_RECOMMENDATION_API_TAG
+        val tvId = 603L
+        val tag = TV_SHOW_RECOMMENDATION_API_TAG
         `when`(networkState.isOnline()).thenReturn(true)
         service.errorCode = RESOURCE_NOT_FOUND
-        assertDoesNotThrow {
+        Assertions.assertDoesNotThrow {
             mainCoroutineDispatcher.runBlockingTest {
                 //Act
-                val actual = sut.getRecommendationMovies(movieId).getOrAwaitValue() as Error
+                val actual =
+                    sut.getRecommendationTvShows(tvId).getOrAwaitValue() as Error
                 //Assert
                 actual.dataResponse.run {
                     assertEquals(statusCode, RESOURCE_NOT_FOUND)
                     assertEquals(tag, apiTag)
-                    assertNotNull(errorMessage)
+                    kotlin.test.assertNotNull(errorMessage)
                 }
                 verify(networkState, single()).isOnline()
                 verifyZeroInteractions(manager)
@@ -582,16 +602,16 @@ class MovieDetailsRepositoryImplTest {
     }
 
     @Test
-    fun testUpdateRecentMovie() {
+    fun testUpdateRecentTv() {
         // Arrange
-        val movieId = 603L
+        val tvId = 603L
 
         mainCoroutineDispatcher.runBlockingTest {
             //Act
-            sut.updateRecentMovie(movieId)
+            sut.updateRecentTvShow(tvId)
 
             //Assert
-            verify(manager, single()).insertNewMovieCollection(any())
+            verify(manager, single()).insertNewTvCollection(any())
             verifyZeroInteractions(networkState)
             verifyNoMoreInteractions(manager)
         }
