@@ -1,8 +1,7 @@
 package com.sifat.slushflicks.repository
 
 import com.sifat.slushflicks.repository.genre.impl.GenreRepositoryImplTest
-import com.sifat.slushflicks.repository.movie.impl.MovieDetailsRepositoryImplTest
-import com.sifat.slushflicks.repository.movie.impl.MovieHomeRepositoryImplTest
+import com.sifat.slushflicks.repository.movie.impl.*
 import com.sifat.slushflicks.repository.tv.impl.TvDetailsRepositoryImplTest
 import com.sifat.slushflicks.repository.tv.impl.TvHomeRepositoryImplTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -17,7 +16,12 @@ import org.junit.runners.Suite
         TvHomeRepositoryImplTest::class,
         MovieHomeRepositoryImplTest::class,
         MovieDetailsRepositoryImplTest::class,
-        TvDetailsRepositoryImplTest::class
+        TvDetailsRepositoryImplTest::class,
+        NowPlayingRepositoryImplTest::class,
+        PopularMovieRepositoryImplTest::class,
+        TopRatedMovieRepositoryImplTest::class,
+        TrendingMovieRepositoryImplTest::class,
+        UpcomingMovieRepositoryImplTest::class
     ]
 )
 class RepositorySuite

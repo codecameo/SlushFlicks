@@ -40,7 +40,7 @@ import org.mockito.junit.MockitoJUnitRunner
 
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
-class NowPlayingRepositoryImplTest {
+class PopularMovieRepositoryImplTest {
 
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
@@ -48,7 +48,7 @@ class NowPlayingRepositoryImplTest {
     @get:Rule
     val mainCoroutineDispatcher = MainCoroutineRule()
 
-    lateinit var sut: NowPlayingRepositoryImpl
+    lateinit var sut: PopularMovieRepositoryImpl
 
     private lateinit var manager: DataManager
     private lateinit var service: MovieServiceFake
@@ -65,7 +65,7 @@ class NowPlayingRepositoryImplTest {
         jobManager = mock(JobManager::class.java)
         networkState = mock(NetworkStateManager::class.java)
         apiKey = "apiKey"
-        sut = NowPlayingRepositoryImpl(
+        sut = PopularMovieRepositoryImpl(
             dataManager = manager,
             movieService = service,
             apiKey = apiKey,
@@ -147,7 +147,7 @@ class NowPlayingRepositoryImplTest {
     @Test
     fun testMovieCastNoInternet() {
         // Arrange
-        val tag = ApiTag.NOW_PLAYING_MOVIE_API_TAG
+        val tag = ApiTag.POPULAR_MOVIE_API_TAG
         `when`(networkState.isOnline()).thenReturn(false)
 
         assertDoesNotThrow {
@@ -170,7 +170,7 @@ class NowPlayingRepositoryImplTest {
     @Test
     fun testMovieCastUnauth() {
         // Arrange
-        val tag = ApiTag.NOW_PLAYING_MOVIE_API_TAG
+        val tag = ApiTag.POPULAR_MOVIE_API_TAG
         `when`(networkState.isOnline()).thenReturn(true)
         service.errorCode = UNAUTHORIZED
         assertDoesNotThrow {
@@ -193,7 +193,7 @@ class NowPlayingRepositoryImplTest {
     @Test
     fun testMovieCastResourceNotFound() {
         // Arrange
-        val tag = ApiTag.NOW_PLAYING_MOVIE_API_TAG
+        val tag = ApiTag.POPULAR_MOVIE_API_TAG
         `when`(networkState.isOnline()).thenReturn(true)
         service.errorCode = RESOURCE_NOT_FOUND
         assertDoesNotThrow {

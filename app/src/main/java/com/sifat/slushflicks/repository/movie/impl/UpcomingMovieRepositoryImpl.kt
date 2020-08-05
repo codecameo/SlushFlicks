@@ -10,6 +10,7 @@ import com.sifat.slushflicks.repository.resource.impl.MovieListNetworkResource
 import com.sifat.slushflicks.ui.state.DataState
 import com.sifat.slushflicks.utils.Label.Companion.UPCOMING_LABEL
 import com.sifat.slushflicks.utils.api.NetworkStateManager
+import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -19,6 +20,7 @@ class UpcomingMovieRepositoryImpl
     @Named(NAME_API_KEY)
     private val apiKey: String,
     private val networkStateManager: NetworkStateManager,
+    private val dispatcher: CoroutineDispatcher,
     jobManager: JobManager,
     dataManager: DataManager
 ) : BaseMovieListRepository(dataManager, jobManager) {
@@ -37,7 +39,8 @@ class UpcomingMovieRepositoryImpl
             movieService = movieService,
             networkStateManager = networkStateManager,
             dataManager = dataManager,
-            jobManager = jobManager
+            jobManager = jobManager,
+            dispatcher = dispatcher
         )
         return movieListNetworkResource.asLiveData()
     }

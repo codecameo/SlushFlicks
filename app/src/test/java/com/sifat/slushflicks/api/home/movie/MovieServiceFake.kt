@@ -50,7 +50,7 @@ class MovieServiceFake(val gson: Gson) : MovieService {
         live.value = when (errorCode) {
             RESOURCE_NOT_FOUND -> getNoResResponse(gson, tag)
             UNAUTHORIZED -> getUnAuthResponse(gson, tag)
-            else -> getSimilarMovieListSuccessResponse()
+            else -> getMovieListSuccessResponse(page)
         }
         return live
     }
