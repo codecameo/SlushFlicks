@@ -36,7 +36,7 @@ class MovieServiceFake(val gson: Gson) : MovieService {
         live.value = when (errorCode) {
             RESOURCE_NOT_FOUND -> getNoResResponse(gson, tag)
             UNAUTHORIZED -> getUnAuthResponse(gson, tag)
-            else -> getMovieListSuccessResponse()
+            else -> getMovieListSuccessResponse(page)
         }
         return live
     }
@@ -50,7 +50,7 @@ class MovieServiceFake(val gson: Gson) : MovieService {
         live.value = when (errorCode) {
             RESOURCE_NOT_FOUND -> getNoResResponse(gson, tag)
             UNAUTHORIZED -> getUnAuthResponse(gson, tag)
-            else -> getMovieListSuccessResponse()
+            else -> getSimilarMovieListSuccessResponse()
         }
         return live
     }
@@ -109,7 +109,7 @@ class MovieServiceFake(val gson: Gson) : MovieService {
         live.value = when (errorCode) {
             RESOURCE_NOT_FOUND -> getNoResResponse(gson, tag)
             UNAUTHORIZED -> getUnAuthResponse(gson, tag)
-            else -> getMovieListSuccessResponse()
+            else -> getSimilarMovieListSuccessResponse()
         }
         return live
     }
@@ -171,10 +171,20 @@ class MovieServiceFake(val gson: Gson) : MovieService {
         )
     }
 
-    private fun getMovieListSuccessResponse(): ApiResponse<MovieListApiModel> {
-        val tvModel = gson.fromJson(movieSimilarResponse, MovieListApiModel::class.java)
+    private fun getSimilarMovieListSuccessResponse(): ApiResponse<MovieListApiModel> {
+        val movieModel = gson.fromJson(movieSimilarResponse, MovieListApiModel::class.java)
         return ApiSuccessResponse(
-            data = tvModel
+            data = movieModel
+        )
+    }
+
+    private fun getMovieListSuccessResponse(page: Int = 1): ApiResponse<MovieListApiModel> {
+        val movieModel = gson.fromJson(
+            if (page == 1) moviePage1 else if (page == 2) moviePage2 else moviePageInvalid
+            , MovieListApiModel::class.java
+        )
+        return ApiSuccessResponse(
+            data = movieModel
         )
     }
 }

@@ -18,7 +18,7 @@ import com.sifat.slushflicks.ui.state.DataState
 import com.sifat.slushflicks.ui.state.DataSuccessResponse
 import com.sifat.slushflicks.utils.api.NetworkStateManager
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Job
 
 open class MovieListNetworkResource(
@@ -27,7 +27,7 @@ open class MovieListNetworkResource(
     protected val dataManager: DataManager,
     private val jobManager: JobManager,
     networkStateManager: NetworkStateManager,
-    dispatcher: CoroutineDispatcher = Dispatchers.IO
+    dispatcher: CoroutineDispatcher = IO
 ) : NetworkOnlyResource<MovieListApiModel, List<MovieModel>, Int>(
     networkStateManager, dispatcher
 ) {
@@ -83,7 +83,10 @@ open class MovieListNetworkResource(
 
     override fun getDataSuccessResponse(response: ApiSuccessResponse<MovieListApiModel>): DataSuccessResponse<List<MovieModel>> {
         return DataSuccessResponse(
-            data = getMovieList(response.data?.results, dataManager.getGenres()),
+            data = response.data?.run {
+                if (results.isNotEmpty()) getMovieList(results, dataManager.getGenres())
+                else emptyList()
+            } ?: emptyList(),
             metaData = getMetaData(response.data),
             message = response.message
         )

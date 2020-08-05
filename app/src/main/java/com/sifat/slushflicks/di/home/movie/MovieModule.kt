@@ -7,6 +7,8 @@ import com.sifat.slushflicks.repository.movie.impl.MovieHomeRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import retrofit2.Retrofit
 
 @Module(includes = [InnerModule::class])
@@ -25,6 +27,11 @@ object InnerModule {
     @Provides
     fun provideMovieService(retrofit: Retrofit): MovieService =
         retrofit.create(MovieService::class.java)
+
+    @JvmStatic
+    @MovieScope
+    @Provides
+    fun provideMovieDispatcher(): CoroutineDispatcher = Dispatchers.IO
 
     // Provide new instance of job manager when needed
     @JvmStatic

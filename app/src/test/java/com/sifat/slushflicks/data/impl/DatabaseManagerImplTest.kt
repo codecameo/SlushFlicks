@@ -185,9 +185,7 @@ class DatabaseManagerImplTest {
         `when`(appDatabase.getTvDao()).thenReturn(tvDaoMock)
 
         `when`(tvDaoMock.getPagedTvShowSource(collectionName)).thenReturn(
-            getFakeMovieDataSource<Int, ShowModelMinimal>(
-                list
-            )
+            getFakeMovieDataSource(list)
         )
         //Act
         manager.getPagingTvShows(collectionName)
