@@ -48,7 +48,7 @@ class PopularMovieRepositoryImplTest {
     @get:Rule
     val mainCoroutineDispatcher = MainCoroutineRule()
 
-    lateinit var sut: PopularMovieRepositoryImpl
+    private lateinit var sut: PopularMovieRepositoryImpl
 
     private lateinit var manager: DataManager
     private lateinit var service: MovieServiceFake

@@ -11,6 +11,7 @@ import com.sifat.slushflicks.repository.resource.impl.TvListNetworkResource
 import com.sifat.slushflicks.ui.state.DataState
 import com.sifat.slushflicks.utils.Label.Companion.TRENDING_LABEL
 import com.sifat.slushflicks.utils.api.NetworkStateManager
+import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -22,6 +23,7 @@ class TrendingTvRepositoryImpl @Inject constructor(
     @Named(NAME_API_KEY)
     private val apiKey: String,
     private val networkStateManager: NetworkStateManager,
+    private val dispatcher: CoroutineDispatcher,
     jobManager: JobManager,
     dataManager: DataManager
 ) : BaseTvListRepositoryImpl(dataManager, jobManager) {
@@ -40,7 +42,8 @@ class TrendingTvRepositoryImpl @Inject constructor(
             tvService = tvService,
             networkStateManager = networkStateManager,
             dataManager = dataManager,
-            jobManager = jobManager
+            jobManager = jobManager,
+            dispatcher = dispatcher
         )
         return tvListNetworkResource.asLiveData()
     }

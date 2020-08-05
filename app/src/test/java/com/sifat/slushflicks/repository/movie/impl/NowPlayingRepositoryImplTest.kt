@@ -48,7 +48,7 @@ class NowPlayingRepositoryImplTest {
     @get:Rule
     val mainCoroutineDispatcher = MainCoroutineRule()
 
-    lateinit var sut: NowPlayingRepositoryImpl
+    private lateinit var sut: NowPlayingRepositoryImpl
 
     private lateinit var manager: DataManager
     private lateinit var service: MovieServiceFake

@@ -12,7 +12,6 @@ import com.sifat.slushflicks.data.DataManager
 import com.sifat.slushflicks.helper.JobManager
 import com.sifat.slushflicks.model.ShowModelMinimal
 import com.sifat.slushflicks.rule.MainCoroutineRule
-import com.sifat.slushflicks.ui.state.DataState
 import com.sifat.slushflicks.ui.state.DataState.Error
 import com.sifat.slushflicks.ui.state.DataState.Success
 import com.sifat.slushflicks.util.getOrAwaitValue
@@ -48,7 +47,7 @@ class TrendingMovieRepositoryImplTest {
     @get:Rule
     val mainCoroutineDispatcher = MainCoroutineRule()
 
-    lateinit var sut: TrendingMovieRepositoryImpl
+    private lateinit var sut: TrendingMovieRepositoryImpl
 
     private lateinit var manager: DataManager
     private lateinit var service: MovieServiceFake
@@ -224,7 +223,7 @@ class TrendingMovieRepositoryImplTest {
             mainCoroutineDispatcher.runBlockingTest {
                 //Act
                 val actual =
-                    sut.getPagingMovieList(boundaryCallback).getOrAwaitValue() as DataState.Success
+                    sut.getPagingMovieList(boundaryCallback).getOrAwaitValue() as Success
 
                 //Assert
                 assertEquals(expected[2], actual.dataResponse.data?.get(2))

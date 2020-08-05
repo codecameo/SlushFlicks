@@ -7,6 +7,7 @@ import com.sifat.slushflicks.repository.tv.impl.TvHomeRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import kotlinx.coroutines.Dispatchers
 import retrofit2.Retrofit
 
 @Module(includes = [InnerModule::class])
@@ -24,6 +25,11 @@ object InnerModule {
     @Provides
     fun provideTvService(retrofit: Retrofit): TvService =
         retrofit.create(TvService::class.java)
+
+    @JvmStatic
+    @TvShowScope
+    @Provides
+    fun provideDispatcher() = Dispatchers.IO
 
     // Provide new instance of job manager when needed
     @JvmStatic

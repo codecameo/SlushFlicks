@@ -14,7 +14,7 @@ import com.sifat.slushflicks.repository.resource.type.NetworkOnlyResource
 import com.sifat.slushflicks.ui.helper.getCollectionModels
 import com.sifat.slushflicks.ui.helper.getMetaData
 import com.sifat.slushflicks.ui.helper.getTvList
-import com.sifat.slushflicks.ui.state.DataState
+import com.sifat.slushflicks.ui.state.DataState.Success
 import com.sifat.slushflicks.ui.state.DataSuccessResponse
 import com.sifat.slushflicks.utils.api.NetworkStateManager
 import kotlinx.coroutines.CoroutineDispatcher
@@ -62,11 +62,7 @@ open class TvListNetworkResource(
          * */
         val dataSuccessResponse = getDataSuccessResponse(response)
         updateLocalDb(dataSuccessResponse.data)
-        onCompleteJob(
-            DataState.Success<Int>(
-                getAppDataSuccessResponse(dataSuccessResponse)
-            )
-        )
+        onCompleteJob(Success(getAppDataSuccessResponse(dataSuccessResponse)))
     }
 
     override fun setJob(job: Job) {
@@ -83,7 +79,12 @@ open class TvListNetworkResource(
 
     override fun getDataSuccessResponse(response: ApiSuccessResponse<TvListApiModel>): DataSuccessResponse<List<TvModel>> {
         return DataSuccessResponse(
-            data = getTvList(response.data?.results, dataManager.getGenres()),
+            data = response.data?.run {
+                if (results.isNotEmpty()) getTvList(
+                    results,
+                    dataManager.getGenres()
+                ) else emptyList()
+            } ?: emptyList(),
             metaData = getMetaData(response.data),
             message = response.message
         )

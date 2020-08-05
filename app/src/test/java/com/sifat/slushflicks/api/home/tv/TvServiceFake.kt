@@ -35,7 +35,7 @@ class TvServiceFake(private val gson: Gson) : TvService {
         live.value = when (errorCode) {
             RESOURCE_NOT_FOUND -> getNoResResponse(gson, tag)
             UNAUTHORIZED -> getUnAuthResponse(gson, tag)
-            else -> getTvShowListSuccessResponse()
+            else -> getTvShowSuccessListResponse(page)
         }
         return live
     }
@@ -50,7 +50,7 @@ class TvServiceFake(private val gson: Gson) : TvService {
         live.value = when (errorCode) {
             RESOURCE_NOT_FOUND -> getNoResResponse(gson, tag)
             UNAUTHORIZED -> getUnAuthResponse(gson, tag)
-            else -> getTvShowListSuccessResponse()
+            else -> getTvShowSuccessListResponse(page)
         }
         return live
     }
@@ -110,7 +110,7 @@ class TvServiceFake(private val gson: Gson) : TvService {
         live.value = when (errorCode) {
             RESOURCE_NOT_FOUND -> getNoResResponse(gson, tag)
             UNAUTHORIZED -> getUnAuthResponse(gson, tag)
-            else -> getTvShowListSuccessResponse()
+            else -> getSimilarTvShowSuccessResponse()
         }
         return live
     }
@@ -174,8 +174,20 @@ class TvServiceFake(private val gson: Gson) : TvService {
         )
     }
 
-    private fun getTvShowListSuccessResponse(): ApiResponse<TvListApiModel> {
+    private fun getSimilarTvShowSuccessResponse(): ApiResponse<TvListApiModel> {
         val tvModel = gson.fromJson(tvSimilarResponse, TvListApiModel::class.java)
+        return ApiSuccessResponse(
+            data = tvModel
+        )
+    }
+
+    private fun getTvShowSuccessListResponse(page: Int): ApiResponse<TvListApiModel> {
+        val tvModel = gson.fromJson(
+            if (page == 1) tvShowPage1
+            else if (page == 2) tvShowPage2
+            else tvShowInvalidPage,
+            TvListApiModel::class.java
+        )
         return ApiSuccessResponse(
             data = tvModel
         )
