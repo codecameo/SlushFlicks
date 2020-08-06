@@ -2,6 +2,7 @@ package com.sifat.slushflicks.repository
 
 import com.sifat.slushflicks.repository.genre.impl.GenreRepositoryImplTest
 import com.sifat.slushflicks.repository.movie.impl.*
+import com.sifat.slushflicks.repository.search.impl.SearchRepositoryImplTest
 import com.sifat.slushflicks.repository.tv.impl.AirTodayTvRepositoryImplTest
 import com.sifat.slushflicks.repository.tv.impl.TvDetailsRepositoryImplTest
 import com.sifat.slushflicks.repository.tv.impl.TvHomeRepositoryImplTest
@@ -26,7 +27,8 @@ import org.junit.runners.Suite
         AirTodayTvRepositoryImplTest::class,
         PopularMovieRepositoryImplTest::class,
         TrendingMovieRepositoryImplTest::class,
-        TopRatedMovieRepositoryImplTest::class
+        TopRatedMovieRepositoryImplTest::class,
+        SearchRepositoryImplTest::class
     ]
 )
 class RepositorySuite

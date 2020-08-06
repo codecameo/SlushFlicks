@@ -19,7 +19,7 @@ import com.sifat.slushflicks.utils.api.NetworkStateManager
 import com.sifat.slushflicks.utils.api.moviePage1
 import com.sifat.slushflicks.utils.api.moviePage2
 import com.sifat.slushflicks.utils.api.moviePageInvalid
-import com.sifat.slushflicks.utils.getFakeMovieDataSource
+import com.sifat.slushflicks.utils.getFakeDataSource
 import com.sifat.slushflicks.utils.getShowList
 import com.sifat.slushflicks.utils.single
 import kotlinx.coroutines.Dispatchers.Main
@@ -215,7 +215,7 @@ class TopRatedMovieRepositoryImplTest {
     fun testMovieList() {
         // Arrange
         val expected = getShowList()
-        val dataSource = getFakeMovieDataSource<Int, ShowModelMinimal>(expected)
+        val dataSource = getFakeDataSource<Int, ShowModelMinimal>(expected)
         `when`(manager.getPagingMovies(anyString())).thenReturn(dataSource)
 
         Assertions.assertDoesNotThrow {

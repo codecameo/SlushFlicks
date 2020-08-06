@@ -16,7 +16,7 @@ fun <T> mockPagedList(list: List<T>): PagedList<T> {
     return pagedList
 }
 
-fun <K, T> getFakeMovieDataSource(list: List<T>): DataSource.Factory<K, T> {
+fun <K, T> getFakeDataSource(list: List<T>): DataSource.Factory<K, T> {
     return object : DataSource.Factory<K, T>() {
         override fun create(): DataSource<K, T> {
             return object : PageKeyedDataSource<K, T>() {

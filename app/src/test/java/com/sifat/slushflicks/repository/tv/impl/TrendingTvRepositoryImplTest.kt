@@ -18,7 +18,7 @@ import com.sifat.slushflicks.utils.api.NetworkStateManager
 import com.sifat.slushflicks.utils.api.tvShowInvalidPage
 import com.sifat.slushflicks.utils.api.tvShowPage1
 import com.sifat.slushflicks.utils.api.tvShowPage2
-import com.sifat.slushflicks.utils.getFakeMovieDataSource
+import com.sifat.slushflicks.utils.getFakeDataSource
 import com.sifat.slushflicks.utils.getShowList
 import com.sifat.slushflicks.utils.single
 import kotlinx.coroutines.Dispatchers
@@ -226,7 +226,7 @@ class TrendingTvRepositoryImplTest {
     fun testTvShowList() {
         // Arrange
         val expected = getShowList()
-        val dataSource = getFakeMovieDataSource<Int, ShowModelMinimal>(expected)
+        val dataSource = getFakeDataSource<Int, ShowModelMinimal>(expected)
         `when`(manager.getPagingTvShows(anyString())).thenReturn(dataSource)
 
         assertDoesNotThrow {

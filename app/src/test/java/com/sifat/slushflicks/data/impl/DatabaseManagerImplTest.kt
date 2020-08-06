@@ -166,7 +166,7 @@ class DatabaseManagerImplTest {
         `when`(appDatabase.getMovieDao()).thenReturn(movieDaoMock)
 
         `when`(movieDaoMock.getPagedMovieSource(collectionName)).thenReturn(
-            getFakeMovieDataSource<Int, ShowModelMinimal>(
+            getFakeDataSource<Int, ShowModelMinimal>(
                 list
             )
         )
@@ -185,7 +185,7 @@ class DatabaseManagerImplTest {
         `when`(appDatabase.getTvDao()).thenReturn(tvDaoMock)
 
         `when`(tvDaoMock.getPagedTvShowSource(collectionName)).thenReturn(
-            getFakeMovieDataSource(list)
+            getFakeDataSource(list)
         )
         //Act
         manager.getPagingTvShows(collectionName)
