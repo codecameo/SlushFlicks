@@ -1,8 +1,10 @@
 package com.sifat.slushflicks.repository.resource.impl
 
 import androidx.lifecycle.LiveData
+import com.sifat.slushflicks.api.ApiErrorResponse
 import com.sifat.slushflicks.api.ApiResponse
 import com.sifat.slushflicks.api.ApiSuccessResponse
+import com.sifat.slushflicks.api.StatusCode.Companion.INTERNAL_ERROR
 import com.sifat.slushflicks.api.home.tv.TvService
 import com.sifat.slushflicks.api.home.tv.model.TvListApiModel
 import com.sifat.slushflicks.data.DataManager
@@ -12,20 +14,22 @@ import com.sifat.slushflicks.repository.resource.type.NetworkOnlyResource
 import com.sifat.slushflicks.ui.helper.getCollectionModels
 import com.sifat.slushflicks.ui.helper.getMetaData
 import com.sifat.slushflicks.ui.helper.getTvList
-import com.sifat.slushflicks.ui.state.DataState
+import com.sifat.slushflicks.ui.state.DataState.Success
 import com.sifat.slushflicks.ui.state.DataSuccessResponse
 import com.sifat.slushflicks.utils.api.NetworkStateManager
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 
 open class TvListNetworkResource(
     protected val tvService: TvService,
     protected val requestModel: RequestModel,
     protected val dataManager: DataManager,
-    private val collection: String,
     private val jobManager: JobManager,
-    networkStateManager: NetworkStateManager
+    networkStateManager: NetworkStateManager,
+    dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : NetworkOnlyResource<TvListApiModel, List<TvModel>, Int>(
-    networkStateManager
+    networkStateManager, dispatcher
 ) {
 
     override fun createCall(): LiveData<ApiResponse<TvListApiModel>> {
@@ -33,7 +37,7 @@ open class TvListNetworkResource(
             apiKey = requestModel.apiKey,
             page = requestModel.page,
             tag = requestModel.apiTag,
-            collection = collection
+            collection = requestModel.collection
         )
     }
 
@@ -41,9 +45,10 @@ open class TvListNetworkResource(
         if (!cacheData.isNullOrEmpty()) {
             // Insert with Ignore strategy
             dataManager.softInsertTv(cacheData)
-            val collectionModels = getCollectionModels(cacheData, collection, requestModel.page)
+            val collectionModels =
+                getCollectionModels(cacheData, requestModel.collection, requestModel.page)
             if (requestModel.page == 1) {
-                dataManager.insertNewTvCollection(collection, collectionModels)
+                dataManager.insertNewTvCollection(requestModel.collection, collectionModels)
             } else {
                 dataManager.addTvCollection(collectionModels)
             }
@@ -57,11 +62,7 @@ open class TvListNetworkResource(
          * */
         val dataSuccessResponse = getDataSuccessResponse(response)
         updateLocalDb(dataSuccessResponse.data)
-        onCompleteJob(
-            DataState.Success<Int>(
-                getAppDataSuccessResponse(dataSuccessResponse)
-            )
-        )
+        onCompleteJob(Success(getAppDataSuccessResponse(dataSuccessResponse)))
     }
 
     override fun setJob(job: Job) {
@@ -78,11 +79,26 @@ open class TvListNetworkResource(
 
     override fun getDataSuccessResponse(response: ApiSuccessResponse<TvListApiModel>): DataSuccessResponse<List<TvModel>> {
         return DataSuccessResponse(
-            data = getTvList(response.data?.results, dataManager.getGenres()),
+            data = response.data?.run {
+                if (results.isNotEmpty()) getTvList(
+                    results,
+                    dataManager.getGenres()
+                ) else emptyList()
+            } ?: emptyList(),
             metaData = getMetaData(response.data),
             message = response.message
         )
     }
 
-    data class RequestModel(val page: Int, val apiKey: String, val apiTag: String)
+    override fun getInternalErrorResponse() = ApiErrorResponse<TvListApiModel>(
+        statusCode = INTERNAL_ERROR,
+        apiTag = requestModel.apiTag
+    )
+
+    data class RequestModel(
+        val page: Int,
+        val apiKey: String,
+        val apiTag: String,
+        val collection: String
+    )
 }

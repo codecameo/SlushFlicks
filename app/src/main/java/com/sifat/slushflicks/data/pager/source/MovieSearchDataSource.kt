@@ -1,6 +1,5 @@
 package com.sifat.slushflicks.data.pager.source
 
-import android.util.Log
 import androidx.paging.PageKeyedDataSource
 import com.sifat.slushflicks.api.home.movie.model.MovieApiModel
 import com.sifat.slushflicks.api.home.movie.model.MovieListApiModel
@@ -21,7 +20,6 @@ class MovieSearchDataSource(
         params: LoadInitialParams<Long>,
         callback: LoadInitialCallback<Long, MovieApiModel>
     ) {
-        Log.d(TAG, "loadInitial: ")
         searchService.getSearchMovies(
             query = requestModel.query,
             apiKey = requestModel.apiKey,
@@ -37,19 +35,19 @@ class MovieSearchDataSource(
                         callback.onResult(results, null, nextPage)
                     }
                 } else {
-                    Log.e(TAG, "Search failed")
+                    println("Search failed")
                 }
             }
 
             override fun onFailure(call: Call<MovieListApiModel>, t: Throwable) {
-                Log.e(TAG, "Search failed ex ${t.printStackTrace()}")
+                println("Search failed ex ${t.printStackTrace()}")
             }
         })
     }
 
     override fun loadAfter(params: LoadParams<Long>, callback: LoadCallback<Long, MovieApiModel>) {
         val page = params.key
-        Log.d(TAG, "loadAfter: page $page")
+        println("loadAfter: page $page")
         searchService.getSearchMovies(
             query = requestModel.query,
             apiKey = requestModel.apiKey,
@@ -65,18 +63,20 @@ class MovieSearchDataSource(
                         callback.onResult(results, nextPage)
                     }
                 } else {
-                    Log.e(TAG, "Search failed")
+                    println("Search failed")
                 }
             }
 
             override fun onFailure(call: Call<MovieListApiModel>, t: Throwable) {
-                Log.e(TAG, "Search failed ex ${t.printStackTrace()}")
+                println("Search failed ex ${t.printStackTrace()}")
             }
         })
     }
 
-    override fun loadBefore(params: LoadParams<Long>, callback: LoadCallback<Long, MovieApiModel>) {
-        Log.d(TAG, "loadBefore: ")
+    override fun loadBefore(
+        params: LoadParams<Long>,
+        callback: LoadCallback<Long, MovieApiModel>
+    ) {
     }
 
     data class RequestModel(val apiKey: String, val query: String)

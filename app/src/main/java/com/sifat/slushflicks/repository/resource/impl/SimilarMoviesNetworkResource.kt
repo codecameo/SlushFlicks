@@ -1,8 +1,10 @@
 package com.sifat.slushflicks.repository.resource.impl
 
 import androidx.lifecycle.LiveData
+import com.sifat.slushflicks.api.ApiErrorResponse
 import com.sifat.slushflicks.api.ApiResponse
 import com.sifat.slushflicks.api.ApiSuccessResponse
+import com.sifat.slushflicks.api.StatusCode.Companion.INTERNAL_ERROR
 import com.sifat.slushflicks.api.home.movie.MovieService
 import com.sifat.slushflicks.api.home.movie.model.MovieListApiModel
 import com.sifat.slushflicks.data.DataManager
@@ -16,6 +18,8 @@ import com.sifat.slushflicks.ui.helper.getMovieMinimalModel
 import com.sifat.slushflicks.ui.state.DataState
 import com.sifat.slushflicks.ui.state.DataSuccessResponse
 import com.sifat.slushflicks.utils.api.NetworkStateManager
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 
 class SimilarMoviesNetworkResource(
@@ -23,9 +27,10 @@ class SimilarMoviesNetworkResource(
     private val dataManager: DataManager,
     private val requestModel: RequestModel,
     private val jobManager: JobManager,
-    networkStateManager: NetworkStateManager
+    networkStateManager: NetworkStateManager,
+    dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : NetworkOnlyResource<MovieListApiModel, List<MovieModel>, List<ShowModelMinimal>>(
-    networkStateManager
+    networkStateManager, dispatcher
 ) {
     override fun createCall(): LiveData<ApiResponse<MovieListApiModel>> {
         return movieService.getRelatedMovies(
@@ -78,6 +83,11 @@ class SimilarMoviesNetworkResource(
             message = response.message
         )
     }
+
+    override fun getInternalErrorResponse() = ApiErrorResponse<MovieListApiModel>(
+        statusCode = INTERNAL_ERROR,
+        apiTag = requestModel.apiTag
+    )
 
     data class RequestModel(
         val apiKey: String,

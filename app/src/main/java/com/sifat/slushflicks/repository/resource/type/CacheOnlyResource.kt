@@ -3,15 +3,17 @@ package com.sifat.slushflicks.repository.resource.type
 import androidx.lifecycle.LiveData
 import com.sifat.slushflicks.api.ApiResponse
 import com.sifat.slushflicks.api.ApiSuccessResponse
-import com.sifat.slushflicks.repository.resource.NetworkBoundResource
+import com.sifat.slushflicks.repository.resource.Resource
 import com.sifat.slushflicks.ui.state.DataErrorResponse
 import com.sifat.slushflicks.ui.state.DataState
 import com.sifat.slushflicks.ui.state.DataSuccessResponse
 import com.sifat.slushflicks.utils.livedata.AbsentLiveData
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 
-abstract class CacheOnlyResource<ApiData, CacheData, AppData> :
-    NetworkBoundResource<ApiData, CacheData, AppData>() {
+abstract class CacheOnlyResource<ApiData, CacheData, AppData>(
+    dispatcher: CoroutineDispatcher
+) : Resource<ApiData, CacheData, AppData>(dispatcher) {
 
     override fun execute() {
         super.execute()
@@ -41,7 +43,5 @@ abstract class CacheOnlyResource<ApiData, CacheData, AppData> :
 
     override suspend fun updateLocalDb(cacheData: CacheData?) {}
 
-    override fun setJob(job: Job) {
-
-    }
+    override fun setJob(job: Job) {}
 }

@@ -16,7 +16,6 @@ import com.sifat.slushflicks.ui.base.BaseFragment
 import com.sifat.slushflicks.ui.home.adapter.TypeTagListAdapter
 import com.sifat.slushflicks.ui.home.adapter.model.CollectionListModel
 import com.sifat.slushflicks.ui.home.adapter.viewholder.TypeTagViewModel
-import com.sifat.slushflicks.ui.home.movie.state.dataaction.MovieHomeDataAction
 import com.sifat.slushflicks.ui.home.movie.state.event.MovieHomeEventState
 import com.sifat.slushflicks.ui.home.movie.state.event.MovieHomeEventState.MovieCollectionClickEvent
 import com.sifat.slushflicks.ui.home.movie.state.viewaction.MovieHomeViewAction.CollectionContainerUpdateViewAction
@@ -74,14 +73,6 @@ class HomeMovieFragment :
                 }
                 is CollectionContainerUpdateViewAction -> {
                     setContainerFragment(action)
-                }
-            }
-        })
-
-        viewModel.observeDataAction().observe(viewLifecycleOwner, Observer { action ->
-            when (action) {
-                is MovieHomeDataAction.MovieCollectionDataAction -> {
-                    viewModel.setDataAction(action)
                 }
             }
         })
@@ -160,7 +151,6 @@ class HomeMovieFragment :
     private fun getFragmentLabel(label: String) = label + Label.MOVIE_LABEL
 
     override fun onDestroyView() {
-        viewModel.observeDataAction().removeObservers(viewLifecycleOwner)
         viewModel.observeViewAction().removeObservers(viewLifecycleOwner)
         super.onDestroyView()
     }

@@ -4,9 +4,6 @@ import androidx.paging.PagedList
 import com.sifat.slushflicks.model.ShowModelMinimal
 import com.sifat.slushflicks.repository.movie.MovieListRepository
 import com.sifat.slushflicks.ui.base.BaseActionViewModel
-import com.sifat.slushflicks.ui.home.movie.state.dataaction.MovieListDataAction
-import com.sifat.slushflicks.ui.home.movie.state.dataaction.MovieListDataAction.FetchCacheMovieListDataAction
-import com.sifat.slushflicks.ui.home.movie.state.dataaction.MovieListDataAction.FetchNetworkMovieListDataAction
 import com.sifat.slushflicks.ui.home.movie.state.event.MovieListEventState
 import com.sifat.slushflicks.ui.home.movie.state.event.MovieListEventState.FetchMovieListEvent
 import com.sifat.slushflicks.ui.home.movie.state.viewaction.MovieListViewAction
@@ -16,14 +13,12 @@ import com.sifat.slushflicks.ui.state.DataState
 import com.sifat.slushflicks.ui.state.DataState.Error
 import com.sifat.slushflicks.ui.state.ViewState
 
-open class BaseMovieListViewModel
-    (private val repository: MovieListRepository) :
-    BaseActionViewModel<MovieListDataAction, MovieListViewAction, MovieListViewState>() {
+open class BaseMovieListViewModel(
+    private val repository: MovieListRepository
+) : BaseActionViewModel<MovieListViewAction, MovieListViewState>() {
     override val viewState by lazy {
         MovieListViewState()
     }
-
-    private val TAG = "BaseMovieListViewModel"
 
     fun handleEvent(event: MovieListEventState) {
         when (event) {
@@ -44,14 +39,14 @@ open class BaseMovieListViewModel
         val initialUpdate = repository.getMovieList(viewState.nextPage())
         dataState.addSource(initialUpdate) { dataResponse ->
             dataState.removeSource(initialUpdate)
-            dataState.value = FetchNetworkMovieListDataAction(dataResponse)
+            setListMeta(dataResponse)
         }
         fetchFromCache()
     }
 
     private fun fetchFromCache() {
         dataState.addSource(repository.getPagingMovieList(boundaryCallback)) { dataResponse ->
-            dataState.value = FetchCacheMovieListDataAction(dataResponse)
+            setMovieList(dataResponse)
         }
     }
 
@@ -60,13 +55,13 @@ open class BaseMovieListViewModel
             val networkUpdate = repository.getMovieList(viewState.nextPage())
             dataState.addSource(networkUpdate) { dataResponse ->
                 dataState.removeSource(networkUpdate)
-                dataState.value = FetchNetworkMovieListDataAction(dataResponse)
+                setListMeta(dataResponse)
             }
         }
     }
 
-    fun setDataAction(actionCache: FetchCacheMovieListDataAction) {
-        when (val dataState = actionCache.dataState) {
+    private fun setMovieList(dataState: DataState<PagedList<ShowModelMinimal>>) {
+        when (dataState) {
             is DataState.Success<PagedList<ShowModelMinimal>> -> {
                 dataState.dataResponse.data?.let { movie ->
                     viewState.showList = movie
@@ -79,8 +74,8 @@ open class BaseMovieListViewModel
         }
     }
 
-    fun setDataAction(actionNetwork: FetchNetworkMovieListDataAction) {
-        when (val dataState = actionNetwork.dataState) {
+    private fun setListMeta(dataState: DataState<Int>) {
+        when (dataState) {
             is DataState.Success<Int> -> {
                 dataState.dataResponse.metaData?.run {
                     viewState.totalPage = totalPage
@@ -134,10 +129,6 @@ open class BaseMovieListViewModel
     private val boundaryCallback = object : PagedList.BoundaryCallback<ShowModelMinimal>() {
         override fun onItemAtEndLoaded(itemAtEnd: ShowModelMinimal) {
             updateCache()
-        }
-
-        override fun onZeroItemsLoaded() {
-            super.onZeroItemsLoaded()
         }
     }
 

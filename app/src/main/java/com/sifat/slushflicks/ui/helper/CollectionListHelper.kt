@@ -3,10 +3,11 @@ package com.sifat.slushflicks.ui.helper
 import com.sifat.slushflicks.model.CollectionModel
 import com.sifat.slushflicks.ui.base.ListViewState
 import com.sifat.slushflicks.ui.home.adapter.model.CollectionListModel
+import com.sifat.slushflicks.utils.LOADING_MODEL_COUNT
 
 fun getCollectionListLoadingModel(): List<CollectionListModel> {
     val list = mutableListOf<CollectionListModel>()
-    for (count in 0..5) {
+    for (count in 0..LOADING_MODEL_COUNT) {
         list.add(CollectionListModel(null, ListViewState.LOADING))
     }
     return list

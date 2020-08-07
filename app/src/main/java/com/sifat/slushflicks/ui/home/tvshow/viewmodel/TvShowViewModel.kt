@@ -6,7 +6,6 @@ import com.sifat.slushflicks.repository.tv.TvHomeRepository
 import com.sifat.slushflicks.ui.base.BaseActionViewModel
 import com.sifat.slushflicks.ui.helper.getCollectionListLoadingModel
 import com.sifat.slushflicks.ui.helper.getCollectionListModel
-import com.sifat.slushflicks.ui.home.tvshow.state.dataaction.TvHomeDataAction
 import com.sifat.slushflicks.ui.home.tvshow.state.event.TvHomeEventState
 import com.sifat.slushflicks.ui.home.tvshow.state.viewaction.TvHomeViewAction
 import com.sifat.slushflicks.ui.home.tvshow.state.viewstate.TvHomeViewState
@@ -17,7 +16,7 @@ import javax.inject.Inject
 @TvShowScope
 class TvShowViewModel @Inject constructor(
     private val repository: TvHomeRepository
-) : BaseActionViewModel<TvHomeDataAction, TvHomeViewAction, TvHomeViewState>() {
+) : BaseActionViewModel<TvHomeViewAction, TvHomeViewState>() {
     override val viewState = TvHomeViewState()
 
     fun handleEvent(homeEvent: TvHomeEventState) {
@@ -49,12 +48,12 @@ class TvShowViewModel @Inject constructor(
         sendCollectionLoadingAction()
 
         dataState.addSource(repository.getTvCollection()) { dataResponse ->
-            dataState.value = TvHomeDataAction.TvCollectionDataAction(dataResponse)
+            setTvCollection(dataResponse)
         }
     }
 
-    fun setDataAction(action: TvHomeDataAction.TvCollectionDataAction) {
-        when (val dataState = action.dataState) {
+    private fun setTvCollection(dataState: DataState<List<CollectionModel>>) {
+        when (dataState) {
             is DataState.Success<List<CollectionModel>> -> {
                 dataState.dataResponse.data?.let { collection ->
                     viewState.movieCollectionList = getCollectionListModel(collection)

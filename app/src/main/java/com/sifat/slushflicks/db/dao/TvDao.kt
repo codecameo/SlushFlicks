@@ -5,9 +5,11 @@ import androidx.paging.DataSource
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
+import com.sifat.slushflicks.db.DbConstant
 import com.sifat.slushflicks.db.DbConstant.TableName.Companion.TABLE_NAME_TV
 import com.sifat.slushflicks.db.DbConstant.TableName.Companion.TABLE_NAME_TV_TYPE
 import com.sifat.slushflicks.model.*
+import org.jetbrains.annotations.TestOnly
 
 @Dao
 interface TvDao : BaseDao<TvModel> {
@@ -86,6 +88,9 @@ interface TvDao : BaseDao<TvModel> {
                 directors = model.directors
             )
         }
-
     }
+
+    @TestOnly
+    @Query("SELECT * FROM ${DbConstant.TableName.TABLE_NAME_TV} WHERE id = :tvShowId")
+    fun getTvShow(tvShowId: Long): TvModel
 }

@@ -10,6 +10,7 @@ import com.sifat.slushflicks.repository.resource.impl.TvListNetworkResource
 import com.sifat.slushflicks.ui.state.DataState
 import com.sifat.slushflicks.utils.Label
 import com.sifat.slushflicks.utils.api.NetworkStateManager
+import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -18,6 +19,7 @@ class AirTodayTvRepositoryImpl @Inject constructor(
     @Named(NAME_API_KEY)
     private val apiKey: String,
     private val networkStateManager: NetworkStateManager,
+    private val dispatcher: CoroutineDispatcher,
     jobManager: JobManager,
     dataManager: DataManager
 ) : BaseTvListRepositoryImpl(dataManager, jobManager) {
@@ -28,6 +30,7 @@ class AirTodayTvRepositoryImpl @Inject constructor(
         val requestModel = TvListNetworkResource.RequestModel(
             page = nextPage,
             apiKey = apiKey,
+            collection = collection,
             apiTag = AIRING_TODAY_TV_API_TAG
         )
         val tvListNetworkResource = TvListNetworkResource(
@@ -35,8 +38,8 @@ class AirTodayTvRepositoryImpl @Inject constructor(
             tvService = tvService,
             networkStateManager = networkStateManager,
             dataManager = dataManager,
-            collection = collection,
-            jobManager = jobManager
+            jobManager = jobManager,
+            dispatcher = dispatcher
         )
         return tvListNetworkResource.asLiveData()
     }

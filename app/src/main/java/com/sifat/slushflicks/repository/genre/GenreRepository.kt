@@ -7,5 +7,5 @@ import com.sifat.slushflicks.ui.state.DataState
 interface GenreRepository {
     fun setGenreList(): LiveData<DataState<List<GenreModel>>>
 
-    fun updateGenres()
+    fun updateGenres(): LiveData<DataState<List<GenreModel>>>
 }

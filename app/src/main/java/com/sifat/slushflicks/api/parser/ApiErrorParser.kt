@@ -4,6 +4,7 @@ import android.util.Log
 import com.google.gson.Gson
 import com.sifat.slushflicks.api.ApiErrorResponse
 import com.sifat.slushflicks.api.ApiTag
+import com.sifat.slushflicks.api.ErrorResponse
 import com.sifat.slushflicks.api.StatusCode
 
 /**
@@ -22,15 +23,25 @@ class ApiErrorParser<Data>(private val gson: Gson) {
                 ApiTag.TRENDING_MOVIE_API_TAG -> {
                    when(statusCode) {
                        StatusCode.RESOURCE_NOT_FOUND -> {
-                           ""
+                           getCommonErrorMessage(errorResponse)
                        }
                        StatusCode.UNAUTHORIZED -> {
-                           ""
+                           getCommonErrorMessage(errorResponse)
                        }
                        else -> null
                    }
                 }
-                else -> null
+                else -> {
+                    when (statusCode) {
+                        StatusCode.RESOURCE_NOT_FOUND -> {
+                            getCommonErrorMessage(errorResponse)
+                        }
+                        StatusCode.UNAUTHORIZED -> {
+                            getCommonErrorMessage(errorResponse)
+                        }
+                        else -> null
+                    }
+                }
             }
         }
 
@@ -40,5 +51,8 @@ class ApiErrorParser<Data>(private val gson: Gson) {
             errorMessage = errorMessage)
     }
 
-
+    private fun getCommonErrorMessage(errorResponse: String): String {
+        val error = gson.fromJson(errorResponse, ErrorResponse::class.java)
+        return error.message
+    }
 }

@@ -4,7 +4,6 @@ import androidx.paging.PagedList
 import com.sifat.slushflicks.model.ShowModelMinimal
 import com.sifat.slushflicks.repository.tv.TvListRepository
 import com.sifat.slushflicks.ui.base.BaseActionViewModel
-import com.sifat.slushflicks.ui.home.tvshow.state.dataaction.TvListDataAction
 import com.sifat.slushflicks.ui.home.tvshow.state.event.TvListEventState
 import com.sifat.slushflicks.ui.home.tvshow.state.viewaction.TvListViewAction
 import com.sifat.slushflicks.ui.home.tvshow.state.viewstate.TvListViewState
@@ -12,7 +11,7 @@ import com.sifat.slushflicks.ui.state.DataState
 import com.sifat.slushflicks.ui.state.ViewState
 
 open class BaseTvListViewModel(private val repository: TvListRepository) :
-    BaseActionViewModel<TvListDataAction, TvListViewAction, TvListViewState>() {
+    BaseActionViewModel<TvListViewAction, TvListViewState>() {
     override val viewState by lazy {
         TvListViewState()
     }
@@ -36,14 +35,14 @@ open class BaseTvListViewModel(private val repository: TvListRepository) :
         val initialUpdate = repository.getTvList(viewState.nextPage())
         dataState.addSource(initialUpdate) { dataResponse ->
             dataState.removeSource(initialUpdate)
-            dataState.value = TvListDataAction.FetchNetworkTvListDataAction(dataResponse)
+            setListMeta(dataResponse)
         }
         fetchFromCache()
     }
 
     private fun fetchFromCache() {
         dataState.addSource(repository.getPagingTvList(boundaryCallback)) { dataResponse ->
-            dataState.value = TvListDataAction.FetchCacheTvListDataAction(dataResponse)
+            setTvShowList(dataResponse)
         }
     }
 
@@ -53,13 +52,13 @@ open class BaseTvListViewModel(private val repository: TvListRepository) :
             val networkUpdate = repository.getTvList(viewState.nextPage())
             dataState.addSource(networkUpdate) { dataResponse ->
                 dataState.removeSource(networkUpdate)
-                dataState.value = TvListDataAction.FetchNetworkTvListDataAction(dataResponse)
+                setListMeta(dataResponse)
             }
         }
     }
 
-    fun setDataAction(actionCache: TvListDataAction.FetchCacheTvListDataAction) {
-        when (val dataState = actionCache.dataState) {
+    private fun setTvShowList(dataState: DataState<PagedList<ShowModelMinimal>>) {
+        when (dataState) {
             is DataState.Success<PagedList<ShowModelMinimal>> -> {
                 dataState.dataResponse.data?.let { movie ->
                     viewState.showList = movie
@@ -72,8 +71,8 @@ open class BaseTvListViewModel(private val repository: TvListRepository) :
         }
     }
 
-    fun setDataAction(actionNetwork: TvListDataAction.FetchNetworkTvListDataAction) {
-        when (val dataState = actionNetwork.dataState) {
+    private fun setListMeta(dataState: DataState<Int>) {
+        when (dataState) {
             is DataState.Success<Int> -> {
                 dataState.dataResponse.metaData?.run {
                     viewState.totalPage = totalPage
@@ -128,10 +127,6 @@ open class BaseTvListViewModel(private val repository: TvListRepository) :
     private val boundaryCallback = object : PagedList.BoundaryCallback<ShowModelMinimal>() {
         override fun onItemAtEndLoaded(itemAtEnd: ShowModelMinimal) {
             updateCache()
-        }
-
-        override fun onZeroItemsLoaded() {
-            super.onZeroItemsLoaded()
         }
     }
 

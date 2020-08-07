@@ -1,8 +1,7 @@
 package com.sifat.slushflicks.repository.resource.impl
 
 import androidx.lifecycle.LiveData
-import com.sifat.slushflicks.api.ApiResponse
-import com.sifat.slushflicks.api.ApiSuccessResponse
+import com.sifat.slushflicks.api.*
 import com.sifat.slushflicks.api.details.model.CreditsApiModel
 import com.sifat.slushflicks.api.home.movie.MovieService
 import com.sifat.slushflicks.data.DataManager
@@ -11,6 +10,8 @@ import com.sifat.slushflicks.model.CastModel
 import com.sifat.slushflicks.repository.resource.type.CacheUpdateResource
 import com.sifat.slushflicks.ui.state.DataSuccessResponse
 import com.sifat.slushflicks.utils.api.NetworkStateManager
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 
 class MovieCastNetworkResource(
@@ -18,8 +19,9 @@ class MovieCastNetworkResource(
     private val dataManager: DataManager,
     private val requestModel: RequestModel,
     private val jobManager: JobManager,
-    networkStateManager: NetworkStateManager
-) : CacheUpdateResource<CreditsApiModel, List<CastModel>, Int>(networkStateManager) {
+    networkStateManager: NetworkStateManager,
+    dispatcher: CoroutineDispatcher = Dispatchers.IO
+) : CacheUpdateResource<CreditsApiModel, List<CastModel>, Int>(networkStateManager, dispatcher) {
 
     private val maxCreditSize = 10
 
@@ -56,6 +58,11 @@ class MovieCastNetworkResource(
             message = response.message
         )
     }
+
+    override fun getInternalErrorResponse() = ApiErrorResponse<CreditsApiModel>(
+        statusCode = StatusCode.INTERNAL_ERROR,
+        apiTag = ApiTag.MOVIE_CREDITS_API_TAG
+    )
 
     data class RequestModel(val apiKey: String, val movieId: Long)
 

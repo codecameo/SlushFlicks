@@ -25,7 +25,6 @@ abstract class BaseFragment<DB : ViewDataBinding, VM : ViewModel>(@LayoutRes res
     lateinit var childFragmentInjector: DispatchingAndroidInjector<Fragment?>
 
     override fun onAttach(context: Context) {
-        super.onAttach(context)
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
     }

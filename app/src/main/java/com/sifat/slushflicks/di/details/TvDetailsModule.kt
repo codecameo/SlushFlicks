@@ -8,17 +8,20 @@ import com.sifat.slushflicks.helper.DynamicLinkProvider
 import com.sifat.slushflicks.helper.JobManager
 import dagger.Module
 import dagger.Provides
+import kotlinx.coroutines.Dispatchers
 import retrofit2.Retrofit
 import javax.inject.Named
 
 @Module
-class TvDetailsModule {
+object TvDetailsModule {
 
+    @JvmStatic
     @TvDetailsScope
     @Provides
     fun provideTvService(retrofit: Retrofit): TvService =
         retrofit.create(TvService::class.java)
 
+    @JvmStatic
     @TvDetailsScope
     @Provides
     @Named(NAME_DYNAMIC_BASE_LINK)
@@ -26,6 +29,7 @@ class TvDetailsModule {
         return BuildConfig.DYNAMIC_LINK_BASE_URL
     }
 
+    @JvmStatic
     @TvDetailsScope
     @Provides
     @Named(NAME_DYNAMIC_DOMAIN)
@@ -33,6 +37,7 @@ class TvDetailsModule {
         return BuildConfig.DYNAMIC_LINK_DOMAIN
     }
 
+    @JvmStatic
     @TvDetailsScope
     @Provides
     fun getDeepLinkProvider(
@@ -44,6 +49,12 @@ class TvDetailsModule {
     }
 
     // Provide new instance of job manager when needed
+    @JvmStatic
     @Provides
     fun provideJobManager() = JobManager()
+
+    @JvmStatic
+    @Provides
+    @TvDetailsScope
+    fun provideCoroutineScope() = Dispatchers.IO
 }

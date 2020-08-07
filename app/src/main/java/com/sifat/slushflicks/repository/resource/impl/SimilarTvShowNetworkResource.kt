@@ -1,8 +1,10 @@
 package com.sifat.slushflicks.repository.resource.impl
 
 import androidx.lifecycle.LiveData
+import com.sifat.slushflicks.api.ApiErrorResponse
 import com.sifat.slushflicks.api.ApiResponse
 import com.sifat.slushflicks.api.ApiSuccessResponse
+import com.sifat.slushflicks.api.StatusCode
 import com.sifat.slushflicks.api.home.tv.TvService
 import com.sifat.slushflicks.api.home.tv.model.TvListApiModel
 import com.sifat.slushflicks.data.DataManager
@@ -11,11 +13,13 @@ import com.sifat.slushflicks.model.ShowModelMinimal
 import com.sifat.slushflicks.model.TvModel
 import com.sifat.slushflicks.repository.resource.type.NetworkOnlyResource
 import com.sifat.slushflicks.ui.helper.getMetaData
-import com.sifat.slushflicks.ui.helper.getShowMinimalModel
 import com.sifat.slushflicks.ui.helper.getTvList
+import com.sifat.slushflicks.ui.helper.getTvMinimalModel
 import com.sifat.slushflicks.ui.state.DataState
 import com.sifat.slushflicks.ui.state.DataSuccessResponse
 import com.sifat.slushflicks.utils.api.NetworkStateManager
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 
 class SimilarTvShowNetworkResource(
@@ -23,9 +27,10 @@ class SimilarTvShowNetworkResource(
     private val dataManager: DataManager,
     private val requestModel: RequestModel,
     private val jobManager: JobManager,
-    networkStateManager: NetworkStateManager
+    networkStateManager: NetworkStateManager,
+    dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : NetworkOnlyResource<TvListApiModel, List<TvModel>, List<ShowModelMinimal>>(
-    networkStateManager
+    networkStateManager, dispatcher
 ) {
     override fun createCall(): LiveData<ApiResponse<TvListApiModel>> {
         return tvService.getRelatedTvShows(
@@ -65,7 +70,7 @@ class SimilarTvShowNetworkResource(
 
     override fun getAppDataSuccessResponse(response: DataSuccessResponse<List<TvModel>>): DataSuccessResponse<List<ShowModelMinimal>> {
         return DataSuccessResponse(
-            data = getShowMinimalModel(response.data),
+            data = getTvMinimalModel(response.data),
             metaData = response.metaData,
             message = response.message
         )
@@ -78,6 +83,11 @@ class SimilarTvShowNetworkResource(
             message = response.message
         )
     }
+
+    override fun getInternalErrorResponse() = ApiErrorResponse<TvListApiModel>(
+        statusCode = StatusCode.INTERNAL_ERROR,
+        apiTag = requestModel.apiTag
+    )
 
     data class RequestModel(
         val apiKey: String,

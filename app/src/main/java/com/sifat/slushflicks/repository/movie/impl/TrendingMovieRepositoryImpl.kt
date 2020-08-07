@@ -11,6 +11,7 @@ import com.sifat.slushflicks.repository.resource.impl.TrendingMovieListResource
 import com.sifat.slushflicks.ui.state.DataState
 import com.sifat.slushflicks.utils.Label.Companion.TRENDING_LABEL
 import com.sifat.slushflicks.utils.api.NetworkStateManager
+import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -23,6 +24,7 @@ class TrendingMovieRepositoryImpl
     @Named(NAME_API_KEY)
     private val apiKey: String,
     private val networkStateManager: NetworkStateManager,
+    private val dispatcher: CoroutineDispatcher,
     jobManager: JobManager,
     dataManager: DataManager
 ) : BaseMovieListRepository(dataManager, jobManager) {
@@ -34,6 +36,7 @@ class TrendingMovieRepositoryImpl
         val requestModel = MovieListNetworkResource.RequestModel(
             page = nextPage,
             apiKey = apiKey,
+            collection = collection,
             apiTag = TRENDING_MOVIE_API_TAG
         )
         val movieListNetworkResource = TrendingMovieListResource(
@@ -41,8 +44,8 @@ class TrendingMovieRepositoryImpl
             movieService = movieService,
             networkStateManager = networkStateManager,
             dataManager = dataManager,
-            collection = collection,
-            jobManager = jobManager
+            jobManager = jobManager,
+            dispatcher = dispatcher
         )
         return movieListNetworkResource.asLiveData()
     }

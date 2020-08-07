@@ -29,8 +29,9 @@ import com.sifat.slushflicks.utils.Label.Companion.RECOMMENDATION_LABEL
 import com.sifat.slushflicks.utils.Label.Companion.SIMILAR_LABEL
 import com.sifat.slushflicks.utils.PAGE_SIZE
 import com.sifat.slushflicks.utils.api.NetworkStateManager
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Named
@@ -41,7 +42,8 @@ class TvDetailsRepositoryImpl @Inject constructor(
     @Named(NAME_API_KEY)
     private val apiKey: String,
     private val networkStateManager: NetworkStateManager,
-    private val jobManager: JobManager
+    private val jobManager: JobManager,
+    private val dispatcher: CoroutineDispatcher = IO
 ) : TvDetailsRepository {
     override fun getTvShowDetails(tvShowId: Long): LiveData<DataState<TvModel>> {
         return TvDetailsNetworkResource(
@@ -49,7 +51,8 @@ class TvDetailsRepositoryImpl @Inject constructor(
             tvService = tvService,
             request = RequestModel(apiKey, tvShowId),
             networkStateManager = networkStateManager,
-            jobManager = jobManager
+            jobManager = jobManager,
+            dispatcher = dispatcher
         ).asLiveData()
     }
 
@@ -59,7 +62,8 @@ class TvDetailsRepositoryImpl @Inject constructor(
             dataManager = dataManager,
             requestModel = TvVideoNetworkResource.RequestModel(apiKey, tvShowId, seasonNumber),
             networkStateManager = networkStateManager,
-            jobManager = jobManager
+            jobManager = jobManager,
+            dispatcher = dispatcher
         ).asLiveData()
     }
 
@@ -69,7 +73,8 @@ class TvDetailsRepositoryImpl @Inject constructor(
             dataManager = dataManager,
             requestModel = TvCastNetworkResource.RequestModel(apiKey, movieId),
             networkStateManager = networkStateManager,
-            jobManager = jobManager
+            jobManager = jobManager,
+            dispatcher = dispatcher
         ).asLiveData()
     }
 
@@ -84,7 +89,8 @@ class TvDetailsRepositoryImpl @Inject constructor(
                 relationType = SIMILAR_LABEL
             ),
             networkStateManager = networkStateManager,
-            jobManager = jobManager
+            jobManager = jobManager,
+            dispatcher = dispatcher
         ).asLiveData()
     }
 
@@ -99,7 +105,8 @@ class TvDetailsRepositoryImpl @Inject constructor(
                 relationType = RECOMMENDATION_LABEL
             ),
             networkStateManager = networkStateManager,
-            jobManager = jobManager
+            jobManager = jobManager,
+            dispatcher = dispatcher
         ).asLiveData()
     }
 
@@ -126,7 +133,7 @@ class TvDetailsRepositoryImpl @Inject constructor(
 
     override fun updateRecentTvShow(tvShowId: Long) {
         val time = (System.currentTimeMillis() / 1000).toInt()
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(dispatcher).launch {
             dataManager.insertNewTvCollection(
                 TvCollectionModel(
                     collection = Label.RECENTLY_VISITED_TV_SHOW,

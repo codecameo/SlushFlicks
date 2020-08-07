@@ -29,8 +29,9 @@ import com.sifat.slushflicks.utils.Label.Companion.RECOMMENDATION_LABEL
 import com.sifat.slushflicks.utils.Label.Companion.SIMILAR_LABEL
 import com.sifat.slushflicks.utils.PAGE_SIZE
 import com.sifat.slushflicks.utils.api.NetworkStateManager
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Named
@@ -42,7 +43,8 @@ class MovieDetailsRepositoryImpl
     @Named(NAME_API_KEY)
     private val apiKey: String,
     private val networkStateManager: NetworkStateManager,
-    private val jobManager: JobManager
+    private val jobManager: JobManager,
+    private val dispatcher: CoroutineDispatcher = IO
 ) : MovieDetailsRepository {
 
     override fun getMovieDetails(movieId: Long): LiveData<DataState<MovieModel>> {
@@ -54,7 +56,8 @@ class MovieDetailsRepositoryImpl
                 movieId = movieId
             ),
             networkStateManager = networkStateManager,
-            jobManager = jobManager
+            jobManager = jobManager,
+            dispatcher = dispatcher
         ).asLiveData()
     }
 
@@ -67,7 +70,8 @@ class MovieDetailsRepositoryImpl
                 movieId = movieId
             ),
             networkStateManager = networkStateManager,
-            jobManager = jobManager
+            jobManager = jobManager,
+            dispatcher = dispatcher
         ).asLiveData()
     }
 
@@ -80,7 +84,8 @@ class MovieDetailsRepositoryImpl
                 movieId = movieId
             ),
             networkStateManager = networkStateManager,
-            jobManager = jobManager
+            jobManager = jobManager,
+            dispatcher = dispatcher
         ).asLiveData()
     }
 
@@ -95,7 +100,8 @@ class MovieDetailsRepositoryImpl
                 relationType = SIMILAR_LABEL
             ),
             networkStateManager = networkStateManager,
-            jobManager = jobManager
+            jobManager = jobManager,
+            dispatcher = dispatcher
         ).asLiveData()
     }
 
@@ -110,7 +116,8 @@ class MovieDetailsRepositoryImpl
                 relationType = RECOMMENDATION_LABEL
             ),
             networkStateManager = networkStateManager,
-            jobManager = jobManager
+            jobManager = jobManager,
+            dispatcher = dispatcher
         ).asLiveData()
     }
 
@@ -140,7 +147,7 @@ class MovieDetailsRepositoryImpl
 
     override fun updateRecentMovie(movieId: Long) {
         val time = (System.currentTimeMillis() / 1000).toInt()
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(dispatcher).launch {
             dataManager.insertNewMovieCollection(
                 MovieCollectionModel(
                     collection = RECENTLY_VISITED_MOVIE,

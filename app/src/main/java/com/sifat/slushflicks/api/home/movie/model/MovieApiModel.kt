@@ -7,9 +7,9 @@ data class MovieApiModel(
     @SerializedName("id")
     @Expose
     val id: Long,
-    @SerializedName("video")
+    /*@SerializedName("video")
     @Expose
-    val video: Boolean,
+    val video: Boolean,*/
     @SerializedName("vote_count")
     @Expose
     val voteCount: Int,
@@ -22,18 +22,18 @@ data class MovieApiModel(
     @SerializedName("release_date")
     @Expose
     val releaseDate: String?,
-    @SerializedName("original_language")
+    /*@SerializedName("original_language")
     @Expose
     val originalLanguage: String,
     @SerializedName("original_title")
     @Expose
-    val originalTitle: String,
+    val originalTitle: String,*/
     @SerializedName("backdrop_path")
     @Expose
     val backdropPath: String?,
-    @SerializedName("adult")
+    /*@SerializedName("adult")
     @Expose
-    val adult: Boolean,
+    val adult: Boolean,*/
     @SerializedName("overview")
     @Expose
     val overview: String,

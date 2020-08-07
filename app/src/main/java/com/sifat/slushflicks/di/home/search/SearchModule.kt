@@ -16,7 +16,8 @@ abstract class SearchModule {
 }
 
 @Module
-class InnerModule {
+object InnerModule {
+    @JvmStatic
     @SearchScope
     @Provides
     fun provideSearchService(retrofit: Retrofit): SearchService =

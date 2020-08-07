@@ -17,7 +17,6 @@ import com.sifat.slushflicks.ui.details.BaseDetailsActivity
 import com.sifat.slushflicks.ui.details.TvDetailsActivity
 import com.sifat.slushflicks.ui.home.adapter.ShowListAdapter
 import com.sifat.slushflicks.ui.home.adapter.viewholder.ShowViewHolder
-import com.sifat.slushflicks.ui.home.tvshow.state.dataaction.TvListDataAction
 import com.sifat.slushflicks.ui.home.tvshow.state.event.TvListEventState
 import com.sifat.slushflicks.ui.home.tvshow.state.viewaction.TvListViewAction
 import com.sifat.slushflicks.ui.home.tvshow.viewmodel.BaseTvListViewModel
@@ -55,17 +54,6 @@ abstract class BaseTvListFragment<VM : BaseTvListViewModel> :
                 }
                 is TvListViewAction.FetchNetworkTvListViewAction -> {
                     setMovieList(action)
-                }
-            }
-        })
-
-        viewModel.observeDataAction().observe(viewLifecycleOwner, Observer { action ->
-            when (action) {
-                is TvListDataAction.FetchCacheTvListDataAction -> {
-                    viewModel.setDataAction(action)
-                }
-                is TvListDataAction.FetchNetworkTvListDataAction -> {
-                    viewModel.setDataAction(action)
                 }
             }
         })

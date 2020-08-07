@@ -12,9 +12,7 @@ class SplashViewModel
     private val genreRepository: GenreRepository
 ) : ViewModel() {
 
-    fun updateGenres() {
-        genreRepository.updateGenres()
-    }
+    fun updateGenres() = genreRepository.updateGenres()
 
     fun setGenreList(): LiveData<DataState<List<GenreModel>>> {
         return genreRepository.setGenreList()

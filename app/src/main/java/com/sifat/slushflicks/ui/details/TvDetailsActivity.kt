@@ -14,7 +14,6 @@ import com.sifat.slushflicks.model.ShowModelMinimal
 import com.sifat.slushflicks.model.TvModel
 import com.sifat.slushflicks.ui.details.adapter.SeasonAdapter
 import com.sifat.slushflicks.ui.details.adapter.viewholder.ShowViewHolder
-import com.sifat.slushflicks.ui.details.state.dataaction.TvDetailDataAction
 import com.sifat.slushflicks.ui.details.state.event.TvDetailsViewEvent.*
 import com.sifat.slushflicks.ui.details.state.viewaction.TvDetailsViewAction.*
 import com.sifat.slushflicks.ui.details.viewmodel.TvDetailsViewModel
@@ -58,23 +57,6 @@ class TvDetailsActivity : BaseDetailsActivity<ActivityTvDetailsBinding, TvDetail
                 }
                 is ShareTvSeriesViewAction -> {
                     shareTvSeries(action)
-                }
-            }
-        })
-
-        viewModel.observeDataAction().observe(this, Observer { action ->
-            when (action) {
-                is TvDetailDataAction.FetchTvDetailsDataAction -> {
-                    viewModel.setDataAction(action)
-                }
-                is TvDetailDataAction.FetchTvSimilarDataAction -> {
-                    viewModel.setDataAction(action)
-                }
-                is TvDetailDataAction.FetchRecommendedTvDataAction -> {
-                    viewModel.setDataAction(action)
-                }
-                is TvDetailDataAction.FetchTvReviewDataAction -> {
-                    viewModel.setDataAction(action)
                 }
             }
         })

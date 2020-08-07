@@ -1,6 +1,5 @@
 package com.sifat.slushflicks.ui.details.viewmodel
 
-import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import com.sifat.slushflicks.di.details.MovieDetailsScope
 import com.sifat.slushflicks.helper.DynamicLinkProvider
@@ -9,15 +8,13 @@ import com.sifat.slushflicks.model.ReviewModel
 import com.sifat.slushflicks.model.ShowModelMinimal
 import com.sifat.slushflicks.repository.movie.MovieDetailsRepository
 import com.sifat.slushflicks.ui.base.BaseActionViewModel
-import com.sifat.slushflicks.ui.details.state.dataaction.MovieDetailDataAction
-import com.sifat.slushflicks.ui.details.state.dataaction.MovieDetailDataAction.*
 import com.sifat.slushflicks.ui.details.state.event.MovieDetailsViewEvent
 import com.sifat.slushflicks.ui.details.state.event.MovieDetailsViewEvent.*
 import com.sifat.slushflicks.ui.details.state.viewaction.MovieDetailsViewAction
 import com.sifat.slushflicks.ui.details.state.viewaction.MovieDetailsViewAction.*
 import com.sifat.slushflicks.ui.details.state.viewstate.MovieDetailsViewState
-import com.sifat.slushflicks.ui.helper.getMovieListModel
 import com.sifat.slushflicks.ui.helper.getShowListLoadingModels
+import com.sifat.slushflicks.ui.helper.getShowListModel
 import com.sifat.slushflicks.ui.home.adapter.model.ShowListModel
 import com.sifat.slushflicks.ui.state.DataErrorResponse
 import com.sifat.slushflicks.ui.state.DataState
@@ -31,7 +28,7 @@ class MovieDetailsViewModel
 @Inject constructor(
     private val detailsRepository: MovieDetailsRepository,
     private val dynamicLinkProvider: DynamicLinkProvider
-) : BaseActionViewModel<MovieDetailDataAction, MovieDetailsViewAction, MovieDetailsViewState>(),
+) : BaseActionViewModel<MovieDetailsViewAction, MovieDetailsViewState>(),
     DynamicLinkProvider.OnEventShareCallback {
     override val viewState by lazy {
         MovieDetailsViewState()
@@ -106,9 +103,7 @@ class MovieDetailsViewModel
         val similarSource = detailsRepository.getSimilarMovies(movieId)
         dataState.addSource(similarSource) { similarMovies ->
             dataState.removeSource(similarSource)
-            dataState.value = FetchMovieSimilarDataAction(
-                dataState = similarMovies
-            )
+            setSimilarMovies(similarMovies)
         }
     }
 
@@ -119,53 +114,46 @@ class MovieDetailsViewModel
         val recommendedSource = detailsRepository.getRecommendationMovies(movieId)
         dataState.addSource(recommendedSource) { recommendedMovies ->
             dataState.removeSource(recommendedSource)
-            dataState.value = FetchMovieRecommendationDataAction(
-                dataState = recommendedMovies
-            )
+            setRecommendedMovies(recommendedMovies)
         }
     }
 
     private fun fetchMovieVideo(movieId: Long) {
-        // Checking if the tv model is being fetched from database.
+        // Checking if the movie model is being fetched from database.
         // if not video key won't be saved in the database since it performs update operation
-        if (viewState.isAlreadyVideoAttempted && viewState.movie.voteCount == 0) return
-        viewState.isAlreadyVideoAttempted = true
-        val videoSource = detailsRepository.getMovieVideo(movieId)
-        dataState.addSource(videoSource) { videoKey ->
-            dataState.removeSource(videoSource)
-            dataState.value = FetchMovieVideoDataAction(
-                dataState = videoKey
-            )
+        viewState.run {
+            if (isAlreadyVideoAttempted || (movie.runtime == 0 && movie.voteCount == 0)) return
+            isAlreadyVideoAttempted = true
+            val videoSource = detailsRepository.getMovieVideo(movieId)
+            dataState.addSource(videoSource) {
+                dataState.removeSource(videoSource)
+            }
         }
     }
 
     private fun fetchMovieCast(movieId: Long) {
-        // Checking if the tv model is being fetched from database.
+        // Checking if the movie model is being fetched from database.
         // if not casting data won't be saved in the database since it performs update operation
-        if (viewState.isAlreadyCastAttempted && viewState.movie.voteCount == 0) return
-        viewState.isAlreadyCastAttempted = true
-        val castSource = detailsRepository.getMovieCast(movieId)
-        dataState.addSource(castSource) { castCount ->
-            dataState.removeSource(castSource)
-            dataState.value = FetchMovieCastDataAction(
-                dataState = castCount
-            )
+        viewState.run {
+            if (isAlreadyCastAttempted || (movie.runtime == 0 && movie.voteCount == 0)) return
+            isAlreadyCastAttempted = true
+            val castSource = detailsRepository.getMovieCast(movieId)
+            dataState.addSource(castSource) {
+                dataState.removeSource(castSource)
+            }
         }
     }
 
     private fun fetchMovieDetails(movieId: Long) {
-        dataState.addSource(
-            detailsRepository.getMovieDetails(movieId = movieId),
-            Observer { dataResponse ->
-                dataState.value = FetchMovieDetailsDataAction(dataResponse)
-            })
+        dataState.addSource(detailsRepository.getMovieDetails(movieId = movieId)) { dataResponse ->
+            setMovieDetails(dataResponse)
+        }
     }
 
     private fun fetchMovieReviews(movieId: Long) {
-        dataState.addSource(detailsRepository.getReviews(movieId),
-            Observer { reviewList ->
-                dataState.value = FetchMovieReviewDataAction(reviewList)
-            })
+        dataState.addSource(detailsRepository.getReviews(movieId)) { reviewList ->
+            setMovieReview(reviewList)
+        }
     }
 
     private fun updateRecentMovie(movie: MovieModel) {
@@ -174,8 +162,8 @@ class MovieDetailsViewModel
 
     /*********** Send action to view ************/
 
-    fun setDataAction(action: FetchMovieDetailsDataAction) {
-        when (val dataState = action.dataState) {
+    private fun setMovieDetails(dataState: DataState<MovieModel>) {
+        when (dataState) {
             is DataState.Success<MovieModel> -> {
                 dataState.dataResponse.data?.let { movie ->
                     viewState.movie = movie
@@ -186,10 +174,10 @@ class MovieDetailsViewModel
         }
     }
 
-    fun setDataAction(action: FetchMovieSimilarDataAction) {
-        when (val dataState = action.dataState) {
+    private fun setSimilarMovies(dataState: DataState<List<ShowModelMinimal>>) {
+        when (dataState) {
             is DataState.Success<List<ShowModelMinimal>> -> {
-                viewState.similarMovies = getMovieListModel(dataState.dataResponse.data)
+                viewState.similarMovies = getShowListModel(dataState.dataResponse.data)
                 sendSimilarSuccessAction(dataState)
             }
             is DataState.Error<List<ShowModelMinimal>> -> {
@@ -198,10 +186,10 @@ class MovieDetailsViewModel
         }
     }
 
-    fun setDataAction(action: FetchMovieRecommendationDataAction) {
-        when (val dataState = action.dataState) {
+    private fun setRecommendedMovies(dataState: DataState<List<ShowModelMinimal>>) {
+        when (dataState) {
             is DataState.Success<List<ShowModelMinimal>> -> {
-                viewState.recommendedMovies = getMovieListModel(dataState.dataResponse.data)
+                viewState.recommendedMovies = getShowListModel(dataState.dataResponse.data)
                 sendRecommendationSuccessAction(dataState)
             }
             is DataState.Error<List<ShowModelMinimal>> -> {
@@ -210,8 +198,8 @@ class MovieDetailsViewModel
         }
     }
 
-    fun setDataAction(action: FetchMovieReviewDataAction) {
-        when (val dataState = action.dataState) {
+    private fun setMovieReview(dataState: DataState<PagedList<ReviewModel>>) {
+        when (dataState) {
             is DataState.Success<PagedList<ReviewModel>> -> {
                 viewState.reviews = dataState.dataResponse.data
                 sendReviewSuccessAction()

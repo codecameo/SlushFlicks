@@ -14,9 +14,21 @@ android {
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
         versionCode 1
-        versionName "1.0.0-rc1"
+        versionName "1.0.1-alpha1"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation" : "$projectDir/schemas".toString()]
+            }
+        }
+
+        sourceSets {
+            androidTest.java.srcDirs += "src/testCommon/java"
+            test.java.srcDirs += "src/testCommon/java"
+            debug.assets.srcDirs += "src/debug/assets"
+            release.assets.srcDirs += "src/release/assets"
+        }
     }
 
     buildTypes {
@@ -123,7 +135,39 @@ dependencies {
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leak_canary_version"
 
     // Testing
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation "junit:junit:$junit4_version"
+    // AndroidX test
+    androidTestImplementation "androidx.test:core:$androidx_test_version"
+    androidTestImplementation "androidx.test:runner:$androidx_test_version"
+
+    // Architecture components testing
+    androidTestImplementation "androidx.arch.core:core-testing:$androidx_arch_test_version"
+
+    androidTestImplementation "androidx.test.ext:junit:$junit_ext_version"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_core_version"
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_test_version"
+
+    // JUnit Jupiter
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junit5_version"
+    testImplementation "org.junit.jupiter:junit-jupiter-params:$junit5_version"
+    testImplementation "org.junit.platform:junit-platform-runner:$junit5_runner_version"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit5_version"
+    testImplementation "org.junit.vintage:junit-vintage-engine:$junit5_version"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+
+    // Local test dependencies
+    testImplementation "androidx.arch.core:core-testing:$androidx_arch_test_version"
+    testImplementation "androidx.test.ext:junit:$junit_ext_version"
+    testImplementation "org.robolectric:robolectric:$robolectric_version"
+    testImplementation "androidx.test:core:$androidx_test_version"
+    testImplementation "androidx.test:core-ktx:$androidx_test_version"
+    testImplementation "androidx.test:runner:$androidx_test_version"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_test_version"
+    // Test helpers
+    testImplementation "androidx.room:room-testing:$room_version"
+
+    // MOCKITO
+    testImplementation "org.mockito:mockito-core:$mockito_version"
+    testImplementation "org.mockito:mockito-inline:$mockito_version"
+    //testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
 }
