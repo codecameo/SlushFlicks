@@ -18,7 +18,7 @@ This is a personal project and the core objective of this project was to have ha
 + **Event:**  Events are being fired from the screen based on user interaction.
 + **ViewEvent:** When *ViewState* changes it fires the *ViewEvent*s which eventually reflects the changes to the user on the screen.
 <br><br>
-<img height="45%" width="45%" src=https://github.com/codecameo/SlushFlicks/blob/documentation/screenshots/mvi.png >
+<img height="60%" width="60%" src=https://github.com/codecameo/SlushFlicks/blob/documentation/screenshots/mvi.png >
 
 # Resource
 Resources can be stated as a set of strategies that have been used by the Repository to provide data to the ViewModel. The strategies followed in this project are mentioned below:
