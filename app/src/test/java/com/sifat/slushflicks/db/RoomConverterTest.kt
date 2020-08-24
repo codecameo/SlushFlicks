@@ -18,7 +18,7 @@ internal class RoomConverterTest {
         genres.add(GenreModel(3, "Name3"))
         genres.add(GenreModel(4, "Name4"))
         val expected =
-            """[{"id":1,"name":"Name1"},{"id":2,"name":"Name2"},{"id":3,"name":"Name3"},{"id":4,"name":"Name4"}]"""
+            """[{"id":1,"name":"Name1"},{"id":1,"name":"Name2"},{"id":3,"name":"Name3"},{"id":4,"name":"Name4"}]"""
         //Act
         val actual = RoomConverter.genresToString(genres)
         //Assert
