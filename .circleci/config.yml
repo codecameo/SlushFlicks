@@ -1,11 +1,14 @@
 version: 2.1
 jobs:
   build:
-    working_directory: ~/code
-    docker:
-      - image: circleci/android:api-29
-    environment:
-      JVM_OPTS: -Xmx3200m
+    config_android: &config_android
+      docker:
+        - image: circleci/android:api-29
+      environment:
+        JAVA_TOOL_OPTIONS: "-Xmx1024m"
+        GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2 -Dkotlin.incremental=false"
+        TERM: dumb
+      working_directory: ~/project
     steps:
       - checkout
       - restore_cache:
